@@ -1,0 +1,15 @@
+﻿@{
+    @model Shared.Common.BaseEntity
+}
+
+<div class="btn-group">
+    <button class="btn crud" type="button" args="save" obj="@Model.Id">
+        <i class="glyphicon glyphicon-ok"></i>
+    </button>
+    <button class="btn crud" type="button" args="list" obj="@Model.Id">
+        <i class="glyphicon glyphicon-remove"></i>
+    </button>    
+    <button class="btn crud" type="button" args="delete" obj="@Model.Id">
+        <i class="glyphicon glyphicon-trash"></i>
+    </button>
+</div>

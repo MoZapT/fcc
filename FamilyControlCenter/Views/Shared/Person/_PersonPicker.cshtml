@@ -1,0 +1,37 @@
+﻿@{
+    @model FamilyControlCenter.Viewmodels.Family.PersonViewModel
+}
+
+@foreach (var e in Model.Models)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                @Html.Label(e.Lastname + " " + e.Name + (string.IsNullOrEmpty(e.Patronym) ? "" : " " + e.Patronym))
+            </div>
+            @if (e.BornTime > DateTime.MinValue)
+            {
+                <div class="col-md-2">
+                    @Html.Label("BornTime", e.BornTime.ToString("dd.MM.yyyy"))
+                </div>
+            }
+
+            @if (e.IsDead)
+            {
+                <div class="col-md-2">
+                    @Html.Label("DeadTime", e.DeadTime.ToString("dd.MM.yyyy"))
+                </div>
+            }
+
+            <div class="col-md-2">
+                @Html.Label(string.IsNullOrEmpty(e.Dynasty.Name) ? e.Dynasty.Dynasty.Name : e.Dynasty.Name)
+            </div>
+
+            <div class="col-md-2">
+                <button class="btn" type="button" onclick="PickPerson('rel-upd-add', @e.Id)">
+                    <i class="glyphicon glyphicon-magnet"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+}

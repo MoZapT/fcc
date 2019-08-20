@@ -1,0 +1,64 @@
+﻿@{
+    @model FamilyControlCenter.Viewmodels.Family.PersonViewModel
+}
+
+<button class="accordion" type="button">Связи</button>
+<div id="main-relation-accordion" class="accordion-panel">
+    @foreach (var relation in Model.Model.Relations)
+    {
+        <button id="show-relation-accordion" class="accordion" type="button">@Html.Label(relation.Name)</button>
+        <div id="accordion-@relation.Id" class="accordion-panel">
+            @foreach (var person in relation.Members)
+            {
+                <div class="row">
+                    <div class="col-md-4">
+                        @Html.Label(person.Lastname + " " + person.Name + (string.IsNullOrEmpty(person.Patronym) ? "" : " " + person.Patronym))
+                    </div>
+                    <div class="col-md-8">
+                        <button class="btn remove-person-from-relation" type="button">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <button class="btn open-person-modal-btn" type="button">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                </button>
+                <div id="person-picker" class="modal">
+                    <div class="modal-content">
+                        <div class="col-md-12">
+                            <span class="close">&times;</span>
+                        </div>
+
+                        @Html.Partial("Person/_PersonPicker", Model)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Relation button -->
+            <button class="btn remove-relation" type="button">
+                Удалить связь
+                <i class="glyphicon glyphicon-trash"></i>
+            </button>
+        </div>
+    }
+
+    <!-- Create new relation button with modal -->
+    <button class="btn open-new-relation-modal" type="button">
+        Создать связь
+    </button>
+    <div id="new-relation" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="close">&times;</span>
+                </div>
+            </div>
+
+            @Html.Partial("Person/_Relation", Model)
+        </div>
+    </div>
+</div>
+
+

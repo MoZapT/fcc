@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>FCC</h1>
+    <p class="lead">Добро пожаловать в FCC - Семейный контрольный центр!</p>
+    @*<p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Пасспорт</h2>
+        <p>
+            Здесь вы можете завести нового члена семьи или редактировать его информацию.
+        </p>
+        <p><a class="btn btn-default" href="@Url.Action("PersonList", "Family")">Перейти &raquo;</a></p>
+    </div>
+</div>

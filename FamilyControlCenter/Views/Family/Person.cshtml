@@ -1,0 +1,135 @@
+﻿@{
+    @model FamilyControlCenter.Viewmodels.Family.PersonViewModel
+
+    ViewBag.Title = "Личное дело";
+}
+
+@using (Html.BeginForm())
+{
+    <!-- BEGIN HIDDEN FIELD AREA -->
+    @Html.HiddenFor(m => m.Model.Id)
+    @Html.HiddenFor(m => m.EventArgument)
+    <!-- END HIDDEN FIELD AREA -->
+
+    @Html.HiddenFor(m => m.Model.BornTime)
+    @Html.HiddenFor(m => m.Model.DeadTime)
+
+    <div class="panel">
+        <div class="panel-heading">
+
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Model.Name)
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBoxFor(m => m.Model.Name, new { @class = "form-control" })
+                </div>
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Model.Lastname)
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBoxFor(m => m.Model.Lastname, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Model.Patronym)
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBoxFor(m => m.Model.Patronym, new { @class = "form-control" })
+                </div>
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.BornTimeKnown)
+                </div>
+                <div class="col-md-4">
+                    @Html.CheckBoxFor(m => m.BornTimeKnown, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Model.BornTime, new { id = "Model_BornTime_Label", @class = "dNone" })
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBox("DpBornTime", Model.Model.BornTime, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control dNone" })
+                </div>
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.DeadTimeKnown, new { id = "Model_IsAlive_Label" })
+                </div>
+                <div class="col-md-4">
+                    @Html.CheckBoxFor(m => m.DeadTimeKnown, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Model.DeadTime, new { id = "Model_DeadTime_Label", @class = "dNone" })
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBox("DpDeadTime", Model.Model.DeadTime, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control dNone" })
+                </div>
+                @*<div class="col-md-2">
+                        @Html.LabelFor(m => m.Model.Dynasty)
+                    </div>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(m => m.Model.Dynasty.Id, dynasties, new { @class = "form-control" })
+                    </div>*@
+            </div>
+
+            @*@Html.Partial("Person/_AccordionPerson", Model)*@
+        </div>
+
+        <div class="panel-footer">
+            @Html.Partial("ToolsSharedViews/_DefaultSaveCancelDelete", Model.Model)
+        </div>
+    </div>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Windows.Base.Init();
+
+            $('#DpBornTime').on('click', function (e) {
+                var bornTime = document.getElementById('Model_BornTime');
+                bornTime.value = $(e.currentTarget).data('datepicker').getFormattedDate('dd.mm.yyyy 0:00:00');
+            })
+            $('#DpDeadTime').on('click', function (e) {
+                var deadTime = document.querySelector('#Model_DeadTime');
+                deadTime.value = $(e.currentTarget).data('datepicker').getFormattedDate('dd.mm.yyyy 0:00:00');
+            })
+            $('#BornTimeKnown').on('click', function (e) {
+                BornTimeVisibility($('#BornTimeKnown').is(':checked'));
+            })
+            $('#DeadTimeKnown').on('click', function (e) {
+                DeadTimeVisibility($('#DeadTimeKnown').is(':checked'));
+            })
+
+            BornTimeVisibility($('#Model_BornTimeKnown').is(':checked'));
+            DeadTimeVisibility($('#Model_IsAlive').is(':checked'));
+        });
+
+        function BornTimeVisibility(checked) {
+            if (checked) {
+                ResetdNone($('#DpBornTime'));
+                ResetdNone($('#Model_BornTime_Label'));
+            }
+            else {
+                SetdNone($('#DpBornTime'));
+                SetdNone($('#Model_BornTime_Label'));
+            }
+        }
+
+        function DeadTimeVisibility(checked) {
+            if (checked) {
+                ResetdNone($('#DpDeadTime'));
+                ResetdNone($('#Model_DeadTime_Label'));
+            }
+            else {
+                SetdNone($('#DpDeadTime'));
+                SetdNone($('#Model_DeadTime_Label'));
+            }
+        }
+    </script>
+}

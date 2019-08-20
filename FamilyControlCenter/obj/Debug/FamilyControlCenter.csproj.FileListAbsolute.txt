@@ -1,0 +1,370 @@
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\ApplicationInsights.config
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\FamilyControlCenter.dll.config
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\FamilyControlCenter.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\FamilyControlCenter.pdb
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csc.exe
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csc.exe.config
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csc.rsp
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csi.exe
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csi.exe.config
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csi.rsp
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.Win32.Primitives.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.AppContext.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Console.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Diagnostics.Process.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.IO.Compression.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.IO.Pipes.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Claims.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Threading.Thread.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.ValueTuple.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Xml.XPath.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\vbc.exe
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\vbc.exe.config
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\vbc.rsp
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\VBCSCompiler.exe
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Antlr3.Runtime.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\EntityFramework.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\EntityFramework.SqlServer.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.Web.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.ApplicationInsights.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Newtonsoft.Json.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Owin.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Helpers.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Mvc.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Optimization.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Razor.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.Deployment.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.Razor.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\WebGrease.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Helpers.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Mvc.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Optimization.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Razor.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.Deployment.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.Razor.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Antlr3.Runtime.pdb
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Newtonsoft.Json.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\EntityFramework.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\EntityFramework.SqlServer.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.ApplicationInsights.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.Web.xml
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\obj\Debug\FamilyControlCenter.csprojResolveAssemblyReference.cache
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\obj\Debug\FamilyControlCenter.csproj.CoreCompileInputs.cache
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\obj\Debug\FamilyControlCenter.csproj.CopyComplete
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\obj\Debug\FamilyControlCenter.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\obj\Debug\FamilyControlCenter.pdb
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Dapper.dll
+C:\Users\MoZapT\Desktop\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Dapper.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\ApplicationInsights.config
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\FamilyControlCenter.dll.config
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\FamilyControlCenter.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\FamilyControlCenter.pdb
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csc.exe
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csc.exe.config
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csc.rsp
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csi.exe
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csi.exe.config
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csi.rsp
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CodeAnalysis.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CSharp.Core.targets
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.VisualBasic.Core.targets
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.Win32.Primitives.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.AppContext.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Collections.Immutable.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Console.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Diagnostics.Process.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Diagnostics.StackTrace.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.IO.Compression.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.IO.FileSystem.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.IO.FileSystem.Primitives.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.IO.Pipes.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Reflection.Metadata.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.AccessControl.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Claims.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Cryptography.Encoding.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Cryptography.Primitives.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Principal.Windows.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Text.Encoding.CodePages.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Threading.Thread.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.ValueTuple.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Xml.ReaderWriter.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Xml.XmlDocument.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Xml.XPath.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Xml.XPath.XDocument.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\vbc.exe
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\vbc.exe.config
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\vbc.rsp
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\VBCSCompiler.exe
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\roslyn\VBCSCompiler.exe.config
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Antlr3.Runtime.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Dapper.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\EntityFramework.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\EntityFramework.SqlServer.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.Agent.Intercept.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.DependencyCollector.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.PerfCounterCollector.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.ServerTelemetryChannel.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.Web.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.WindowsServer.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.ApplicationInsights.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.Core.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.Owin.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Cookies.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Facebook.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Google.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.OAuth.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Twitter.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Web.Infrastructure.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Newtonsoft.Json.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Owin.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Helpers.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Mvc.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Optimization.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Razor.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.Deployment.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.Razor.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\WebGrease.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Dapper.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Helpers.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Mvc.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Optimization.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Razor.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.Deployment.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.Razor.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Antlr3.Runtime.pdb
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Newtonsoft.Json.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\EntityFramework.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\EntityFramework.SqlServer.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.Core.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.Owin.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Facebook.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Cookies.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.OAuth.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Google.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Twitter.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.ApplicationInsights.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.DependencyCollector.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.ServerTelemetryChannel.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.WindowsServer.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.Web.xml
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\obj\Debug\FamilyControlCenter.csprojResolveAssemblyReference.cache
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\obj\Debug\FamilyControlCenter.csproj.CoreCompileInputs.cache
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\obj\Debug\FamilyControlCenter.csproj.CopyComplete
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\obj\Debug\FamilyControlCenter.dll
+F:\Visual Workspace\FamilyControlCenter\FamilyControlCenter\obj\Debug\FamilyControlCenter.pdb
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\obj\Debug\FamilyControlCenter.csprojAssemblyReference.cache
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\obj\Debug\FamilyControlCenter.csproj.CoreCompileInputs.cache
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\obj\Debug\FamilyControlCenter.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\obj\Debug\FamilyControlCenter.pdb
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\ApplicationInsights.config
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\FamilyControlCenter.dll.config
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\FamilyControlCenter.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\FamilyControlCenter.pdb
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csc.exe
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csc.exe.config
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csc.rsp
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csi.exe
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csi.exe.config
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\csi.rsp
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\Microsoft.Win32.Primitives.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.AppContext.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Console.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Diagnostics.Process.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.IO.Compression.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.IO.Pipes.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Claims.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Threading.Thread.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.ValueTuple.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Xml.XPath.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\vbc.exe
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\vbc.exe.config
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\vbc.rsp
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\VBCSCompiler.exe
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Antlr3.Runtime.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Dapper.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\EntityFramework.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\EntityFramework.SqlServer.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.Web.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.ApplicationInsights.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Newtonsoft.Json.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Owin.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Helpers.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Mvc.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Optimization.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Razor.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.Deployment.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.Razor.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\WebGrease.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Dapper.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Helpers.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Mvc.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Optimization.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\System.Web.Razor.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.Deployment.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\System.Web.WebPages.Razor.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Antlr3.Runtime.pdb
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Newtonsoft.Json.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\EntityFramework.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\EntityFramework.SqlServer.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.ApplicationInsights.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Microsoft.AI.Web.xml
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\obj\Debug\FamilyControlCenter.csproj.CopyComplete
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\DataAccessInfrastructure.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\DataAccessInfrastructure.pdb
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Shared.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\FamilyControlCenter\bin\Shared.pdb

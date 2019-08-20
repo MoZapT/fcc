@@ -1,0 +1,6 @@
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\Shared\obj\Debug\Shared.csprojAssemblyReference.cache
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\Shared\obj\Debug\Shared.csproj.CoreCompileInputs.cache
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\Shared\bin\Debug\Shared.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\Shared\bin\Debug\Shared.pdb
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\Shared\obj\Debug\Shared.dll
+C:\Users\edv019\Source\Workspaces\FamilyControlCenter\Shared\obj\Debug\Shared.pdb
