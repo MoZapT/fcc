@@ -1,4 +1,5 @@
-﻿using FamilyControlCenter.Viewmodels.Family;
+﻿using FamilyControlCenter.Manager;
+using FamilyControlCenter.Viewmodels.Family;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,38 +10,30 @@ namespace FamilyControlCenter.Controllers
 {
     public class FamilyController : Controller
     {
+        FccManager Mgr { get; set; }
+
         //[Authorize]
         public ActionResult PersonList()
         {
-            PersonListViewModel vm = new PersonListViewModel();
-            vm.HandleAction();
-
+            PersonListViewModel vm = Mgr.GetPersons();
             return View(vm);
         }
 
-        //[Authorize, HttpPost]
-        [HttpPost]
+        [/*Authorize,*/ HttpPost]
         public ActionResult PersonList(PersonListViewModel vm)
         {
-            vm.HandleAction();
-
             return View(vm);
         }
         //[Authorize]
-        public ActionResult Person()
+        public ActionResult Person(string id)
         {
-            PersonViewModel vm = new PersonViewModel();
-            vm.HandleAction();
-
+            PersonViewModel vm = Mgr.GetPerson(id).Result;
             return View(vm);
         }
 
-        //[Authorize, HttpPost]
-        [HttpPost]
+        [/*Authorize,*/ HttpPost]
         public ActionResult Person(PersonViewModel vm)
         {
-            vm.HandleAction();
-
             return View(vm);
         }
     }

@@ -9,5 +9,10 @@ namespace Shared.Common
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
         public bool IsActive { get; set; }
+
+        public BaseModel()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
     }
 }

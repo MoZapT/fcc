@@ -12,9 +12,9 @@ namespace FamilyControlCenter.Viewmodels.Family
 
         #region PROPERTIES
 
-        public new IEnumerable<Person> Models { get; set; }
-        public PersonRelationGroup RelationGroups { get; set; }
-        public IEnumerable<PersonName> Names { get; set; }
+        public IEnumerable<Person> Models { get; set; }
+        //public PersonRelationGroup RelationGroups { get; set; }
+        //public IEnumerable<PersonName> Names { get; set; }
 
         #endregion
 
@@ -29,10 +29,6 @@ namespace FamilyControlCenter.Viewmodels.Family
             Models = new List<Person>();
 
             base.Initialize();
-        }
-        public override void HandleAction()
-        {
-            base.HandleAction();
         }
 
         #endregion

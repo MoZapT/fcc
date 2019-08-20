@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Shared.Models;
+using FamilyControlCenter.Viewmodels.Family;
 
 namespace FamilyControlCenter.Manager
 {
@@ -18,19 +19,29 @@ namespace FamilyControlCenter.Manager
             _repo = new LocalRepository();
         }
 
-        public async Task<Person> GetPerson(string id)
+        public async Task<PersonViewModel> GetPerson(string id)
         {
-            return await _repo.ReadPerson(id);
+            var vm = new PersonViewModel();
+            vm.Model = await _repo.ReadPerson(id);
+            vm.RelationGroups = await _repo.ReadPersonRelationGroup(id);
+            vm.Names = await _repo.ReadAllPersonName();
+
+            return vm;
         }
-        public async Task<IEnumerable<Person>> GetPersons()
+        public async Task<PersonListViewModel> GetPersons()
         {
-            return await _repo.ReadAllPerson();
+            var vm = new PersonListViewModel();
+            vm.Models = await _repo.ReadAllPerson();
+            //vm.Names = await _repo.ReadAllPersonName();
+            //vm.RelationGroups = await _repo.ReadPersonRelationGroup();
+
+            return vm;
         }
-        public async Task<string> SetPerson(Person model)
+        public async Task<string> SetPerson(PersonViewModel model)
         {
             return await _repo.CreatePerson(model);
         }
-        public async Task<bool> UpdatePerson(Person model)
+        public async Task<bool> UpdatePerson(PersonViewModel model)
         {
             return await _repo.UpdatePerson(model);
         }
