@@ -17,19 +17,19 @@ namespace Shared.Interfaces.Repositories
 
         Task<PersonName> ReadPersonName(string id);
         Task<IEnumerable<PersonName>> ReadAllPersonName();
-        Task<int> CreatePersonName(PersonName entity);
+        Task<string> CreatePersonName(PersonName entity);
         Task<bool> UpdatePersonName(PersonName entity);
         Task<bool> DeletePersonName(string id);
 
         Task<PersonRelation> ReadPersonRelation(string id);
         Task<IEnumerable<PersonRelation>> ReadAllPersonRelation();
-        Task<int> CreatePersonRelation(PersonRelation entity);
+        Task<string> CreatePersonRelation(PersonRelation entity);
         Task<bool> UpdatePersonRelation(PersonRelation entity);
         Task<bool> DeletePersonRelation(string id);
 
         Task<PersonRelationGroup> ReadPersonRelationGroup(string id);
         Task<IEnumerable<PersonRelationGroup>> ReadAllPersonRelationGroup();
-        Task<int> CreatePersonRelationGroup(PersonRelationGroup entity);
+        Task<string> CreatePersonRelationGroup(PersonRelationGroup entity);
         Task<bool> UpdatePersonRelationGroup(PersonRelationGroup entity);
         Task<bool> DeletePersonRelationGroup(string id);
 

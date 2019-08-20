@@ -14,7 +14,8 @@ namespace FamilyControlCenter.Manager
 
         public FccManager()
         {
-            _repo = new SqlRepository();
+            //_repo = new SqlRepository();
+            _repo = new LocalRepository();
         }
 
         public async Task<Person> GetPerson(string id)
