@@ -3,9 +3,9 @@ using System;
 
 namespace Shared.Models
 {
-    public class Person : BaseEntity
+    public class Person : BaseModel
     {
-        public int PersonId { get; set; }
+        public string PersonId { get; set; }
         public string Name { get; set; }
         public string Lastname { get; set; }
         public string Patronym { get; set; }

@@ -10,36 +10,32 @@ namespace FamilyControlCenter.Manager
 {
     public class FccManager
     {
-        private IRepoFactory _repo;
+        private ISqlRepository _repo;
 
         public FccManager()
         {
-#if DEBUG
-            _repo = new RepoFactory(typeof(ILocalCashRepository), this.GetType());
-#else
-            _repo = new RepoFactory(typeof(ISqlRepository), this.GetType());
-#endif
+            _repo = new SqlRepository();
         }
 
         public async Task<Person> GetPerson(string id)
         {
-            return await Task.FromResult(_repo.Read<Person>(id));
+            return await _repo.ReadPerson(id);
         }
         public async Task<IEnumerable<Person>> GetPersons()
         {
-            return await Task.FromResult(_repo.ReadAll<Person>());
+            return await _repo.ReadAllPerson();
         }
         public async Task<string> SetPerson(Person model)
         {
-            return await Task.FromResult(_repo.Create(model));
+            return await _repo.CreatePerson(model);
         }
         public async Task<bool> UpdatePerson(Person model)
         {
-            return await Task.FromResult(_repo.Update(model));
+            return await _repo.UpdatePerson(model);
         }
-        public async Task<bool> DeletePerson(Person model)
+        public async Task<bool> DeletePerson(string id)
         {
-            return await Task.FromResult(_repo.Delete(model));
+            return await _repo.DeletePerson(id);
         }
     }
 }

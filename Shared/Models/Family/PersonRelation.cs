@@ -3,7 +3,7 @@ using System;
 
 namespace Shared.Models
 {
-    public class PersonRelation : BaseEntity
+    public class PersonRelation : BaseModel
     {
         public string PersonRelationGroupId { get; set; }
         public string PersonId { get; set; }

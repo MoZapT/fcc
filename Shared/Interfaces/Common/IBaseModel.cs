@@ -2,7 +2,7 @@
 
 namespace Shared.Interfaces.Common
 {
-    public interface IBaseEntity
+    public interface IBaseModel
     {
         string Id { get; set; }
         DateTime DateCreated { get; set; }

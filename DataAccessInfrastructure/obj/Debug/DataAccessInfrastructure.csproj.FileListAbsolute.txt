@@ -9,3 +9,14 @@ C:\Users\edv019\Source\Workspaces\FamilyControlCenter\DataAccessInfrastructure\o
 C:\Users\edv019\Source\Workspaces\FamilyControlCenter\DataAccessInfrastructure\obj\Debug\DataAccessInfrastructure.pdb
 C:\Users\edv019\Source\Workspaces\FamilyControlCenter\DataAccessInfrastructure\bin\Debug\Shared.dll
 C:\Users\edv019\Source\Workspaces\FamilyControlCenter\DataAccessInfrastructure\bin\Debug\Shared.pdb
+C:\Users\edv019\Source\repos\fcc\DataAccessInfrastructure\bin\Debug\DataAccessInfrastructure.dll
+C:\Users\edv019\Source\repos\fcc\DataAccessInfrastructure\bin\Debug\DataAccessInfrastructure.pdb
+C:\Users\edv019\Source\repos\fcc\DataAccessInfrastructure\bin\Debug\Dapper.dll
+C:\Users\edv019\Source\repos\fcc\DataAccessInfrastructure\bin\Debug\Shared.dll
+C:\Users\edv019\Source\repos\fcc\DataAccessInfrastructure\bin\Debug\Shared.pdb
+C:\Users\edv019\Source\repos\fcc\DataAccessInfrastructure\bin\Debug\Dapper.xml
+C:\Users\edv019\Source\repos\fcc\DataAccessInfrastructure\obj\Debug\DataAccessInfrastructure.csprojAssemblyReference.cache
+C:\Users\edv019\Source\repos\fcc\DataAccessInfrastructure\obj\Debug\DataAccessInfrastructure.csproj.CoreCompileInputs.cache
+C:\Users\edv019\Source\repos\fcc\DataAccessInfrastructure\obj\Debug\DataAccessInfrastructure.csproj.CopyComplete
+C:\Users\edv019\Source\repos\fcc\DataAccessInfrastructure\obj\Debug\DataAccessInfrastructure.dll
+C:\Users\edv019\Source\repos\fcc\DataAccessInfrastructure\obj\Debug\DataAccessInfrastructure.pdb

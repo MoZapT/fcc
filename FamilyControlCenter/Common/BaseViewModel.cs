@@ -10,8 +10,8 @@ namespace FamilyControlCenter.Common
     public class BaseViewModel
     {
         public FccManager MgrFcc { get; set; }
-        public IBaseEntity Model { get; set; }
-        public IEnumerable<IBaseEntity> Models { get; set; }
+        public IBaseModel Model { get; set; }
+        public IEnumerable<IBaseModel> Models { get; set; }
         public bool IsListMode { get; set; }
         public string EventCommand { get; set; }
         public string EventArgument { get; set; }

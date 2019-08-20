@@ -59,7 +59,7 @@ namespace FamilyControlCenter.Viewmodels.Family
         }
         private void Delete()
         {
-            MgrFcc.DeletePerson(Model);
+            MgrFcc.DeletePerson(Model.Id);
         }
 
         #endregion

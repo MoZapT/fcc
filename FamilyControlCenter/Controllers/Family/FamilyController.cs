@@ -15,7 +15,7 @@ namespace FamilyControlCenter.Controllers
             PersonListViewModel vm = new PersonListViewModel();
             vm.HandleAction();
 
-            return View("PersonList", vm);
+            return View(vm);
         }
 
         //[Authorize, HttpPost]
@@ -24,7 +24,7 @@ namespace FamilyControlCenter.Controllers
         {
             vm.HandleAction();
 
-            return View("PersonList", vm);
+            return View(vm);
         }
         //[Authorize]
         public ActionResult Person()
@@ -32,7 +32,7 @@ namespace FamilyControlCenter.Controllers
             PersonViewModel vm = new PersonViewModel();
             vm.HandleAction();
 
-            return View("Person", vm);
+            return View(vm);
         }
 
         //[Authorize, HttpPost]
@@ -41,7 +41,7 @@ namespace FamilyControlCenter.Controllers
         {
             vm.HandleAction();
 
-            return View("Person", vm);
+            return View(vm);
         }
     }
 }

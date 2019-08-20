@@ -19,7 +19,7 @@ namespace DataAccessInfrastructure.Repositories
             get { return _fccConStr; }
         }
 
-        public T QueryFoD<T>(string query)
+        public Task<T> QueryFoD<T>(string query)
         {
 
             var tId = Convert.ToInt32(Task.CurrentId);
@@ -31,10 +31,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.QueryFirstOrDefaultAsync<T>(query).Result;
+            return tCon.QueryFirstOrDefaultAsync<T>(query);
         }
 
-        public T QueryFoD<T>(string query, object parameters)
+        public Task<T> QueryFoD<T>(string query, object parameters)
         {
             var tId = Convert.ToInt32(Task.CurrentId);
             var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
@@ -45,10 +45,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.QueryFirstOrDefaultAsync<T>(query, parameters).Result;
+            return tCon.QueryFirstOrDefaultAsync<T>(query, parameters);
         }
 
-        public IEnumerable<T> Query<T>(string query)
+        public Task<IEnumerable<T>> Query<T>(string query)
         {
             var tId = Convert.ToInt32(Task.CurrentId);
             var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
@@ -59,10 +59,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.QueryAsync<T>(query).Result;
+            return tCon.QueryAsync<T>(query);
         }
 
-        public IEnumerable<T> Query<T>(string query, object parameters)
+        public Task<IEnumerable<T>> Query<T>(string query, object parameters)
         {
             var tId = Convert.ToInt32(Task.CurrentId);
             var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
@@ -73,10 +73,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.QueryAsync<T>(query, parameters).Result;
+            return tCon.QueryAsync<T>(query, parameters);
         }
 
-        public int Execute(string query, object parameters)
+        public Task<int> Execute(string query, object parameters)
         {
             var tId = Convert.ToInt32(Task.CurrentId);
             var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
@@ -87,10 +87,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.ExecuteAsync(query, parameters).Result;
+            return tCon.ExecuteAsync(query, parameters);
         }
 
-        public T ExecuteScalar<T>(string query, object parameters)
+        public Task<T> ExecuteScalar<T>(string query, object parameters)
         {
             var tId = Convert.ToInt32(Task.CurrentId);
             var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
@@ -101,99 +101,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.ExecuteScalarAsync<T>(query, parameters).Result;
+            return tCon.ExecuteScalarAsync<T>(query, parameters);
         }
 
-        //public T QueryFoD<T>(string query)
-        //{
-        //    using (var con = new SqlConnection(_fccConStr))
-        //    {
-        //        return con.QueryFirstOrDefaultAsync<T>(query).Result;
-        //    }
-        //}
-
-        //public T QueryFoD<T>(string query, object parameters)
-        //{
-        //    var tId = Convert.ToInt32(Task.CurrentId);
-        //    var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-
-        //    if (tCon == null)
-        //    {
-        //        using (var con = new SqlConnection(_fccConStr))
-        //        {
-        //            return con.QueryFirstOrDefaultAsync<T>(query, parameters).Result;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return tCon.QueryFirstOrDefaultAsync<T>(query, parameters).Result;
-        //    }
-        //}
-
-        //public IEnumerable<T> Query<T>(string query)
-        //{
-        //    var tId = Convert.ToInt32(Task.CurrentId);
-        //    var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-
-        //    if (tCon == null)
-        //    {
-        //        using (var con = new SqlConnection(_fccConStr))
-        //        {
-        //            return con.QueryAsync<T>(query).Result;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return tCon.QueryAsync<T>(query).Result;
-        //    }
-        //}
-
-        //public IEnumerable<T> Query<T>(string query, object parameters)
-        //{
-        //    var tId = Convert.ToInt32(Task.CurrentId);
-        //    var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-
-        //    if (tCon == null)
-        //    {
-        //        using (var con = new SqlConnection(_fccConStr))
-        //        {
-        //            return con.QueryAsync<T>(query, parameters).Result;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return tCon.QueryAsync<T>(query, parameters).Result;
-        //    }
-        //}
-
-        //public int Execute(string query, object parameters)
-        //{
-        //    var tId = Convert.ToInt32(Task.CurrentId);
-        //    var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-
-        //    if (tCon == null)
-        //    {
-
-        //        using (var con = new SqlConnection(_fccConStr))
-        //        {
-        //            return con.ExecuteAsync(query, parameters).Result;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return tCon.ExecuteAsync(query, parameters).Result;
-        //    }
-        //}
-
-        //public T ExecuteScalar<T>(string query, object parameters)
-        //{
-        //    using (var con = new SqlConnection(_fccConStr))
-        //    {
-        //        return con.ExecuteScalarAsync<T>(query, parameters).Result;
-        //    }
-        //}
-
-        public bool Transaction(Task task)
+        public Task<bool> Transaction(Task task)
         {
             var success = false;
 
@@ -244,10 +155,10 @@ namespace DataAccessInfrastructure.Repositories
                 }
             }
 
-            return success;
+            return Task.FromResult(success);
         }
 
-        public bool Transaction(Task task, SqlConnection con)
+        public Task<bool> Transaction(Task task, SqlConnection con)
         {
             var success = false;
             var result = new List<object>();
@@ -287,7 +198,7 @@ namespace DataAccessInfrastructure.Repositories
                     con.Close();
                 }
 
-                return success;
+                return Task.FromResult(success);
             }
         }
     }

@@ -3,7 +3,7 @@ using System;
 
 namespace Shared.Common
 {
-    public class BaseEntity : IBaseEntity
+    public class BaseModel : IBaseModel
     {
         public string Id { get; set; }
         public DateTime DateCreated { get; set; }

@@ -43,21 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\BaseEntity.cs" />
+    <Compile Include="Common\BaseModel.cs" />
     <Compile Include="Models\Family\PersonRelation.cs" />
     <Compile Include="Models\Family\PersonRelationGroup.cs" />
     <Compile Include="Models\Family\PersonName.cs" />
     <Compile Include="Models\Family\Person.cs" />
     <Compile Include="Enums\RelationType.cs" />
-    <Compile Include="Interfaces\Common\IBaseEntity.cs" />
-    <Compile Include="Interfaces\Repositories\ILocalCashRepository.cs" />
+    <Compile Include="Interfaces\Common\IBaseModel.cs" />
     <Compile Include="Interfaces\Repositories\ISqlRepository.cs" />
     <Compile Include="Interfaces\Repositories\ISqlBaseRepository.cs" />
-    <Compile Include="Interfaces\Repositories\IRepoFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Factory\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

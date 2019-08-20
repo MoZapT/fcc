@@ -3,7 +3,7 @@ using System;
 
 namespace Shared.Models
 {
-    public class PersonName : BaseEntity
+    public class PersonName : BaseModel
     {
         public string Name { get; set; }
         public string Lastname { get; set; }

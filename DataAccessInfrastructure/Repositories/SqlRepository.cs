@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Dapper;
 using Shared.Interfaces.Repositories;
+using Shared.Models;
 
 namespace DataAccessInfrastructure.Repositories
 {
-    public class SqlRepository : SqlBaseRepository, ISqlBaseRepository, ISqlRepository
+    public class SqlRepository : SqlBaseRepository, ISqlRepository
     {
         public SqlRepository()
         {
@@ -12,223 +14,223 @@ namespace DataAccessInfrastructure.Repositories
 
         #region Person
 
-        //public IPerson Read<IPerson>(int id)
-        //{
-        //    var query = @"
-        //        SELECT p.*, pn.Name, pn.Lastname, pn.Patronym
-        //        FROM [FCC].[dbo].[Person] AS p
-        //        JOIN (SELECT TOP 1 * FROM [FCC].[dbo].[PersonName] 
-        //        WHERE IsActive = 1 ORDER BY DateCreated DESC) AS pn ON PersonId = p.Id
-        //        WHERE p.[Id] = @Id";
+        public Task<Person> ReadPerson(string id)
+        {
+            var query = @"
+                SELECT p.*, pn.Name, pn.Lastname, pn.Patronym
+                FROM [FCC].[dbo].[Person] AS p
+                JOIN (SELECT TOP 1 * FROM [FCC].[dbo].[PersonName] 
+                WHERE IsActive = 1 ORDER BY DateCreated DESC) AS pn ON PersonId = p.Id
+                WHERE p.[Id] = @Id";
 
-        //    return QueryFoD<IPerson>(query, new { @Id = id });
-        //}
-        //public IEnumerable<IPerson> ReadAll<IPerson>()
-        //{
-        //    var query = @"
-        //        SELECT p.*, pn.Name, pn.Lastname, pn.Patronym
-        //        FROM [FCC].[dbo].[Person] AS p
-        //        JOIN (SELECT TOP 1 * FROM [FCC].[dbo].[PersonName] 
-        //        WHERE IsActive = 1 ORDER BY DateCreated DESC) AS pn ON PersonId = p.Id";
+            return QueryFoD<Person>(query, new { @Id = id });
+        }
+        public Task<IEnumerable<Person>> ReadAllPerson()
+        {
+            var query = @"
+                SELECT p.*, pn.Name, pn.Lastname, pn.Patronym
+                FROM [FCC].[dbo].[Person] AS p
+                JOIN (SELECT TOP 1 * FROM [FCC].[dbo].[PersonName] 
+                WHERE IsActive = 1 ORDER BY DateCreated DESC) AS pn ON PersonId = p.Id";
 
-        //    return Query<IPerson>(query);
-        //}
-        //public int Create<IPerson>(IPerson entity)
-        //{
-        //    #region Q1
-        //    var query = @"
-        //        DECLARE @output table (Id int)
+            return Query<Person>(query);
+        }
+        public Task<string> CreatePerson(Person entity)
+        {
+            #region Q1
+            var query = @"
+                DECLARE @output table (Id int)
 
-        //        BEGIN TRAN
-        //        INSERT INTO [FCC].[dbo].[Person]
-        //                   ([Sex]
-        //                   ,[BornTimeKnown]
-        //                   ,[IsDead]
-        //                   ,[BornTime]
-        //                   ,[DeadTime]
-        //                   ,[IsActive]
-        //                   ,[DateCreated]
-        //                   ,[DateModified])
-	       //          OUTPUT INSERTED.Id INTO @output
-        //             VALUES
-        //                   (@Sex
-        //                   ,@BornTimeKnown
-        //                   ,@IsDead
-        //                   ,@BornTime
-        //                   ,@DeadTime
-        //                   ,@IsActive
-        //                   ,@DateCreated
-        //                   ,@DateModified)
+                BEGIN TRAN
+                INSERT INTO [FCC].[dbo].[Person]
+                           ([Sex]
+                           ,[BornTimeKnown]
+                           ,[IsDead]
+                           ,[BornTime]
+                           ,[DeadTime]
+                           ,[IsActive]
+                           ,[DateCreated]
+                           ,[DateModified])
+	                 OUTPUT INSERTED.Id INTO @output
+                     VALUES
+                           (@Sex
+                           ,@BornTimeKnown
+                           ,@IsDead
+                           ,@BornTime
+                           ,@DeadTime
+                           ,@IsActive
+                           ,@DateCreated
+                           ,@DateModified)
 
-        //        INSERT INTO [FCC].[dbo].[PersonName]
-        //                   ([PersonId]
-        //                   ,[Name]
-        //                   ,[Lastname]
-        //                   ,[Patronym]
-        //                   ,[IsActive]
-        //                   ,[DateCreated]
-        //                   ,[DateModified])
-        //             VALUES
-        //                   ((SELECT Id FROM @output)
-        //                   ,@Name
-        //                   ,@Lastname
-        //                   ,@Patronym
-        //                   ,1
-        //                   ,GETDATE()
-        //                   ,GETDATE())
+                INSERT INTO [FCC].[dbo].[PersonName]
+                           ([PersonId]
+                           ,[Name]
+                           ,[Lastname]
+                           ,[Patronym]
+                           ,[IsActive]
+                           ,[DateCreated]
+                           ,[DateModified])
+                     VALUES
+                           ((SELECT Id FROM @output)
+                           ,@Name
+                           ,@Lastname
+                           ,@Patronym
+                           ,1
+                           ,GETDATE()
+                           ,GETDATE())
 
-        //        COMMIT TRAN";
-        //    #endregion
+                COMMIT TRAN";
+            #endregion
 
-        //    return QueryFoD<int>(query, new DynamicParameters(entity));
-        //}
-        //public bool Update<IPerson>(IPerson entity)
-        //{
-        //    #region Q1
-        //    var query = @"
-        //        BEGIN TRAN
-        //        UPDATE [FCC].[dbo].[Person]
-        //            SET [Sex] = @Sex
-        //                ,[BornTimeKnown] = @BornTimeKnown
-        //                ,[IsDead] = @IsDead
-        //                ,[BornTime] = @BornTime
-        //                ,[DeadTime] = @DeadTime
-        //                ,[IsActive] = @IsActive
-        //                ,[DateCreated] = @DateCreated
-        //                ,[DateModified] = @DateModified
-        //            WHERE Id = @Id
+            return QueryFoD<string>(query, new DynamicParameters(entity));
+        }
+        public Task<bool> UpdatePerson(Person entity)
+        {
+            #region Q1
+            var query = @"
+                BEGIN TRAN
+                UPDATE [FCC].[dbo].[Person]
+                    SET [Sex] = @Sex
+                        ,[BornTimeKnown] = @BornTimeKnown
+                        ,[IsDead] = @IsDead
+                        ,[BornTime] = @BornTime
+                        ,[DeadTime] = @DeadTime
+                        ,[IsActive] = @IsActive
+                        ,[DateCreated] = @DateCreated
+                        ,[DateModified] = @DateModified
+                    WHERE Id = @Id
 
-        //        IF @NameModified = 1
-        //        BEGIN
-        //        INSERT INTO [FCC].[dbo].[PersonName]
-        //                   ([PersonId]
-        //                   ,[Name]
-        //                   ,[Lastname]
-        //                   ,[Patronym]
-        //                   ,[IsActive]
-        //                   ,[DateCreated]
-        //                   ,[DateModified])
-        //             VALUES
-        //                   (@Id
-        //                   ,@Name
-        //                   ,@Lastname
-        //                   ,@Patronym
-        //                   ,1
-        //                   ,GETDATE()
-        //                   ,GETDATE())
-        //        END
+                IF @NameModified = 1
+                BEGIN
+                INSERT INTO [FCC].[dbo].[PersonName]
+                           ([PersonId]
+                           ,[Name]
+                           ,[Lastname]
+                           ,[Patronym]
+                           ,[IsActive]
+                           ,[DateCreated]
+                           ,[DateModified])
+                     VALUES
+                           (@Id
+                           ,@Name
+                           ,@Lastname
+                           ,@Patronym
+                           ,1
+                           ,GETDATE()
+                           ,GETDATE())
+                END
 
-        //        COMMIT TRAN";
-        //    #endregion
+                COMMIT TRAN";
+            #endregion
 
-        //    return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
-        //}
-        //public bool Delete<IPerson>(IPerson entity)
-        //{
-        //    var query = @"
-        //        DECLARE @groups table (Id int)
+            return Task.FromResult(Execute(query, new DynamicParameters(entity)).Result > 0 ? true : false);
+        }
+        public Task<bool> DeletePerson(string id)
+        {
+            var query = @"
+                DECLARE @groups table (Id int)
 
-        //        BEGIN TRAN
-        //        DELETE FROM [FCC].[dbo].[Person]
-        //        WHERE Id = @Id
+                BEGIN TRAN
+                DELETE FROM [FCC].[dbo].[Person]
+                WHERE Id = @Id
 
-        //        DELETE FROM [FCC].[dbo].[PersonName]
-        //        WHERE PersonId = @Id
+                DELETE FROM [FCC].[dbo].[PersonName]
+                WHERE PersonId = @Id
 
-        //        DELETE FROM [FCC].[dbo].[PersonRelation]
-        //        WHERE PersonId = @Id
+                DELETE FROM [FCC].[dbo].[PersonRelation]
+                WHERE PersonId = @Id
 
-        //        INSERT INTO @groups(Id)
-        //        SELECT prg.Id
-        //        FROM [FCC].[dbo].[PersonRelationGroup] AS prg
-        //        JOIN [FCC].[dbo].[PersonRelation] AS pr ON prg.Id = pr.Id
-        //        WHERE pr.PersonId = @Id
+                INSERT INTO @groups(Id)
+                SELECT prg.Id
+                FROM [FCC].[dbo].[PersonRelationGroup] AS prg
+                JOIN [FCC].[dbo].[PersonRelation] AS pr ON prg.Id = pr.Id
+                WHERE pr.PersonId = @Id
 
-        //        DELETE FROM [FCC].[dbo].[PersonRelation]
-        //        WHERE PersonRelationGroupId IN (SELECT Id FROM @groups)
+                DELETE FROM [FCC].[dbo].[PersonRelation]
+                WHERE PersonRelationGroupId IN (SELECT Id FROM @groups)
 
-        //        DELETE FROM [FCC].[dbo].[PersonRelationGroup]
-        //        WHERE Id IN ((SELECT Id FROM @groups))
+                DELETE FROM [FCC].[dbo].[PersonRelationGroup]
+                WHERE Id IN ((SELECT Id FROM @groups))
 
-        //        COMMIT TRAN";
+                COMMIT TRAN";
 
-        //    return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
-        //}
+            return Task.FromResult(Execute(query, new { @Id = id }).Result > 0 ? true : false);
+        }
 
         #endregion
 
         #region PersonName
 
-        //public IPersonName Read<IPersonName>(int id)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-        //public IEnumerable<IPersonName> ReadAll<IPersonName>()
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-        //public int Create<IPersonName>(IPersonName entity)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-        //public bool Update<IPersonName>(IPersonName entity)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-        //public bool Delete<IPersonName>(IPersonName entity)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
+        public Task<PersonName> ReadPersonName(string id)
+        {
+            throw new System.NotImplementedException();
+        }
+        public Task<IEnumerable<PersonName>> ReadAllPersonName()
+        {
+            throw new System.NotImplementedException();
+        }
+        public Task<int> CreatePersonName(PersonName entity)
+        {
+            throw new System.NotImplementedException();
+        }
+        public Task<bool> UpdatePersonName(PersonName entity)
+        {
+            throw new System.NotImplementedException();
+        }
+        public Task<bool> DeletePersonName(string id)
+        {
+            throw new System.NotImplementedException();
+        }
 
         #endregion
 
         #region PersonRelationGroup
 
-        //public IPersonRelationGroup Read<IPersonRelationGroup>(int id)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-        //public IEnumerable<IPersonRelationGroup> ReadAll<IPersonRelationGroup>()
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-        //public int Create<IPersonRelationGroup>(IPersonRelationGroup entity)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-        //public bool Update<IPersonRelationGroup>(IPersonRelationGroup entity)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-        //public bool Delete<IPersonRelationGroup>(IPersonRelationGroup entity)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
+        public Task<PersonRelationGroup> ReadPersonRelationGroup(string id)
+        {
+            throw new System.NotImplementedException();
+        }
+        public Task<IEnumerable<PersonRelationGroup>> ReadAllPersonRelationGroup()
+        {
+            throw new System.NotImplementedException();
+        }
+        public Task<int> CreatePersonRelationGroup(PersonRelationGroup entity)
+        {
+            throw new System.NotImplementedException();
+        }
+        public Task<bool> UpdatePersonRelationGroup(PersonRelationGroup entity)
+        {
+            throw new System.NotImplementedException();
+        }
+        public Task<bool> DeletePersonRelationGroup(string id)
+        {
+            throw new System.NotImplementedException();
+        }
 
         #endregion
 
         #region PersonRelation
 
-        //public IPersonRelation Read<IPersonRelation>(int id)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-        //public IEnumerable<IPersonRelation> ReadAll<IPersonRelation>()
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-        //public int Create<IPersonRelation>(IPersonRelation entity)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-        //public bool Update<IPersonRelation>(IPersonRelation entity)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-        //public bool Delete<IPersonRelation>(IPersonRelation entity)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
+        public Task<PersonRelation> ReadPersonRelation(string id)
+        {
+            throw new System.NotImplementedException();
+        }
+        public Task<IEnumerable<PersonRelation>> ReadAllPersonRelation()
+        {
+            throw new System.NotImplementedException();
+        }
+        public Task<int> CreatePersonRelation(PersonRelation entity)
+        {
+            throw new System.NotImplementedException();
+        }
+        public Task<bool> UpdatePersonRelation(PersonRelation entity)
+        {
+            throw new System.NotImplementedException();
+        }
+        public Task<bool> DeletePersonRelation(string id)
+        {
+            throw new System.NotImplementedException();
+        }
 
         #endregion
 
