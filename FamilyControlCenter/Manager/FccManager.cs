@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Shared.Models;
 using FamilyControlCenter.Viewmodels.Family;
 using FamilyControlCenter.Common;
+using System;
 
 namespace FamilyControlCenter.Manager
 {
@@ -24,17 +25,19 @@ namespace FamilyControlCenter.Manager
         {
             switch (vm.Command)
             {
-                case ActionCommand.List:
+                case ActionCommand.None:
                     break;
                 case ActionCommand.Create:
                     vm.Model = new Person();
                     vm.RelationGroups = new PersonRelationGroup();
                     vm.Names = new List<PersonName>();
+                    vm.State = VmState.Detail;
                     return string.Empty;
                 case ActionCommand.Edit:
                     vm.Model = _repo.ReadPerson(vm.Model.Id);
                     vm.RelationGroups = _repo.ReadPersonRelationGroup("");
                     vm.Names = _repo.ReadAllPersonName();
+                    vm.State = VmState.Detail;
                     return string.Empty;
                 case ActionCommand.Add:
                     _repo.CreatePerson(vm.Model);
@@ -45,14 +48,14 @@ namespace FamilyControlCenter.Manager
                 case ActionCommand.Delete:
                     _repo.DeletePerson(vm.Model.Id);
                     break;
-                case ActionCommand.Back:
-                    break;
                 default:
                     break;
             }
 
             /* List View */
+            vm.Command = ActionCommand.None;
             vm.Models = _repo.ReadAllPerson();
+            vm.State = VmState.List;
 
             return string.Empty;
         }

@@ -11,6 +11,7 @@ namespace Shared.Models
         public string Patronym { get; set; }
         public bool NameModified { get; set; }
         public bool BornTimeKnown { get; set; }
+        public bool DeadTimeKnown { get; set; }
         public bool IsDead { get; set; }
         public DateTime? BornTime { get; set; }
         public DateTime? DeadTime { get; set; }

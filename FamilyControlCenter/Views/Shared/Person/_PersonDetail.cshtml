@@ -1,0 +1,62 @@
+﻿@{
+    @model FamilyControlCenter.Viewmodels.Family.PersonViewModel
+}
+
+@Html.HiddenFor(m => m.Model.BornTime)
+@Html.HiddenFor(m => m.Model.DeadTime)
+
+<div class="panel">
+    <div class="panel-heading">
+
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                @Html.LabelFor(m => m.Model.Name)
+                @Html.TextBoxFor(m => m.Model.Name, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @Html.LabelFor(m => m.Model.Lastname)
+                @Html.TextBoxFor(m => m.Model.Lastname, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @Html.LabelFor(m => m.Model.Patronym)
+                @Html.TextBoxFor(m => m.Model.Patronym, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @Html.LabelFor(m => m.Model.BornTimeKnown)
+                @Html.CheckBoxFor(m => m.Model.BornTimeKnown, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @Html.HiddenFor(m => m.Model.BornTime)
+                @Html.TextBox("DpBornTime", Model.Model.BornTime, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control hide" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @Html.LabelFor(m => m.Model.DeadTimeKnown)
+                @Html.CheckBoxFor(m => m.Model.DeadTimeKnown, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @Html.HiddenFor(m => m.Model.DeadTime)
+                @Html.TextBox("DpDeadTime", Model.Model.DeadTime, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control hide" })
+            </div>
+        </div>
+
+        @*@Html.Partial("Person/_AccordionPerson", Model)*@
+    </div>
+
+    <div class="panel-footer">
+        @Html.Partial("ToolsSharedViews/_DefaultSaveCancelDelete", Model)
+    </div>
+</div>

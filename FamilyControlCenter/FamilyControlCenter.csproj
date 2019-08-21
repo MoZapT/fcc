@@ -225,6 +225,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\Base\DatePicker.js" />
     <Content Include="Scripts\Base\PersonRelationshipPicker.js" />
     <Content Include="Scripts\Base\Base.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
@@ -239,6 +240,7 @@
     <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\FormScripts\frm-person.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -371,7 +373,8 @@
     <Content Include="Views\Shared\Person\_PersonPicker.cshtml" />
     <Content Include="Views\Shared\Person\_Relation.cshtml" />
     <Content Include="Views\Shared\Person\_AccordionPerson.cshtml" />
-    <Content Include="Views\Family\PersonList.cshtml" />
+    <Content Include="Views\Shared\Person\_PersonDetail.cshtml" />
+    <Content Include="Views\Shared\Person\_PersonList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,15 +1,28 @@
-﻿@{
-    @model Shared.Common.BaseModel
+﻿@using FamilyControlCenter.Common
+@{
+    @model FamilyControlCenter.Viewmodels.Family.PersonViewModel
 }
 
 <div class="btn-group">
-    <button class="btn crud" type="button" args="save" obj="@Model.Id">
-        <i class="glyphicon glyphicon-ok"></i>
-    </button>
-    <button class="btn crud" type="button" args="list" obj="@Model.Id">
+    @if (Model.Command == ActionCommand.Create)
+    {
+        <button class="btn crud" type="button" args="@((int)ActionCommand.Add)" obj="@Model.Model.Id">
+            <i class="glyphicon glyphicon-ok"></i>
+        </button>
+    }
+    else if (Model.Command == ActionCommand.Edit)
+    {
+        if (!string.IsNullOrWhiteSpace(Model.Model.Id))
+        {
+            <button class="btn crud" type="button" args="@((int)ActionCommand.Update)" obj="@Model.Model.Id">
+                <i class="glyphicon glyphicon-ok"></i>
+            </button>
+            <button class="btn crud" type="button" args="@((int)ActionCommand.Delete)" obj="@Model.Model.Id">
+                <i class="glyphicon glyphicon-trash"></i>
+            </button>
+        }
+    }
+    <button class="btn crud" type="button" args="@((int)ActionCommand.None)" obj="@Model.Model.Id">
         <i class="glyphicon glyphicon-remove"></i>
-    </button>    
-    <button class="btn crud" type="button" args="delete" obj="@Model.Id">
-        <i class="glyphicon glyphicon-trash"></i>
     </button>
 </div>

@@ -24,129 +24,129 @@ namespace DataAccessInfrastructure.Repositories
 
         #region Person
 
-        public Task<Person> ReadPerson(string id)
+        public Person ReadPerson(string id)
         {
-            return Task.FromResult(ListPerson
-                .FirstOrDefault(e => e.Id == id));
+            return ListPerson
+                .FirstOrDefault(e => e.Id == id);
         }
-        public Task<IEnumerable<Person>> ReadAllPerson()
+        public IEnumerable<Person> ReadAllPerson()
         {
-            return Task.FromResult(ListPerson as IEnumerable<Person>);
+            return ListPerson as IEnumerable<Person>;
         }
-        public Task<string> CreatePerson(Person entity)
+        public string CreatePerson(Person entity)
         {
             ListPerson.Add(entity);
 
-            return Task.FromResult(entity.Id);
+            return entity.Id;
         }
-        public Task<bool> UpdatePerson(Person entity)
+        public bool UpdatePerson(Person entity)
         {
             var model = ListPerson.FirstOrDefault(e => e.Id == entity.Id);
             model = entity;
 
-            return Task.FromResult(true);
+            return true;
         }
-        public Task<bool> DeletePerson(string id)
+        public bool DeletePerson(string id)
         {
             var model = ListPerson.FirstOrDefault(e => e.Id == id);
-            return Task.FromResult(ListPerson.Remove(model));
+            return ListPerson.Remove(model);
         }
 
         #endregion
 
         #region PersonName
 
-        public Task<PersonName> ReadPersonName(string id)
+        public PersonName ReadPersonName(string id)
         {
-            return Task.FromResult(ListPersonName
-                .FirstOrDefault(e => e.Id == id));
+            return ListPersonName
+                .FirstOrDefault(e => e.Id == id);
         }
-        public Task<IEnumerable<PersonName>> ReadAllPersonName()
+        public IEnumerable<PersonName> ReadAllPersonName()
         {
-            return Task.FromResult(ListPersonName as IEnumerable<PersonName>);
+            return ListPersonName as IEnumerable<PersonName>;
             throw new System.NotImplementedException();
         }
-        public Task<string> CreatePersonName(PersonName entity)
+        public string CreatePersonName(PersonName entity)
         {
             ListPersonName.Add(entity);
 
-            return Task.FromResult(entity.Id);
+            return entity.Id;
         }
-        public Task<bool> UpdatePersonName(PersonName entity)
+        public bool UpdatePersonName(PersonName entity)
         {
             var model = ListPersonName.FirstOrDefault(e => e.Id == entity.Id);
             model = entity;
 
-            return Task.FromResult(true);
+            return true;
         }
-        public Task<bool> DeletePersonName(string id)
+        public bool DeletePersonName(string id)
         {
             var model = ListPersonName.FirstOrDefault(e => e.Id == id);
-            return Task.FromResult(ListPersonName.Remove(model));
+            return ListPersonName.Remove(model);
         }
 
         #endregion
 
         #region PersonRelationGroup
 
-        public Task<PersonRelationGroup> ReadPersonRelationGroup(string id)
+        public PersonRelationGroup ReadPersonRelationGroup(string id)
         {
-            return Task.FromResult(ListPersonRelationGroup
-                .FirstOrDefault(e => e.Id == id));
+            return ListPersonRelationGroup
+                .FirstOrDefault(e => e.Id == id);
         }
-        public Task<IEnumerable<PersonRelationGroup>> ReadAllPersonRelationGroup()
+        public IEnumerable<PersonRelationGroup> ReadAllPersonRelationGroup()
         {
-            return Task.FromResult(ListPersonRelationGroup as IEnumerable<PersonRelationGroup>);
+            return ListPersonRelationGroup as IEnumerable<PersonRelationGroup>;
         }
-        public Task<string> CreatePersonRelationGroup(PersonRelationGroup entity)
+        public string CreatePersonRelationGroup(PersonRelationGroup entity)
         {
             ListPersonRelationGroup.Add(entity);
 
-            return Task.FromResult(entity.Id);
+            return entity.Id;
         }
-        public Task<bool> UpdatePersonRelationGroup(PersonRelationGroup entity)
+        public bool UpdatePersonRelationGroup(PersonRelationGroup entity)
         {
             var model = ListPersonRelationGroup.FirstOrDefault(e => e.Id == entity.Id);
             model = entity;
 
-            return Task.FromResult(true);
+            return true;
         }
-        public Task<bool> DeletePersonRelationGroup(string id)
+        public bool DeletePersonRelationGroup(string id)
         {
             var model = ListPersonRelationGroup.FirstOrDefault(e => e.Id == id);
-            return Task.FromResult(ListPersonRelationGroup.Remove(model));
+            return ListPersonRelationGroup.Remove(model);
         }
 
         #endregion
 
         #region PersonRelation
 
-        public Task<PersonRelation> ReadPersonRelation(string id)
+        public PersonRelation ReadPersonRelation(string id)
         {
-            return Task.FromResult(ListPersonRelation
-                .FirstOrDefault(e => e.Id == id));
+            return ListPersonRelation
+                .FirstOrDefault(e => e.Id == id);
         }
-        public Task<IEnumerable<PersonRelation>> ReadAllPersonRelation()
+        public IEnumerable<PersonRelation> ReadAllPersonRelation()
         {
-            return Task.FromResult(ListPersonRelation as IEnumerable<PersonRelation>);
+            return ListPersonRelation as IEnumerable<PersonRelation>;
         }
-        public Task<string> CreatePersonRelation(PersonRelation entity)
+        public string CreatePersonRelation(PersonRelation entity)
         {
             ListPersonRelation.Add(entity);
 
-            return Task.FromResult(entity.Id);
+            return entity.Id;
         }
-        public Task<bool> UpdatePersonRelation(PersonRelation entity)
+        public bool UpdatePersonRelation(PersonRelation entity)
         {
             var model = ListPersonRelation.FirstOrDefault(e => e.Id == entity.Id);
             model = entity;
 
-            return Task.FromResult(true);
+            return true;
         }
-        public Task<bool> DeletePersonRelation(string id)
+        public bool DeletePersonRelation(string id)
         {
             var model = ListPersonRelation.FirstOrDefault(e => e.Id == id);
-            return Task.FromResult(ListPersonRelation.Remove(model));
+            return ListPersonRelation.Remove(model);
         }
 
         #endregion

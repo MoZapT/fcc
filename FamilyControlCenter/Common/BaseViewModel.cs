@@ -9,16 +9,22 @@ namespace FamilyControlCenter.Common
     public class BaseViewModel
     {
         public ActionCommand Command { get; set; }
+        public VmState State { get; set; }
     }
 
     public enum ActionCommand
     {
-        List,
+        None,
         Create,
         Edit,
         Add,
         Update,
         Delete,
-        Back,
+    }
+
+    public enum VmState
+    {
+        List,
+        Detail,
     }
 }

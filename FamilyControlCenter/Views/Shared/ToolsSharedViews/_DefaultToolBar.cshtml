@@ -1,9 +1,10 @@
-﻿@{
-    @*@model FamilyControlCenter.Common.BaseModel*@
+﻿@using FamilyControlCenter.Common
+@{
+    @model FamilyControlCenter.Viewmodels.Family.PersonViewModel
 }
 
 <div class="btn-group">
-    <a class="btn btn-primary" href="/Family/Person">
+    <a class="btn btn-primary crud" href="/Family/Person" args="@((int)ActionCommand.Create)">
         <i class="glyphicon glyphicon-plus-sign"></i>
     </a>
 </div>

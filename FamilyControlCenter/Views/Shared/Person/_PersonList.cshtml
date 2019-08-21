@@ -1,0 +1,39 @@
+﻿@{
+    @model FamilyControlCenter.Viewmodels.Family.PersonViewModel
+}
+
+<div class="panel">
+    <div class="panel-heading">
+    </div>
+    <div class="panel-body">
+        @foreach (var e in Model.Models)
+        {
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.Label(e.Lastname + " " + e.Name + (string.IsNullOrEmpty(e.Patronym) ? "" : " " + e.Patronym))
+                </div>
+                @if (e.BornTime != null)
+                {
+                    <div class="col-md-3">
+                        @Html.Label("BornTime", ((DateTime)e.BornTime).ToString("dd.MM.yyyy"))
+                    </div>
+                }
+
+                @if (e.DeadTime != null)
+                {
+                    <div class="col-md-3">
+                        @Html.Label("DeadTime", ((DateTime)e.DeadTime).ToString("dd.MM.yyyy"))
+                    </div>
+                }
+
+                <div class="col-md-3">
+                    @Html.Partial("ToolsSharedViews/_DefaultCRUD", e)
+                </div>
+            </div>
+        }
+    </div>
+    <div class="panel-footer">
+        @Html.Partial("ToolsSharedViews/_DefaultToolBar")
+    </div>
+</div>
+

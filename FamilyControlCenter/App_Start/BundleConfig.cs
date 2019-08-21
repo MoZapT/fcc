@@ -20,7 +20,8 @@ namespace FamilyControlCenter
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/base").Include(
-                        "~/Scripts/Base/Base.js"));
+                        "~/Scripts/Base/Base.js",
+                        "~/Scripts/Base/DatePicker.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",

@@ -12,6 +12,11 @@ namespace FamilyControlCenter.Controllers
     {
         FccManager Mgr { get; set; }
 
+        public FamilyController()
+        {
+            Mgr = new FccManager();
+        }
+
         //[Authorize]
         public ActionResult Person()
         {
@@ -24,6 +29,7 @@ namespace FamilyControlCenter.Controllers
         public ActionResult Person(PersonViewModel vm)
         {
             var result = Mgr.HandleAction(vm);
+            ModelState.Clear();
             return View(vm);
         }
     }
