@@ -19,7 +19,7 @@ namespace DataAccessInfrastructure.Repositories
             get { return _fccConStr; }
         }
 
-        public Task<T> QueryFoD<T>(string query)
+        public T QueryFoD<T>(string query)
         {
 
             var tId = Convert.ToInt32(Task.CurrentId);
@@ -31,10 +31,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.QueryFirstOrDefaultAsync<T>(query);
+            return tCon.QueryFirstOrDefaultAsync<T>(query).Result;
         }
 
-        public Task<T> QueryFoD<T>(string query, object parameters)
+        public T QueryFoD<T>(string query, object parameters)
         {
             var tId = Convert.ToInt32(Task.CurrentId);
             var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
@@ -45,10 +45,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.QueryFirstOrDefaultAsync<T>(query, parameters);
+            return tCon.QueryFirstOrDefaultAsync<T>(query, parameters).Result;
         }
 
-        public Task<IEnumerable<T>> Query<T>(string query)
+        public IEnumerable<T> Query<T>(string query)
         {
             var tId = Convert.ToInt32(Task.CurrentId);
             var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
@@ -59,10 +59,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.QueryAsync<T>(query);
+            return tCon.QueryAsync<T>(query).Result;
         }
 
-        public Task<IEnumerable<T>> Query<T>(string query, object parameters)
+        public IEnumerable<T> Query<T>(string query, object parameters)
         {
             var tId = Convert.ToInt32(Task.CurrentId);
             var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
@@ -73,10 +73,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.QueryAsync<T>(query, parameters);
+            return tCon.QueryAsync<T>(query, parameters).Result;
         }
 
-        public Task<int> Execute(string query, object parameters)
+        public int Execute(string query, object parameters)
         {
             var tId = Convert.ToInt32(Task.CurrentId);
             var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
@@ -87,10 +87,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.ExecuteAsync(query, parameters);
+            return tCon.ExecuteAsync(query, parameters).Result;
         }
 
-        public Task<T> ExecuteScalar<T>(string query, object parameters)
+        public T ExecuteScalar<T>(string query, object parameters)
         {
             var tId = Convert.ToInt32(Task.CurrentId);
             var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
@@ -101,10 +101,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.ExecuteScalarAsync<T>(query, parameters);
+            return tCon.ExecuteScalarAsync<T>(query, parameters).Result;
         }
 
-        public Task<bool> Transaction(Task task)
+        public bool Transaction(Task task)
         {
             var success = false;
 
@@ -155,10 +155,10 @@ namespace DataAccessInfrastructure.Repositories
                 }
             }
 
-            return Task.FromResult(success);
+            return success;
         }
 
-        public Task<bool> Transaction(Task task, SqlConnection con)
+        public bool Transaction(Task task, SqlConnection con)
         {
             var success = false;
             var result = new List<object>();
@@ -198,7 +198,7 @@ namespace DataAccessInfrastructure.Repositories
                     con.Close();
                 }
 
-                return Task.FromResult(success);
+                return success;
             }
         }
     }

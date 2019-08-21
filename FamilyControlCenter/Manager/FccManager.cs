@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Shared.Models;
 using FamilyControlCenter.Viewmodels.Family;
+using FamilyControlCenter.Common;
 
 namespace FamilyControlCenter.Manager
 {
@@ -19,35 +20,41 @@ namespace FamilyControlCenter.Manager
             _repo = new LocalRepository();
         }
 
-        public async Task<PersonViewModel> GetPerson(string id)
+        public string HandleAction(PersonViewModel vm)
         {
-            var vm = new PersonViewModel();
-            vm.Model = await _repo.ReadPerson(id);
-            vm.RelationGroups = await _repo.ReadPersonRelationGroup(id);
-            vm.Names = await _repo.ReadAllPersonName();
+            switch (vm.Command)
+            {
+                case ActionCommand.List:
+                    break;
+                case ActionCommand.Create:
+                    vm.Model = new Person();
+                    vm.RelationGroups = new PersonRelationGroup();
+                    vm.Names = new List<PersonName>();
+                    return string.Empty;
+                case ActionCommand.Edit:
+                    vm.Model = _repo.ReadPerson(vm.Model.Id);
+                    vm.RelationGroups = _repo.ReadPersonRelationGroup("");
+                    vm.Names = _repo.ReadAllPersonName();
+                    return string.Empty;
+                case ActionCommand.Add:
+                    _repo.CreatePerson(vm.Model);
+                    break;
+                case ActionCommand.Update:
+                    _repo.UpdatePerson(vm.Model);
+                    break;
+                case ActionCommand.Delete:
+                    _repo.DeletePerson(vm.Model.Id);
+                    break;
+                case ActionCommand.Back:
+                    break;
+                default:
+                    break;
+            }
 
-            return vm;
-        }
-        public async Task<PersonListViewModel> GetPersons()
-        {
-            var vm = new PersonListViewModel();
-            vm.Models = await _repo.ReadAllPerson();
-            //vm.Names = await _repo.ReadAllPersonName();
-            //vm.RelationGroups = await _repo.ReadPersonRelationGroup();
+            /* List View */
+            vm.Models = _repo.ReadAllPerson();
 
-            return vm;
-        }
-        public async Task<string> SetPerson(PersonViewModel model)
-        {
-            return await _repo.CreatePerson(model);
-        }
-        public async Task<bool> UpdatePerson(PersonViewModel model)
-        {
-            return await _repo.UpdatePerson(model);
-        }
-        public async Task<bool> DeletePerson(string id)
-        {
-            return await _repo.DeletePerson(id);
+            return string.Empty;
         }
     }
 }

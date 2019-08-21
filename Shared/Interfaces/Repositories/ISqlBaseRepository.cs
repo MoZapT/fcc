@@ -9,7 +9,7 @@ namespace Shared.Interfaces.Repositories
 {
     public interface ISqlBaseRepository
     {
-        Task<bool> Transaction(Task task);
-        Task<bool> Transaction(Task task, SqlConnection con);
+        bool Transaction(Task task);
+        bool Transaction(Task task, SqlConnection con);
     }
 }

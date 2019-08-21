@@ -9,29 +9,29 @@ namespace Shared.Interfaces.Repositories
 {
     public interface ISqlRepository
     {
-        Task<Person> ReadPerson(string id);
-        Task<IEnumerable<Person>> ReadAllPerson();
-        Task<string> CreatePerson(Person entity);
-        Task<bool> UpdatePerson(Person entity);
-        Task<bool> DeletePerson(string id);
+        Person ReadPerson(string id);
+        IEnumerable<Person> ReadAllPerson();
+        string CreatePerson(Person entity);
+        bool UpdatePerson(Person entity);
+        bool DeletePerson(string id);
 
-        Task<PersonName> ReadPersonName(string id);
-        Task<IEnumerable<PersonName>> ReadAllPersonName();
-        Task<string> CreatePersonName(PersonName entity);
-        Task<bool> UpdatePersonName(PersonName entity);
-        Task<bool> DeletePersonName(string id);
+        PersonName ReadPersonName(string id);
+        IEnumerable<PersonName> ReadAllPersonName();
+        string CreatePersonName(PersonName entity);
+        bool UpdatePersonName(PersonName entity);
+        bool DeletePersonName(string id);
 
-        Task<PersonRelation> ReadPersonRelation(string id);
-        Task<IEnumerable<PersonRelation>> ReadAllPersonRelation();
-        Task<string> CreatePersonRelation(PersonRelation entity);
-        Task<bool> UpdatePersonRelation(PersonRelation entity);
-        Task<bool> DeletePersonRelation(string id);
+        PersonRelation ReadPersonRelation(string id);
+        IEnumerable<PersonRelation> ReadAllPersonRelation();
+        string CreatePersonRelation(PersonRelation entity);
+        bool UpdatePersonRelation(PersonRelation entity);
+        bool DeletePersonRelation(string id);
 
-        Task<PersonRelationGroup> ReadPersonRelationGroup(string id);
-        Task<IEnumerable<PersonRelationGroup>> ReadAllPersonRelationGroup();
-        Task<string> CreatePersonRelationGroup(PersonRelationGroup entity);
-        Task<bool> UpdatePersonRelationGroup(PersonRelationGroup entity);
-        Task<bool> DeletePersonRelationGroup(string id);
+        PersonRelationGroup ReadPersonRelationGroup(string id);
+        IEnumerable<PersonRelationGroup> ReadAllPersonRelationGroup();
+        string CreatePersonRelationGroup(PersonRelationGroup entity);
+        bool UpdatePersonRelationGroup(PersonRelationGroup entity);
+        bool DeletePersonRelationGroup(string id);
 
     }
 }

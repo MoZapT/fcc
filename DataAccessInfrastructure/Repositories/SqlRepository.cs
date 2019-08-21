@@ -14,7 +14,7 @@ namespace DataAccessInfrastructure.Repositories
 
         #region Person
 
-        public Task<Person> ReadPerson(string id)
+        public Person ReadPerson(string id)
         {
             var query = @"
                 SELECT p.*, pn.Name, pn.Lastname, pn.Patronym
@@ -25,7 +25,7 @@ namespace DataAccessInfrastructure.Repositories
 
             return QueryFoD<Person>(query, new { @Id = id });
         }
-        public Task<IEnumerable<Person>> ReadAllPerson()
+        public IEnumerable<Person> ReadAllPerson()
         {
             var query = @"
                 SELECT p.*, pn.Name, pn.Lastname, pn.Patronym
@@ -35,7 +35,7 @@ namespace DataAccessInfrastructure.Repositories
 
             return Query<Person>(query);
         }
-        public Task<string> CreatePerson(Person entity)
+        public string CreatePerson(Person entity)
         {
             #region Q1
             var query = @"
@@ -84,7 +84,7 @@ namespace DataAccessInfrastructure.Repositories
 
             return QueryFoD<string>(query, new DynamicParameters(entity));
         }
-        public Task<bool> UpdatePerson(Person entity)
+        public bool UpdatePerson(Person entity)
         {
             #region Q1
             var query = @"
@@ -123,9 +123,9 @@ namespace DataAccessInfrastructure.Repositories
                 COMMIT TRAN";
             #endregion
 
-            return Task.FromResult(Execute(query, new DynamicParameters(entity)).Result > 0 ? true : false);
+            return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
         }
-        public Task<bool> DeletePerson(string id)
+        public bool DeletePerson(string id)
         {
             var query = @"
                 DECLARE @groups table (Id int)
@@ -154,30 +154,30 @@ namespace DataAccessInfrastructure.Repositories
 
                 COMMIT TRAN";
 
-            return Task.FromResult(Execute(query, new { @Id = id }).Result > 0 ? true : false);
+            return Execute(query, new { @Id = id }) > 0 ? true : false;
         }
 
         #endregion
 
         #region PersonName
 
-        public Task<PersonName> ReadPersonName(string id)
+        public PersonName ReadPersonName(string id)
         {
             throw new System.NotImplementedException();
         }
-        public Task<IEnumerable<PersonName>> ReadAllPersonName()
+        public IEnumerable<PersonName> ReadAllPersonName()
         {
             throw new System.NotImplementedException();
         }
-        public Task<int> CreatePersonName(PersonName entity)
+        public string CreatePersonName(PersonName entity)
         {
             throw new System.NotImplementedException();
         }
-        public Task<bool> UpdatePersonName(PersonName entity)
+        public bool UpdatePersonName(PersonName entity)
         {
             throw new System.NotImplementedException();
         }
-        public Task<bool> DeletePersonName(string id)
+        public bool DeletePersonName(string id)
         {
             throw new System.NotImplementedException();
         }
@@ -186,23 +186,23 @@ namespace DataAccessInfrastructure.Repositories
 
         #region PersonRelationGroup
 
-        public Task<PersonRelationGroup> ReadPersonRelationGroup(string id)
+        public PersonRelationGroup ReadPersonRelationGroup(string id)
         {
             throw new System.NotImplementedException();
         }
-        public Task<IEnumerable<PersonRelationGroup>> ReadAllPersonRelationGroup()
+        public IEnumerable<PersonRelationGroup> ReadAllPersonRelationGroup()
         {
             throw new System.NotImplementedException();
         }
-        public Task<int> CreatePersonRelationGroup(PersonRelationGroup entity)
+        public string CreatePersonRelationGroup(PersonRelationGroup entity)
         {
             throw new System.NotImplementedException();
         }
-        public Task<bool> UpdatePersonRelationGroup(PersonRelationGroup entity)
+        public bool UpdatePersonRelationGroup(PersonRelationGroup entity)
         {
             throw new System.NotImplementedException();
         }
-        public Task<bool> DeletePersonRelationGroup(string id)
+        public bool DeletePersonRelationGroup(string id)
         {
             throw new System.NotImplementedException();
         }
@@ -211,23 +211,23 @@ namespace DataAccessInfrastructure.Repositories
 
         #region PersonRelation
 
-        public Task<PersonRelation> ReadPersonRelation(string id)
+        public PersonRelation ReadPersonRelation(string id)
         {
             throw new System.NotImplementedException();
         }
-        public Task<IEnumerable<PersonRelation>> ReadAllPersonRelation()
+        public IEnumerable<PersonRelation> ReadAllPersonRelation()
         {
             throw new System.NotImplementedException();
         }
-        public Task<int> CreatePersonRelation(PersonRelation entity)
+        public string CreatePersonRelation(PersonRelation entity)
         {
             throw new System.NotImplementedException();
         }
-        public Task<bool> UpdatePersonRelation(PersonRelation entity)
+        public bool UpdatePersonRelation(PersonRelation entity)
         {
             throw new System.NotImplementedException();
         }
-        public Task<bool> DeletePersonRelation(string id)
+        public bool DeletePersonRelation(string id)
         {
             throw new System.NotImplementedException();
         }

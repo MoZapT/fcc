@@ -15,23 +15,13 @@ namespace FamilyControlCenter.Viewmodels.Family
         public Person Model { get; set; }
         public PersonRelationGroup RelationGroups { get; set; }
         public IEnumerable<PersonName> Names { get; set; }
+        public IEnumerable<Person> Models { get; set; }
 
         #endregion
 
-        #region METHODS
+        //#region METHODS
 
-        public PersonViewModel()
-        {
-            Initialize();
-        }
-        public override void Initialize()
-        {
-            Model = new Person();
-
-            base.Initialize();
-        }
-
-        #endregion
+        //#endregion
 
     }
 }

@@ -13,27 +13,17 @@ namespace FamilyControlCenter.Controllers
         FccManager Mgr { get; set; }
 
         //[Authorize]
-        public ActionResult PersonList()
+        public ActionResult Person()
         {
-            PersonListViewModel vm = Mgr.GetPersons();
-            return View(vm);
-        }
-
-        [/*Authorize,*/ HttpPost]
-        public ActionResult PersonList(PersonListViewModel vm)
-        {
-            return View(vm);
-        }
-        //[Authorize]
-        public ActionResult Person(string id)
-        {
-            PersonViewModel vm = Mgr.GetPerson(id).Result;
+            var vm = new PersonViewModel();
+            var result = Mgr.HandleAction(vm);
             return View(vm);
         }
 
         [/*Authorize,*/ HttpPost]
         public ActionResult Person(PersonViewModel vm)
         {
+            var result = Mgr.HandleAction(vm);
             return View(vm);
         }
     }

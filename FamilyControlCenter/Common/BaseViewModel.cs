@@ -8,12 +8,17 @@ namespace FamilyControlCenter.Common
 {
     public class BaseViewModel
     {
-        public string EscapeRoute { get; set; }
-        public string TargetRoute { get; set; }
+        public ActionCommand Command { get; set; }
+    }
 
-        public virtual void Initialize()
-        {
-
-        }
+    public enum ActionCommand
+    {
+        List,
+        Create,
+        Edit,
+        Add,
+        Update,
+        Delete,
+        Back,
     }
 }

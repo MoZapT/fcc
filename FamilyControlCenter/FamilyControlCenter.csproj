@@ -207,7 +207,6 @@
     <Compile Include="Viewmodels\Account\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Viewmodels\Family\PersonListViewModel.cs" />
     <Compile Include="Viewmodels\Family\PersonViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
