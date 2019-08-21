@@ -1,17 +1,14 @@
-﻿using Shared.Interfaces.Common;
-using Shared.Interfaces.Repositories;
+﻿using Shared.Interfaces.Repositories;
 using DataAccessInfrastructure.Repositories;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Shared.Models;
-using FamilyControlCenter.Viewmodels.Family;
-using FamilyControlCenter.Common;
-using System;
+using Shared.Interfaces.Managers;
+using Shared.Viewmodels.Family;
+using Shared.Common;
 
 namespace FamilyControlCenter.Manager
 {
-    public class FccManager
+    public class FccManager : IFccManager
     {
         private ISqlRepository _repo;
 

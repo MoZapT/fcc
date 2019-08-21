@@ -1,5 +1,5 @@
-﻿using FamilyControlCenter.Manager;
-using FamilyControlCenter.Viewmodels.Family;
+﻿using Shared.Interfaces.Managers;
+using Shared.Viewmodels.Family;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,25 +10,25 @@ namespace FamilyControlCenter.Controllers
 {
     public class FamilyController : Controller
     {
-        FccManager Mgr { get; set; }
+        IFccManager _mgrFcc;
 
-        public FamilyController()
+        public FamilyController(IFccManager mgrFcc)
         {
-            Mgr = new FccManager();
+            _mgrFcc = mgrFcc;
         }
 
         //[Authorize]
         public ActionResult Person()
         {
             var vm = new PersonViewModel();
-            var result = Mgr.HandleAction(vm);
+            var result = _mgrFcc.HandleAction(vm);
             return View(vm);
         }
 
         [/*Authorize,*/ HttpPost]
         public ActionResult Person(PersonViewModel vm)
         {
-            var result = Mgr.HandleAction(vm);
+            var result = _mgrFcc.HandleAction(vm);
             ModelState.Clear();
             return View(vm);
         }

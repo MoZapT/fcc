@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace FamilyControlCenter.Common
+namespace Shared.Common
 {
     public class BaseViewModel
     {
