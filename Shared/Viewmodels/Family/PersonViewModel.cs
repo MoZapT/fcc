@@ -10,9 +10,10 @@ namespace Shared.Viewmodels.Family
         #region PROPERTIES
 
         public Person Model { get; set; }
-        public PersonRelationGroup RelationGroups { get; set; }
-        public IEnumerable<PersonName> Names { get; set; }
-        public IEnumerable<Person> Models { get; set; }
+        public List<PersonRelation> Relations { get; set; }
+        public List<PersonName> Names { get; set; }
+
+        public List<Person> Models { get; set; }
 
         #endregion
 

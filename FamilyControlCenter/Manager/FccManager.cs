@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using Shared.Models;
 using Shared.Interfaces.Managers;
 using Shared.Viewmodels.Family;
-using Shared.Common;
+using Shared.Enums;
+using System;
+using System.Linq;
 
 namespace FamilyControlCenter.Manager
 {
@@ -18,6 +20,8 @@ namespace FamilyControlCenter.Manager
             _repo = new LocalRepository();
         }
 
+        #region PersonViewModel
+
         public string HandleAction(PersonViewModel vm)
         {
             switch (vm.Command)
@@ -25,22 +29,14 @@ namespace FamilyControlCenter.Manager
                 case ActionCommand.None:
                     break;
                 case ActionCommand.Create:
-                    vm.Model = new Person();
-                    vm.RelationGroups = new PersonRelationGroup();
-                    vm.Names = new List<PersonName>();
-                    vm.State = VmState.Detail;
-                    return string.Empty;
+                    return CreatePerson(vm);
                 case ActionCommand.Edit:
-                    vm.Model = _repo.ReadPerson(vm.Model.Id);
-                    vm.RelationGroups = _repo.ReadPersonRelationGroup("");
-                    vm.Names = _repo.ReadAllPersonName();
-                    vm.State = VmState.Detail;
-                    return string.Empty;
+                    return EditPerson(vm);
                 case ActionCommand.Add:
                     _repo.CreatePerson(vm.Model);
                     break;
                 case ActionCommand.Update:
-                    _repo.UpdatePerson(vm.Model);
+                    UpdatePerson(vm);
                     break;
                 case ActionCommand.Delete:
                     _repo.DeletePerson(vm.Model.Id);
@@ -50,11 +46,59 @@ namespace FamilyControlCenter.Manager
             }
 
             /* List View */
-            vm.Command = ActionCommand.None;
-            vm.Models = _repo.ReadAllPerson();
-            vm.State = VmState.List;
+            return ListPerson(vm);
+        }
 
+        private string CreatePerson(PersonViewModel vm)
+        {
+            vm.Model = new Person();
+            vm.Names = new List<PersonName>();
+            vm.Relations = new List<PersonRelation>();
+            vm.State = VmState.Detail;
             return string.Empty;
         }
+        private string EditPerson(PersonViewModel vm)
+        {
+            vm.Model = _repo.ReadPerson(vm.Model.Id);
+            vm.Names = _repo.ReadAllPersonNameByPersonId(vm.Model.Id).ToList();
+            vm.Relations = _repo.ReadAllPersonRelationByOwnerId(vm.Model.Id).ToList();
+            vm.State = VmState.Detail;
+            return string.Empty;            
+        }
+        private bool UpdatePerson(PersonViewModel vm)
+        {
+            bool success = true;
+            var old = _repo.ReadPerson(vm.Model.Id);
+            PersonName pname = new PersonName
+            {
+                Name = old.Name,
+                Lastname = old.Lastname,
+                Patronym = old.Patronym,
+                PersonId = old.Id
+            };
+            if (old.Name != vm.Model.Name || old.Lastname != vm.Model.Lastname || old.Patronym != vm.Model.Patronym)
+            {
+                success = !string.IsNullOrWhiteSpace(_repo.CreatePersonName(pname)) ? true : false;
+            }
+
+            if (!success)
+                return success;
+
+            success = _repo.UpdatePerson(vm.Model);
+            if (!success)
+                _repo.DeletePersonName(pname.Id);
+
+            return success;
+        }
+        private string ListPerson(PersonViewModel vm)
+        {
+            vm.Command = ActionCommand.None;
+            vm.Models = _repo.ReadAllPerson().ToList();
+            vm.State = VmState.List;
+            return string.Empty;
+        }
+
+        #endregion
+
     }
 }

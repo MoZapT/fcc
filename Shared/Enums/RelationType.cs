@@ -28,5 +28,9 @@ namespace Shared.Enums
         BrotherInLaw,
         [Description("Сестра(?)")]
         SisterInLaw,
+        [Description("Муж")]
+        Husband,
+        [Description("Жена")]
+        Wife,
     }
 }

@@ -16,22 +16,16 @@ namespace Shared.Interfaces.Repositories
         bool DeletePerson(string id);
 
         PersonName ReadPersonName(string id);
-        IEnumerable<PersonName> ReadAllPersonName();
+        IEnumerable<PersonName> ReadAllPersonNameByPersonId(string id);
         string CreatePersonName(PersonName entity);
         bool UpdatePersonName(PersonName entity);
         bool DeletePersonName(string id);
 
         PersonRelation ReadPersonRelation(string id);
-        IEnumerable<PersonRelation> ReadAllPersonRelation();
+        IEnumerable<PersonRelation> ReadAllPersonRelationByOwnerId(string id);
         string CreatePersonRelation(PersonRelation entity);
         bool UpdatePersonRelation(PersonRelation entity);
         bool DeletePersonRelation(string id);
-
-        PersonRelationGroup ReadPersonRelationGroup(string id);
-        IEnumerable<PersonRelationGroup> ReadAllPersonRelationGroup();
-        string CreatePersonRelationGroup(PersonRelationGroup entity);
-        bool UpdatePersonRelationGroup(PersonRelationGroup entity);
-        bool DeletePersonRelationGroup(string id);
 
     }
 }

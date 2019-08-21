@@ -165,7 +165,7 @@ namespace DataAccessInfrastructure.Repositories
         {
             throw new System.NotImplementedException();
         }
-        public IEnumerable<PersonName> ReadAllPersonName()
+        public IEnumerable<PersonName> ReadAllPersonNameByPersonId(string id)
         {
             throw new System.NotImplementedException();
         }
@@ -184,38 +184,13 @@ namespace DataAccessInfrastructure.Repositories
 
         #endregion
 
-        #region PersonRelationGroup
-
-        public PersonRelationGroup ReadPersonRelationGroup(string id)
-        {
-            throw new System.NotImplementedException();
-        }
-        public IEnumerable<PersonRelationGroup> ReadAllPersonRelationGroup()
-        {
-            throw new System.NotImplementedException();
-        }
-        public string CreatePersonRelationGroup(PersonRelationGroup entity)
-        {
-            throw new System.NotImplementedException();
-        }
-        public bool UpdatePersonRelationGroup(PersonRelationGroup entity)
-        {
-            throw new System.NotImplementedException();
-        }
-        public bool DeletePersonRelationGroup(string id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        #endregion
-
         #region PersonRelation
 
         public PersonRelation ReadPersonRelation(string id)
         {
             throw new System.NotImplementedException();
         }
-        public IEnumerable<PersonRelation> ReadAllPersonRelation()
+        public IEnumerable<PersonRelation> ReadAllPersonRelationByOwnerId(string id)
         {
             throw new System.NotImplementedException();
         }

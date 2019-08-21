@@ -4,7 +4,7 @@
     function initializeComponent() {
         $('.datepicker:not([readonly])').datepicker({
             format: 'dd.mm.yyyy',
-            language: 'de',
+            language: 'ru',
             todayHighlight: true,
             calendarWeeks: true,
             autoclose: true,

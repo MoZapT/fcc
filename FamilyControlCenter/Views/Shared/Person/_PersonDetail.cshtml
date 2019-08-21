@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Shared.Enums
+@{
     @model Shared.Viewmodels.Family.PersonViewModel
 }
 
@@ -6,9 +7,7 @@
 @Html.HiddenFor(m => m.Model.DeadTime)
 
 <div class="panel">
-    <div class="panel-heading">
-
-    </div>
+    <div class="panel-heading"></div>
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
@@ -53,9 +52,25 @@
             </div>
         </div>
 
+        @if (Model.Relations?.Count > 0)
+        {
+            <div class="panel">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
+                    @foreach (var rel in Model.Relations)
+                    {
+                        if (rel.PersonId != Model.Model.Id)
+                        {
+                            <p>@rel.PersonId</p>
+                            <p>@rel.RelationTypeId.ToString()</p>
+                        }
+                    }
+                </div>
+            </div>
+        }
+
         @*@Html.Partial("Person/_AccordionPerson", Model)*@
     </div>
-
     <div class="panel-footer">
         @Html.Partial("ToolsSharedViews/_DefaultSaveCancelDelete", Model)
     </div>
