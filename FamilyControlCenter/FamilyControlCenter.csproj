@@ -255,7 +255,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Base.css" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap-datepicker.standalone.css" />
@@ -415,11 +414,10 @@
     <Content Include="Views\Shared\ToolsSharedViews\_DefaultCRUD.cshtml" />
     <Content Include="Views\Shared\ToolsSharedViews\_DefaultToolBar.cshtml" />
     <Content Include="Views\Shared\ToolsSharedViews\_DefaultSaveCancelDelete.cshtml" />
-    <Content Include="Views\Shared\Person\_PersonPicker.cshtml" />
-    <Content Include="Views\Shared\Person\_Relation.cshtml" />
-    <Content Include="Views\Shared\Person\_AccordionPerson.cshtml" />
     <Content Include="Views\Shared\Person\_PersonDetail.cshtml" />
     <Content Include="Views\Shared\Person\_PersonList.cshtml" />
+    <Content Include="Views\Shared\Person\_RelationModal.cshtml" />
+    <Content Include="Views\Shared\Person\_RelationsList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

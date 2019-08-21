@@ -17,16 +17,47 @@ namespace DataAccessInfrastructure.Repositories
 
         public LocalRepository()
         {
-            var guid1 = Guid.NewGuid().ToString();
-            var guid2 = Guid.NewGuid().ToString();
+            var per1 = new Person
+            {
+                Id = Guid.NewGuid().ToString(),
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now,
+                IsActive = true,
+                Name = "Thomas",
+                Lastname = "Mayer",
+                Patronym = "Sergeevich",
+                BornTimeKnown = true,
+                DeadTimeKnown = false,
+                BornTime = DateTime.Parse("25/03/1991"),
+                DeadTime = null,
+                Sex = true,
+            };
+            var per2 = new Person
+            {
+                Id = Guid.NewGuid().ToString(),
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now,
+                IsActive = true,
+                Name = "Margarita",
+                Lastname = "Mayer",
+                Patronym = "Sergeevna",
+                BornTimeKnown = true,
+                DeadTimeKnown = false,
+                BornTime = DateTime.Parse("16/04/1994"),
+                DeadTime = null,
+                Sex = false,
+            };
             var p1rel = new PersonRelation
             {
                 Id = Guid.NewGuid().ToString(),
                 DateCreated = DateTime.Now,
                 DateModified = DateTime.Now,
                 IsActive = true,
-                OwnerId = guid2,
-                PersonId = guid1,
+                OwnerId = per2.Id,
+                PersonId = per1.Id,
+                Name = "Thomas",
+                Lastname = "Mayer",
+                Patronym = "Sergeevich",
                 RelationTypeId = RelationType.Husband,
             };
             var p2rel = new PersonRelation
@@ -35,55 +66,32 @@ namespace DataAccessInfrastructure.Repositories
                 DateCreated = DateTime.Now,
                 DateModified = DateTime.Now,
                 IsActive = true,
-                OwnerId = guid1,
-                PersonId = guid2,
+                OwnerId = per1.Id,
+                PersonId = per2.Id,
+                Name = "Margarita",
+                Lastname = "Mayer",
+                Patronym = "Sergeevna",
                 RelationTypeId = RelationType.Wife,
+            };
+            var p2name = new PersonName
+            {
+                Id = Guid.NewGuid().ToString(),
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now,
+                IsActive = true,
+                Name = "Margarita",
+                Lastname = "Steinfeld",
+                Patronym = "Sergeevna",
+                PersonId = per2.Id,
             };
 
             ListPerson = new List<Person>
             {
-                new Person {
-                    Id = guid1,
-                    DateCreated = DateTime.Now,
-                    DateModified = DateTime.Now,
-                    IsActive = true,
-                    Name = "Thomas",
-                    Lastname = "Mayer",
-                    Patronym = "Sergeevich",
-                    BornTimeKnown = true,
-                    DeadTimeKnown = false,
-                    BornTime = DateTime.Parse("25/03/1991"),
-                    DeadTime = null,
-                    Sex = true,
-                },
-                new Person {
-                    Id = guid2,
-                    DateCreated = DateTime.Now,
-                    DateModified = DateTime.Now,
-                    IsActive = true,
-                    Name = "Margarita",
-                    Lastname = "Mayer",
-                    Patronym = "Sergeevna",
-                    BornTimeKnown = true,
-                    DeadTimeKnown = false,
-                    BornTime = DateTime.Parse("16/04/1994"),
-                    DeadTime = null,
-                    Sex = false,
-                }
+                per1, per2
             };
             ListPersonName = new List<PersonName>
             {
-                new PersonName
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    DateCreated = DateTime.Now,
-                    DateModified = DateTime.Now,
-                    IsActive = true,
-                    Name = "Margarita",
-                    Lastname = "Steinfeld",
-                    Patronym = "Sergeevna",
-                    PersonId = guid2,
-                }
+                p2name
             };
             ListPersonRelation = new List<PersonRelation>
             {

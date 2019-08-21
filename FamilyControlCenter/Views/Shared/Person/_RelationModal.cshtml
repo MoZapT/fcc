@@ -1,0 +1,27 @@
+﻿@{
+    @model Shared.Viewmodels.Family.PersonViewModel
+}
+
+<button data-toggle="modal" data-target="#NewRelationModal" class="btn btn-primary" type="button">
+    <i class="glyphicon glyphicon-plus"></i>
+</button>
+
+<div class="modal fade" id="NewRelationModal" tabindex="-1" role="dialog" aria-labelledby="NewRelationModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Добавить связь</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Text
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button id="SaveRelation" type="button" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>

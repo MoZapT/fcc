@@ -1,0 +1,16 @@
+﻿@using Shared.Enums
+@{
+    @model Shared.Viewmodels.Family.PersonViewModel
+}
+
+@foreach (var rel in Model.Relations)
+{
+    if (rel.PersonId != Model.Model.Id)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                @rel.Lastname @rel.Name @rel.Patronym @rel.RelationTypeId.ToString()
+            </div>
+        </div>
+    }
+}

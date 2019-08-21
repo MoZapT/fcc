@@ -21,20 +21,20 @@ namespace FamilyControlCenter
 
             bundles.Add(new ScriptBundle("~/bundles/base").Include(
                         "~/Scripts/Base/Base.js",
-                        "~/Scripts/Base/DatePicker.js"));
+                        "~/Scripts/Base/DatePicker.js",
+                        "~/Scripts/bootstrap-datepicker.js",
+                        "~/Scripts/bootstrap-datepicker.min.js",
+                        "~/Scripts/locales/bootstrap-datepicker.de.min.js",
+                        "~/Scripts/locales/bootstrap-datepicker.ru.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/bootstrap-datepicker.js",
-                      "~/Scripts/locales/bootstrap-datepicker.de.min.js",
-                      "~/Scripts/locales/bootstrap-datepicker.ru.min.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/bootstrap-datepicker.css",
-                      "~/Content/Base.css"));
+                      "~/Content/bootstrap-datepicker.css"));
         }
     }
 }
