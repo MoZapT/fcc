@@ -8,7 +8,7 @@
         }
         else {
             $('#DpBornTime').addClass('hide');
-            $('#DpBornTime').datepicker('setDate', '');
+            //$('#DpBornTime').datepicker('setDate', ''); //WARNING! causing datepicker to fail!
         }
     }
 
@@ -19,8 +19,57 @@
         }
         else {
             $('#DpDeadTime').addClass('hide');
-            $('#DpDeadTime').datepicker('setDate', '');
+            //$('#DpDeadTime').datepicker('setDate', ''); //WARNING! causing datepicker to fail!
         }
+    }
+
+    function setRelations(panel) {
+        var model = createPersonRelationModel();
+
+        $.ajax({
+            url: 'SetPersonRelation',//'api/set/relations',
+            data: JSON.stringify({ entity: model, id: $('#NewRelationOwnerId').val() }),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            complete: function (response) {
+                $(panel).html(response.responseText);
+                //initDynamicScripts();
+            }
+        });
+    }
+
+    function deleteRelation(panel, relationid) {
+        $.ajax({
+            url: 'DeletePersonRelation',//'api/set/relations',
+            data: JSON.stringify({ relationid: relationid, ownerid: $('#Model_Id').val() }),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            complete: function (response) {
+                $(panel).html(response.responseText);
+                //initDynamicScripts();
+            }
+        });
+    }
+
+    function createPersonRelationModel() {
+        var model = {
+            Id: null,
+            DateCreated: null,
+            DateModified: null,
+            IsActive: true,
+            OwnerId: $('#NewRelationOwnerId').val(),
+            PersonId: $('#NewRelationPersonId option:selected').val(),
+            Name: null,
+            Lastname: null,
+            Patronym: null,
+            RelationTypeId: $('#NewRelationRelationTypeId option:selected').val()
+        };
+
+        return model;
     }
 
     function initializeComponent() {
@@ -38,8 +87,14 @@
             e.preventDefault();
             var btn = e.currentTarget;
             $panel = $(btn).closest('.panel-footer').siblings('.panel-body');
+            setRelations($panel);
+        });
 
-            //TODO ajax call, rerender the $panel
+        $('button#DestroyRelation').on('click', function (e) {
+            e.preventDefault();
+            var btn = e.currentTarget;
+            $panel = $(btn).closest('.panel-body');
+            deleteRelation($panel, $(btn).attr('relation-id'));
         });
     }
 

@@ -1,4 +1,5 @@
 ﻿using Shared.Interfaces.Managers;
+using Shared.Models;
 using Shared.Viewmodels.Family;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,31 @@ namespace FamilyControlCenter.Controllers
             var result = _mgrFcc.HandleAction(vm);
             ModelState.Clear();
             return View(vm);
+        }
+
+        [/*Authorize,*/ HttpPost]
+        //[Route("api/set/relations/{entity}/{id}")]
+        public PartialViewResult SetPersonRelation(PersonRelation entity, string id)
+        {
+            var result = _mgrFcc.SetPersonRelations(entity);
+            var vm = new PersonViewModel
+            {
+                Relations = _mgrFcc.GetPersonRelationsByPersonId(id).ToList()
+            };
+            return PartialView("Person/_RelationsList", vm);
+        }
+
+        [/*Authorize,*/ HttpPost]
+        //[Route("api/delete/relations/{id}")]
+        public PartialViewResult DeletePersonRelation(string relationid, string ownerid)
+        {
+            var result = _mgrFcc.DeletePersonRelation(relationid);
+
+            var vm = new PersonViewModel
+            {
+                Relations = _mgrFcc.GetPersonRelationsByPersonId(ownerid).ToList()
+            };
+            return PartialView("Person/_RelationsList", vm);
         }
     }
 }

@@ -5,12 +5,14 @@
 
 @foreach (var rel in Model.Relations)
 {
-    if (rel.PersonId != Model.Model.Id)
-    {
-        <div class="row">
-            <div class="col-md-12">
-                @rel.Lastname @rel.Name @rel.Patronym @rel.RelationTypeId.ToString()
-            </div>
+    <div class="row">
+        <div class="col-md-10">
+            @rel.Lastname @rel.Name @rel.Patronym @rel.RelationTypeId.ToString()
         </div>
-    }
+        <div class="col-md-2">
+            <button id="DestroyRelation" relation-id="@rel.Id" type="button" class="btn btn-secondary" data-dismiss="modal">
+                <i class="glyphicon glyphicon-trash"></i>
+            </button>
+        </div>
+    </div>
 }

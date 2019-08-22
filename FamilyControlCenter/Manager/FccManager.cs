@@ -7,6 +7,7 @@ using Shared.Viewmodels.Family;
 using Shared.Enums;
 using System;
 using System.Linq;
+using System.Web.Mvc.Html;
 
 namespace FamilyControlCenter.Manager
 {
@@ -48,6 +49,25 @@ namespace FamilyControlCenter.Manager
             /* List View */
             return ListPerson(vm);
         }
+        public bool DeletePersonRelation(string id)
+        {
+            return _repo.DeletePersonRelation(id);
+        }
+        public string SetPersonRelations(PersonRelation entity)
+        {
+            entity.Id = Guid.NewGuid().ToString();
+            entity.DateCreated = DateTime.Now;
+            entity.DateModified = DateTime.Now;
+
+            //TODO search for counterpart or members!
+
+
+            return _repo.CreatePersonRelation(entity);
+        }
+        public IEnumerable<PersonRelation> GetPersonRelationsByPersonId(string id)
+        {
+            return _repo.ReadAllPersonRelationByOwnerId(id);
+        }
 
         private string CreatePerson(PersonViewModel vm)
         {
@@ -55,6 +75,7 @@ namespace FamilyControlCenter.Manager
             vm.Names = new List<PersonName>();
             vm.Relations = new List<PersonRelation>();
             vm.State = VmState.Detail;
+            vm.PersonSelectionList = _repo.GetPersonSelectList().ToList();
             return string.Empty;
         }
         private string EditPerson(PersonViewModel vm)
@@ -63,7 +84,8 @@ namespace FamilyControlCenter.Manager
             vm.Names = _repo.ReadAllPersonNameByPersonId(vm.Model.Id).ToList();
             vm.Relations = _repo.ReadAllPersonRelationByOwnerId(vm.Model.Id).ToList();
             vm.State = VmState.Detail;
-            return string.Empty;            
+            vm.PersonSelectionList = _repo.GetPersonSelectList().ToList();
+            return string.Empty;
         }
         private bool UpdatePerson(PersonViewModel vm)
         {

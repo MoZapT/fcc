@@ -156,6 +156,10 @@ namespace DataAccessInfrastructure.Repositories
 
             return Execute(query, new { @Id = id }) > 0 ? true : false;
         }
+        public IEnumerable<KeyValuePair<string, string>> GetPersonSelectList()
+        {
+            throw new System.NotImplementedException();
+        }
 
         #endregion
 

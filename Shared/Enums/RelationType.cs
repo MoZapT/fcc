@@ -10,27 +10,17 @@ namespace Shared.Enums
 {
     public enum RelationType
     {
-        [Description("Никто")]
-        NotRelated,
-        [Description("Брат")]
-        Brother,
-        [Description("Сестра")]
-        Sister,
-        [Description("Отец")]
-        Father,
-        [Description("Мать")]
-        Mother,
-        [Description("Тесть")]
-        FatherInLaw,
-        [Description("Тёща")]
-        MotherInLaw,
-        [Description("Брат(?)")]
-        BrotherInLaw,
-        [Description("Сестра(?)")]
-        SisterInLaw,
-        [Description("Муж")]
-        Husband,
-        [Description("Жена")]
-        Wife,
+        [Description("Брат||Сестра")]
+        BrotherSister,
+        [Description("Отец||Мать")]
+        FatherMother,
+        [Description("Тесть||Тёща")]
+        FatherInLawMotherInLaw,
+        [Description("Брат(?)||Сестра(?)")]
+        BrotherInLawSisterInLaw,
+        [Description("Муж||Жена")]
+        HusbandWife,
+        [Description("Сын||Дочь")]
+        SonDaughter,
     }
 }

@@ -55,10 +55,7 @@ namespace DataAccessInfrastructure.Repositories
                 IsActive = true,
                 OwnerId = per2.Id,
                 PersonId = per1.Id,
-                Name = "Thomas",
-                Lastname = "Mayer",
-                Patronym = "Sergeevich",
-                RelationTypeId = RelationType.Husband,
+                RelationTypeId = RelationType.HusbandWife,
             };
             var p2rel = new PersonRelation
             {
@@ -68,10 +65,7 @@ namespace DataAccessInfrastructure.Repositories
                 IsActive = true,
                 OwnerId = per1.Id,
                 PersonId = per2.Id,
-                Name = "Margarita",
-                Lastname = "Mayer",
-                Patronym = "Sergeevna",
-                RelationTypeId = RelationType.Wife,
+                RelationTypeId = RelationType.HusbandWife,
             };
             var p2name = new PersonName
             {
@@ -129,6 +123,10 @@ namespace DataAccessInfrastructure.Repositories
             var model = ListPerson.FirstOrDefault(e => e.Id == id);
             return ListPerson.Remove(model);
         }
+        public IEnumerable<KeyValuePair<string, string>> GetPersonSelectList()
+        {
+            return ListPerson.Select(e => new KeyValuePair<string, string>(e.Id, e.GetFullName()));
+        }
 
         #endregion
 
@@ -168,12 +166,24 @@ namespace DataAccessInfrastructure.Repositories
 
         public PersonRelation ReadPersonRelation(string id)
         {
-            return ListPersonRelation
-                .FirstOrDefault(e => e.Id == id);
+            var relation = ListPersonRelation.FirstOrDefault(e => e.Id == id);
+            var person = ReadPerson(relation.PersonId);
+            relation.Name = person.Name;
+            relation.Lastname = person.Lastname;
+            relation.Patronym = person.Patronym;
+
+            return relation;
         }
         public IEnumerable<PersonRelation> ReadAllPersonRelationByOwnerId(string id)
         {
-            return ListPersonRelation.Where(e => e.OwnerId == id);
+            return ListPersonRelation
+                .Where(e => e.OwnerId == id)
+                .Select(e => {
+                    var person = ReadPerson(e.PersonId);
+                    e.Name = person.Name;
+                    e.Lastname = person.Lastname;
+                    e.Patronym = person.Patronym;
+                    return e;});
         }
         public string CreatePersonRelation(PersonRelation entity)
         {

@@ -13,5 +13,16 @@ namespace Shared.Models
         public DateTime? BornTime { get; set; }
         public DateTime? DeadTime { get; set; }
         public bool Sex { get; set; }
+
+        public string GetFullName()
+        {
+            string result = "";
+            result += string.IsNullOrWhiteSpace(Name) ? "" : Name;
+            result += string.IsNullOrWhiteSpace(result) ? "" : " ";
+            result += string.IsNullOrWhiteSpace(Lastname) ? "" : Lastname;
+            result += string.IsNullOrWhiteSpace(result) ? "" : " ";
+            result += string.IsNullOrWhiteSpace(Patronym) ? "" : Patronym;
+            return result;
+        }
     }
 }

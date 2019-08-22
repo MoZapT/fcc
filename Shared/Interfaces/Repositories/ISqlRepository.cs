@@ -14,6 +14,7 @@ namespace Shared.Interfaces.Repositories
         string CreatePerson(Person entity);
         bool UpdatePerson(Person entity);
         bool DeletePerson(string id);
+        IEnumerable<KeyValuePair<string, string>> GetPersonSelectList();
 
         PersonName ReadPersonName(string id);
         IEnumerable<PersonName> ReadAllPersonNameByPersonId(string id);

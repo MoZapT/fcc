@@ -247,6 +247,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\RelationTypeHelper.cs" />
     <Compile Include="Manager\FccManager.cs" />
     <Compile Include="Models\Account\IdentityModels.cs" />
     <Compile Include="Viewmodels\Account\AccountViewModels.cs" />
