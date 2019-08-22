@@ -11,7 +11,6 @@
             //$('#DpBornTime').datepicker('setDate', ''); //WARNING! causing datepicker to fail!
         }
     }
-
     function DeadTimeVisibility(checked) {
         if (checked) {
             $('#DpDeadTime').removeClass('hide');
@@ -28,7 +27,7 @@
 
         $.ajax({
             url: 'SetPersonRelation',//'api/set/relations',
-            data: JSON.stringify({ entity: model, id: $('#NewRelationOwnerId').val() }),
+            data: JSON.stringify({ entity: model, personid: $('#NewRelationOwnerId').val() }),
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -61,12 +60,9 @@
             DateCreated: null,
             DateModified: null,
             IsActive: true,
-            OwnerId: $('#NewRelationOwnerId').val(),
+            Member: null,
             PersonId: $('#NewRelationPersonId option:selected').val(),
-            Name: null,
-            Lastname: null,
-            Patronym: null,
-            RelationTypeId: $('#NewRelationRelationTypeId option:selected').val()
+            PersonRelationGroupId: null
         };
 
         return model;

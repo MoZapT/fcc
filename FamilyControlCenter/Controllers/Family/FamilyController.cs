@@ -36,7 +36,7 @@ namespace FamilyControlCenter.Controllers
 
         [/*Authorize,*/ HttpPost]
         //[Route("api/set/relations/{entity}/{id}")]
-        public PartialViewResult SetPersonRelation(PersonRelation entity, string id)
+        public PartialViewResult SetPersonRelation(PersonRelation entity, string personid)
         {
             var result = _mgrFcc.SetPersonRelations(entity);
             var vm = new PersonViewModel
