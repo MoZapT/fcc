@@ -43,7 +43,7 @@
     function deleteRelation(panel, relationid) {
         $.ajax({
             url: 'DeletePersonRelation',//'api/set/relations',
-            data: JSON.stringify({ relationid: relationid, ownerid: $('#Model_Id').val() }),
+            data: JSON.stringify({ relationid: relationid, personid: $('#Model_Id').val() }),
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -94,7 +94,7 @@
             e.preventDefault();
             var btn = e.currentTarget;
             $panel = $(btn).closest('.panel-body');
-            deleteRelation($panel, $(btn).attr('relation-id'));
+            deleteRelation($panel, $(btn).attr('member-id'));
         });
     }
 

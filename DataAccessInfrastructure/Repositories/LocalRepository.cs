@@ -14,6 +14,7 @@ namespace DataAccessInfrastructure.Repositories
         List<Person> ListPerson { get; set; }
         List<PersonName> ListPersonName { get; set; }
         List<PersonRelation> ListPersonRelation { get; set; }
+        List<PersonRelationGroup> ListPersonRelationGroup { get; set; }
 
         public LocalRepository()
         {
@@ -53,9 +54,7 @@ namespace DataAccessInfrastructure.Repositories
                 DateCreated = DateTime.Now,
                 DateModified = DateTime.Now,
                 IsActive = true,
-                OwnerId = per2.Id,
                 PersonId = per1.Id,
-                RelationTypeId = RelationType.HusbandWife,
             };
             var p2rel = new PersonRelation
             {
@@ -63,9 +62,7 @@ namespace DataAccessInfrastructure.Repositories
                 DateCreated = DateTime.Now,
                 DateModified = DateTime.Now,
                 IsActive = true,
-                OwnerId = per1.Id,
                 PersonId = per2.Id,
-                RelationTypeId = RelationType.HusbandWife,
             };
             var p2name = new PersonName
             {
@@ -77,6 +74,15 @@ namespace DataAccessInfrastructure.Repositories
                 Lastname = "Steinfeld",
                 Patronym = "Sergeevna",
                 PersonId = per2.Id,
+            };
+            var prg = new PersonRelationGroup
+            {
+                Id = Guid.NewGuid().ToString(),
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now,
+                IsActive = true,
+                RelationTypeId = RelationType.HusbandWife,
+                //Members = new List<Person>() { per1, per2 },
             };
 
             ListPerson = new List<Person>
@@ -92,6 +98,10 @@ namespace DataAccessInfrastructure.Repositories
                 p1rel,
                 p2rel,
             };
+            ListPersonRelationGroup = new List<PersonRelationGroup>
+            {
+                prg
+            };
         }
 
         #region Person
@@ -104,6 +114,13 @@ namespace DataAccessInfrastructure.Repositories
         public IEnumerable<Person> ReadAllPerson()
         {
             return ListPerson as IEnumerable<Person>;
+        }
+        public IEnumerable<Person> ReadAllPersonByRelationGroupId(string id)
+        {
+            var relations = ListPersonRelation.Where(e => e.PersonRelationGroupId == id);
+
+            return ListPerson
+                .Where(e => relations.FirstOrDefault(r => r.PersonId == e.Id) != null);
         }
         public string CreatePerson(Person entity)
         {
@@ -167,23 +184,26 @@ namespace DataAccessInfrastructure.Repositories
         public PersonRelation ReadPersonRelation(string id)
         {
             var relation = ListPersonRelation.FirstOrDefault(e => e.Id == id);
-            var person = ReadPerson(relation.PersonId);
-            relation.Name = person.Name;
-            relation.Lastname = person.Lastname;
-            relation.Patronym = person.Patronym;
-
+            relation.Member = ReadPerson(relation.PersonId);
             return relation;
         }
-        public IEnumerable<PersonRelation> ReadAllPersonRelationByOwnerId(string id)
+        public IEnumerable<PersonRelation> ReadAllPersonRelationByPersonId(string id)
         {
             return ListPersonRelation
-                .Where(e => e.OwnerId == id)
+                .Where(e => e.PersonId == id)
                 .Select(e => {
-                    var person = ReadPerson(e.PersonId);
-                    e.Name = person.Name;
-                    e.Lastname = person.Lastname;
-                    e.Patronym = person.Patronym;
-                    return e;});
+                    e.Member = ReadPerson(e.PersonId);
+                    return e;
+                });
+        }
+        public IEnumerable<PersonRelation> ReadAllPersonRelationByGroupId(string id)
+        {
+            return ListPersonRelation
+                .Where(e => e.PersonRelationGroupId == id)
+                .Select(e => {
+                    e.Member = ReadPerson(e.PersonId);
+                    return e;
+                });
         }
         public string CreatePersonRelation(PersonRelation entity)
         {
@@ -202,6 +222,42 @@ namespace DataAccessInfrastructure.Repositories
         {
             var model = ListPersonRelation.FirstOrDefault(e => e.Id == id);
             return ListPersonRelation.Remove(model);
+        }
+
+        #endregion
+
+        #region PersonRelation
+
+        public PersonRelationGroup ReadPersonRelationGroup(string id)
+        {
+            var prg = ListPersonRelationGroup.FirstOrDefault(e => e.Id == id);
+            prg.Members = ReadAllPersonRelationByGroupId(id).ToList();
+            return prg;
+        }
+        public IEnumerable<PersonRelationGroup> ReadAllPersonRelationGroupsByPersonId(string id)
+        {
+            return ListPersonRelationGroup
+                .Select(e => {
+                    e.Members = ReadAllPersonRelationByGroupId(e.Id).ToList();
+                    return e; });
+        }
+        public string CreatePersonRelationGroup(PersonRelationGroup entity)
+        {
+            ListPersonRelationGroup.Add(entity);
+
+            return entity.Id;
+        }
+        public bool UpdatePersonRelationGroup(PersonRelationGroup entity)
+        {
+            var model = ListPersonRelationGroup.FirstOrDefault(e => e.Id == entity.Id);
+            model = entity;
+
+            return true;
+        }
+        public bool DeletePersonRelationGroup(string id)
+        {
+            var model = ListPersonRelationGroup.FirstOrDefault(e => e.Id == id);
+            return ListPersonRelationGroup.Remove(model);
         }
 
         #endregion

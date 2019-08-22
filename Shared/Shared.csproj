@@ -48,6 +48,7 @@
     <Compile Include="Enums\ActionCommand.cs" />
     <Compile Include="Enums\VmState.cs" />
     <Compile Include="Interfaces\Managers\IFccManager.cs" />
+    <Compile Include="Models\Family\PersonRelationGroup.cs" />
     <Compile Include="Models\Family\PersonRelation.cs" />
     <Compile Include="Models\Family\PersonName.cs" />
     <Compile Include="Models\Family\Person.cs" />

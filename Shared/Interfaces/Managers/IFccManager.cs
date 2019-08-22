@@ -9,6 +9,6 @@ namespace Shared.Interfaces.Managers
         string HandleAction(PersonViewModel vm);
         string SetPersonRelations(PersonRelation entity);
         bool DeletePersonRelation(string id);
-        IEnumerable<PersonRelation> GetPersonRelationsByPersonId(string id);
+        IEnumerable<PersonRelationGroup> GetPersonRelationGroupsByPersonId(string id);
     }
 }

@@ -41,20 +41,20 @@ namespace FamilyControlCenter.Controllers
             var result = _mgrFcc.SetPersonRelations(entity);
             var vm = new PersonViewModel
             {
-                Relations = _mgrFcc.GetPersonRelationsByPersonId(id).ToList()
+                Relations = _mgrFcc.GetPersonRelationGroupsByPersonId(id).ToList()
             };
             return PartialView("Person/_RelationsList", vm);
         }
 
         [/*Authorize,*/ HttpPost]
         //[Route("api/delete/relations/{id}")]
-        public PartialViewResult DeletePersonRelation(string relationid, string ownerid)
+        public PartialViewResult DeletePersonRelation(string relationid, string personid)
         {
             var result = _mgrFcc.DeletePersonRelation(relationid);
 
             var vm = new PersonViewModel
             {
-                Relations = _mgrFcc.GetPersonRelationsByPersonId(ownerid).ToList()
+                Relations = _mgrFcc.GetPersonRelationGroupsByPersonId(personid).ToList()
             };
             return PartialView("Person/_RelationsList", vm);
         }

@@ -58,22 +58,18 @@ namespace FamilyControlCenter.Manager
             entity.Id = Guid.NewGuid().ToString();
             entity.DateCreated = DateTime.Now;
             entity.DateModified = DateTime.Now;
-
-            //TODO search for counterpart or members!
-
-
             return _repo.CreatePersonRelation(entity);
         }
-        public IEnumerable<PersonRelation> GetPersonRelationsByPersonId(string id)
+        public IEnumerable<PersonRelationGroup> GetPersonRelationGroupsByPersonId(string id)
         {
-            return _repo.ReadAllPersonRelationByOwnerId(id);
+            return _repo.ReadAllPersonRelationGroupsByPersonId(id);
         }
 
         private string CreatePerson(PersonViewModel vm)
         {
             vm.Model = new Person();
             vm.Names = new List<PersonName>();
-            vm.Relations = new List<PersonRelation>();
+            vm.Relations = new List<PersonRelationGroup>();
             vm.State = VmState.Detail;
             vm.PersonSelectionList = _repo.GetPersonSelectList().ToList();
             return string.Empty;
@@ -82,7 +78,7 @@ namespace FamilyControlCenter.Manager
         {
             vm.Model = _repo.ReadPerson(vm.Model.Id);
             vm.Names = _repo.ReadAllPersonNameByPersonId(vm.Model.Id).ToList();
-            vm.Relations = _repo.ReadAllPersonRelationByOwnerId(vm.Model.Id).ToList();
+            vm.Relations = _repo.ReadAllPersonRelationGroupsByPersonId(vm.Model.Id).ToList();
             vm.State = VmState.Detail;
             vm.PersonSelectionList = _repo.GetPersonSelectList().ToList();
             return string.Empty;

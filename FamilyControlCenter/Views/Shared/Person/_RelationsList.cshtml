@@ -3,16 +3,19 @@
     @model Shared.Viewmodels.Family.PersonViewModel
 }
 
-@foreach (var rel in Model.Relations)
+@foreach (var group in Model.Relations)
 {
-    <div class="row">
-        <div class="col-md-10">
-            @rel.Lastname @rel.Name @rel.Patronym @rel.RelationTypeId.ToString()
+    foreach (var relation in group.Members)
+    {
+        <div class="row">
+            <div class="col-md-10">
+                @relation.Member.Lastname @relation.Member.Name @relation.Member.Patronym @group.RelationTypeId.ToString()
+            </div>
+            <div class="col-md-2">
+                <button id="DestroyRelation" relation-id="@relation.Id" type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </button>
+            </div>
         </div>
-        <div class="col-md-2">
-            <button id="DestroyRelation" relation-id="@rel.Id" type="button" class="btn btn-secondary" data-dismiss="modal">
-                <i class="glyphicon glyphicon-trash"></i>
-            </button>
-        </div>
-    </div>
+    }
 }

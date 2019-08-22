@@ -10,7 +10,7 @@ namespace Shared.Viewmodels.Family
         #region PROPERTIES
 
         public Person Model { get; set; }
-        public List<PersonRelation> Relations { get; set; }
+        public List<PersonRelationGroup> Relations { get; set; }
         public List<PersonName> Names { get; set; }
         public List<KeyValuePair<string, string>> PersonSelectionList { get; set; }
 
