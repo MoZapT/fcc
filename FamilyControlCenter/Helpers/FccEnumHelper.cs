@@ -11,31 +11,15 @@ namespace FamilyControlCenter.Helpers
 {
     public static class FccEnumHelper
     {
-        public static IEnumerable<SelectListItem> GetTranslatedSelectListItemCollection(Type type, string culture)
+        public static IEnumerable<SelectListItem> GetTranslatedSelectListItemCollection(Type type)
         {
-            var cultureInfo = new CultureInfo(culture);
-
             var list = System.Web.Mvc.Html.EnumHelper.GetSelectList(type);
+
             return list.Select(e => new SelectListItem()
             {
-                Text = Resources.Resource.ResourceManager
-                    .GetString(e.Text, cultureInfo),
+                Text = Resources.Resource.ResourceManager.GetString(e.Text),
                 Value = e.Value
             });
-        }
-
-        public static IEnumerable<SelectListItem> GetTranslatedRelationTypesAsSelectedListItemCollection(Type type, string culture)
-        {
-            var list = new List<SelectListItem>();
-
-            return Enum.GetValues(type)
-                .Cast<RelationType>()
-                .Select(e => new SelectListItem()
-                {
-                    Text = Resources.Resource.ResourceManager
-                        .GetString(GetEnumDescription(e), new CultureInfo(culture)),
-                    Value = ((int)e).ToString()
-                });
         }
 
         private static string GetEnumDescription(Enum value)

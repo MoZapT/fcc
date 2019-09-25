@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddRelation" xml:space="preserve">
+    <value>Добавить связь</value>
+  </data>
+  <data name="BornTimeKnown" xml:space="preserve">
+    <value>День рождения известен</value>
+  </data>
   <data name="BrotherSister" xml:space="preserve">
     <value>Брат/Сестра</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="DeadTimeKnown" xml:space="preserve">
+    <value>День смерти известен</value>
   </data>
   <data name="FatherMother" xml:space="preserve">
     <value>Отец/Мать</value>
@@ -128,5 +140,20 @@
   </data>
   <data name="HusbandWife" xml:space="preserve">
     <value>Муж/Жена</value>
+  </data>
+  <data name="Lastname" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="PassportView" xml:space="preserve">
+    <value>Личное дело</value>
+  </data>
+  <data name="Patronym" xml:space="preserve">
+    <value>Отчество</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
   </data>
 </root>

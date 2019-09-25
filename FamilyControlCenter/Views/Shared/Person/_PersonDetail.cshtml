@@ -1,35 +1,32 @@
-﻿@using Shared.Enums
+﻿@using Resources
 @{
     @model Shared.Viewmodels.Family.PersonViewModel
 }
-
-@Html.HiddenFor(m => m.Model.BornTime)
-@Html.HiddenFor(m => m.Model.DeadTime)
 
 <div class="panel">
     <div class="panel-heading"></div>
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-                @Html.LabelFor(m => m.Model.Name)
+                @Html.LabelFor(m => m.Model.Name, Resource.Name)
                 @Html.TextBoxFor(m => m.Model.Name, new { @class = "form-control" })
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                @Html.LabelFor(m => m.Model.Lastname)
+                @Html.LabelFor(m => m.Model.Lastname, Resource.Lastname)
                 @Html.TextBoxFor(m => m.Model.Lastname, new { @class = "form-control" })
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                @Html.LabelFor(m => m.Model.Patronym)
+                @Html.LabelFor(m => m.Model.Patronym, Resource.Patronym)
                 @Html.TextBoxFor(m => m.Model.Patronym, new { @class = "form-control" })
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                @Html.LabelFor(m => m.Model.BornTimeKnown)
+                @Html.LabelFor(m => m.Model.BornTimeKnown, Resource.BornTimeKnown)
                 @Html.CheckBoxFor(m => m.Model.BornTimeKnown, new { @class = "form-control" })
             </div>
         </div>
@@ -41,7 +38,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                @Html.LabelFor(m => m.Model.DeadTimeKnown)
+                @Html.LabelFor(m => m.Model.DeadTimeKnown, Resource.DeadTimeKnown)
                 @Html.CheckBoxFor(m => m.Model.DeadTimeKnown, new { @class = "form-control" })
             </div>
         </div>

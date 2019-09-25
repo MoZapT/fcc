@@ -1,9 +1,11 @@
 ﻿@using FamilyControlCenter.Helpers
 @using Shared.Enums
+@using Resources
 @model Shared.Viewmodels.Family.PersonViewModel
 @{
+    var culture = System.Threading.Thread.CurrentThread.CurrentCulture;
     var personSl = Model.PersonSelectionList.Select(e => new SelectListItem() { Text = e.Value, Value = e.Key });
-    var relationTypeSl = FccEnumHelper.GetTranslatedSelectListItemCollection(typeof(RelationType), "ru-RU");
+    var relationTypeSl = FccEnumHelper.GetTranslatedSelectListItemCollection(typeof(RelationType));
 }
 
 <button data-toggle="modal" data-target="#NewRelationModal" class="btn btn-primary" type="button">
@@ -14,7 +16,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Добавить связь</h5>
+                <h5 class="modal-title" id="exampleModalLabel">@Resource.AddRelation</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -25,8 +27,8 @@
                 @Html.DropDownList("NewRelationRelationTypeId", relationTypeSl, new { @class = "form-control" })
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                <button id="SaveRelation" type="button" class="btn btn-primary" data-dismiss="modal">Сохранить</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@Resource.Close</button>
+                <button id="SaveRelation" type="button" class="btn btn-primary" data-dismiss="modal">@Resource.Save</button>
             </div>
         </div>
     </div>

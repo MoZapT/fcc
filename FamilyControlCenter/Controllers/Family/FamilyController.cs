@@ -3,13 +3,16 @@ using Shared.Models;
 using Shared.Viewmodels.Family;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
 namespace FamilyControlCenter.Controllers
 {
-    public class FamilyController : Controller
+    [RoutePrefix("lang")]
+    public class FamilyController : BaseController
     {
         IFccManager _mgrFcc;
 
@@ -21,6 +24,7 @@ namespace FamilyControlCenter.Controllers
         //[Authorize]
         public ActionResult Person()
         {
+            BeforeLoadAction();
             var vm = new PersonViewModel();
             var result = _mgrFcc.HandleAction(vm);
             return View(vm);
@@ -29,8 +33,8 @@ namespace FamilyControlCenter.Controllers
         [/*Authorize,*/ HttpPost]
         public ActionResult Person(PersonViewModel vm)
         {
+            BeforeLoadAction();
             var result = _mgrFcc.HandleAction(vm);
-            ModelState.Clear();
             return View(vm);
         }
 
@@ -38,6 +42,7 @@ namespace FamilyControlCenter.Controllers
         //[Route("api/set/relations/{entity}/{id}")]
         public PartialViewResult SetPersonRelation(PersonRelation entity, string personid)
         {
+            BeforeLoadAction();
             var result = _mgrFcc.SetPersonRelations(entity);
             var vm = new PersonViewModel
             {
@@ -50,6 +55,7 @@ namespace FamilyControlCenter.Controllers
         //[Route("api/delete/relations/{id}")]
         public PartialViewResult DeletePersonRelation(string relationid, string personid)
         {
+            BeforeLoadAction();
             var result = _mgrFcc.DeletePersonRelation(relationid);
 
             var vm = new PersonViewModel

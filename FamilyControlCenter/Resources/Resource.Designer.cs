@@ -63,9 +63,45 @@ namespace Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
+        public static string AddRelation {
+            get {
+                return ResourceManager.GetString("AddRelation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string BornTimeKnown {
+            get {
+                return ResourceManager.GetString("BornTimeKnown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
         public static string BrotherSister {
             get {
                 return ResourceManager.GetString("BrotherSister", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string DeadTimeKnown {
+            get {
+                return ResourceManager.GetString("DeadTimeKnown", resourceCulture);
             }
         }
         
@@ -93,6 +129,51 @@ namespace Resources {
         public static string HusbandWife {
             get {
                 return ResourceManager.GetString("HusbandWife", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string Lastname {
+            get {
+                return ResourceManager.GetString("Lastname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string PassportView {
+            get {
+                return ResourceManager.GetString("PassportView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string Patronym {
+            get {
+                return ResourceManager.GetString("Patronym", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
             }
         }
     }

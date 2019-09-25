@@ -18,7 +18,7 @@ namespace DataAccessInfrastructure.Repositories
 
         public LocalRepository()
         {
-            var per1 = new Person
+            var thomas = new Person
             {
                 Id = Guid.NewGuid().ToString(),
                 DateCreated = DateTime.Now,
@@ -33,7 +33,7 @@ namespace DataAccessInfrastructure.Repositories
                 DeadTime = null,
                 Sex = true,
             };
-            var per2 = new Person
+            var margo = new Person
             {
                 Id = Guid.NewGuid().ToString(),
                 DateCreated = DateTime.Now,
@@ -54,7 +54,8 @@ namespace DataAccessInfrastructure.Repositories
                 DateCreated = DateTime.Now,
                 DateModified = DateTime.Now,
                 IsActive = true,
-                PersonId = per1.Id,
+                PersonId = thomas.Id,
+                Member = thomas,
             };
             var p2rel = new PersonRelation
             {
@@ -62,7 +63,8 @@ namespace DataAccessInfrastructure.Repositories
                 DateCreated = DateTime.Now,
                 DateModified = DateTime.Now,
                 IsActive = true,
-                PersonId = per2.Id,
+                PersonId = margo.Id,
+                Member = margo,
             };
             var p2name = new PersonName
             {
@@ -73,7 +75,7 @@ namespace DataAccessInfrastructure.Repositories
                 Name = "Margarita",
                 Lastname = "Steinfeld",
                 Patronym = "Sergeevna",
-                PersonId = per2.Id,
+                PersonId = margo.Id,
             };
             var prg = new PersonRelationGroup
             {
@@ -82,12 +84,12 @@ namespace DataAccessInfrastructure.Repositories
                 DateModified = DateTime.Now,
                 IsActive = true,
                 RelationTypeId = RelationType.HusbandWife,
-                //Members = new List<Person>() { per1, per2 },
+                Members = new List<PersonRelation>() { p1rel, p2rel },
             };
 
             ListPerson = new List<Person>
             {
-                per1, per2
+                thomas, margo
             };
             ListPersonName = new List<PersonName>
             {
