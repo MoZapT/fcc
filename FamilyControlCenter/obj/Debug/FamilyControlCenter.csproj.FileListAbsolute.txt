@@ -519,3 +519,8 @@ C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\bin\Ninject.Web.Mvc.xml
 C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\bin\System.Net.Http.Formatting.xml
 C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\bin\System.Web.Http.xml
 C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\bin\WebActivatorEx.dll
+C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\bin\ru-RU\FamilyControlCenter.resources.dll
+C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\obj\Debug\FamilyControlCenter.Resources.Resource.resources
+C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\obj\Debug\FamilyControlCenter.Resources.Resource.ru-RU.resources
+C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\obj\Debug\FamilyControlCenter.csproj.GenerateResource.cache
+C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\obj\Debug\ru-RU\FamilyControlCenter.resources.dll

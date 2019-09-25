@@ -1,9 +1,9 @@
 ﻿@using FamilyControlCenter.Helpers
+@using Shared.Enums
 @model Shared.Viewmodels.Family.PersonViewModel
 @{
     var personSl = Model.PersonSelectionList.Select(e => new SelectListItem() { Text = e.Value, Value = e.Key });
-    //var relationTypeSl = EnumHelper.GetSelectList(typeof(Shared.Enums.RelationType));
-    var relationTypeSl = RelationTypeHelper.GetEnumDescriptionSelectList(typeof(Shared.Enums.RelationType));
+    var relationTypeSl = FccEnumHelper.GetTranslatedSelectListItemCollection(typeof(RelationType), "ru-RU");
 }
 
 <button data-toggle="modal" data-target="#NewRelationModal" class="btn btn-primary" type="button">
