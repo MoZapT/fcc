@@ -41,7 +41,7 @@ namespace FamilyControlCenter.Controllers
             var result = _mgrFcc.SetPersonRelations(entity);
             var vm = new PersonViewModel
             {
-                Relations = _mgrFcc.GetPersonRelationGroupsByPersonId(id).ToList()
+                Relations = _mgrFcc.GetPersonRelationGroupsByPersonId(personid).ToList()
             };
             return PartialView("Person/_RelationsList", vm);
         }

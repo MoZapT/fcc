@@ -18,8 +18,8 @@ namespace DataAccessInfrastructure.Repositories
         {
             var query = @"
                 SELECT p.*, pn.Name, pn.Lastname, pn.Patronym
-                FROM [FCC].[dbo].[Person] AS p
-                JOIN (SELECT TOP 1 * FROM [FCC].[dbo].[PersonName] 
+                FROM [Person] AS p
+                JOIN (SELECT TOP 1 * FROM [PersonName] 
                 WHERE IsActive = 1 ORDER BY DateCreated DESC) AS pn ON PersonId = p.Id
                 WHERE p.[Id] = @Id";
 
@@ -29,8 +29,8 @@ namespace DataAccessInfrastructure.Repositories
         {
             var query = @"
                 SELECT p.*, pn.Name, pn.Lastname, pn.Patronym
-                FROM [FCC].[dbo].[Person] AS p
-                JOIN (SELECT TOP 1 * FROM [FCC].[dbo].[PersonName] 
+                FROM [Person] AS p
+                JOIN (SELECT TOP 1 * FROM [PersonName] 
                 WHERE IsActive = 1 ORDER BY DateCreated DESC) AS pn ON PersonId = p.Id";
 
             return Query<Person>(query);
@@ -46,7 +46,7 @@ namespace DataAccessInfrastructure.Repositories
                 DECLARE @output table (Id int)
 
                 BEGIN TRAN
-                INSERT INTO [FCC].[dbo].[Person]
+                INSERT INTO [Person]
                            ([Sex]
                            ,[BornTimeKnown]
                            ,[IsDead]
@@ -66,7 +66,7 @@ namespace DataAccessInfrastructure.Repositories
                            ,@DateCreated
                            ,@DateModified)
 
-                INSERT INTO [FCC].[dbo].[PersonName]
+                INSERT INTO [PersonName]
                            ([PersonId]
                            ,[Name]
                            ,[Lastname]
@@ -93,7 +93,7 @@ namespace DataAccessInfrastructure.Repositories
             #region Q1
             var query = @"
                 BEGIN TRAN
-                UPDATE [FCC].[dbo].[Person]
+                UPDATE [Person]
                     SET [Sex] = @Sex
                         ,[BornTimeKnown] = @BornTimeKnown
                         ,[IsDead] = @IsDead
@@ -106,7 +106,7 @@ namespace DataAccessInfrastructure.Repositories
 
                 IF @NameModified = 1
                 BEGIN
-                INSERT INTO [FCC].[dbo].[PersonName]
+                INSERT INTO [PersonName]
                            ([PersonId]
                            ,[Name]
                            ,[Lastname]
@@ -135,25 +135,25 @@ namespace DataAccessInfrastructure.Repositories
                 DECLARE @groups table (Id int)
 
                 BEGIN TRAN
-                DELETE FROM [FCC].[dbo].[Person]
+                DELETE FROM [Person]
                 WHERE Id = @Id
 
-                DELETE FROM [FCC].[dbo].[PersonName]
+                DELETE FROM [PersonName]
                 WHERE PersonId = @Id
 
-                DELETE FROM [FCC].[dbo].[PersonRelation]
+                DELETE FROM [PersonRelation]
                 WHERE PersonId = @Id
 
                 INSERT INTO @groups(Id)
                 SELECT prg.Id
-                FROM [FCC].[dbo].[PersonRelationGroup] AS prg
-                JOIN [FCC].[dbo].[PersonRelation] AS pr ON prg.Id = pr.Id
+                FROM [PersonRelationGroup] AS prg
+                JOIN [PersonRelation] AS pr ON prg.Id = pr.Id
                 WHERE pr.PersonId = @Id
 
-                DELETE FROM [FCC].[dbo].[PersonRelation]
+                DELETE FROM [PersonRelation]
                 WHERE PersonRelationGroupId IN (SELECT Id FROM @groups)
 
-                DELETE FROM [FCC].[dbo].[PersonRelationGroup]
+                DELETE FROM [PersonRelationGroup]
                 WHERE Id IN ((SELECT Id FROM @groups))
 
                 COMMIT TRAN";
