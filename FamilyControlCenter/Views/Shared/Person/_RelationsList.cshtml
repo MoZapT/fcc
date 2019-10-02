@@ -1,14 +1,15 @@
-﻿@{
-    @model Shared.Viewmodels.Family.PersonViewModel
+﻿@using Resources
+@{
+    @model FamilyControlCenter.Viewmodels.Family.PersonViewModel
 }
 
 @foreach (var group in Model.Relations)
 {
-    foreach (var relation in group.Members)
+    foreach (var relation in group.Relations)
     {
         <div class="row">
             <div class="col-md-10">
-                @relation.Member.Lastname @relation.Member.Name @relation.Member.Patronym @group.RelationTypeId.ToString()
+                @relation.Member.GetFullName() @Resource.ResourceManager.GetString(group.RelationTypeId.ToString())
             </div>
             <div class="col-md-2">
                 <button id="DestroyRelation" relation-id="@relation.Id" type="button" class="btn btn-secondary" data-dismiss="modal">

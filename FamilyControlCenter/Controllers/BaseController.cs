@@ -1,7 +1,4 @@
-﻿using Shared.Interfaces.Managers;
-using Shared.Models;
-using Shared.Viewmodels.Family;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;

@@ -10,13 +10,13 @@ namespace Shared.Enums
 {
     public enum RelationType
     {
-        [Description("BrotherSister")]
+        [Description("Brother|Sister")]
         BrotherSister,
-        [Description("FatherMother")]
+        [Description("Father|Mother")]
         FatherMother,
-        [Description("FatherMotherInLaw")]
+        [Description("FatherInLaw|MotherInLaw")]
         FatherMotherInLaw,
-        [Description("HusbandWife")]
+        [Description("Husband|Wife")]
         HusbandWife,
     }
 }

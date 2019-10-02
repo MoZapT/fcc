@@ -123,8 +123,8 @@
   <data name="BornTimeKnown" xml:space="preserve">
     <value>День рождения известен</value>
   </data>
-  <data name="BrotherSister" xml:space="preserve">
-    <value>Брат/Сестра</value>
+  <data name="Brother" xml:space="preserve">
+    <value>Брат</value>
   </data>
   <data name="Close" xml:space="preserve">
     <value>Закрыть</value>
@@ -132,17 +132,23 @@
   <data name="DeadTimeKnown" xml:space="preserve">
     <value>День смерти известен</value>
   </data>
-  <data name="FatherMother" xml:space="preserve">
-    <value>Отец/Мать</value>
+  <data name="Father" xml:space="preserve">
+    <value>Отец</value>
   </data>
-  <data name="FatherMotherInLaw" xml:space="preserve">
-    <value>Тесть/Тёща</value>
+  <data name="FatherInLaw" xml:space="preserve">
+    <value>Тесть</value>
   </data>
-  <data name="HusbandWife" xml:space="preserve">
-    <value>Муж/Жена</value>
+  <data name="Husband" xml:space="preserve">
+    <value>Муж</value>
   </data>
   <data name="Lastname" xml:space="preserve">
     <value>Фамилия</value>
+  </data>
+  <data name="Mother" xml:space="preserve">
+    <value>Мать</value>
+  </data>
+  <data name="MotherInLaw" xml:space="preserve">
+    <value>Тёща</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Имя</value>
@@ -155,5 +161,11 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>Сохранить</value>
+  </data>
+  <data name="Sister" xml:space="preserve">
+    <value>Сестра</value>
+  </data>
+  <data name="Wife" xml:space="preserve">
+    <value>Жена</value>
   </data>
 </root>

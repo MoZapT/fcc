@@ -81,9 +81,9 @@ namespace Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
-        public static string BrotherSister {
+        public static string Brother {
             get {
-                return ResourceManager.GetString("BrotherSister", resourceCulture);
+                return ResourceManager.GetString("Brother", resourceCulture);
             }
         }
         
@@ -108,27 +108,27 @@ namespace Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
-        public static string FatherMother {
+        public static string Father {
             get {
-                return ResourceManager.GetString("FatherMother", resourceCulture);
+                return ResourceManager.GetString("Father", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
-        public static string FatherMotherInLaw {
+        public static string FatherInLaw {
             get {
-                return ResourceManager.GetString("FatherMotherInLaw", resourceCulture);
+                return ResourceManager.GetString("FatherInLaw", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
-        public static string HusbandWife {
+        public static string Husband {
             get {
-                return ResourceManager.GetString("HusbandWife", resourceCulture);
+                return ResourceManager.GetString("Husband", resourceCulture);
             }
         }
         
@@ -138,6 +138,24 @@ namespace Resources {
         public static string Lastname {
             get {
                 return ResourceManager.GetString("Lastname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string Mother {
+            get {
+                return ResourceManager.GetString("Mother", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string MotherInLaw {
+            get {
+                return ResourceManager.GetString("MotherInLaw", resourceCulture);
             }
         }
         
@@ -174,6 +192,24 @@ namespace Resources {
         public static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string Sister {
+            get {
+                return ResourceManager.GetString("Sister", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string Wife {
+            get {
+                return ResourceManager.GetString("Wife", resourceCulture);
             }
         }
     }

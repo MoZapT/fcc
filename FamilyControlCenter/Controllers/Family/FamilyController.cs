@@ -1,6 +1,6 @@
-﻿using Shared.Interfaces.Managers;
+﻿using FamilyControlCenter.Interfaces.Managers;
+using FamilyControlCenter.Viewmodels.Family;
 using Shared.Models;
-using Shared.Viewmodels.Family;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace FamilyControlCenter.Controllers
 {
-    [RoutePrefix("lang")]
+    [RoutePrefix("{lang}/family")]
     public class FamilyController : BaseController
     {
         IFccManager _mgrFcc;
@@ -26,7 +26,7 @@ namespace FamilyControlCenter.Controllers
         {
             BeforeLoadAction();
             var vm = new PersonViewModel();
-            var result = _mgrFcc.HandleAction(vm);
+            _mgrFcc.HandleAction(vm);
             return View(vm);
         }
 
@@ -34,7 +34,7 @@ namespace FamilyControlCenter.Controllers
         public ActionResult Person(PersonViewModel vm)
         {
             BeforeLoadAction();
-            var result = _mgrFcc.HandleAction(vm);
+            _mgrFcc.HandleAction(vm);
             return View(vm);
         }
 

@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using Shared.Common;
+using Shared.Enums;
 using Shared.Models;
 
-namespace Shared.Viewmodels.Family
+namespace FamilyControlCenter.Viewmodels.Family
 {
     public class PersonViewModel : BaseViewModel
     {
@@ -12,15 +14,9 @@ namespace Shared.Viewmodels.Family
         public Person Model { get; set; }
         public List<PersonRelationGroup> Relations { get; set; }
         public List<PersonName> Names { get; set; }
-        public List<KeyValuePair<string, string>> PersonSelectionList { get; set; }
 
         public List<Person> Models { get; set; }
 
         #endregion
-
-        //#region METHODS
-
-        //#endregion
-
     }
 }

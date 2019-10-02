@@ -20,14 +20,14 @@ $('.open-person-modal-btn').on('click', function (e) {
     modal.style.display = "block";
 
     addCloseEvent();
-})
+});
 
 $('.open-new-relation-modal').on('click', function (e) {
     var modal = document.getElementById('new-relation');
     modal.style.display = "block";
 
     addCloseEvent();
-})
+});
 
 $('.create-new-relation').on('click', function (e) {
     var form = $('submitForm');

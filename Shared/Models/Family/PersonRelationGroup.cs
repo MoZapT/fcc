@@ -7,7 +7,7 @@ namespace Shared.Models
 {
     public class PersonRelationGroup : BaseModel
     {
-        public List<PersonRelation> Members { get; set; }
+        public List<PersonRelation> Relations { get; set; }
         public RelationType RelationTypeId { get; set; }
     }
 }

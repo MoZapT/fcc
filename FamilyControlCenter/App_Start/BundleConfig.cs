@@ -21,7 +21,11 @@ namespace FamilyControlCenter
 
             bundles.Add(new ScriptBundle("~/bundles/base").Include(
                         "~/Scripts/Base/Base.js",
+                        "~/Scripts/Base/CustomizedTypeahead.js",
                         "~/Scripts/Base/DatePicker.js",
+                        "~/Scripts/typeahead.bundle.js",
+                        "~/Scripts/typeahead.jquery.js",
+                        "~/Scripts/bloodhound.js",
                         "~/Scripts/bootstrap-datepicker.js",
                         "~/Scripts/bootstrap-datepicker.min.js",
                         "~/Scripts/locales/bootstrap-datepicker.de.min.js",
@@ -34,7 +38,8 @@ namespace FamilyControlCenter
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/bootstrap-datepicker.css"));
+                      "~/Content/bootstrap-datepicker.css",
+                      "~/Content/typeahead.css"));
         }
     }
 }

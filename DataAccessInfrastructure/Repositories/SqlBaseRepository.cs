@@ -19,6 +19,11 @@ namespace DataAccessInfrastructure.Repositories
             get { return _fccConStr; }
         }
 
+        public SqlBaseRepository()
+        {
+            _conSet = new Dictionary<int, SqlConnection>();
+        }
+
         public T QueryFoD<T>(string query)
         {
 

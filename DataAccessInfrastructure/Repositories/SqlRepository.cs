@@ -17,115 +17,118 @@ namespace DataAccessInfrastructure.Repositories
         public Person ReadPerson(string id)
         {
             var query = @"
-                SELECT p.*, pn.Name, pn.Lastname, pn.Patronym
+                SELECT p.*, pn.Firstname, pn.Lastname, pn.Patronym
                 FROM [Person] AS p
-                JOIN (SELECT TOP 1 * FROM [PersonName] 
-                WHERE IsActive = 1 ORDER BY DateCreated DESC) AS pn ON PersonId = p.Id
-                WHERE p.[Id] = @Id";
+	                LEFT JOIN [PersonName] AS pn ON p.Id = pn.PersonId
+		                AND pn.IsActive = 1
+                WHERE 
+	                p.Id = @Id
+	                AND p.IsActive = 1";
 
             return QueryFoD<Person>(query, new { @Id = id });
         }
         public IEnumerable<Person> ReadAllPerson()
         {
             var query = @"
-                SELECT p.*, pn.Name, pn.Lastname, pn.Patronym
+                SELECT p.*, pn.Firstname, pn.Lastname, pn.Patronym
                 FROM [Person] AS p
-                JOIN (SELECT TOP 1 * FROM [PersonName] 
-                WHERE IsActive = 1 ORDER BY DateCreated DESC) AS pn ON PersonId = p.Id";
+	                LEFT JOIN [PersonName] AS pn ON p.Id = pn.PersonId
+		                AND pn.IsActive = 1
+                WHERE 
+	                p.IsActive = 1";
 
             return Query<Person>(query);
         }
         public IEnumerable<Person> ReadAllPersonByRelationGroupId(string id)
         {
-            throw new System.NotImplementedException();
+            var query = @"
+                SELECT p.*, pn.Firstname, pn.Lastname, pn.Patronym
+                FROM [Person] AS p
+	                JOIN [PersonRelation] AS pr ON p.Id = pr.PersonId
+		                AND pr.PersonRelationGroupId = @PersonRelationGroupId
+		                AND pr.IsActive = 1
+	                LEFT JOIN [PersonName] AS pn ON p.Id = pn.PersonId
+		                AND pn.IsActive = 1
+                WHERE 
+	                p.IsActive = 1";
+
+            return Query<Person>(query, new { @PersonRelationGroupId = id });
+        }
+        public IEnumerable<Person> ReadAllPersonByRelationGroupIdExcludeCaller(string id, string callerId)
+        {
+            var query = @"
+                SELECT p.*, pn.Firstname, pn.Lastname, pn.Patronym
+                FROM [Person] AS p
+	                JOIN [PersonRelation] AS pr ON p.Id = pr.PersonId
+		                AND pr.PersonRelationGroupId = @PersonRelationGroupId
+		                AND pr.IsActive = 1
+	                LEFT JOIN [PersonName] AS pn ON p.Id = pn.PersonId
+		                AND pn.IsActive = 1
+                WHERE 
+	                p.IsActive = 1
+	                AND NOT p.Id = @Id";
+
+            return Query<Person>(query, new { @PersonRelationGroupId = id, @Id = callerId });
         }
         public string CreatePerson(Person entity)
         {
-            #region Q1
             var query = @"
-                DECLARE @output table (Id int)
-
                 BEGIN TRAN
-                INSERT INTO [Person]
-                           ([Sex]
-                           ,[BornTimeKnown]
-                           ,[IsDead]
-                           ,[BornTime]
-                           ,[DeadTime]
+
+				INSERT INTO [Person]
+                           ([Id]
+                           ,[Sex]
+                           ,[BirthDate]
+                           ,[DeathDate]
                            ,[IsActive]
                            ,[DateCreated]
                            ,[DateModified])
-	                 OUTPUT INSERTED.Id INTO @output
+	                 OUTPUT INSERTED.Id
                      VALUES
-                           (@Sex
-                           ,@BornTimeKnown
-                           ,@IsDead
-                           ,@BornTime
-                           ,@DeadTime
+                           (@Id
+                           ,@Sex
+                           ,@BirthDate
+                           ,@DeathDate
                            ,@IsActive
                            ,@DateCreated
                            ,@DateModified)
 
                 INSERT INTO [PersonName]
-                           ([PersonId]
-                           ,[Name]
+                           ([Id]
+                           ,[Firstname]
                            ,[Lastname]
                            ,[Patronym]
+                           ,[PersonId]
                            ,[IsActive]
                            ,[DateCreated]
                            ,[DateModified])
+	                 OUTPUT INSERTED.Id
                      VALUES
-                           ((SELECT Id FROM @output)
-                           ,@Name
+                           (NEWID()
+                           ,@Firstname
                            ,@Lastname
                            ,@Patronym
-                           ,1
-                           ,GETDATE()
-                           ,GETDATE())
+                           ,@Id
+                           ,@IsActive
+                           ,@DateCreated
+                           ,@DateModified)
 
                 COMMIT TRAN";
-            #endregion
 
             return QueryFoD<string>(query, new DynamicParameters(entity));
         }
         public bool UpdatePerson(Person entity)
         {
-            #region Q1
             var query = @"
-                BEGIN TRAN
                 UPDATE [Person]
                     SET [Sex] = @Sex
                         ,[BornTimeKnown] = @BornTimeKnown
-                        ,[IsDead] = @IsDead
-                        ,[BornTime] = @BornTime
-                        ,[DeadTime] = @DeadTime
+                        ,[BirthDate] = @BirthDate
+                        ,[DeathDate] = @DeathDate
                         ,[IsActive] = @IsActive
                         ,[DateCreated] = @DateCreated
                         ,[DateModified] = @DateModified
-                    WHERE Id = @Id
-
-                IF @NameModified = 1
-                BEGIN
-                INSERT INTO [PersonName]
-                           ([PersonId]
-                           ,[Name]
-                           ,[Lastname]
-                           ,[Patronym]
-                           ,[IsActive]
-                           ,[DateCreated]
-                           ,[DateModified])
-                     VALUES
-                           (@Id
-                           ,@Name
-                           ,@Lastname
-                           ,@Patronym
-                           ,1
-                           ,GETDATE()
-                           ,GETDATE())
-                END
-
-                COMMIT TRAN";
-            #endregion
+                    WHERE Id = @Id";
 
             return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
         }
@@ -162,32 +165,87 @@ namespace DataAccessInfrastructure.Repositories
         }
         public IEnumerable<KeyValuePair<string, string>> GetPersonSelectList()
         {
-            throw new System.NotImplementedException();
+            var query = @"
+                SELECT
+	                PersonId AS 'Key'
+	                ,FirstName + ' ' + LastName + ' ' + Patronym AS 'Value'
+                FROM [PersonName]";
+
+            return Query<KeyValuePair<string, string>>(query);
         }
 
         #endregion
 
         #region PersonName
 
-        public PersonName ReadPersonName(string id)
+        public PersonName ReadLastPersonName(string id)
         {
-            throw new System.NotImplementedException();
+            var query = @"
+                SELECT TOP 1 *
+                FROM [PersonName]
+                WHERE PersonId = @Id
+                ORDER BY
+	                DateCreated DESC";
+
+            return QueryFoD<PersonName>(query, new { @Id = id });
         }
         public IEnumerable<PersonName> ReadAllPersonNameByPersonId(string id)
         {
-            throw new System.NotImplementedException();
+            var query = @"
+                SELECT *
+                FROM [PersonName]
+                WHERE PersonId = @Id
+                ORDER BY
+	                DateCreated DESC";
+
+            return Query<PersonName>(query, new { @Id = id });
         }
         public string CreatePersonName(PersonName entity)
         {
-            throw new System.NotImplementedException();
+            var query = @"
+                INSERT INTO [PersonName]
+                       ([Id]
+                       ,[PersonId]
+                       ,[DateCreated]
+                       ,[DateModified]
+                       ,[IsActive]
+                       ,[FirstName]
+                       ,[LastName]
+                       ,[Patronym])
+		               OUTPUT INSERTED.Id
+                 VALUES
+                       (@Id
+                       ,@PersonId
+                       ,@DateCreated
+                       ,@DateModified
+                       ,@IsActive
+                       ,@FirstName
+                       ,@LastName
+                       ,@Patronym)";
+
+            return QueryFoD<string>(query, new DynamicParameters(entity));
         }
         public bool UpdatePersonName(PersonName entity)
         {
-            throw new System.NotImplementedException();
+            var query = @"
+                UPDATE [PersonName]
+                SET [DateCreated] = @DateCreated  
+                    ,[DateModified] = @DateModified
+                    ,[IsActive] = @IsActive        
+                    ,[FirstName] = @FirstName      
+                    ,[LastName] = @LastName        
+                    ,[Patronym] = @Patronym        
+                WHERE PersonId = @Id";
+
+            return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
         }
         public bool DeletePersonName(string id)
         {
-            throw new System.NotImplementedException();
+            var query = @"
+                DELETE FROM [PersonName]
+                WHERE PersonId = @Id";
+
+            return Execute(query, new { @Id = id }) > 0 ? true : false;
         }
 
         #endregion
@@ -196,27 +254,80 @@ namespace DataAccessInfrastructure.Repositories
 
         public PersonRelation ReadPersonRelation(string id)
         {
-            throw new System.NotImplementedException();
+            string query = @"
+                    SELECT *
+                    FROM [PersonRelation]
+                    WHERE Id = @Id";
+
+            return QueryFoD<PersonRelation>(query, new { @Id = id });
         }
         public IEnumerable<PersonRelation> ReadAllPersonRelationByPersonId(string id)
         {
-            throw new System.NotImplementedException();
+            string query = @"
+                    SELECT *
+                    FROM [PersonRelation]
+                    WHERE PersonId = @PersonId";
+
+            return Query<PersonRelation>(query, new { @PersonId = id });
         }
         public IEnumerable<PersonRelation> ReadAllPersonRelationByGroupId(string id)
         {
-            throw new System.NotImplementedException();
+            string query = @"
+                    SELECT *
+                    FROM [PersonRelation]
+                    WHERE PersonRelationGroupId = @RelationGroupId";
+
+            return Query<PersonRelation>(query, new { @RelationGroupId = id });
         }
         public string CreatePersonRelation(PersonRelation entity)
         {
-            throw new System.NotImplementedException();
+            string query = @"
+                    INSERT INTO [PersonRelation]
+                               ([Id]
+                               ,[PersonId]
+                               ,[PersonRelationGroupId]
+                               ,[DateCreated]
+                               ,[DateModified]
+                               ,[IsActive])
+                         OUTPUT INSERTED.Id
+                         VALUES
+                               (@Id
+                               ,@PersonId
+                               ,@PersonRelationGroupId
+                               ,@DateCreated
+                               ,@DateModified
+                               ,@IsActive)";
+
+            return QueryFoD<string>(query, new DynamicParameters(entity));
         }
         public bool UpdatePersonRelation(PersonRelation entity)
         {
-            throw new System.NotImplementedException();
+            string query = @"
+                    UPDATE [PersonRelation]
+                       SET [PersonId] = PersonId
+                          ,[PersonRelationGroupId] = PersonRelationGroupId
+                          ,[DateCreated] = DateCreated
+                          ,[DateModified] = DateModified
+                          ,[IsActive] = IsActive
+                     WHERE Id = @Id";
+
+            return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
         }
         public bool DeletePersonRelation(string id)
         {
-            throw new System.NotImplementedException();
+            string query = @"
+                    DELETE FROM [PersonRelation]
+                          WHERE Id = @Id";
+
+            return Execute(query, new { @Id = id }) > 0 ? true : false;
+        }
+        public bool DeletePersonRelationByPersonId(string id)
+        {
+            string query = @"
+                    DELETE FROM [PersonRelation]
+                          WHERE PersonId = @PersonId";
+
+            return Execute(query, new { @Id = id }) > 0 ? true : false;
         }
 
         #endregion
@@ -225,27 +336,65 @@ namespace DataAccessInfrastructure.Repositories
 
         public PersonRelationGroup ReadPersonRelationGroup(string id)
         {
-            throw new System.NotImplementedException();
+            string query = @"
+                    SELECT *
+                    FROM [PersonRelationGroup]
+                    WHERE Id = @Id";
+
+            return QueryFoD<PersonRelationGroup>(query, new { @Id = id });
         }
 
         public IEnumerable<PersonRelationGroup> ReadAllPersonRelationGroupsByPersonId(string id)
         {
-            throw new System.NotImplementedException();
+            string query = @"
+                    SELECT prg.*
+                    FROM [PersonRelationGroup] AS prg
+	                    JOIN [PersonRelation] AS pr ON prg.Id = pr.PersonRelationGroupId
+		                    AND PersonId = @PersonId";
+
+            return Query<PersonRelationGroup>(query, new { @PersonId = id });
         }
 
         public string CreatePersonRelationGroup(PersonRelationGroup entity)
         {
-            throw new System.NotImplementedException();
+            string query = @"
+                    INSERT INTO [PersonRelationGroup]
+                               ([Id]
+                               ,[DateCreated]
+                               ,[DateModified]
+                               ,[IsActive]
+                               ,[RelationType])
+                         OUTPUT INSERTED.Id
+                         VALUES
+                               (@Id
+                               ,@DateCreated
+                               ,@DateModified
+                               ,@IsActive
+                               ,@RelationType)";
+
+            return QueryFoD<string>(query, new DynamicParameters(entity));
         }
 
         public bool UpdatePersonRelationGroup(PersonRelationGroup entity)
         {
-            throw new System.NotImplementedException();
+            string query = @"
+                    UPDATE [PersonRelationGroup]
+                       SET [DateCreated] = @DateCreated
+                          ,[DateModified] = @DateModified
+                          ,[IsActive] = @IsActive
+                          ,[RelationType] = @RelationType
+                     WHERE Id = @Id";
+
+            return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
         }
 
         public bool DeletePersonRelationGroup(string id)
         {
-            throw new System.NotImplementedException();
+            string query = @"
+                    DELETE FROM [PersonRelationGroup]
+                          WHERE Id = @Id";
+
+            return Execute(query, new { @Id = id }) > 0 ? true : false;
         }
 
         #endregion

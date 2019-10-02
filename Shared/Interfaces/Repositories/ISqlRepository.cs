@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Shared.Interfaces.Repositories
 {
-    public interface ISqlRepository
+    public interface ISqlRepository : ISqlBaseRepository
     {
         Person ReadPerson(string id);
         IEnumerable<Person> ReadAllPerson();
@@ -17,7 +17,7 @@ namespace Shared.Interfaces.Repositories
         bool DeletePerson(string id);
         IEnumerable<KeyValuePair<string, string>> GetPersonSelectList();
 
-        PersonName ReadPersonName(string id);
+        PersonName ReadLastPersonName(string id);
         IEnumerable<PersonName> ReadAllPersonNameByPersonId(string id);
         string CreatePersonName(PersonName entity);
         bool UpdatePersonName(PersonName entity);

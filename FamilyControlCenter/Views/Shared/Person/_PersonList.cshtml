@@ -1,5 +1,5 @@
 ﻿@{
-    @model Shared.Viewmodels.Family.PersonViewModel
+    @model FamilyControlCenter.Viewmodels.Family.PersonViewModel
 }
 
 <div class="panel">
@@ -8,24 +8,19 @@
     <div class="panel-body">
         @foreach (var e in Model.Models)
         {
+            string birthDateString = e.BirthDate == null ? null : e.BirthDate.Value.ToString("dd.MM.yyyy");
+            string deathDateString = e.DeathDate == null ? null : e.DeathDate.Value.ToString("dd.MM.yyyy");
+
             <div class="row">
                 <div class="col-md-3">
-                    @Html.Label(e.Lastname + " " + e.Name + (string.IsNullOrEmpty(e.Patronym) ? "" : " " + e.Patronym))
+                    @e.GetFullName()
                 </div>
-                @if (e.BornTime != null)
-                {
-                    <div class="col-md-3">
-                        @Html.Label("BornTime", ((DateTime)e.BornTime).ToString("dd.MM.yyyy"))
-                    </div>
-                }
-
-                @if (e.DeadTime != null)
-                {
-                    <div class="col-md-3">
-                        @Html.Label("DeadTime", ((DateTime)e.DeadTime).ToString("dd.MM.yyyy"))
-                    </div>
-                }
-
+                <div class="col-md-3">
+                    @(birthDateString ?? "Д/Р неизвестна")
+                </div>
+                <div class="col-md-3">
+                    @(deathDateString ?? "Д/С неизвестна")
+                </div>
                 <div class="col-md-3">
                     @Html.Partial("ToolsSharedViews/_DefaultCRUD", e)
                 </div>

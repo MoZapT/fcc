@@ -1,7 +1,7 @@
 ﻿using DataAccessInfrastructure.Repositories;
+using FamilyControlCenter.Interfaces.Managers;
 using FamilyControlCenter.Manager;
 using Ninject.Modules;
-using Shared.Interfaces.Managers;
 using Shared.Interfaces.Repositories;
 
 namespace FamilyControlCenter.DependencyResolver

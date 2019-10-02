@@ -524,3 +524,7 @@ C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\obj\Debug\FamilyControlCent
 C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\obj\Debug\FamilyControlCenter.Resources.Resource.ru-RU.resources
 C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\obj\Debug\FamilyControlCenter.csproj.GenerateResource.cache
 C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\obj\Debug\ru-RU\FamilyControlCenter.resources.dll
+C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\bin\Ninject.Web.WebApi.dll
+C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\bin\System.Web.Http.WebHost.dll
+C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\bin\Ninject.Web.WebApi.xml
+C:\Users\edv019\Source\repos\fcc\FamilyControlCenter\bin\System.Web.Http.WebHost.xml

@@ -1,6 +1,6 @@
 ﻿@using Resources
 @{
-    @model Shared.Viewmodels.Family.PersonViewModel
+    @model FamilyControlCenter.Viewmodels.Family.PersonViewModel
 }
 
 <div class="panel">
@@ -8,8 +8,8 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-                @Html.LabelFor(m => m.Model.Name, Resource.Name)
-                @Html.TextBoxFor(m => m.Model.Name, new { @class = "form-control" })
+                @Html.LabelFor(m => m.Model.Firstname, Resource.Name)
+                @Html.TextBoxFor(m => m.Model.Firstname, new { @class = "form-control" })
             </div>
         </div>
         <div class="row">
@@ -26,41 +26,38 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                @Html.LabelFor(m => m.Model.BornTimeKnown, Resource.BornTimeKnown)
-                @Html.CheckBoxFor(m => m.Model.BornTimeKnown, new { @class = "form-control" })
+                @Html.LabelFor(m => m.Model.HasBirthDate, Resource.BornTimeKnown)
+                @Html.CheckBoxFor(m => m.Model.HasBirthDate, new { @class = "form-control" })
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                @Html.HiddenFor(m => m.Model.BornTime)
-                @Html.TextBox("DpBornTime", Model.Model.BornTime, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control hide" })
+                @Html.HiddenFor(m => m.Model.BirthDate)
+                @Html.TextBox("DpBornTime", Model.Model.BirthDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control hide" })
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                @Html.LabelFor(m => m.Model.DeadTimeKnown, Resource.DeadTimeKnown)
-                @Html.CheckBoxFor(m => m.Model.DeadTimeKnown, new { @class = "form-control" })
+                @Html.LabelFor(m => m.Model.HasDeathDate, Resource.DeadTimeKnown)
+                @Html.CheckBoxFor(m => m.Model.HasDeathDate, new { @class = "form-control" })
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                @Html.HiddenFor(m => m.Model.DeadTime)
-                @Html.TextBox("DpDeadTime", Model.Model.DeadTime, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control hide" })
+                @Html.HiddenFor(m => m.Model.DeathDate)
+                @Html.TextBox("DpDeadTime", Model.Model.DeathDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control hide" })
             </div>
         </div>
 
-        @if (Model.Relations?.Count > 0)
-        {
-            <div class="panel">
-                <div class="panel-heading"></div>
-                <div class="panel-body">
-                    @Html.Partial("Person/_RelationsList", Model)
-                </div>
-                <div class="panel-footer">
-                    @Html.Partial("Person/_RelationModal", Model)
-                </div>
+        <div class="panel">
+            <div class="panel-heading"></div>
+            <div class="panel-body">
+                @Html.Partial("Person/_RelationsList", Model)
             </div>
-        }
+            <div class="panel-footer">
+                @Html.Partial("Person/_RelationModal", Model)
+            </div>
+        </div>
 
         @*@Html.Partial("Person/_AccordionPerson", Model)*@
     </div>

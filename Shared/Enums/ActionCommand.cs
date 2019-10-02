@@ -11,16 +11,14 @@ namespace Shared.Enums
     public enum ActionCommand
     {
         //[Description("")]
-        None,
+        Cancel,
         //[Description("")]
-        Create,
-        //[Description("")]
-        Edit,
-        //[Description("")]
-        Add,
-        //[Description("")]
-        Update,
+        Save,
         //[Description("")]
         Delete,
+        //[Description("")]
+        Open,
+        //[Description("")]
+        New,
     }
 }

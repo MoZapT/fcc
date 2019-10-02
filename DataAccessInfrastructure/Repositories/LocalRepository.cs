@@ -9,7 +9,7 @@ using Shared.Models;
 
 namespace DataAccessInfrastructure.Repositories
 {
-    public class LocalRepository : ISqlRepository
+    public class LocalRepository : SqlBaseRepository, ISqlRepository
     {
         List<Person> ListPerson { get; set; }
         List<PersonName> ListPersonName { get; set; }
@@ -24,13 +24,13 @@ namespace DataAccessInfrastructure.Repositories
                 DateCreated = DateTime.Now,
                 DateModified = DateTime.Now,
                 IsActive = true,
-                Name = "Thomas",
+                Firstname = "Thomas",
                 Lastname = "Mayer",
                 Patronym = "Sergeevich",
-                BornTimeKnown = true,
-                DeadTimeKnown = false,
-                BornTime = DateTime.Parse("25/03/1991"),
-                DeadTime = null,
+                HasBirthDate = true,
+                HasDeathDate = false,
+                BirthDate = DateTime.Parse("25/03/1991"),
+                DeathDate = null,
                 Sex = true,
             };
             var margo = new Person
@@ -39,13 +39,13 @@ namespace DataAccessInfrastructure.Repositories
                 DateCreated = DateTime.Now,
                 DateModified = DateTime.Now,
                 IsActive = true,
-                Name = "Margarita",
+                Firstname = "Margarita",
                 Lastname = "Mayer",
                 Patronym = "Sergeevna",
-                BornTimeKnown = true,
-                DeadTimeKnown = false,
-                BornTime = DateTime.Parse("16/04/1994"),
-                DeadTime = null,
+                HasBirthDate = true,
+                HasDeathDate = false,
+                BirthDate = DateTime.Parse("16/04/1994"),
+                DeathDate = null,
                 Sex = false,
             };
             var p1rel = new PersonRelation
@@ -72,7 +72,7 @@ namespace DataAccessInfrastructure.Repositories
                 DateCreated = DateTime.Now,
                 DateModified = DateTime.Now,
                 IsActive = true,
-                Name = "Margarita",
+                Firstname = "Margarita",
                 Lastname = "Steinfeld",
                 Patronym = "Sergeevna",
                 PersonId = margo.Id,
@@ -84,7 +84,7 @@ namespace DataAccessInfrastructure.Repositories
                 DateModified = DateTime.Now,
                 IsActive = true,
                 RelationTypeId = RelationType.HusbandWife,
-                Members = new List<PersonRelation>() { p1rel, p2rel },
+                Relations = new List<PersonRelation>() { p1rel, p2rel },
             };
 
             ListPerson = new List<Person>
@@ -151,7 +151,7 @@ namespace DataAccessInfrastructure.Repositories
 
         #region PersonName
 
-        public PersonName ReadPersonName(string id)
+        public PersonName ReadLastPersonName(string id)
         {
             return ListPersonName
                 .FirstOrDefault(e => e.Id == id);
@@ -233,14 +233,14 @@ namespace DataAccessInfrastructure.Repositories
         public PersonRelationGroup ReadPersonRelationGroup(string id)
         {
             var prg = ListPersonRelationGroup.FirstOrDefault(e => e.Id == id);
-            prg.Members = ReadAllPersonRelationByGroupId(id).ToList();
+            prg.Relations = ReadAllPersonRelationByGroupId(id).ToList();
             return prg;
         }
         public IEnumerable<PersonRelationGroup> ReadAllPersonRelationGroupsByPersonId(string id)
         {
             return ListPersonRelationGroup
                 .Select(e => {
-                    e.Members = ReadAllPersonRelationByGroupId(e.Id).ToList();
+                    e.Relations = ReadAllPersonRelationByGroupId(e.Id).ToList();
                     return e; });
         }
         public string CreatePersonRelationGroup(PersonRelationGroup entity)

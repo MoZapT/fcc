@@ -1,6 +1,6 @@
 ﻿@using Shared.Enums
 @using Resources
-@model Shared.Viewmodels.Family.PersonViewModel
+@model FamilyControlCenter.Viewmodels.Family.PersonViewModel
 @{
     ViewBag.Title = Resource.PassportView;
 }
@@ -31,6 +31,7 @@
             Window.Base.Init();
             Window.FormScripts.Init();
             Window.DatePicker.Init();
+            Window.CustomizedTypeahead.Init();
         });
     </script>
 }

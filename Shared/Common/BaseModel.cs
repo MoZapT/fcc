@@ -12,7 +12,6 @@ namespace Shared.Common
 
         public BaseModel()
         {
-            Id = Guid.NewGuid().ToString();
             DateCreated = DateTime.Now;
             DateModified = DateTime.Now;
             IsActive = true;

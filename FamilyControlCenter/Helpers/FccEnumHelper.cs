@@ -22,6 +22,17 @@ namespace FamilyControlCenter.Helpers
             });
         }
 
+        public static IEnumerable<SelectListItem> GetGenderizedSelectListItemCollection(Type type, int gender)
+        {
+            var list = System.Web.Mvc.Html.EnumHelper.GetSelectList(type);
+
+            return list.Select(e => new SelectListItem()
+            {
+                Text = Resources.Resource.ResourceManager.GetString(e.Text),
+                Value = e.Value
+            });
+        }
+
         private static string GetEnumDescription(Enum value)
         {
             FieldInfo fi = value.GetType().GetField(value.ToString());

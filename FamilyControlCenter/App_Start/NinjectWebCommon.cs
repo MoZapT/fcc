@@ -14,6 +14,7 @@ namespace LumyCRM.WebApp.Intranet.App_Start
     using Ninject.Modules;
     using System.Collections.Generic;
     using FamilyControlCenter.DependencyResolver;
+    using System.Web.Http;
 
     public class NinjectWebCommon
     {
@@ -54,7 +55,7 @@ namespace LumyCRM.WebApp.Intranet.App_Start
                 //  Support WebApi --> WebApiContrib.IoC.Ninject
                 NinjectDependencyResolver ninjectResolver = new NinjectDependencyResolver(kernel);
                 DependencyResolver.SetResolver(ninjectResolver);    // MVC
-                //GlobalConfiguration.Configuration.DependencyResolver = ninjectResolver; // API
+                GlobalConfiguration.Configuration.DependencyResolver = new Ninject.Web.WebApi.NinjectDependencyResolver(kernel); // API
 
                 return kernel;
             }
