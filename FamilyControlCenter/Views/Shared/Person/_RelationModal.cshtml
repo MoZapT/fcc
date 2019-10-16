@@ -3,8 +3,8 @@
 @using Resources
 @model FamilyControlCenter.Viewmodels.Family.PersonViewModel
 @{
-    var culture = System.Threading.Thread.CurrentThread.CurrentCulture;
-    var relationTypeSl = FccEnumHelper.GetTranslatedSelectListItemCollection(typeof(RelationType));
+    //var culture = System.Threading.Thread.CurrentThread.CurrentCulture;
+    var relationTypeSl = FccEnumHelper.GetTranslatedSelectListItemCollection<RelationType>(typeof(RelationType), 0);
 }
 
 <button data-toggle="modal" data-target="#NewRelationModal" class="btn btn-primary" type="button">

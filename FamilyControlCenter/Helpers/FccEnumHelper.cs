@@ -1,44 +1,59 @@
-﻿using Shared.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Resources;
 using System.Web.Mvc;
 
 namespace FamilyControlCenter.Helpers
 {
     public static class FccEnumHelper
     {
-        public static IEnumerable<SelectListItem> GetTranslatedSelectListItemCollection(Type type)
+        public static IEnumerable<SelectListItem> GetTranslatedSelectListItemCollection<T>(Type type, bool isFemaleGender = false)
         {
-            var list = System.Web.Mvc.Html.EnumHelper.GetSelectList(type);
-
-            return list.Select(e => new SelectListItem()
-            {
-                Text = Resources.Resource.ResourceManager.GetString(e.Text),
-                Value = e.Value
-            });
+            var list = new List<SelectListItem>();
+            return Enum.GetValues(type)
+                .Cast<T>()
+                .Select(e => new SelectListItem()
+                {
+                    Text = GetGenderizedText(GetEnumDescription(type, e.ToString()), isFemaleGender ? 1 : 0),
+                    Value = e.ToString()
+                })
+                .ToList();
         }
 
-        public static IEnumerable<SelectListItem> GetGenderizedSelectListItemCollection(Type type, int gender)
+        public static string GetLocalizedStringForEnumValue(this ResourceManager source, Type type, Enum value, bool isFemaleGender = false)
         {
-            var list = System.Web.Mvc.Html.EnumHelper.GetSelectList(type);
-
-            return list.Select(e => new SelectListItem()
-            {
-                Text = Resources.Resource.ResourceManager.GetString(e.Text),
-                Value = e.Value
-            });
+            return GetGenderizedText(GetEnumDescription(type, value.ToString()), isFemaleGender ? 1 : 0);
         }
 
-        private static string GetEnumDescription(Enum value)
+        public static string GetGenderizedText(string mainText, int gender)
         {
-            FieldInfo fi = value.GetType().GetField(value.ToString());
+            string[] array = mainText.Split('|');
 
-            DescriptionAttribute[] attributes = fi.
-                GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
+            if (array == null || array.Length <= 0)
+            {
+                return string.Empty;
+            }
+
+            try
+            {
+                return GetLocalization(array[gender]);
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
+        private static string GetEnumDescription(Type type, string value)
+        {
+            FieldInfo fi = type.GetField(value);
+
+            DescriptionAttribute[] attributes = 
+                fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
 
             if (attributes != null && attributes.Any())
             {
@@ -46,6 +61,12 @@ namespace FamilyControlCenter.Helpers
             }
 
             return value.ToString();
+        }
+
+        private static string GetLocalization(string localString)
+        {
+            var rMgr = Resources.Resource.ResourceManager;
+            return rMgr.GetString(localString);
         }
     }
 }
