@@ -3,8 +3,8 @@
 @using Resources
 @model FamilyControlCenter.Viewmodels.Family.PersonViewModel
 @{
-    //var culture = System.Threading.Thread.CurrentThread.CurrentCulture;
-    var relationTypeSl = FccEnumHelper.GetTranslatedSelectListItemCollection<RelationType>(typeof(RelationType), 0);
+//var culture = System.Threading.Thread.CurrentThread.CurrentCulture;
+//var relationTypeSl = FccEnumHelper.GetTranslatedSelectListItemCollection<RelationType>(typeof(RelationType));
 }
 
 <button data-toggle="modal" data-target="#NewRelationModal" class="btn btn-primary" type="button">
@@ -21,10 +21,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                @Html.Hidden("NewRelationOwnerId", Model.Model.Id)
                 @Html.Hidden("NewRelationPersonId", "")
                 @Html.TextBox("NewRelationPersonName", "", new { @class = "form-control typeahead", placeholder = "", taname = "PersonTypeahead", taurl = "typeahead/person/" })
-                @Html.DropDownList("NewRelationRelationTypeId", relationTypeSl, new { @class = "form-control" })
+                @Html.DropDownList("NewRelationRelationTypeId", new List<SelectListItem>(), new { @class = "form-control" })
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">@Resource.Close</button>

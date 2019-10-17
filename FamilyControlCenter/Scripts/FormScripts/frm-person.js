@@ -27,7 +27,7 @@
 
         $.ajax({
             url: 'SetPersonRelation',//'api/set/relations',
-            data: JSON.stringify({ entity: model, personid: $('#NewRelationOwnerId').val() }),
+            data: JSON.stringify({ entity: model, personid: $('#Model_Id').val() }),
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -91,6 +91,26 @@
             var btn = e.currentTarget;
             $panel = $(btn).closest('.panel-body');
             deleteRelation($panel, $(btn).attr('member-id'));
+        });
+
+        $('#NewRelationPersonId').on('change', function (e) {
+            $.ajax({
+                url: 'api/relationtype/all/' + $('#NewRelationPersonId').val(),
+                type: 'GET',
+                dataType: 'json',
+                complete: function (response) {
+                    var json = response.responseJSON;
+                    var ddlBox = $('select#NewRelationRelationTypeId');
+
+                    ddlBox.remove('option');
+                    for (var i = 0; i < json.length; i++) {
+                        var optionHtml = '<option value = "' + json[i].Value + '">' + json[i].Text + '</option>';
+                        var prevHtml = ddlBox.html();
+
+                        ddlBox.html(prevHtml + optionHtml);
+                    }
+                }
+            });
         });
     }
 

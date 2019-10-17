@@ -125,5 +125,10 @@ namespace FamilyControlCenter.Manager
         {
             return _repo.GetPersonSelectList();
         }
+
+        public Person GetPerson(string userId)
+        {
+            return _repo.ReadPerson(userId);
+        }
     }
 }

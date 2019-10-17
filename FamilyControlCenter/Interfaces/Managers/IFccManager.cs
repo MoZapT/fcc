@@ -12,5 +12,7 @@ namespace FamilyControlCenter.Interfaces.Managers
         bool DeletePersonRelation(string id);
         IEnumerable<PersonRelationGroup> GetPersonRelationGroupsByPersonId(string id);
         IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string query = "");
+
+        Person GetPerson(string userId);
     }
 }

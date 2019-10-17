@@ -1,5 +1,7 @@
-﻿using FamilyControlCenter.Interfaces.Managers;
+﻿using FamilyControlCenter.Helpers;
+using FamilyControlCenter.Interfaces.Managers;
 using FamilyControlCenter.Viewmodels.Family;
+using Shared.Enums;
 using Shared.Models;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,7 @@ using System.Web.Http;
 namespace FamilyControlCenter.Controllers
 {
     [RoutePrefix("{lang}/family/api")]
-    public class ApiFamilyController : ApiController
+    public class ApiFamilyController : BaseApiController
     {
         IFccManager _mgrFcc;
 
@@ -31,6 +33,22 @@ namespace FamilyControlCenter.Controllers
             catch (Exception)
             {
                 return new List<KeyValuePair<string, string>>();
+            }
+        }
+
+        [Route("relationtype/all/{userId}")]
+        public IEnumerable<System.Web.Mvc.SelectListItem> GetRelationTypes(string userId)
+        {
+            try
+            {
+                ChangeLanguage();
+
+                return FccEnumHelper
+                    .GetTranslatedSelectListItemCollection<RelationType>(typeof(RelationType), _mgrFcc.GetPerson(userId).Sex);
+            }
+            catch (Exception)
+            {
+                return new List<System.Web.Mvc.SelectListItem>();
             }
         }
     }
