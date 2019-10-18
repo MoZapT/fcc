@@ -21,11 +21,13 @@
     }
 
     function setRelations(panel) {
-        var model = createPersonRelationModel();
+        var from = createPersonRelationModel($('#Model_Id').val());
+        var to = createPersonRelationModel($('#NewRelationPersonId').val());
+        var type = $('#NewRelationRelationTypeId').val();
 
         $.ajax({
             url: 'SetPersonRelation',//'api/set/relations',
-            data: JSON.stringify({ entity: model, personid: $('#Model_Id').val() }),
+            data: JSON.stringify({ from: from, to: to, type: type }),
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -52,14 +54,14 @@
         });
     }
 
-    function createPersonRelationModel() {
+    function createPersonRelationModel(personId) {
         var model = {
             Id: null,
             DateCreated: null,
             DateModified: null,
             IsActive: true,
             Member: null,
-            PersonId: $('#NewRelationPersonId option:selected').val(),
+            PersonId: personId,
             PersonRelationGroupId: null
         };
 
@@ -67,6 +69,12 @@
     }
 
     function initializeComponent() {
+        $('button[data-target="#NewRelationModal"]').on('click', function (e) {
+            $('#NewRelationPersonId').val('');
+            $('#NewRelationPersonName').typeahead('val', '');
+            $('#NewRelationRelationTypeId').html('');
+        });
+
         $('#Model_HasBirthDate, #Model_HasDeathDate').on('click', function (e) {
             DatepickerVisibility(e.currentTarget);
         });

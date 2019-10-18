@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
 using Shared.Interfaces.Repositories;
@@ -373,6 +374,20 @@ namespace DataAccessInfrastructure.Repositories
             return QueryFoD<PersonRelationGroup>(query, new { @Id = id });
         }
 
+        public PersonRelationGroup ReadPersonRelationGroupByPersonAndType(string personId, int type)
+        {
+            string query = @"
+                   SELECT *
+                   FROM [PersonRelation] AS pr
+                   JOIN [PersonRelationGroup] AS prg
+	                   ON pr.PersonRelationGroupId = prg.Id
+                   WHERE
+	                   prg.RelationType = @Type
+	                   AND pr.PersonId = @PersonId";
+
+            return QueryFoD<PersonRelationGroup>(query, new { @PersonId = personId, @Type = type });
+        }
+
         public IEnumerable<PersonRelationGroup> ReadAllPersonRelationGroupsByPersonId(string id)
         {
             string query = @"
@@ -424,6 +439,23 @@ namespace DataAccessInfrastructure.Repositories
                           WHERE Id = @Id";
 
             return Execute(query, new { @Id = id }) > 0 ? true : false;
+        }
+
+        public bool MoveRelationsToOtherRelationGroupAndDelete(string fromId, string toId)
+        {
+            string query = @"
+                    BEGIN TRAN
+
+                    UPDATE [dbo].[PersonRelation]
+                    SET [PersonRelationGroupId] = @ToId
+                     WHERE [PersonRelationGroupId] = @FromId
+
+                    DELETE FROM [PersonRelationGroup]
+                    WHERE Id = @FromId
+
+                    COMMIT TRAN";
+
+            return Execute(query, new { @FromId = fromId, @ToId = toId }) > 0 ? true : false;
         }
 
         #endregion

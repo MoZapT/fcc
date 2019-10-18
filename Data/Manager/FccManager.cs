@@ -116,11 +116,6 @@ namespace Data.Manager
             return _repo.CreatePersonRelation(entity);
         }
 
-        public IEnumerable<PersonRelationGroup> GetPersonRelationGroupsByPersonId(string id)
-        {
-            return _repo.ReadAllPersonRelationGroupsByPersonId(id);
-        }
-
         public IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string excludePersonId, string query)
         {
             return _repo.GetPersonSelectList(excludePersonId, query);
@@ -129,6 +124,55 @@ namespace Data.Manager
         public Person GetPerson(string userId)
         {
             return _repo.ReadPerson(userId);
+        }
+
+        public IEnumerable<PersonRelationGroup> GetPersonRelationGroupsByPersonId(string personId)
+        {
+            return _repo.ReadAllPersonRelationGroupsByPersonId(personId);
+        }
+
+        public bool SetPersonRelation(PersonRelation from, PersonRelation to, RelationType type)
+        {
+            var fromRel = _repo.ReadPersonRelationGroupByPersonAndType(from.PersonId, (int)type);
+            var toRel = _repo.ReadPersonRelationGroupByPersonAndType(to.PersonId, (int)type);
+
+            if (fromRel != null && toRel != null)
+            {
+                var newPrl = new PersonRelationGroup() { RelationTypeId = type };
+                string id = _repo.CreatePersonRelationGroup(newPrl);
+                from.PersonRelationGroupId = id;
+                to.PersonRelationGroupId = id;
+                _repo.CreatePersonRelation(from);
+                _repo.CreatePersonRelation(to);
+
+                _repo.MoveRelationsToOtherRelationGroupAndDelete(fromRel.Id, id);
+                _repo.MoveRelationsToOtherRelationGroupAndDelete(toRel.Id, id);
+            }
+            else if (fromRel == null)
+            {
+                from.PersonRelationGroupId = toRel.Id;
+                to.PersonRelationGroupId = toRel.Id;
+                _repo.CreatePersonRelation(from);
+                _repo.CreatePersonRelation(to);
+            }
+            else if (toRel == null)
+            {
+                from.PersonRelationGroupId = fromRel.Id;
+                to.PersonRelationGroupId = fromRel.Id;
+                _repo.CreatePersonRelation(from);
+                _repo.CreatePersonRelation(to);
+            }
+            else
+            {
+                var newPrl = new PersonRelationGroup() { RelationTypeId = type, Relations = { from, to } };
+                string id = _repo.CreatePersonRelationGroup(newPrl);
+                from.PersonRelationGroupId = id;
+                to.PersonRelationGroupId = id;
+                _repo.CreatePersonRelation(from);
+                _repo.CreatePersonRelation(to);
+            }
+
+            return true;
         }
     }
 }

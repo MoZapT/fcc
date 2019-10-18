@@ -1,13 +1,10 @@
 ﻿using Shared.Interfaces.Managers;
 using Shared.Viewmodels;
 using Shared.Models;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Threading;
-using System.Web;
 using System.Web.Mvc;
+using Shared.Enums;
+using System;
 
 namespace FamilyControlCenter.Controllers
 {
@@ -39,26 +36,13 @@ namespace FamilyControlCenter.Controllers
         }
 
         [/*Authorize,*/ HttpPost]
-        public PartialViewResult SetPersonRelation(PersonRelation entity, string personid)
+        public PartialViewResult LoadPersonRelationsList(string personId)
         {
             BeforeLoadAction();
-            var result = _mgrFcc.SetPersonRelations(entity);
-            var vm = new PersonViewModel
-            {
-                Relations = _mgrFcc.GetPersonRelationGroupsByPersonId(personid).ToList()
-            };
-            return PartialView("Person/_RelationsList", vm);
-        }
-
-        [/*Authorize,*/ HttpPost]
-        public PartialViewResult DeletePersonRelation(string relationid, string personid)
-        {
-            BeforeLoadAction();
-            var result = _mgrFcc.DeletePersonRelation(relationid);
 
             var vm = new PersonViewModel
             {
-                Relations = _mgrFcc.GetPersonRelationGroupsByPersonId(personid).ToList()
+                Relations = _mgrFcc.GetPersonRelationGroupsByPersonId(personId).ToList()
             };
             return PartialView("Person/_RelationsList", vm);
         }

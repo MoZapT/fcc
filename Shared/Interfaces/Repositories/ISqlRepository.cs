@@ -32,10 +32,12 @@ namespace Shared.Interfaces.Repositories
         bool DeletePersonRelation(string id);
 
         PersonRelationGroup ReadPersonRelationGroup(string id);
+        PersonRelationGroup ReadPersonRelationGroupByPersonAndType(string personId, int type);
         IEnumerable<PersonRelationGroup> ReadAllPersonRelationGroupsByPersonId(string id);
         string CreatePersonRelationGroup(PersonRelationGroup entity);
         bool UpdatePersonRelationGroup(PersonRelationGroup entity);
         bool DeletePersonRelationGroup(string id);
+        bool MoveRelationsToOtherRelationGroupAndDelete(string fromId, string toId);
 
     }
 }

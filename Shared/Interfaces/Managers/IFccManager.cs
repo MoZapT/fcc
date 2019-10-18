@@ -1,6 +1,7 @@
 ﻿using Shared.Viewmodels;
 using Shared.Models;
 using System.Collections.Generic;
+using Shared.Enums;
 
 namespace Shared.Interfaces.Managers
 {
@@ -10,9 +11,10 @@ namespace Shared.Interfaces.Managers
 
         string SetPersonRelations(PersonRelation entity);
         bool DeletePersonRelation(string id);
-        IEnumerable<PersonRelationGroup> GetPersonRelationGroupsByPersonId(string id);
         IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string excludePersonId, string query);
+        IEnumerable<PersonRelationGroup> GetPersonRelationGroupsByPersonId(string personId);
 
+        bool SetPersonRelation(PersonRelation from, PersonRelation to, RelationType type);
         Person GetPerson(string userId);
     }
 }

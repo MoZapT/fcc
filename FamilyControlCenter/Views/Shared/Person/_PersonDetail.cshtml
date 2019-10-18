@@ -31,8 +31,8 @@
                         @Html.CheckBoxFor(m => m.Model.Sex, new { @class = "" })
                         <span>@(Model.Model.Sex ? @Resource.Female : @Resource.Male )</span>
                     </label>
-                    @Html.Label("Sex_Checkbox_Male_Text", Resource.Male, new { @class = "hide" } )
-                    @Html.Label("Sex_Checkbox_Female_Text", Resource.Female, new { @class= "hide" } )
+                    @Html.Label("Sex_Checkbox_Male_Text", Resource.Male, new { @class = "hide" })
+                    @Html.Label("Sex_Checkbox_Female_Text", Resource.Female, new { @class = "hide" })
                 </div>
             </div>
         </div>
@@ -66,17 +66,16 @@
             </div>
         </div>
 
-        <div class="panel">
+        @Html.Partial("Person/_RelationsList", Model)
+        @Html.Partial("Person/_RelationModal", Model)
+
+        @*<div class="panel">
             <div class="panel-heading"></div>
             <div class="panel-body">
-                @Html.Partial("Person/_RelationsList", Model)
             </div>
             <div class="panel-footer">
-                @Html.Partial("Person/_RelationModal", Model)
             </div>
-        </div>
-
-        @*@Html.Partial("Person/_AccordionPerson", Model)*@
+        </div>*@
     </div>
     <div class="panel-footer">
         @Html.Partial("ToolsSharedViews/_DefaultSaveCancelDelete", Model)

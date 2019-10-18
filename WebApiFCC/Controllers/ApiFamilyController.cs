@@ -25,6 +25,20 @@ namespace FamilyControlCenter.Controllers
 
         //[Authorize]
         [Route("typeahead/person/{excludePersonId?}/{query?}")]
+        public void SetPersonRelation(PersonRelation from, PersonRelation to, RelationType type)
+        {
+            _mgrFcc.SetPersonRelation(from, to, type);
+        }
+
+        //[Authorize]
+        [Route("typeahead/person/{excludePersonId?}/{query?}")]
+        public void DeletePersonRelation(PersonRelation from, PersonRelation to, RelationType type)
+        {
+            throw new NotImplementedException();
+        }
+
+        //[Authorize]
+        [Route("typeahead/person/{excludePersonId?}/{query?}")]
         public IEnumerable<KeyValuePair<string, string>> GetPersonTypeahead(string excludePersonId, string query = "")
         {
             try
