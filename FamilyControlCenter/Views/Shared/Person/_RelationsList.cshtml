@@ -1,7 +1,7 @@
 ﻿@using Resources
-@using FamilyControlCenter.Helpers
+@using Shared.Helpers
 @{
-    @model FamilyControlCenter.Viewmodels.Family.PersonViewModel
+    @model Shared.Viewmodels.PersonViewModel
 }
 
 @foreach (var group in Model.Relations)
@@ -11,7 +11,7 @@
         var relType = group.RelationTypeId;
         <div class="row">
             <div class="col-md-10">
-                @relation.Member.GetFullName()
+                @relation.Member.Name
                 @(Resource.ResourceManager
                     .GetLocalizedStringForEnumValue(relType.GetType(), relType, relation.Member.Sex))
             </div>

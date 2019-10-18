@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Resources;
 using System.Web.Mvc;
 
-namespace FamilyControlCenter.Helpers
+namespace Shared.Helpers
 {
     public static class FccEnumHelper
     {

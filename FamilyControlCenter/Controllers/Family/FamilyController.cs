@@ -1,5 +1,5 @@
-﻿using FamilyControlCenter.Interfaces.Managers;
-using FamilyControlCenter.Viewmodels.Family;
+﻿using Shared.Interfaces.Managers;
+using Shared.Viewmodels;
 using Shared.Models;
 using System;
 using System.Collections.Generic;
@@ -39,7 +39,6 @@ namespace FamilyControlCenter.Controllers
         }
 
         [/*Authorize,*/ HttpPost]
-        //[Route("api/set/relations/{entity}/{id}")]
         public PartialViewResult SetPersonRelation(PersonRelation entity, string personid)
         {
             BeforeLoadAction();
@@ -52,7 +51,6 @@ namespace FamilyControlCenter.Controllers
         }
 
         [/*Authorize,*/ HttpPost]
-        //[Route("api/delete/relations/{id}")]
         public PartialViewResult DeletePersonRelation(string relationid, string personid)
         {
             BeforeLoadAction();

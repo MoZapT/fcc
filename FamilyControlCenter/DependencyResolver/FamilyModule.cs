@@ -1,6 +1,6 @@
 ﻿using DataAccessInfrastructure.Repositories;
-using FamilyControlCenter.Interfaces.Managers;
-using FamilyControlCenter.Manager;
+using Shared.Interfaces.Managers;
+using Data.Manager;
 using Ninject.Modules;
 using Shared.Interfaces.Repositories;
 

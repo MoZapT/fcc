@@ -1,8 +1,8 @@
-﻿using FamilyControlCenter.Viewmodels.Family;
+﻿using Shared.Viewmodels;
 using Shared.Models;
 using System.Collections.Generic;
 
-namespace FamilyControlCenter.Interfaces.Managers
+namespace Shared.Interfaces.Managers
 {
     public interface IFccManager
     {
@@ -11,7 +11,7 @@ namespace FamilyControlCenter.Interfaces.Managers
         string SetPersonRelations(PersonRelation entity);
         bool DeletePersonRelation(string id);
         IEnumerable<PersonRelationGroup> GetPersonRelationGroupsByPersonId(string id);
-        IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string query = "");
+        IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string excludePersonId, string query);
 
         Person GetPerson(string userId);
     }

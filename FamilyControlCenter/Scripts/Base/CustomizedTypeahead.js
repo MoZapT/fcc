@@ -59,7 +59,7 @@
             limit: limit,
             source: function (query, processSync, processAsync) {
                 return $.ajax({
-                    url: 'api/' + url + query,
+                    url: getApiRoute() + url + query,
                     type: 'GET',
                     dataType: 'json',
                     complete: function (response) {
@@ -69,6 +69,20 @@
             }
         };
     };
+
+    function getApiRoute() {
+        var apiDebug = 'http://localhost:55057/';
+        var apiLive = '';
+
+        var url = '';
+        if (window.location.hostname === 'localhost') {
+            url += apiDebug;
+        }
+        var lang = window.location.pathname.split('/')[1] + '/';
+        url += lang;
+
+        return url + 'api/';
+    }
 
     Window.CustomizedTypeahead = {
         Init: function () {

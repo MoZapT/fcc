@@ -8,26 +8,14 @@ namespace Shared.Models
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string Patronym { get; set; }
-        public bool HasBirthDate { get; set; }
-        public bool HasDeathDate { get; set; }
+        public string Name { get { return GetFullName(); } }
         public DateTime? BirthDate { get; set; }
         public DateTime? DeathDate { get; set; }
+        public bool HasBirthDate { get { return (BirthDate == null ? false : true); } }
+        public bool HasDeathDate { get { return (DeathDate == null ? false : true); } }
         public bool Sex { get; set; }
 
-        public Person()
-        {
-            if (BirthDate != null)
-            {
-                HasBirthDate = true;
-            }
-
-            if (DeathDate != null)
-            {
-                HasDeathDate = true;
-            }
-        }
-
-        public string GetFullName()
+        private string GetFullName()
         {
             string result = "";
             result += string.IsNullOrWhiteSpace(Firstname) ? "" : Firstname;

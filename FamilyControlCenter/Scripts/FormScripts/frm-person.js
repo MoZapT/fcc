@@ -1,24 +1,22 @@
 ﻿Window.FormScripts = {};
 
 (function () {
-    function BornTimeVisibility(checked) {
-        if (checked) {
-            $('#DpBornTime').removeClass('hide');
-            //$('#DpBornTime').datepicker('setDate', new Date()); //WARNING! causing datepicker to fail!
+    function DatepickerVisibility(checkbox) {
+        if (checkbox.id === 'Model_HasBirthDate') {
+            if (checkbox.checked) {
+                $('#DpBornTime').removeClass('hide');
+            }
+            else {
+                $('#DpBornTime').addClass('hide');
+            }
         }
-        else {
-            $('#DpBornTime').addClass('hide');
-            //$('#DpBornTime').datepicker('setDate', ''); //WARNING! causing datepicker to fail!
-        }
-    }
-    function DeadTimeVisibility(checked) {
-        if (checked) {
-            $('#DpDeadTime').removeClass('hide');
-            //$('#DpDeadTime').datepicker('setDate', new Date()); //WARNING! causing datepicker to fail!
-        }
-        else {
-            $('#DpDeadTime').addClass('hide');
-            //$('#DpDeadTime').datepicker('setDate', ''); //WARNING! causing datepicker to fail!
+        else if (checkbox.id === 'Model_HasDeathDate') {
+            if (checkbox.checked) {
+                $('#DpDeadTime').removeClass('hide');
+            }
+            else {
+                $('#DpDeadTime').addClass('hide');
+            }
         }
     }
 
@@ -69,14 +67,19 @@
     }
 
     function initializeComponent() {
-        BornTimeVisibility($('#Model_BornTimeKnown').is(':checked'));
-        DeadTimeVisibility($('#Model_DeadTimeKnown').is(':checked'));
-
-        $('#Model_BornTimeKnown').on('click', function (e) {
-            BornTimeVisibility($('#Model_BornTimeKnown').is(':checked'));
+        $('#Model_HasBirthDate, #Model_HasDeathDate').on('click', function (e) {
+            DatepickerVisibility(e.currentTarget);
         });
-        $('#Model_DeadTimeKnown').on('click', function (e) {
-            DeadTimeVisibility($('#Model_DeadTimeKnown').is(':checked'));
+
+        $('#Model_Sex').on('click', function (e) {
+            var textSpan = $(e.currentTarget).siblings('span');
+
+            if (e.currentTarget.checked) {
+                textSpan.text($('[for="Sex_Checkbox_Female_Text"]').text());
+            }
+            else {
+                textSpan.text($('[for="Sex_Checkbox_Male_Text"]').text());
+            }
         });
 
         $('button#SaveRelation').on('click', function (e) {
@@ -95,14 +98,18 @@
 
         $('#NewRelationPersonId').on('change', function (e) {
             $.ajax({
-                url: 'api/relationtype/all/' + $('#NewRelationPersonId').val(),
+                url: getApiRoute() + 'relationtype/all/' + $('#NewRelationPersonId').val(),
                 type: 'GET',
                 dataType: 'json',
                 complete: function (response) {
                     var json = response.responseJSON;
+                    if (json === undefined || json === null) {
+                        return;
+                    }
+
                     var ddlBox = $('select#NewRelationRelationTypeId');
 
-                    ddlBox.remove('option');
+                    ddlBox.html('');
                     for (var i = 0; i < json.length; i++) {
                         var optionHtml = '<option value = "' + json[i].Value + '">' + json[i].Text + '</option>';
                         var prevHtml = ddlBox.html();
@@ -112,6 +119,20 @@
                 }
             });
         });
+    }
+
+    function getApiRoute() {
+        var apiDebug = 'http://localhost:55057/';
+        var apiLive = '';
+
+        var url = '';
+        if (window.location.hostname === 'localhost') {
+            url += apiDebug;
+        }
+        var lang = window.location.pathname.split('/')[1] + '/';
+        url += lang;
+
+        return url + 'api/';
     }
 
     Window.FormScripts = {

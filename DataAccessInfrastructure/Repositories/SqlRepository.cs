@@ -17,38 +17,32 @@ namespace DataAccessInfrastructure.Repositories
         public Person ReadPerson(string id)
         {
             var query = @"
-                SELECT p.*, pn.Firstname, pn.Lastname, pn.Patronym
-                FROM [Person] AS p
-	                LEFT JOIN [PersonName] AS pn ON p.Id = pn.PersonId
-		                AND pn.IsActive = 1
+                SELECT *
+                FROM [Person]
                 WHERE 
-	                p.Id = @Id
-	                AND p.IsActive = 1";
+	                Id = @Id
+	                AND IsActive = 1";
 
             return QueryFoD<Person>(query, new { @Id = id });
         }
         public IEnumerable<Person> ReadAllPerson()
         {
             var query = @"
-                SELECT p.*, pn.Firstname, pn.Lastname, pn.Patronym
-                FROM [Person] AS p
-	                LEFT JOIN [PersonName] AS pn ON p.Id = pn.PersonId
-		                AND pn.IsActive = 1
+                SELECT *
+                FROM [Person]
                 WHERE 
-	                p.IsActive = 1";
+	                IsActive = 1";
 
             return Query<Person>(query);
         }
         public IEnumerable<Person> ReadAllPersonByRelationGroupId(string id)
         {
             var query = @"
-                SELECT p.*, pn.Firstname, pn.Lastname, pn.Patronym
+                SELECT p.*
                 FROM [Person] AS p
 	                JOIN [PersonRelation] AS pr ON p.Id = pr.PersonId
 		                AND pr.PersonRelationGroupId = @PersonRelationGroupId
 		                AND pr.IsActive = 1
-	                LEFT JOIN [PersonName] AS pn ON p.Id = pn.PersonId
-		                AND pn.IsActive = 1
                 WHERE 
 	                p.IsActive = 1";
 
@@ -57,13 +51,11 @@ namespace DataAccessInfrastructure.Repositories
         public IEnumerable<Person> ReadAllPersonByRelationGroupIdExcludeCaller(string id, string callerId)
         {
             var query = @"
-                SELECT p.*, pn.Firstname, pn.Lastname, pn.Patronym
+                SELECT p.*
                 FROM [Person] AS p
 	                JOIN [PersonRelation] AS pr ON p.Id = pr.PersonId
 		                AND pr.PersonRelationGroupId = @PersonRelationGroupId
 		                AND pr.IsActive = 1
-	                LEFT JOIN [PersonName] AS pn ON p.Id = pn.PersonId
-		                AND pn.IsActive = 1
                 WHERE 
 	                p.IsActive = 1
 	                AND NOT p.Id = @Id";
@@ -73,8 +65,6 @@ namespace DataAccessInfrastructure.Repositories
         public string CreatePerson(Person entity)
         {
             var query = @"
-                BEGIN TRAN
-
 				INSERT INTO [Person]
                            ([Id]
                            ,[Sex]
@@ -82,7 +72,10 @@ namespace DataAccessInfrastructure.Repositories
                            ,[DeathDate]
                            ,[IsActive]
                            ,[DateCreated]
-                           ,[DateModified])
+                           ,[DateModified]
+                           ,[Firstname]
+                           ,[Lastname]
+                           ,[Patronym])
 	                 OUTPUT INSERTED.Id
                      VALUES
                            (@Id
@@ -91,44 +84,65 @@ namespace DataAccessInfrastructure.Repositories
                            ,@DeathDate
                            ,@IsActive
                            ,@DateCreated
-                           ,@DateModified)
-
-                INSERT INTO [PersonName]
-                           ([Id]
-                           ,[Firstname]
-                           ,[Lastname]
-                           ,[Patronym]
-                           ,[PersonId]
-                           ,[IsActive]
-                           ,[DateCreated]
-                           ,[DateModified])
-	                 OUTPUT INSERTED.Id
-                     VALUES
-                           (NEWID()
+                           ,@DateModified
                            ,@Firstname
                            ,@Lastname
-                           ,@Patronym
-                           ,@Id
-                           ,@IsActive
-                           ,@DateCreated
-                           ,@DateModified)
-
-                COMMIT TRAN";
+                           ,@Patronym)";
 
             return QueryFoD<string>(query, new DynamicParameters(entity));
         }
         public bool UpdatePerson(Person entity)
         {
             var query = @"
+                DECLARE @NameChanged bit = 
+                (SELECT
+                CASE WHEN NOT ([Firstname] = @Firstname 
+	                AND [Lastname] = @Lastname 
+	                AND [Patronym] = @Patronym) THEN 1
+                ELSE 0 END AS NameChanged
+                FROM [Person]
+                WHERE Id = @Id)
+
+                BEGIN TRAN
+
+                IF @NameChanged = 1
+                BEGIN
+                INSERT INTO [PersonName]
+                        ([Id]
+                        ,[PersonId]
+                        ,[DateNameChanged]
+                        ,[DateCreated]
+                        ,[DateModified]
+                        ,[IsActive]
+                        ,[Firstname]
+                        ,[Lastname]
+                        ,[Patronym])
+		                OUTPUT INSERTED.Id
+                    VALUES
+                        (NEWID()
+                        ,@Id
+                        ,GETDATE()
+                        ,GETDATE()
+                        ,GETDATE()
+                        ,1
+                        ,(SELECT Firstname FROM [Person] WHERE Id = @Id)
+                        ,(SELECT Lastname FROM [Person] WHERE Id = @Id)
+                        ,(SELECT Patronym FROM [Person] WHERE Id = @Id))
+                END
+
                 UPDATE [Person]
                     SET [Sex] = @Sex
-                        ,[BornTimeKnown] = @BornTimeKnown
                         ,[BirthDate] = @BirthDate
                         ,[DeathDate] = @DeathDate
                         ,[IsActive] = @IsActive
                         ,[DateCreated] = @DateCreated
                         ,[DateModified] = @DateModified
-                    WHERE Id = @Id";
+                        ,[Firstname] = @Firstname
+                        ,[Lastname] = @Lastname
+                        ,[Patronym] = @Patronym
+                    WHERE Id = @Id
+
+                COMMIT TRAN";
 
             return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
         }
@@ -167,11 +181,23 @@ namespace DataAccessInfrastructure.Repositories
         {
             var query = @"
                 SELECT
-	                PersonId AS 'Key'
+	                Id AS 'Key'
 	                ,FirstName + ' ' + LastName + ' ' + Patronym AS 'Value'
-                FROM [PersonName]";
+                FROM [Person]";
 
             return Query<KeyValuePair<string, string>>(query);
+        }
+        public IEnumerable<KeyValuePair<string, string>> GetPersonSelectList(string excludePersonId, string search)
+        {
+            var query = @"
+                SELECT
+	                Id AS 'Key'
+	                ,FirstName + ' ' + LastName + ' ' + Patronym AS 'Value'
+                FROM [Person]
+                WHERE NOT Id = @ExcludeId
+	                AND (Firstname LIKE '%'+@Search+'%' OR LastName LIKE '%'+@Search+'%' OR Patronym LIKE '%'+@Search+'%')";
+
+            return Query<KeyValuePair<string, string>>(query, new { @ExcludeId = excludePersonId, @Search = search });
         }
 
         #endregion
@@ -206,21 +232,23 @@ namespace DataAccessInfrastructure.Repositories
                 INSERT INTO [PersonName]
                        ([Id]
                        ,[PersonId]
+                       ,[DateNameChanged]
                        ,[DateCreated]
                        ,[DateModified]
                        ,[IsActive]
-                       ,[FirstName]
-                       ,[LastName]
+                       ,[Firstname]
+                       ,[Lastname]
                        ,[Patronym])
 		               OUTPUT INSERTED.Id
                  VALUES
                        (@Id
                        ,@PersonId
+                       ,@DateNameChanged
                        ,@DateCreated
                        ,@DateModified
                        ,@IsActive
-                       ,@FirstName
-                       ,@LastName
+                       ,@Firstname
+                       ,@Lastname
                        ,@Patronym)";
 
             return QueryFoD<string>(query, new DynamicParameters(entity));
@@ -231,6 +259,7 @@ namespace DataAccessInfrastructure.Repositories
                 UPDATE [PersonName]
                 SET [DateCreated] = @DateCreated  
                     ,[DateModified] = @DateModified
+                    ,[DateNameChanged] = @DateNameChanged
                     ,[IsActive] = @IsActive        
                     ,[FirstName] = @FirstName      
                     ,[LastName] = @LastName        

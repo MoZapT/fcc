@@ -27,8 +27,6 @@ namespace DataAccessInfrastructure.Repositories
                 Firstname = "Thomas",
                 Lastname = "Mayer",
                 Patronym = "Sergeevich",
-                HasBirthDate = true,
-                HasDeathDate = false,
                 BirthDate = DateTime.Parse("25/03/1991"),
                 DeathDate = null,
                 Sex = true,
@@ -42,8 +40,6 @@ namespace DataAccessInfrastructure.Repositories
                 Firstname = "Margarita",
                 Lastname = "Mayer",
                 Patronym = "Sergeevna",
-                HasBirthDate = true,
-                HasDeathDate = false,
                 BirthDate = DateTime.Parse("16/04/1994"),
                 DeathDate = null,
                 Sex = false,
@@ -144,7 +140,7 @@ namespace DataAccessInfrastructure.Repositories
         }
         public IEnumerable<KeyValuePair<string, string>> GetPersonSelectList()
         {
-            return ListPerson.Select(e => new KeyValuePair<string, string>(e.Id, e.GetFullName()));
+            return ListPerson.Select(e => new KeyValuePair<string, string>(e.Id, e.Name));
         }
 
         #endregion
@@ -260,6 +256,11 @@ namespace DataAccessInfrastructure.Repositories
         {
             var model = ListPersonRelationGroup.FirstOrDefault(e => e.Id == id);
             return ListPersonRelationGroup.Remove(model);
+        }
+
+        public IEnumerable<KeyValuePair<string, string>> GetPersonSelectList(string excludePersonId, string query)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

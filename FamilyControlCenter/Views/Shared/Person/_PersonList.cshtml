@@ -1,5 +1,5 @@
 ﻿@{
-    @model FamilyControlCenter.Viewmodels.Family.PersonViewModel
+    @model Shared.Viewmodels.PersonViewModel
 }
 
 <div class="panel">
@@ -13,7 +13,7 @@
 
             <div class="row">
                 <div class="col-md-3">
-                    @e.GetFullName()
+                    @e.Name
                 </div>
                 <div class="col-md-3">
                     @(birthDateString ?? "Д/Р неизвестна")

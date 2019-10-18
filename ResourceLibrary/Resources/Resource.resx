@@ -118,54 +118,60 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddRelation" xml:space="preserve">
-    <value>Добавить связь</value>
+    <value />
   </data>
   <data name="BornTimeKnown" xml:space="preserve">
-    <value>День рождения известен</value>
+    <value />
   </data>
   <data name="Brother" xml:space="preserve">
-    <value>Брат</value>
+    <value />
   </data>
   <data name="Close" xml:space="preserve">
-    <value>Закрыть</value>
+    <value />
   </data>
   <data name="DeadTimeKnown" xml:space="preserve">
-    <value>День смерти известен</value>
+    <value />
   </data>
   <data name="Father" xml:space="preserve">
-    <value>Отец</value>
+    <value />
   </data>
   <data name="FatherInLaw" xml:space="preserve">
-    <value>Тесть</value>
+    <value />
+  </data>
+  <data name="Female" xml:space="preserve">
+    <value />
   </data>
   <data name="Husband" xml:space="preserve">
-    <value>Муж</value>
+    <value />
   </data>
   <data name="Lastname" xml:space="preserve">
-    <value>Фамилия</value>
+    <value />
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value />
   </data>
   <data name="Mother" xml:space="preserve">
-    <value>Мать</value>
+    <value />
   </data>
   <data name="MotherInLaw" xml:space="preserve">
-    <value>Тёща</value>
+    <value />
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Имя</value>
+    <value />
   </data>
   <data name="PassportView" xml:space="preserve">
-    <value>Личное дело</value>
+    <value />
   </data>
   <data name="Patronym" xml:space="preserve">
-    <value>Отчество</value>
+    <value />
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Сохранить</value>
+    <value />
   </data>
   <data name="Sister" xml:space="preserve">
-    <value>Сестра</value>
+    <value />
   </data>
   <data name="Wife" xml:space="preserve">
-    <value>Жена</value>
+    <value />
   </data>
 </root>

@@ -118,54 +118,60 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddRelation" xml:space="preserve">
-    <value />
+    <value>Добавить связь</value>
   </data>
   <data name="BornTimeKnown" xml:space="preserve">
-    <value />
+    <value>День рождения известен</value>
   </data>
   <data name="Brother" xml:space="preserve">
-    <value />
+    <value>Брат</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value />
+    <value>Закрыть</value>
   </data>
   <data name="DeadTimeKnown" xml:space="preserve">
-    <value />
+    <value>День смерти известен</value>
   </data>
   <data name="Father" xml:space="preserve">
-    <value />
+    <value>Отец</value>
   </data>
   <data name="FatherInLaw" xml:space="preserve">
-    <value />
+    <value>Тесть</value>
+  </data>
+  <data name="Female" xml:space="preserve">
+    <value>Женщина</value>
   </data>
   <data name="Husband" xml:space="preserve">
-    <value />
+    <value>Муж</value>
   </data>
   <data name="Lastname" xml:space="preserve">
-    <value />
+    <value>Фамилия</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>Мужчина</value>
   </data>
   <data name="Mother" xml:space="preserve">
-    <value />
+    <value>Мать</value>
   </data>
   <data name="MotherInLaw" xml:space="preserve">
-    <value />
+    <value>Тёща</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value />
+    <value>Имя</value>
   </data>
   <data name="PassportView" xml:space="preserve">
-    <value />
+    <value>Личное дело</value>
   </data>
   <data name="Patronym" xml:space="preserve">
-    <value />
+    <value>Отчество</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value />
+    <value>Сохранить</value>
   </data>
   <data name="Sister" xml:space="preserve">
-    <value />
+    <value>Сестра</value>
   </data>
   <data name="Wife" xml:space="preserve">
-    <value />
+    <value>Жена</value>
   </data>
 </root>

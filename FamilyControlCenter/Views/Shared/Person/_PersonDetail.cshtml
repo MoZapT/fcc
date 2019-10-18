@@ -1,51 +1,68 @@
 ﻿@using Resources
 @{
-    @model FamilyControlCenter.Viewmodels.Family.PersonViewModel
+    @model Shared.Viewmodels.PersonViewModel
 }
 
 <div class="panel">
     <div class="panel-heading"></div>
     <div class="panel-body">
-        <div class="row">
+        <div class="row form-group">
             <div class="col-md-12">
                 @Html.LabelFor(m => m.Model.Firstname, Resource.Name)
                 @Html.TextBoxFor(m => m.Model.Firstname, new { @class = "form-control" })
             </div>
         </div>
-        <div class="row">
+        <div class="row form-group">
             <div class="col-md-12">
                 @Html.LabelFor(m => m.Model.Lastname, Resource.Lastname)
                 @Html.TextBoxFor(m => m.Model.Lastname, new { @class = "form-control" })
             </div>
         </div>
-        <div class="row">
+        <div class="row form-group">
             <div class="col-md-12">
                 @Html.LabelFor(m => m.Model.Patronym, Resource.Patronym)
                 @Html.TextBoxFor(m => m.Model.Patronym, new { @class = "form-control" })
             </div>
         </div>
-        <div class="row">
+        <div class="row form-group">
             <div class="col-md-12">
-                @Html.LabelFor(m => m.Model.HasBirthDate, Resource.BornTimeKnown)
-                @Html.CheckBoxFor(m => m.Model.HasBirthDate, new { @class = "form-control" })
+                <div class="checkbox">
+                    <label>
+                        @Html.CheckBoxFor(m => m.Model.Sex, new { @class = "" })
+                        <span>@(Model.Model.Sex ? @Resource.Female : @Resource.Male )</span>
+                    </label>
+                    @Html.Label("Sex_Checkbox_Male_Text", Resource.Male, new { @class = "hide" } )
+                    @Html.Label("Sex_Checkbox_Female_Text", Resource.Female, new { @class= "hide" } )
+                </div>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-2">
+                <div class="checkbox">
+                    <label>
+                        @Html.CheckBoxFor(m => m.Model.HasBirthDate, new { @class = "" })
+                        @Resource.BornTimeKnown
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-10">
                 @Html.HiddenFor(m => m.Model.BirthDate)
-                @Html.TextBox("DpBornTime", Model.Model.BirthDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control hide" })
+                @Html.TextBox("DpBornTime", Model.Model.BirthDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control" + (Model.Model.HasBirthDate ? "" : " hide") })
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                @Html.LabelFor(m => m.Model.HasDeathDate, Resource.DeadTimeKnown)
-                @Html.CheckBoxFor(m => m.Model.HasDeathDate, new { @class = "form-control" })
+            <div class="col-md-2">
+                <div class="checkbox">
+                    <label>
+                        @Html.CheckBoxFor(m => m.Model.HasDeathDate, new { @class = "" })
+                        @Resource.DeadTimeKnown
+                    </label>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-10">
                 @Html.HiddenFor(m => m.Model.DeathDate)
-                @Html.TextBox("DpDeadTime", Model.Model.DeathDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control hide" })
+                @Html.TextBox("DpDeadTime", Model.Model.DeathDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control" + (Model.Model.HasDeathDate ? "" : " hide") })
             </div>
         </div>
 

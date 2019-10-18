@@ -422,3 +422,15 @@ select[multiple].input-group.input-group-lg .twitter-typeahead .tt-hint {
         .tt-menu .tt-suggestion p {
             margin: 0;
         }
+
+span.twitter-typeahead > .wsc-tt-clear {
+    display: inline;
+    position: absolute;
+    top: calc(25%);
+    left: calc(100% - 20px);
+    z-index: 2;
+    text-align: center;
+    font-weight: normal;
+    font-size: 15px;
+    cursor: pointer;
+}

@@ -4,7 +4,7 @@ using Shared.Common;
 using Shared.Enums;
 using Shared.Models;
 
-namespace FamilyControlCenter.Viewmodels.Family
+namespace Shared.Viewmodels
 {
     public class PersonViewModel : BaseViewModel
     {

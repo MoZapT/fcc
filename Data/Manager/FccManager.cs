@@ -5,12 +5,12 @@ using Shared.Enums;
 using System;
 using System.Linq;
 using System.Web.Mvc.Html;
-using FamilyControlCenter.Viewmodels.Family;
-using FamilyControlCenter.Interfaces.Managers;
+using Shared.Viewmodels;
+using Shared.Interfaces.Managers;
 using Shared.Interfaces.Repositories;
 using System.Threading.Tasks;
 
-namespace FamilyControlCenter.Manager
+namespace Data.Manager
 {
     public class FccManager : IFccManager
     {
@@ -121,9 +121,9 @@ namespace FamilyControlCenter.Manager
             return _repo.ReadAllPersonRelationGroupsByPersonId(id);
         }
 
-        public IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string query = "")
+        public IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string excludePersonId, string query)
         {
-            return _repo.GetPersonSelectList();
+            return _repo.GetPersonSelectList(excludePersonId, query);
         }
 
         public Person GetPerson(string userId)

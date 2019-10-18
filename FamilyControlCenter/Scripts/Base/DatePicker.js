@@ -4,12 +4,13 @@
     function initializeComponent() {
         $('.datepicker:not([readonly])').datepicker({
             format: 'dd.mm.yyyy',
-            language: 'ru',
+            language: window.location.pathname.split('/')[1],
             todayHighlight: true,
             calendarWeeks: true,
             autoclose: true,
             weekStart: 1,
-            orientation: "bottom"
+            orientation: "bottom",
+            clearBtn: true
         });
 
         $('.datepicker').on('change', function (e) {
