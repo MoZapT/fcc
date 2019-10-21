@@ -67,6 +67,7 @@
     <Compile Include="Common\BaseModel.cs" />
     <Compile Include="Common\BaseViewModel.cs" />
     <Compile Include="Enums\ActionCommand.cs" />
+    <Compile Include="Enums\StatusRelationType.cs" />
     <Compile Include="Enums\VmState.cs" />
     <Compile Include="Helpers\FccEnumHelper.cs" />
     <Compile Include="Interfaces\Common\IBaseModel.cs" />
