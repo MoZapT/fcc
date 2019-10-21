@@ -19,96 +19,71 @@ namespace Data.Manager
         public FccManager()
         {
             _repo = new SqlRepository();
-            //_repo = new LocalRepository();
         }
 
-        #region PersonViewModel
+        #region Person
 
-        public void HandleAction(PersonViewModel vm)
+        public string SetPerson(Person entity)
         {
-            vm.State = VmState.List;
+            string result = null;
 
-            switch (vm.Command)
+            bool success = false;
+            success = _repo.Transaction(new Task(() =>
             {
-                case ActionCommand.Open:
-                    vm.State = VmState.Detail;
-                    break;
-                case ActionCommand.New:
-                    vm.State = VmState.Detail;
-                    break;
-                case ActionCommand.Save:
-                    SavePerson(vm);
-                    break;
-                case ActionCommand.Delete:
-                    DeletePerson(vm);
-                    break;
-                case ActionCommand.Cancel:
-                default:
-                    break;
+                result = _repo.CreatePerson(entity);
+                var defaultBrotherSisterGroup = new PersonRelationGroup();
+                defaultBrotherSisterGroup.Id = Guid.NewGuid().ToString();
+                defaultBrotherSisterGroup.Persons.Add(entity);
+                defaultBrotherSisterGroup.RelationTypeId = RelationType.BrotherSister;
+
+                var defaultChain = new PersonRelationChain();
+                defaultChain.Id = Guid.NewGuid().ToString();
+                defaultChain.Children = defaultBrotherSisterGroup;
+            }));
+
+            if (!success)
+            {
+                return null;
             }
 
-            switch (vm.State)
-            {
-                case VmState.Detail:
-                    if (vm.Command == ActionCommand.Open)
-                    {
-                        var personName = _repo.ReadLastPersonName(vm.Model.Id);
-                        vm.Model = _repo.ReadPerson(vm.Model.Id);
-                        vm.Names = _repo.ReadAllPersonNameByPersonId(vm.Model.Id).ToList();
-                        vm.Relations = _repo.ReadAllPersonRelationGroupsByPersonId(vm.Model.Id).ToList();
-                    }
-                    else
-                    {
-                        vm.Model = new Person() { Id = Guid.NewGuid().ToString() };
-                        vm.Names = new List<PersonName>();
-                        vm.Relations = new List<PersonRelationGroup>();
-                    }
-
-                    break;
-                case VmState.List:
-                default:
-                    vm.Command = ActionCommand.Cancel;
-                    vm.Models = _repo.ReadAllPerson().ToList();
-                    break;
-            }
+            return result;
         }
 
-        private bool SavePerson(PersonViewModel vm)
+        public bool UpdatePerson(Person entity)
         {
-            bool success = true;
-            bool isExisting = _repo.ReadPerson(vm.Model.Id) != null ? true : false;
-
-            //save person as new
-            if (!isExisting)
-            {
-                success = _repo.Transaction(new Task(() => 
-                {
-                    _repo.CreatePerson(vm.Model);
-                    //create b/s group
-                    //create f/m group
-                    //chain these two groups
-                }));
-
-                return success;
-            }
-
-            //update already existing person
-            success = _repo.UpdatePerson(vm.Model);
-
-            return success;
+            return _repo.UpdatePerson(entity);
         }
-        private bool DeletePerson(PersonViewModel vm)
+
+        public bool DeletePerson(string id)
         {
-            bool success = true;
+            return _repo.DeletePerson(id);
+        }
 
-            success = _repo.DeletePerson(vm.Model.Id);
+        public bool ExistPerson(string id)
+        {
+            return _repo.ReadPerson(id) != null ? true : false;
+        }
 
-            return success;
+        public Person GetPerson(string userId)
+        {
+            return _repo.ReadPerson(userId);
+        }
+
+        public List<Person> GetListPerson()
+        {
+            return _repo.ReadAllPerson().ToList();
+        }
+
+        public IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string excludePersonId, string query)
+        {
+            return _repo.GetPersonSelectList(excludePersonId, query);
         }
 
         #endregion
 
-        public bool DeletePersonRelation(string id)
+        #region PersonRelation
+
+        public bool DeletePersonRelation(string personId, string groupId)
         {
             return _repo.DeletePersonRelation(id);
         }
@@ -119,21 +94,6 @@ namespace Data.Manager
             entity.DateCreated = DateTime.Now;
             entity.DateModified = DateTime.Now;
             return _repo.CreatePersonRelation(entity);
-        }
-
-        public IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string excludePersonId, string query)
-        {
-            return _repo.GetPersonSelectList(excludePersonId, query);
-        }
-
-        public Person GetPerson(string userId)
-        {
-            return _repo.ReadPerson(userId);
-        }
-
-        public IEnumerable<PersonRelationGroup> GetPersonRelationGroupsByPersonId(string personId)
-        {
-            return _repo.ReadAllPersonRelationGroupsByPersonId(personId);
         }
 
         public bool SetPersonRelation(PersonRelation from, PersonRelation to, RelationType type)
@@ -179,5 +139,8 @@ namespace Data.Manager
 
             return true;
         }
+
+        #endregion
+
     }
 }

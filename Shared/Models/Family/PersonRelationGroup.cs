@@ -7,7 +7,17 @@ namespace Shared.Models
 {
     public class PersonRelationGroup : BaseModel
     {
-        public List<PersonRelation> Relations { get; set; }
+        public List<Person> Persons
+        {
+            get
+            {
+                if (Persons == null)
+                    Persons = new List<Person>();
+
+                return Persons;
+            }
+            set { Persons = value; }
+        }
         public RelationType RelationTypeId { get; set; }
     }
 }

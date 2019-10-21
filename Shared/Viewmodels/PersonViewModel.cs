@@ -12,9 +12,6 @@ namespace Shared.Viewmodels
         #region PROPERTIES
 
         public Person Model { get; set; }
-        public List<PersonRelationGroup> Relations { get; set; }
-        public List<PersonName> Names { get; set; }
-
         public List<Person> Models { get; set; }
 
         #endregion

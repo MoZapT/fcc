@@ -16,10 +16,10 @@
                     @e.Name
                 </div>
                 <div class="col-md-3">
-                    @(birthDateString ?? "Д/Р неизвестна")
+                    @(birthDateString ?? Resources.Resource.BornTimeNotKnown)
                 </div>
                 <div class="col-md-3">
-                    @(deathDateString ?? "Д/С неизвестна")
+                    @(deathDateString ?? Resources.Resource.DeadTimeNotKnown)
                 </div>
                 <div class="col-md-3">
                     @Html.Partial("ToolsSharedViews/_DefaultCRUD", e)

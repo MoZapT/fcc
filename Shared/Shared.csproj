@@ -74,6 +74,8 @@
     <Compile Include="Interfaces\Managers\IFccManager.cs" />
     <Compile Include="Interfaces\Repositories\ISqlBaseRepository.cs" />
     <Compile Include="Interfaces\Repositories\ISqlRepository.cs" />
+    <Compile Include="Interfaces\ViewBuilders\IFccViewBuilder.cs" />
+    <Compile Include="Models\Family\PersonRelationChain.cs" />
     <Compile Include="Models\Family\PersonRelationGroup.cs" />
     <Compile Include="Models\Family\PersonRelation.cs" />
     <Compile Include="Models\Family\PersonName.cs" />

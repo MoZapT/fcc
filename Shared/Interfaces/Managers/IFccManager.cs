@@ -7,14 +7,25 @@ namespace Shared.Interfaces.Managers
 {
     public interface IFccManager
     {
-        void HandleAction(PersonViewModel vm);
+
+        #region Person
+
+        string SetPerson(Person entity);
+        bool UpdatePerson(Person entity);
+        bool ExistPerson(string id);
+        Person GetPerson(string userId);
+        List<Person> GetListPerson();
+        IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string excludePersonId, string query);
+
+        #endregion
+
+        #region PersonRelation
 
         string SetPersonRelations(PersonRelation entity);
         bool DeletePersonRelation(string id);
-        IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string excludePersonId, string query);
-        IEnumerable<PersonRelationGroup> GetPersonRelationGroupsByPersonId(string personId);
-
         bool SetPersonRelation(PersonRelation from, PersonRelation to, RelationType type);
-        Person GetPerson(string userId);
+
+        #endregion
+
     }
 }

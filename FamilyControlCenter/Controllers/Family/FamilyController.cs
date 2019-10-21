@@ -5,17 +5,18 @@ using System.Linq;
 using System.Web.Mvc;
 using Shared.Enums;
 using System;
+using Shared.Interfaces.ViewBuilders;
 
 namespace FamilyControlCenter.Controllers
 {
     [RoutePrefix("{lang}/family")]
     public class FamilyController : BaseController
     {
-        IFccManager _mgrFcc;
+        IFccViewBuilder _vwbFcc;
 
-        public FamilyController(IFccManager mgrFcc)
+        public FamilyController(IFccViewBuilder vwbFcc)
         {
-            _mgrFcc = mgrFcc;
+            _vwbFcc = vwbFcc;
         }
 
         //[Authorize]
@@ -23,7 +24,7 @@ namespace FamilyControlCenter.Controllers
         {
             BeforeLoadAction();
             var vm = new PersonViewModel();
-            _mgrFcc.HandleAction(vm);
+            _vwbFcc.HandleAction(vm);
             return View(vm);
         }
 
@@ -31,20 +32,8 @@ namespace FamilyControlCenter.Controllers
         public ActionResult Person(PersonViewModel vm)
         {
             BeforeLoadAction();
-            _mgrFcc.HandleAction(vm);
+            _vwbFcc.HandleAction(vm);
             return View(vm);
-        }
-
-        [/*Authorize,*/ HttpPost]
-        public PartialViewResult LoadPersonRelationsList(string personId)
-        {
-            BeforeLoadAction();
-
-            var vm = new PersonViewModel
-            {
-                Relations = _mgrFcc.GetPersonRelationGroupsByPersonId(personId).ToList()
-            };
-            return PartialView("Person/_RelationsList", vm);
         }
     }
 }

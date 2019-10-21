@@ -20,40 +20,37 @@
         }
     }
 
-    function setRelations(panel) {
+    function setRelations() {
         var from = createPersonRelationModel($('#Model_Id').val());
         var to = createPersonRelationModel($('#NewRelationPersonId').val());
         var type = $('#NewRelationRelationTypeId').val();
 
         $.ajax({
-            url: 'SetPersonRelation',//'api/set/relations',
-            data: JSON.stringify({ from: from, to: to, type: type }),
-            type: 'POST',
+            url: getApiRoute(),// + 'relation/delete/' + personId + '/' + groupId,
+            type: 'GET',
             dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            traditional: true,
             complete: function (response) {
-                $(panel).html(response.responseText);
-                //initDynamicScripts();
+                //TODO update list
             }
         });
     }
 
-    function deleteRelation(panel, relationid) {
+    function deleteRelation() {
+        var btn = $('button#DestroyRelation');
+        var personId = $(btn).attr('person-id');
+        var groupId = $(btn).attr('group-id');
+
         $.ajax({
-            url: 'DeletePersonRelation',//'api/set/relations',
-            data: JSON.stringify({ relationid: relationid, personid: $('#Model_Id').val() }),
-            type: 'POST',
+            url: getApiRoute() + 'relation/delete/' + personId + '/' + groupId,
+            type: 'GET',
             dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            traditional: true,
             complete: function (response) {
-                $(panel).html(response.responseText);
-                //initDynamicScripts();
+                //TODO update list
             }
         });
     }
 
+    //TODO delete or move to .js model factory
     function createPersonRelationModel(personId) {
         var model = {
             Id: null,
@@ -91,17 +88,11 @@
         });
 
         $('button#SaveRelation').on('click', function (e) {
-            e.preventDefault();
-            var btn = e.currentTarget;
-            $panel = $(btn).closest('.panel-footer').siblings('.panel-body');
-            setRelations($panel);
+            setRelations();
         });
 
         $('button#DestroyRelation').on('click', function (e) {
-            e.preventDefault();
-            var btn = e.currentTarget;
-            $panel = $(btn).closest('.panel-body');
-            deleteRelation($panel, $(btn).attr('member-id'));
+            deleteRelation();
         });
 
         $('#NewRelationPersonId').on('change', function (e) {

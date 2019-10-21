@@ -24,16 +24,18 @@ namespace FamilyControlCenter.Controllers
         }
 
         //[Authorize]
-        [Route("typeahead/person/{excludePersonId?}/{query?}")]
+        [Route("relation/set/{excludePersonId?}/{query?}")]
         public void SetPersonRelation(PersonRelation from, PersonRelation to, RelationType type)
         {
             _mgrFcc.SetPersonRelation(from, to, type);
         }
 
         //[Authorize]
-        [Route("typeahead/person/{excludePersonId?}/{query?}")]
-        public void DeletePersonRelation(PersonRelation from, PersonRelation to, RelationType type)
+        [Route("relation/delete/{personId}/{groupId}")]
+        public void DeletePersonRelation(string personId, string groupId)
         {
+            //if group (parents) became completely empty, then delete it from DB
+            _mgrFcc.DeletePersonRelation("");
             throw new NotImplementedException();
         }
 

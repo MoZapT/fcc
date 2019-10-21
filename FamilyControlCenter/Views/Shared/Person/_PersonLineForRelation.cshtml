@@ -1,0 +1,24 @@
+﻿@using Resources
+@using Shared.Helpers
+@using Shared.Enums
+@using Shared.Models
+@model Person
+
+@{ 
+    string personId = Model.Id;
+    string groupId = (string)ViewData["RelationId"];
+    RelationType type = (RelationType)ViewData["RelationType"];
+}
+
+<div class="row">
+    <div class="col-md-10">
+        @Model.Name
+        @(Resource.ResourceManager.GetLocalizedStringForEnumValue(type, Model.Sex))
+    </div>
+    <div class="col-md-2">
+        <button id="DestroyRelation" person-id="@personId" group-id="@groupId" type="button" class="btn btn-secondary" data-dismiss="modal">
+            <i class="glyphicon glyphicon-trash"></i>
+        </button>
+    </div>
+</div>
+

@@ -1,25 +1,25 @@
 ﻿@using Resources
 @using Shared.Helpers
-@{
-    @model Shared.Viewmodels.PersonViewModel
+@using Shared.Models
+@model PersonRelationChain
+
+@{ 
+    //DONT ALLOW DELETE IF LAST RECORD! IN CHILDREN!
+    //DONT SHOW OBJECT HIMSELF!
 }
 
-@foreach (var group in Model.Relations)
+@foreach (var person in Model.Children.Persons)
 {
-    foreach (var relation in group.Relations)
+    var kvp = new KeyValuePair<string, object>("RelationType", Model.Children.RelationTypeId);
+    @Html.Partial("Person/_PersonLineForRelation", person, new ViewDataDictionary() { kvp })
+}
+
+@if (Model.Parents != null)
+{
+    foreach (var person in Model.Parents.Persons)
     {
-        var relType = group.RelationTypeId;
-        <div class="row">
-            <div class="col-md-10">
-                @relation.Member.Name
-                @(Resource.ResourceManager
-                    .GetLocalizedStringForEnumValue(relType.GetType(), relType, relation.Member.Sex))
-            </div>
-            <div class="col-md-2">
-                <button id="DestroyRelation" relation-id="@relation.Id" type="button" class="btn btn-secondary" data-dismiss="modal">
-                    <i class="glyphicon glyphicon-trash"></i>
-                </button>
-            </div>
-        </div>
+        var kvp = new KeyValuePair<string, object>("RelationType", Model.Parents.RelationTypeId);
+        @Html.Partial("Person/_PersonLineForRelation", person, new ViewDataDictionary() { kvp })
     }
 }
+

@@ -3,6 +3,8 @@ using Shared.Interfaces.Managers;
 using Data.Manager;
 using Ninject.Modules;
 using Shared.Interfaces.Repositories;
+using Data.ViewBuilder;
+using Shared.Interfaces.ViewBuilders;
 
 namespace FamilyControlCenter.DependencyResolver
 {
@@ -30,6 +32,8 @@ namespace FamilyControlCenter.DependencyResolver
         {
             //  initialize content manager
             Bind<IFccManager>().To<FccManager>().InSingletonScope();
+
+            Bind<IFccViewBuilder>().To<FccViewBuilder>().InSingletonScope();
         }
     }
 }

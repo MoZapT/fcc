@@ -24,9 +24,9 @@ namespace Shared.Helpers
                 .ToList();
         }
 
-        public static string GetLocalizedStringForEnumValue(this ResourceManager source, Type type, Enum value, bool isFemaleGender = false)
+        public static string GetLocalizedStringForEnumValue(this ResourceManager source, Enum value, bool isFemaleGender = false)
         {
-            return GetGenderizedText(GetEnumDescription(type, value.ToString()), isFemaleGender ? 1 : 0);
+            return GetGenderizedText(GetEnumDescription(value.GetType(), value.ToString()), isFemaleGender ? 1 : 0);
         }
 
         public static string GetGenderizedText(string mainText, int gender)

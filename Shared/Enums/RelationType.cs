@@ -14,9 +14,5 @@ namespace Shared.Enums
         BrotherSister,
         [Description("Father|Mother")]
         FatherMother,
-        //[Description("FatherInLaw|MotherInLaw")]
-        //FatherMotherInLaw,
-        //[Description("Husband|Wife")]
-        //HusbandWife,
     }
 }

@@ -81,6 +81,15 @@ namespace Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
+        public static string BornTimeNotKnown {
+            get {
+                return ResourceManager.GetString("BornTimeNotKnown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
         public static string Brother {
             get {
                 return ResourceManager.GetString("Brother", resourceCulture);
@@ -102,6 +111,15 @@ namespace Resources {
         public static string DeadTimeKnown {
             get {
                 return ResourceManager.GetString("DeadTimeKnown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string DeadTimeNotKnown {
+            get {
+                return ResourceManager.GetString("DeadTimeNotKnown", resourceCulture);
             }
         }
         

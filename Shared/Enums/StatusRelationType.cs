@@ -12,5 +12,7 @@ namespace Shared.Enums
     {
         [Description("Husband|Wife")]
         HusbandWife,
+        [Description("LivePartnerMale|LivePartnerFemale")]
+        LivePartner,
     }
 }

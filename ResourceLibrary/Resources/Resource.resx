@@ -123,6 +123,9 @@
   <data name="BornTimeKnown" xml:space="preserve">
     <value />
   </data>
+  <data name="BornTimeNotKnown" xml:space="preserve">
+    <value />
+  </data>
   <data name="Brother" xml:space="preserve">
     <value />
   </data>
@@ -130,6 +133,9 @@
     <value />
   </data>
   <data name="DeadTimeKnown" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DeadTimeNotKnown" xml:space="preserve">
     <value />
   </data>
   <data name="Father" xml:space="preserve">
