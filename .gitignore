@@ -261,3 +261,13 @@ ModelManifest.xml
 
 # npm logs
 npm-debug.log.*
+
+Shared/bin/
+
+Shared/obj/
+
+DataAccessInfrastructure/obj/
+
+FamilyControlCenter/bin/
+
+FamilyControlCenter/obj/

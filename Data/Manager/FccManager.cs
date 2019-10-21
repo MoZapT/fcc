@@ -81,8 +81,13 @@ namespace Data.Manager
             //save person as new
             if (!isExisting)
             {
-                string result = _repo.CreatePerson(vm.Model);
-                success = string.IsNullOrWhiteSpace(result) ? false : true;
+                success = _repo.Transaction(new Task(() => 
+                {
+                    _repo.CreatePerson(vm.Model);
+                    //create b/s group
+                    //create f/m group
+                    //chain these two groups
+                }));
 
                 return success;
             }
