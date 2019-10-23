@@ -29,5 +29,11 @@ namespace Shared.Interfaces.Managers
 
         #endregion
 
+        #region PersonBiography
+
+        PersonBiography GetPersonBiographyByPersonId(string person);
+
+        #endregion
+
     }
 }

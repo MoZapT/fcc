@@ -29,59 +29,67 @@
                 <div class="row form-group">
                     <div class="col-md-6">
                         <div class="form-inline">
-                            @Html.Label("Sex_Checkbox_Male_Text", Resource.Male, new { @class = "inline" })
+                            @Html.Label("Sex_Checkbox_Male_Text", Resource.Male)
                             <div class="checkbox">
                                 <label class="switch">
                                     @Html.CheckBoxFor(m => m.Model.Sex, new { @class = "sexswitcher inline" })
                                     <span class="slider round"></span>
                                 </label>
                             </div>
-                            @Html.Label("Sex_Checkbox_Female_Text", Resource.Female, new { @class = "inline" })
+                            @Html.Label("Sex_Checkbox_Female_Text", Resource.Female)
                         </div>
                     </div>
                 </div>
-                <div class="row form-group">
-                    <div class="col-md-6 form-inline">
-                        <div class="checkbox">
-                            <label class="switch">
-                                @Html.CheckBoxFor(m => m.Model.HasBirthDate, new { @class = "" })
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                        @Html.LabelFor(m => m.Model.HasBirthDate, Resource.BornTimeKnown)
-                    </div>
-                    <div class="col-md-6 form-inline">
-                        <div class="checkbox">
-                            <label class="switch">
-                                @Html.CheckBoxFor(m => m.Model.HasDeathDate, new { @class = "" })
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                        @Html.LabelFor(m => m.Model.HasDeathDate, Resource.DeadTimeKnown)
-                    </div>
-                </div>
-                <div id="BirthDeathDatepicker" class="row form-group @(Model.Model.HasBirthDate || Model.Model.HasDeathDate ? "" : " hide")">
+                <div class="row">
                     <div class="col-md-6">
-                        @Html.HiddenFor(m => m.Model.BirthDate)
-                        @if (Model.Model.HasBirthDate)
-                        {
-                            @Html.TextBox("DpBornTime", Model.Model.BirthDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })
-                        }
-                        else
-                        {
-                            @Html.TextBox("DpBornTime", Model.Model.BirthDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control", @readonly = "readonly" })
-                        }
+                        <div class="row form-group">
+                            <div class="col-md-12 form-inline">
+                                <div class="checkbox">
+                                    <label class="switch">
+                                        @Html.CheckBoxFor(m => m.Model.HasBirthDate, new { @class = "" })
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                @Html.LabelFor(m => m.Model.HasBirthDate, Resource.BornTimeKnown)
+                            </div>
+
+                            <div class="col-md-12">
+                                @Html.HiddenFor(m => m.Model.BirthDate)
+                                @if (Model.Model.HasBirthDate)
+                                {
+                                    @Html.TextBox("DpBornTime", Model.Model.BirthDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })
+                                }
+                                else
+                                {
+                                    @Html.TextBox("DpBornTime", Model.Model.BirthDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control", @readonly = "readonly" })
+                                }
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        @Html.HiddenFor(m => m.Model.DeathDate)
-                        @if (Model.Model.HasDeathDate)
-                        {
-                            @Html.TextBox("DpDeadTime", Model.Model.DeathDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })
-                        }
-                        else
-                        {
-                            @Html.TextBox("DpDeadTime", Model.Model.DeathDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control", @readonly = "readonly" })
-                        }
+                        <div class="row form-group">
+                            <div class="col-md-12 form-inline">
+                                <div class="checkbox">
+                                    <label class="switch">
+                                        @Html.CheckBoxFor(m => m.Model.HasDeathDate, new { @class = "" })
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                @Html.LabelFor(m => m.Model.HasDeathDate, Resource.DeadTimeKnown)
+                            </div>
+
+                            <div class="col-md-12">
+                                @Html.HiddenFor(m => m.Model.DeathDate)
+                                @if (Model.Model.HasDeathDate)
+                                {
+                                    @Html.TextBox("DpDeadTime", Model.Model.DeathDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })
+                                }
+                                else
+                                {
+                                    @Html.TextBox("DpDeadTime", Model.Model.DeathDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control", @readonly = "readonly" })
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -122,7 +130,7 @@
             </div>
             <div id="BiographyPanel" class="panel-collapse collapse">
                 <div class="panel-body">
-                    @Html.TextArea("Test", new { @class = "form-control" })
+                    @Html.TextAreaFor(m => m.PersonBiography.BiographyText, new { @class = "form-control" })
                 </div>
             </div>
         </div>

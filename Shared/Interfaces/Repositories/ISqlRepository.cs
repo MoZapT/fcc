@@ -37,5 +37,11 @@ namespace Shared.Interfaces.Repositories
 
         #endregion
 
+        #region PersonBiography
+
+        PersonBiography ReadPersonBiographyByPersonId(string personId);
+
+        #endregion
+
     }
 }

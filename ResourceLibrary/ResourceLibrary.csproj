@@ -56,5 +56,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Resource.ru-RU.resx" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Common\CreateFccDb.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

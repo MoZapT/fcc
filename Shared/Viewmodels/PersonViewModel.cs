@@ -34,6 +34,7 @@ namespace Shared.Viewmodels
                 return marriageRelation.Invited;
             }
         }
+        public PersonBiography PersonBiography { get; set; }
         public List<Person> Models { get; set; }
 
         #endregion

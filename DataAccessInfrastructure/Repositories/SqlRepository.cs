@@ -383,5 +383,20 @@ namespace DataAccessInfrastructure.Repositories
 
         #endregion
 
+        #region PersonBiography
+
+        public PersonBiography ReadPersonBiographyByPersonId(string personId)
+        {
+            string query = @"
+                    SELECT *
+                    FROM [PersonBiography]
+                    WHERE 
+                        PersonId = @PersonId";
+
+            return QueryFoD<PersonBiography>(query, new { @PersonId = personId});
+        }
+
+        #endregion
+
     }
 }

@@ -109,6 +109,7 @@ namespace Data.ViewBuilder
             try
             {
                 vm.Model = _mgrFcc.GetPerson(vm.Model.Id);
+                vm.PersonBiography = _mgrFcc.GetPersonBiographyByPersonId(vm.Model.Id);
                 vm.RelationsPartialViewModel = CreateRelationsPartialViewModel(vm.Model);
             }
             catch (Exception)

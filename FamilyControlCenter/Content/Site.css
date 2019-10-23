@@ -41,6 +41,17 @@
     cursor: pointer;
 }
 
+/*bootstrap override!*/
+@media (min-width: 360px) {
+    .form-inline .checkbox {
+        display: inline-block;
+        margin-top: 0;
+        margin-bottom: 0;
+        vertical-align: middle;
+    }
+}
+/*bootstrap override end*/
+
 /*Photo frame*/
 img.photo {
     display: block;

@@ -2,16 +2,8 @@
 
 (function () {
     function DatepickerVisibility() {
-        var container = $('#BirthDeathDatepicker');
         var hasBirthdate = $('#Model_HasBirthDate').is(':checked');
         var hasDeathdate = $('#Model_HasDeathDate').is(':checked');
-
-        if (hasBirthdate || hasDeathdate) {
-            $(container).removeClass('hide');
-        }
-        else {
-            $(container).addClass('hide');
-        }
 
         if (hasBirthdate) {
             $('#DpBornTime').removeAttr('readonly', 'readonly');

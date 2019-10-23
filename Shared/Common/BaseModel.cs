@@ -16,20 +16,5 @@ namespace Shared.Common
             DateModified = DateTime.Now;
             IsActive = true;
         }
-
-        public bool IsNull()
-        {
-            if (this == null)
-            {
-                return true;
-            }
-
-            if (string.IsNullOrWhiteSpace(Id))
-            {
-                return true;
-            }
-
-            return false;
-        }
     }
 }

@@ -127,5 +127,14 @@ namespace Data.Manager
 
         #endregion
 
+        #region PersonBiography
+
+        public PersonBiography GetPersonBiographyByPersonId(string person)
+        {
+            return _repo.ReadPersonBiographyByPersonId(person);
+        }
+
+        #endregion
+
     }
 }
