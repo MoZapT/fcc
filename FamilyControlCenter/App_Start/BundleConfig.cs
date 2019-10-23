@@ -39,6 +39,7 @@ namespace FamilyControlCenter
                       "~/Content/fontawesome/fontawesome.css",
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
+                      "~/Content/bootstrapoverride.css",
                       "~/Content/bootstrap-datepicker.css",
                       "~/Content/typeahead.css"));
 

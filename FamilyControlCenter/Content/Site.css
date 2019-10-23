@@ -1,23 +1,5 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
+﻿@media (max-width: 786px) {
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
-}
-
-.margin-top-50 {
-    margin-top: 50px;
 }
 
 .crud {
@@ -25,32 +7,23 @@
 
 .item {
 }
+
 .row.item {
     min-height: 50px;
     margin-bottom: 1px;
-    z-index: 100;
-    border-bottom: 1px solid;
-    border-bottom-color: rgb(152, 152, 152)
+    /*border-bottom: 1px solid;
+    border-bottom-color: rgb(152, 152, 152)*/
 }
+
 .row.item:nth-of-type(even) {
     /*background-color: rgba(4, 62, 96, 0.74);
     color: white;*/
 }
+
 .row.item:hover, .row-item:nth-of-type(even):hover {
     background-color: #b7e4fe;
     cursor: pointer;
 }
-
-/*bootstrap override!*/
-@media (min-width: 360px) {
-    .form-inline .checkbox {
-        display: inline-block;
-        margin-top: 0;
-        margin-bottom: 0;
-        vertical-align: middle;
-    }
-}
-/*bootstrap override end*/
 
 /*Photo frame*/
 img.photo {
