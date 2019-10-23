@@ -3,8 +3,9 @@
 @using Resources
 @model Shared.Models.Person
 
-<button data-toggle="modal" data-target="#NewRelationModal" class="btn btn-primary" type="button">
+<button data-toggle="modal" data-target="#NewRelationModal" class="btn btn-primary pull-right" type="button">
     <i class="glyphicon glyphicon-plus"></i>
+    @Resource.AddRelation
 </button>
 
 <div class="modal fade" id="NewRelationModal" tabindex="-1" role="dialog" aria-labelledby="NewRelationModal" aria-hidden="true">
@@ -20,7 +21,7 @@
                 <div class="row form-group">
                     <div class="col-md-12">
                         @Html.Hidden("NewRelationPersonId", "")
-                        @Html.TextBox("NewRelationPersonName", "", new { @class = "form-control typeahead", placeholder = "", taname = "PersonTypeahead", taurl = "typeahead/person/"+Model.Id+"/" })
+                        @Html.TextBox("NewRelationPersonName", "", new { @class = "form-control typeahead", placeholder = "", taname = "PersonTypeahead", taurl = "typeahead/person/" + Model.Id + "/" })
                     </div>
                 </div>
                 <div class="row">

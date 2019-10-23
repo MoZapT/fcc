@@ -120,6 +120,9 @@
   <data name="AddRelation" xml:space="preserve">
     <value />
   </data>
+  <data name="Biography" xml:space="preserve">
+    <value />
+  </data>
   <data name="BornTimeKnown" xml:space="preserve">
     <value />
   </data>
@@ -147,6 +150,12 @@
   <data name="Delete" xml:space="preserve">
     <value />
   </data>
+  <data name="DivorcedFemale" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DivorcedMale" xml:space="preserve">
+    <value />
+  </data>
   <data name="EmptyDatePlaceholder" xml:space="preserve">
     <value />
   </data>
@@ -159,6 +168,9 @@
   <data name="Female" xml:space="preserve">
     <value />
   </data>
+  <data name="Foto" xml:space="preserve">
+    <value />
+  </data>
   <data name="Husband" xml:space="preserve">
     <value />
   </data>
@@ -166,6 +178,12 @@
     <value />
   </data>
   <data name="Male" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MarriedFemale" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MarriedMale" xml:space="preserve">
     <value />
   </data>
   <data name="Mother" xml:space="preserve">
@@ -177,10 +195,19 @@
   <data name="Name" xml:space="preserve">
     <value />
   </data>
+  <data name="NotMarriedFemale" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NotMarriedMale" xml:space="preserve">
+    <value />
+  </data>
   <data name="PassportView" xml:space="preserve">
     <value />
   </data>
   <data name="Patronym" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PersonRelations" xml:space="preserve">
     <value />
   </data>
   <data name="Save" xml:space="preserve">
@@ -190,6 +217,12 @@
     <value />
   </data>
   <data name="Son" xml:space="preserve">
+    <value />
+  </data>
+  <data name="WidowFemale" xml:space="preserve">
+    <value />
+  </data>
+  <data name="WidowMale" xml:space="preserve">
     <value />
   </data>
   <data name="Wife" xml:space="preserve">

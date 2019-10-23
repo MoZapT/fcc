@@ -120,6 +120,9 @@
   <data name="AddRelation" xml:space="preserve">
     <value>Добавить связь</value>
   </data>
+  <data name="Biography" xml:space="preserve">
+    <value>Биография</value>
+  </data>
   <data name="BornTimeKnown" xml:space="preserve">
     <value>День рождения известен</value>
   </data>
@@ -147,6 +150,12 @@
   <data name="Delete" xml:space="preserve">
     <value>Удалить</value>
   </data>
+  <data name="DivorcedFemale" xml:space="preserve">
+    <value>Разведена</value>
+  </data>
+  <data name="DivorcedMale" xml:space="preserve">
+    <value>Разведён</value>
+  </data>
   <data name="EmptyDatePlaceholder" xml:space="preserve">
     <value>ДД.ММ.ГГГГ</value>
   </data>
@@ -159,6 +168,9 @@
   <data name="Female" xml:space="preserve">
     <value>Женщина</value>
   </data>
+  <data name="Foto" xml:space="preserve">
+    <value>Фото</value>
+  </data>
   <data name="Husband" xml:space="preserve">
     <value>Муж</value>
   </data>
@@ -167,6 +179,12 @@
   </data>
   <data name="Male" xml:space="preserve">
     <value>Мужчина</value>
+  </data>
+  <data name="MarriedFemale" xml:space="preserve">
+    <value>Замужем за</value>
+  </data>
+  <data name="MarriedMale" xml:space="preserve">
+    <value>Женат на</value>
   </data>
   <data name="Mother" xml:space="preserve">
     <value>Мать</value>
@@ -177,11 +195,20 @@
   <data name="Name" xml:space="preserve">
     <value>Имя</value>
   </data>
+  <data name="NotMarriedFemale" xml:space="preserve">
+    <value>Не замужем</value>
+  </data>
+  <data name="NotMarriedMale" xml:space="preserve">
+    <value>Не женат</value>
+  </data>
   <data name="PassportView" xml:space="preserve">
     <value>Личное дело</value>
   </data>
   <data name="Patronym" xml:space="preserve">
     <value>Отчество</value>
+  </data>
+  <data name="PersonRelations" xml:space="preserve">
+    <value>Родственники</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Сохранить</value>
@@ -191,6 +218,12 @@
   </data>
   <data name="Son" xml:space="preserve">
     <value>Сын</value>
+  </data>
+  <data name="WidowFemale" xml:space="preserve">
+    <value>Вдова</value>
+  </data>
+  <data name="WidowMale" xml:space="preserve">
+    <value>Вдовец</value>
   </data>
   <data name="Wife" xml:space="preserve">
     <value>Жена</value>

@@ -18,7 +18,7 @@ namespace Shared.Helpers
                 .Cast<T>()
                 .Select(e => new SelectListItem()
                 {
-                    Text = GetGenderizedText(GetEnumDescription(type, e.ToString()), isFemaleGender ? 1 : 0),
+                    Text = GetGenderizedText(GetEnumDescription(type, e.ToString()), isFemaleGender),
                     Value = e.ToString()
                 })
                 .ToList();
@@ -26,11 +26,13 @@ namespace Shared.Helpers
 
         public static string GetLocalizedStringForEnumValue(this ResourceManager source, Enum value, bool isFemaleGender = false)
         {
-            return GetGenderizedText(GetEnumDescription(value.GetType(), value.ToString()), isFemaleGender ? 1 : 0);
+            return GetGenderizedText(GetEnumDescription(value.GetType(), value.ToString()), isFemaleGender);
         }
 
-        public static string GetGenderizedText(string mainText, int gender)
+        public static string GetGenderizedText(string mainText, bool isFemaleGender)
         {
+            int gender = isFemaleGender ? 1 : 0;
+
             string[] array = mainText.Split('|');
 
             if (array == null || array.Length <= 0)

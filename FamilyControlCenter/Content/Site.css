@@ -41,6 +41,14 @@
     cursor: pointer;
 }
 
+/*Photo frame*/
+img.photo {
+    display: block;
+    max-width: 260px;
+    max-height: 260px;
+    border: 1px solid;
+}
+
 /*sliders!!!*/
 /* The switch - the box around the slider */
 .switch {

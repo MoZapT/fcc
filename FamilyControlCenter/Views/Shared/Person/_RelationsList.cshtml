@@ -4,33 +4,50 @@
 @using Shared.Viewmodels
 @model PersonPartialViewRelationsModel
 
-@foreach (var relation in Model.Relations)
-{
-    <div class="row item">
-        <div class="col-md-1">
-            @if (Model.Person.Id == relation.Inviter.Id)
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" href="#RelationsPanel">
+                @Resource.PersonRelations
+            </a>
+        </h4>
+    </div>
+    <div id="RelationsPanel" class="panel-collapse collapse">
+        <div class="panel-body">
+            @foreach (var relation in Model.Relations)
             {
-                @Resource.ResourceManager.GetLocalizedStringForEnumValue(relation.RelationType, relation.Invited.Sex)
-            }
-            else
-            {
-                @Resource.ResourceManager.GetLocalizedStringForEnumValue(relation.RelationType, relation.Inviter.Sex)
+                <div class="row item">
+                    <div class="col-md-1">
+                        @if (Model.Person.Id == relation.Inviter.Id)
+                        {
+                            @Resource.ResourceManager.GetLocalizedStringForEnumValue(relation.RelationType, relation.Invited.Sex)
+                        }
+                        else
+                        {
+                            @Resource.ResourceManager.GetLocalizedStringForEnumValue(relation.RelationType, relation.Inviter.Sex)
+                        }
+                    </div>
+                    <div class="col-md-9">
+                        @if (Model.Person.Id == relation.Inviter.Id)
+                        {
+                            @relation.Invited.Name
+                        }
+                        else
+                        {
+                            @relation.Inviter.Name
+                        }
+                    </div>
+                    <div class="col-md-1">
+                        <button id="DestroyRelation" inviter="@relation.Inviter.Id" invited="@relation.Invited.Id" reltype="@((int)relation.RelationType)" type="button" class="btn btn-danger" data-dismiss="modal">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </button>
+                    </div>
+                </div>
             }
         </div>
-        <div class="col-md-9">
-            @if (Model.Person.Id == relation.Inviter.Id)
-            {
-                @relation.Invited.Name
-            }
-            else
-            {
-                @relation.Inviter.Name
-            }
-        </div>
-        <div class="col-md-1">
-            <button id="DestroyRelation" inviter="@relation.Inviter.Id" invited="@relation.Invited.Id" reltype="@((int)relation.RelationType)" type="button" class="btn btn-danger" data-dismiss="modal">
-                <i class="glyphicon glyphicon-trash"></i>
-            </button>
+        <div class="panel-footer clearfix">
+            @Html.Partial("Person/_RelationModal", Model.Person)
         </div>
     </div>
-}
+</div>
+

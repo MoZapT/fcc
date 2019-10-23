@@ -36,10 +36,17 @@ namespace FamilyControlCenter
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Content/fontawesome/fontawesome.css",
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/bootstrap-datepicker.css",
                       "~/Content/typeahead.css"));
+
+            bundles.Add(new StyleBundle("~/Content/fontawesome").Include(
+                      "~/Content/webfonts/fontawesome.css",
+                      "~/Content/webfonts/brands.css",
+                      "~/Content/webfonts/solid.css"
+                      ));
         }
     }
 }
