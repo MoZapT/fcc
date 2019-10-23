@@ -31,6 +31,11 @@ namespace Data.ViewBuilder
             HandleState(vm);
         }
 
+        public PersonPartialViewRelationsModel CreatePersonPartialViewRelationsModel(string personId)
+        {
+            return CreateRelationsPartialViewModel(_mgrFcc.GetPerson(personId));
+        }
+
         private void HandleCommand(PersonViewModel vm)
         {
             switch (vm.Command)
@@ -45,7 +50,7 @@ namespace Data.ViewBuilder
                     SavePerson(vm);
                     break;
                 case ActionCommand.Delete:
-                    _mgrFcc.DeletePersonRelation(vm.Model.Id);
+                    _mgrFcc.DeletePerson(vm.Model.Id);
                     break;
                 case ActionCommand.Cancel:
                 default:
@@ -78,28 +83,54 @@ namespace Data.ViewBuilder
 
         private bool SavePerson(PersonViewModel vm)
         {
-            bool success = true;
+            bool success = false;
 
-            //save person as new
-            if (!_mgrFcc.ExistPerson(vm.Model.Id))
+            try
             {
-                _mgrFcc.SetPerson(vm.Model);
+                //save person as new
+                if (!_mgrFcc.ExistPerson(vm.Model.Id))
+                {
+                    _mgrFcc.SetPerson(vm.Model);
+                }
+
+                //update already existing person
+                success = _mgrFcc.UpdatePerson(vm.Model);
+
+                return success;
             }
-
-            //update already existing person
-            success = _mgrFcc.UpdatePerson(vm.Model);
-
-            return success;
+            catch (Exception)
+            {
+                return success;
+            }
         }
 
         private void GetEditPerson(PersonViewModel vm)
         {
-            vm.Model = _mgrFcc.GetPerson(vm.Model.Id);
+            try
+            {
+                vm.Model = _mgrFcc.GetPerson(vm.Model.Id);
+                vm.RelationsPartialViewModel = CreateRelationsPartialViewModel(vm.Model);
+            }
+            catch (Exception)
+            {
+                vm.Model = new Person();
+            }
         }
 
         private void CreateEmptyPerson(PersonViewModel vm)
         {
             vm.Model = new Person() { Id = Guid.NewGuid().ToString() };
+            vm.RelationsPartialViewModel = new PersonPartialViewRelationsModel();
+            vm.RelationsPartialViewModel.Relations = new List<PersonRelation>();
+        }
+
+        private PersonPartialViewRelationsModel CreateRelationsPartialViewModel(Person person)
+        {
+            var pvm = new PersonPartialViewRelationsModel();
+            pvm.Person = person;
+            pvm.Relations = _mgrFcc.ReadAllPersonRelationsByInviterId(person.Id);
+
+            return pvm;
         }
 
         #endregion

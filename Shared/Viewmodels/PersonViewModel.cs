@@ -11,6 +11,8 @@ namespace Shared.Viewmodels
 
         #region PROPERTIES
 
+        public PersonPartialViewRelationsModel RelationsPartialViewModel {get; set; }
+
         public Person Model { get; set; }
         public List<Person> Models { get; set; }
 

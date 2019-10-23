@@ -99,9 +99,27 @@ namespace Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
         public static string Close {
             get {
                 return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string Daughter {
+            get {
+                return ResourceManager.GetString("Daughter", resourceCulture);
             }
         }
         
@@ -120,6 +138,24 @@ namespace Resources {
         public static string DeadTimeNotKnown {
             get {
                 return ResourceManager.GetString("DeadTimeNotKnown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string EmptyDatePlaceholder {
+            get {
+                return ResourceManager.GetString("EmptyDatePlaceholder", resourceCulture);
             }
         }
         
@@ -237,6 +273,15 @@ namespace Resources {
         public static string Sister {
             get {
                 return ResourceManager.GetString("Sister", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string Son {
+            get {
+                return ResourceManager.GetString("Son", resourceCulture);
             }
         }
         

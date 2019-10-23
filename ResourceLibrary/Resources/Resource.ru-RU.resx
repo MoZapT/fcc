@@ -129,14 +129,26 @@
   <data name="Brother" xml:space="preserve">
     <value>Брат</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
   <data name="Close" xml:space="preserve">
     <value>Закрыть</value>
+  </data>
+  <data name="Daughter" xml:space="preserve">
+    <value>Дочь</value>
   </data>
   <data name="DeadTimeKnown" xml:space="preserve">
     <value>День смерти известен</value>
   </data>
   <data name="DeadTimeNotKnown" xml:space="preserve">
     <value>Д/С неизвестна</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="EmptyDatePlaceholder" xml:space="preserve">
+    <value>ДД.ММ.ГГГГ</value>
   </data>
   <data name="Father" xml:space="preserve">
     <value>Отец</value>
@@ -176,6 +188,9 @@
   </data>
   <data name="Sister" xml:space="preserve">
     <value>Сестра</value>
+  </data>
+  <data name="Son" xml:space="preserve">
+    <value>Сын</value>
   </data>
   <data name="Wife" xml:space="preserve">
     <value>Жена</value>

@@ -22,6 +22,24 @@
     Window.DatePicker = {
         Init: function () {
             initializeComponent();
+        },
+
+        ReInitElement: function (dp) {
+            $(dp).datepicker("destroy");
+            $(dp).datepicker({
+                format: 'dd.mm.yyyy',
+                language: window.location.pathname.split('/')[1],
+                todayHighlight: true,
+                calendarWeeks: true,
+                autoclose: true,
+                weekStart: 1,
+                orientation: "bottom",
+                clearBtn: true
+            });
+        },
+
+        DestroyElement: function (dp) {
+            $(dp).datepicker("destroy");
         }
     };
 })();

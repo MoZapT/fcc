@@ -10,9 +10,15 @@ namespace Shared.Enums
 {
     public enum RelationType
     {
+        [Description("Husband|Wife")]
+        HusbandWife,
         [Description("Brother|Sister")]
         BrotherSister,
+
+        //---- Relation types with counterparts!
         [Description("Father|Mother")]
         FatherMother,
+        [Description("Son|Daughter")] //not translated yet!!!
+        SonDaughter,
     }
 }

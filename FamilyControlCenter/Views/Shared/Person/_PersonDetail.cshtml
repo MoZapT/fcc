@@ -7,67 +7,90 @@
     <div class="panel-heading"></div>
     <div class="panel-body">
         <div class="row form-group">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 @Html.LabelFor(m => m.Model.Firstname, Resource.Name)
                 @Html.TextBoxFor(m => m.Model.Firstname, new { @class = "form-control" })
             </div>
         </div>
         <div class="row form-group">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 @Html.LabelFor(m => m.Model.Lastname, Resource.Lastname)
                 @Html.TextBoxFor(m => m.Model.Lastname, new { @class = "form-control" })
             </div>
         </div>
         <div class="row form-group">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 @Html.LabelFor(m => m.Model.Patronym, Resource.Patronym)
                 @Html.TextBoxFor(m => m.Model.Patronym, new { @class = "form-control" })
             </div>
         </div>
         <div class="row form-group">
-            <div class="col-md-12">
-                <div class="checkbox">
-                    <label>
-                        @Html.CheckBoxFor(m => m.Model.Sex, new { @class = "" })
-                        <span>@(Model.Model.Sex ? @Resource.Female : @Resource.Male )</span>
-                    </label>
-                    @Html.Label("Sex_Checkbox_Male_Text", Resource.Male, new { @class = "hide" })
-                    @Html.Label("Sex_Checkbox_Female_Text", Resource.Female, new { @class = "hide" })
+            <div class="col-md-6">
+                <div class="form-inline">
+                    @Html.Label("Sex_Checkbox_Male_Text", Resource.Male, new { @class = "inline" })
+                    <div class="checkbox">
+                        <label class="switch">
+                            @Html.CheckBoxFor(m => m.Model.Sex, new { @class = "sexswitcher inline" })
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    @Html.Label("Sex_Checkbox_Female_Text", Resource.Female, new { @class = "inline" })
                 </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-2">
+        <div class="row form-group">
+            <div class="col-md-3 form-inline">
                 <div class="checkbox">
-                    <label>
+                    <label class="switch">
                         @Html.CheckBoxFor(m => m.Model.HasBirthDate, new { @class = "" })
-                        @Resource.BornTimeKnown
+                        <span class="slider round"></span>
                     </label>
                 </div>
+                @Html.LabelFor(m => m.Model.HasBirthDate, Resource.BornTimeKnown)
             </div>
-            <div class="col-md-10">
-                @Html.HiddenFor(m => m.Model.BirthDate)
-                @Html.TextBox("DpBornTime", Model.Model.BirthDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control" + (Model.Model.HasBirthDate ? "" : " hide") })
+            <div class="col-md-3 form-inline">
+                <div class="checkbox">
+                    <label class="switch">
+                        @Html.CheckBoxFor(m => m.Model.HasDeathDate, new { @class = "" })
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                @Html.LabelFor(m => m.Model.HasDeathDate, Resource.DeadTimeKnown)
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-2">
-                <div class="checkbox">
-                    <label>
-                        @Html.CheckBoxFor(m => m.Model.HasDeathDate, new { @class = "" })
-                        @Resource.DeadTimeKnown
-                    </label>
-                </div>
+        <div id="BirthDeathDatepicker" class="row form-group @(Model.Model.HasBirthDate || Model.Model.HasDeathDate ? "" : " hide")">
+            <div class="col-md-3">
+                @Html.HiddenFor(m => m.Model.BirthDate)
+                @if (Model.Model.HasBirthDate)
+                {
+                    @Html.TextBox("DpBornTime", Model.Model.BirthDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })
+                }
+                else
+                {
+                    @Html.TextBox("DpBornTime", Model.Model.BirthDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control", @readonly = "readonly" })
+                }
             </div>
-            <div class="col-md-10">
+            <div class="col-md-3">
                 @Html.HiddenFor(m => m.Model.DeathDate)
-                @Html.TextBox("DpDeadTime", Model.Model.DeathDate, "{0:dd.MM.yyyy}", new { @class = "datepicker form-control" + (Model.Model.HasDeathDate ? "" : " hide") })
+                @if (Model.Model.HasDeathDate)
+                {
+                    @Html.TextBox("DpDeadTime", Model.Model.DeathDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })
+                }
+                else
+                {
+                    @Html.TextBox("DpDeadTime", Model.Model.DeathDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control", @readonly = "readonly" })
+                }
             </div>
         </div>
 
-        @*@Html.Partial("Person/_RelationsList")*@
-        @Html.Partial("Person/_RelationModal", Model)
+        @if (Model.Command == Shared.Enums.ActionCommand.Open)
+        {
+            <div id="RelationListContainer" class="well-lg">
+                @Html.Partial("Person/_RelationsList", Model.RelationsPartialViewModel)
+            </div>
+            @Html.Partial("Person/_RelationModal", Model.Model)
+        }
     </div>
     <div class="panel-footer">
         @Html.Partial("ToolsSharedViews/_DefaultSaveCancelDelete", Model)

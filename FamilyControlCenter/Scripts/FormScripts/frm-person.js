@@ -1,122 +1,154 @@
 ﻿Window.FormScripts = {};
 
 (function () {
-    function DatepickerVisibility(checkbox) {
-        if (checkbox.id === 'Model_HasBirthDate') {
-            if (checkbox.checked) {
-                $('#DpBornTime').removeClass('hide');
-            }
-            else {
-                $('#DpBornTime').addClass('hide');
-            }
+    function DatepickerVisibility() {
+        var container = $('#BirthDeathDatepicker');
+        var hasBirthdate = $('#Model_HasBirthDate').is(':checked');
+        var hasDeathdate = $('#Model_HasDeathDate').is(':checked');
+
+        if (hasBirthdate || hasDeathdate) {
+            $(container).removeClass('hide');
         }
-        else if (checkbox.id === 'Model_HasDeathDate') {
-            if (checkbox.checked) {
-                $('#DpDeadTime').removeClass('hide');
-            }
-            else {
-                $('#DpDeadTime').addClass('hide');
-            }
+        else {
+            $(container).addClass('hide');
+        }
+
+        if (hasBirthdate) {
+            $('#DpBornTime').removeAttr('readonly', 'readonly');
+            Window.DatePicker.ReInitElement($('#DpBornTime'));
+        }
+        else {
+            $('#DpBornTime').attr('readonly', 'readonly');
+            Window.DatePicker.DestroyElement($('#DpBornTime'));
+        }
+
+        if (hasDeathdate) {
+            $('#DpDeadTime').removeAttr('readonly', 'readonly');
+            Window.DatePicker.ReInitElement($('#DpDeadTime'));
+        }
+        else {
+            $('#DpDeadTime').attr('readonly', 'readonly');
+            Window.DatePicker.DestroyElement($('#DpDeadTime'));
         }
     }
 
+    function refreshRelations() {
+        var container = $('div#RelationListContainer');
+
+        $.ajax({
+            url: 'PersonRelations',
+            data: JSON.stringify({ personId: $('#Model_Id').val() }),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            complete: function (response) {
+                container.html(response.responseText);
+                initRelationListControls();
+            }
+        });
+    }
+
     function setRelations() {
-        var from = createPersonRelationModel($('#Model_Id').val());
-        var to = createPersonRelationModel($('#NewRelationPersonId').val());
+        var inviter = $('#Model_Id').val();
+        var invited = $('#NewRelationPersonId').val();
         var type = $('#NewRelationRelationTypeId').val();
 
         $.ajax({
-            url: getApiRoute(),// + 'relation/delete/' + personId + '/' + groupId,
+            url: getApiRoute() + 'relation/set/' + inviter + '/' + invited + '/' + type,
             type: 'GET',
             dataType: 'json',
-            complete: function (response) {
-                //TODO update list
+            success: function (response) {
+                refreshRelations();
             }
         });
     }
 
     function deleteRelation() {
         var btn = $('button#DestroyRelation');
-        var personId = $(btn).attr('person-id');
-        var groupId = $(btn).attr('group-id');
+
+        var inviter = $(btn).attr('inviter');
+        var invited = $(btn).attr('invited');
+        var type = $(btn).attr('reltype');
 
         $.ajax({
-            url: getApiRoute() + 'relation/delete/' + personId + '/' + groupId,
+            url: getApiRoute() + 'relation/delete/' + inviter + '/' + invited + '/' + type,
             type: 'GET',
             dataType: 'json',
-            complete: function (response) {
-                //TODO update list
+            success: function (response) {
+                refreshRelations();
             }
         });
     }
 
-    //TODO delete or move to .js model factory
-    function createPersonRelationModel(personId) {
-        var model = {
-            Id: null,
-            DateCreated: null,
-            DateModified: null,
-            IsActive: true,
-            Member: null,
-            PersonId: personId,
-            PersonRelationGroupId: null
-        };
+    function getRelationTypes() {
+        var ddlBox = $('select#NewRelationRelationTypeId');
 
-        return model;
+        if (!$('#NewRelationPersonId').val()) {
+            ddlBox.html('');
+            $('button#SaveRelation').attr('disabled', 'disabled');
+        }
+        else {
+            $('button#SaveRelation').removeAttr('disabled');
+        }
+
+        $.ajax({
+            url: getApiRoute() + 'relationtype/all/' + $('#Model_Id').val() + '/' + $('#NewRelationPersonId').val(),
+            type: 'GET',
+            dataType: 'json',
+            complete: function (response) {
+                var json = response.responseJSON;
+                if (json === undefined || json === null) {
+                    return;
+                }
+
+                ddlBox.html('');
+                for (var i = 0; i < json.length; i++) {
+                    var optionHtml = '<option value = "' + json[i].Value + '">' + json[i].Text + '</option>';
+                    var prevHtml = ddlBox.html();
+
+                    ddlBox.html(prevHtml + optionHtml);
+                }
+            }
+        });
     }
 
     function initializeComponent() {
+        $('#NewRelationPersonId').on('change', function (e) {
+            getRelationTypes();
+        });
+
         $('button[data-target="#NewRelationModal"]').on('click', function (e) {
             $('#NewRelationPersonId').val('');
             $('#NewRelationPersonName').typeahead('val', '');
             $('#NewRelationRelationTypeId').html('');
+            $('button#SaveRelation').attr('disabled', 'disabled');
         });
 
         $('#Model_HasBirthDate, #Model_HasDeathDate').on('click', function (e) {
-            DatepickerVisibility(e.currentTarget);
-        });
-
-        $('#Model_Sex').on('click', function (e) {
-            var textSpan = $(e.currentTarget).siblings('span');
-
-            if (e.currentTarget.checked) {
-                textSpan.text($('[for="Sex_Checkbox_Female_Text"]').text());
-            }
-            else {
-                textSpan.text($('[for="Sex_Checkbox_Male_Text"]').text());
-            }
+            DatepickerVisibility();
         });
 
         $('button#SaveRelation').on('click', function (e) {
-            setRelations();
+            setRelations(e.currentTarget);
         });
 
-        $('button#DestroyRelation').on('click', function (e) {
-            deleteRelation();
+        initRelationListControls();
+
+        $('input#NewRelationPersonId').on('change', function (e) {
+            var row = $(e.currentTarget).closest('div.row');
+            var btn = row.find('button#SetRelation');
+
+            if ($(e.currentTarget).val()) {
+                btn.removeClass('hide');
+            }
+            else {
+                btn.addClass('hide');
+            }
         });
 
-        $('#NewRelationPersonId').on('change', function (e) {
-            $.ajax({
-                url: getApiRoute() + 'relationtype/all/' + $('#NewRelationPersonId').val(),
-                type: 'GET',
-                dataType: 'json',
-                complete: function (response) {
-                    var json = response.responseJSON;
-                    if (json === undefined || json === null) {
-                        return;
-                    }
-
-                    var ddlBox = $('select#NewRelationRelationTypeId');
-
-                    ddlBox.html('');
-                    for (var i = 0; i < json.length; i++) {
-                        var optionHtml = '<option value = "' + json[i].Value + '">' + json[i].Text + '</option>';
-                        var prevHtml = ddlBox.html();
-
-                        ddlBox.html(prevHtml + optionHtml);
-                    }
-                }
-            });
+        $('.row.item').on('touchstart, dblclick', function (e) {
+            $(e.currentTarget).find('button.crud[args="3"]').click();
         });
     }
 
@@ -132,6 +164,14 @@
         url += lang;
 
         return url + 'api/';
+    }
+
+    function initRelationListControls() {
+        $('button#DestroyRelation').off();
+        //-------------------------------------------------------
+        $('button#DestroyRelation').on('click', function (e) {
+            deleteRelation(e.currentTarget);
+        });
     }
 
     Window.FormScripts = {

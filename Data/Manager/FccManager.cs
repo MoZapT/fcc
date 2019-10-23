@@ -9,6 +9,7 @@ using Shared.Viewmodels;
 using Shared.Interfaces.Managers;
 using Shared.Interfaces.Repositories;
 using System.Threading.Tasks;
+using Shared.Helpers;
 
 namespace Data.Manager
 {
@@ -25,28 +26,7 @@ namespace Data.Manager
 
         public string SetPerson(Person entity)
         {
-            string result = null;
-
-            bool success = false;
-            success = _repo.Transaction(new Task(() =>
-            {
-                result = _repo.CreatePerson(entity);
-                var defaultBrotherSisterGroup = new PersonRelationGroup();
-                defaultBrotherSisterGroup.Id = Guid.NewGuid().ToString();
-                defaultBrotherSisterGroup.Persons.Add(entity);
-                defaultBrotherSisterGroup.RelationTypeId = RelationType.BrotherSister;
-
-                var defaultChain = new PersonRelationChain();
-                defaultChain.Id = Guid.NewGuid().ToString();
-                defaultChain.Children = defaultBrotherSisterGroup;
-            }));
-
-            if (!success)
-            {
-                return null;
-            }
-
-            return result;
+            return _repo.CreatePerson(entity);
         }
 
         public bool UpdatePerson(Person entity)
@@ -83,61 +63,66 @@ namespace Data.Manager
 
         #region PersonRelation
 
-        public bool DeletePersonRelation(string personId, string groupId)
+        public List<PersonRelation> ReadAllPersonRelationsBetweenPersons(string inviter, string invited)
         {
-            return _repo.DeletePersonRelation(id);
+            return _repo.ReadAllPersonRelationBetweenInviterAndInvited(inviter, invited)
+                .Select(e =>
+                {
+                    e.Inviter = _repo.ReadPerson(e.InviterId);
+                    e.Invited = _repo.ReadPerson(e.InvitedId);
+                    return e;
+                })
+                .ToList();
         }
 
-        public string SetPersonRelations(PersonRelation entity)
+        public List<PersonRelation> ReadAllPersonRelationsByInviterId(string personId)
         {
-            entity.Id = Guid.NewGuid().ToString();
-            entity.DateCreated = DateTime.Now;
-            entity.DateModified = DateTime.Now;
-            return _repo.CreatePersonRelation(entity);
+            return _repo.ReadAllPersonRelationsByInviterId(personId)
+                .Select(e => 
+                {
+                    e.Inviter = _repo.ReadPerson(e.InviterId);
+                    e.Invited = _repo.ReadPerson(e.InvitedId);
+                    return e;
+                })
+                .ToList();
         }
 
-        public bool SetPersonRelation(PersonRelation from, PersonRelation to, RelationType type)
+        public bool DeletePersonRelation(string inviter, string invited, RelationType type)
         {
-            var fromRel = _repo.ReadPersonRelationGroupByPersonAndType(from.PersonId, (int)type);
-            var toRel = _repo.ReadPersonRelationGroupByPersonAndType(to.PersonId, (int)type);
+            bool success = false;
 
-            if (fromRel != null && toRel != null)
-            {
-                var newPrl = new PersonRelationGroup() { RelationTypeId = type };
-                string id = _repo.CreatePersonRelationGroup(newPrl);
-                from.PersonRelationGroupId = id;
-                to.PersonRelationGroupId = id;
-                _repo.CreatePersonRelation(from);
-                _repo.CreatePersonRelation(to);
+            RelationType counterType = FccRelationTypeHelper.GetCounterRelationType(type);
 
-                _repo.MoveRelationsToOtherRelationGroupAndDelete(fromRel.Id, id);
-                _repo.MoveRelationsToOtherRelationGroupAndDelete(toRel.Id, id);
-            }
-            else if (fromRel == null)
+            success = _repo.Transaction(new Task(() => 
             {
-                from.PersonRelationGroupId = toRel.Id;
-                to.PersonRelationGroupId = toRel.Id;
-                _repo.CreatePersonRelation(from);
-                _repo.CreatePersonRelation(to);
-            }
-            else if (toRel == null)
-            {
-                from.PersonRelationGroupId = fromRel.Id;
-                to.PersonRelationGroupId = fromRel.Id;
-                _repo.CreatePersonRelation(from);
-                _repo.CreatePersonRelation(to);
-            }
-            else
-            {
-                var newPrl = new PersonRelationGroup() { RelationTypeId = type, Relations = { from, to } };
-                string id = _repo.CreatePersonRelationGroup(newPrl);
-                from.PersonRelationGroupId = id;
-                to.PersonRelationGroupId = id;
-                _repo.CreatePersonRelation(from);
-                _repo.CreatePersonRelation(to);
-            }
+                _repo.DeletePersonRelation(inviter, invited, type);
+                _repo.DeletePersonRelation(invited, inviter, counterType);
+            }));
 
-            return true;
+            return success;
+        }
+
+        public bool SetPersonRelation(string inviter, string invited, RelationType type)
+        {
+            PersonRelation inviterRelation = new PersonRelation();
+            inviterRelation.Id = Guid.NewGuid().ToString();
+            inviterRelation.InviterId = inviter;
+            inviterRelation.InvitedId = invited;
+            inviterRelation.RelationType = type;
+
+            PersonRelation invitedRelation = new PersonRelation();
+            invitedRelation.Id = Guid.NewGuid().ToString();
+            invitedRelation.InviterId = invited;
+            invitedRelation.InvitedId = inviter;
+            invitedRelation.RelationType = FccRelationTypeHelper.GetCounterRelationType(type);
+
+            bool success = _repo.Transaction(new Task(() => 
+            {
+                _repo.CreatePersonRelation(inviterRelation);
+                _repo.CreatePersonRelation(invitedRelation);
+            }));
+
+            return success;
         }
 
         #endregion

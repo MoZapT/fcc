@@ -446,7 +446,6 @@
     <Content Include="Views\Shared\Person\_PersonList.cshtml" />
     <Content Include="Views\Shared\Person\_RelationModal.cshtml" />
     <Content Include="Views\Shared\Person\_RelationsList.cshtml" />
-    <Content Include="Views\Shared\Person\_PersonLineForRelation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

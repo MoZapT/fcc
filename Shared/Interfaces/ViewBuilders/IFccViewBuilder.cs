@@ -9,5 +9,6 @@ namespace Shared.Interfaces.ViewBuilders
     public interface IFccViewBuilder
     {
         void HandleAction(PersonViewModel vm);
+        PersonPartialViewRelationsModel CreatePersonPartialViewRelationsModel(string personId);
     }
 }

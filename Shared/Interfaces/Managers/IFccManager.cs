@@ -12,6 +12,7 @@ namespace Shared.Interfaces.Managers
 
         string SetPerson(Person entity);
         bool UpdatePerson(Person entity);
+        bool DeletePerson(string id);
         bool ExistPerson(string id);
         Person GetPerson(string userId);
         List<Person> GetListPerson();
@@ -21,9 +22,10 @@ namespace Shared.Interfaces.Managers
 
         #region PersonRelation
 
-        string SetPersonRelations(PersonRelation entity);
-        bool DeletePersonRelation(string id);
-        bool SetPersonRelation(PersonRelation from, PersonRelation to, RelationType type);
+        List<PersonRelation> ReadAllPersonRelationsBetweenPersons(string inviter, string invited);
+        List<PersonRelation> ReadAllPersonRelationsByInviterId(string personId);
+        bool DeletePersonRelation(string inviter, string invited, RelationType type);
+        bool SetPersonRelation(string inviter, string invited, RelationType type);
 
         #endregion
 

@@ -3,19 +3,22 @@
     @model Shared.Viewmodels.PersonViewModel
 }
 
-<div class="btn-group">
-    <button class="btn crud" type="button" args="@((int)ActionCommand.Save)" obj="@Model.Model.Id">
+<div class="pull-right">
+    <button class="btn crud btn-primary" type="button" args="@((int)ActionCommand.Save)" obj="@Model.Model.Id">
         <i class="glyphicon glyphicon-ok"></i>
+        @Resources.Resource.Save
     </button>
 
     @if (Model.Command == ActionCommand.Open)
     {
-        <button class="btn crud" type="button" args="@((int)ActionCommand.Delete)" obj="@Model.Model.Id">
+        <button class="btn crud btn-danger" type="button" args="@((int)ActionCommand.Delete)" obj="@Model.Model.Id">
             <i class="glyphicon glyphicon-trash"></i>
+            @Resources.Resource.Delete
         </button>
     }
 
-    <button class="btn crud" type="button" args="@((int)ActionCommand.Cancel)" obj="@Model.Model.Id">
+    <button class="btn crud btn-warning" type="button" args="@((int)ActionCommand.Cancel)" obj="@Model.Model.Id">
         <i class="glyphicon glyphicon-remove"></i>
+        @Resources.Resource.Close
     </button>
 </div>

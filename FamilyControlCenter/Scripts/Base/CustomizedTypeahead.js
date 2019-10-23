@@ -32,14 +32,16 @@
     }
 
     function typeaheadSelect(typeahead, suggestion) {
-        var idField = $(typeahead).closest('span.twitter-typeahead').siblings('input[type="hidden"]');
+        var idField = $(typeahead).closest('span.twitter-typeahead').prev('input[type="hidden"]');
 
         $(idField).val(suggestion);
         $(idField).change();
     }
 
     function validateTaInput(typeahead, suggestion) {
-        var isEmptyOrInvalid = $(typeahead).siblings('div.tt-empty').length > 0 ? true : false;
+        var suggestions = $(typeahead).siblings('div.tt-menu').find('div.tt-selectable').length;
+        var isEmptyOrInvalid = suggestions <= 0 ? true : false;
+        
         if (isEmptyOrInvalid) {
             $(typeahead).typeahead('val', '');
             typeaheadSelect(typeahead, '');

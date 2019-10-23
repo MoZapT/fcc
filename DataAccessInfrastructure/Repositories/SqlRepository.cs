@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
+using Shared.Enums;
 using Shared.Interfaces.Repositories;
 using Shared.Models;
 
@@ -282,48 +283,58 @@ namespace DataAccessInfrastructure.Repositories
 
         #region PersonRelation
 
-        public PersonRelation ReadPersonRelation(string id)
+        public PersonRelation ReadPersonRelation(string inviter, string invited, RelationType type)
         {
             string query = @"
                     SELECT *
                     FROM [PersonRelation]
-                    WHERE Id = @Id";
+                    WHERE 
+                        InviterId = @InviterId
+                    AND InvitedId = @InvitedId
+                    AND RelationType = @RelationType";
 
-            return QueryFoD<PersonRelation>(query, new { @Id = id });
+            return QueryFoD<PersonRelation>(query, 
+                new { @InviterId = inviter, @InvitedId = invited, @RelationType = type });
         }
-        public IEnumerable<PersonRelation> ReadAllPersonRelationByPersonId(string id)
+        public IEnumerable<PersonRelation> ReadAllPersonRelationBetweenInviterAndInvited(string inviter, string invited)
         {
             string query = @"
                     SELECT *
                     FROM [PersonRelation]
-                    WHERE PersonId = @PersonId";
+                    WHERE 
+                        InviterId = @InviterId
+                    AND InvitedId = @InvitedId";
+
+            return Query<PersonRelation>(query,
+                new { @InviterId = inviter, @InvitedId = invited });
+        }
+        public IEnumerable<PersonRelation> ReadAllPersonRelationsByInviterId(string id)
+        {
+            string query = @"
+                    SELECT *
+                    FROM [PersonRelation]
+                    WHERE 
+                        InviterId = @PersonId";
 
             return Query<PersonRelation>(query, new { @PersonId = id });
-        }
-        public IEnumerable<PersonRelation> ReadAllPersonRelationByGroupId(string id)
-        {
-            string query = @"
-                    SELECT *
-                    FROM [PersonRelation]
-                    WHERE PersonRelationGroupId = @RelationGroupId";
-
-            return Query<PersonRelation>(query, new { @RelationGroupId = id });
         }
         public string CreatePersonRelation(PersonRelation entity)
         {
             string query = @"
                     INSERT INTO [PersonRelation]
                                ([Id]
-                               ,[PersonId]
-                               ,[PersonRelationGroupId]
+                               ,[InviterId]
+                               ,[InvitedId]
+                               ,[RelationType]
                                ,[DateCreated]
                                ,[DateModified]
                                ,[IsActive])
                          OUTPUT INSERTED.Id
                          VALUES
                                (@Id
-                               ,@PersonId
-                               ,@PersonRelationGroupId
+                               ,@InviterId
+                               ,@InvitedId
+                               ,@RelationType
                                ,@DateCreated
                                ,@DateModified
                                ,@IsActive)";
@@ -334,128 +345,40 @@ namespace DataAccessInfrastructure.Repositories
         {
             string query = @"
                     UPDATE [PersonRelation]
-                       SET [PersonId] = PersonId
-                          ,[PersonRelationGroupId] = PersonRelationGroupId
-                          ,[DateCreated] = DateCreated
-                          ,[DateModified] = DateModified
-                          ,[IsActive] = IsActive
-                     WHERE Id = @Id";
-
-            return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
-        }
-        public bool DeletePersonRelation(string id)
-        {
-            string query = @"
-                    DELETE FROM [PersonRelation]
-                          WHERE Id = @Id";
-
-            return Execute(query, new { @Id = id }) > 0 ? true : false;
-        }
-        public bool DeletePersonRelationByPersonId(string id)
-        {
-            string query = @"
-                    DELETE FROM [PersonRelation]
-                          WHERE PersonId = @PersonId";
-
-            return Execute(query, new { @Id = id }) > 0 ? true : false;
-        }
-
-        #endregion
-
-        #region PersonRelationGroup
-
-        public PersonRelationGroup ReadPersonRelationGroup(string id)
-        {
-            string query = @"
-                    SELECT *
-                    FROM [PersonRelationGroup]
-                    WHERE Id = @Id";
-
-            return QueryFoD<PersonRelationGroup>(query, new { @Id = id });
-        }
-
-        public PersonRelationGroup ReadPersonRelationGroupByPersonAndType(string personId, int type)
-        {
-            string query = @"
-                   SELECT *
-                   FROM [PersonRelation] AS pr
-                   JOIN [PersonRelationGroup] AS prg
-	                   ON pr.PersonRelationGroupId = prg.Id
-                   WHERE
-	                   prg.RelationType = @Type
-	                   AND pr.PersonId = @PersonId";
-
-            return QueryFoD<PersonRelationGroup>(query, new { @PersonId = personId, @Type = type });
-        }
-
-        public IEnumerable<PersonRelationGroup> ReadAllPersonRelationGroupsByPersonId(string id)
-        {
-            string query = @"
-                    SELECT prg.*
-                    FROM [PersonRelationGroup] AS prg
-	                    JOIN [PersonRelation] AS pr ON prg.Id = pr.PersonRelationGroupId
-		                    AND PersonId = @PersonId";
-
-            return Query<PersonRelationGroup>(query, new { @PersonId = id });
-        }
-
-        public string CreatePersonRelationGroup(PersonRelationGroup entity)
-        {
-            string query = @"
-                    INSERT INTO [PersonRelationGroup]
-                               ([Id]
-                               ,[DateCreated]
-                               ,[DateModified]
-                               ,[IsActive]
-                               ,[RelationType])
-                         OUTPUT INSERTED.Id
-                         VALUES
-                               (@Id
-                               ,@DateCreated
-                               ,@DateModified
-                               ,@IsActive
-                               ,@RelationType)";
-
-            return QueryFoD<string>(query, new DynamicParameters(entity));
-        }
-
-        public bool UpdatePersonRelationGroup(PersonRelationGroup entity)
-        {
-            string query = @"
-                    UPDATE [PersonRelationGroup]
-                       SET [DateCreated] = @DateCreated
+                       SET [InviterId] = @InviterId
+                          ,[InvitedId] = @InvitedId
+                          ,[RelationType] = @RelationType
+                          ,[DateCreated] = @DateCreated
                           ,[DateModified] = @DateModified
                           ,[IsActive] = @IsActive
-                          ,[RelationType] = @RelationType
                      WHERE Id = @Id";
 
             return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
         }
-
-        public bool DeletePersonRelationGroup(string id)
+        public bool DeletePersonRelation(string inviter, string invited)
         {
             string query = @"
-                    DELETE FROM [PersonRelationGroup]
-                          WHERE Id = @Id";
+                    DELETE FROM [PersonRelation]
+                    WHERE 
+                        InviterId = @InviterId
+                    AND InvitedId = @InvitedId";
 
-            return Execute(query, new { @Id = id }) > 0 ? true : false;
+            return Execute(query,
+                new { @InviterId = inviter, @InvitedId = invited })
+                > 0 ? true : false;
         }
-
-        public bool MoveRelationsToOtherRelationGroupAndDelete(string fromId, string toId)
+        public bool DeletePersonRelation(string inviter, string invited, RelationType type)
         {
             string query = @"
-                    BEGIN TRAN
+                    DELETE FROM [PersonRelation]
+                    WHERE 
+                        InviterId = @InviterId 
+                    AND InvitedId = @InvitedId
+                    AND RelationType = @RelationType";
 
-                    UPDATE [dbo].[PersonRelation]
-                    SET [PersonRelationGroupId] = @ToId
-                     WHERE [PersonRelationGroupId] = @FromId
-
-                    DELETE FROM [PersonRelationGroup]
-                    WHERE Id = @FromId
-
-                    COMMIT TRAN";
-
-            return Execute(query, new { @FromId = fromId, @ToId = toId }) > 0 ? true : false;
+            return Execute(query,
+                new { @InviterId = inviter, @InvitedId = invited, @RelationType = type })
+                > 0 ? true : false;
         }
 
         #endregion

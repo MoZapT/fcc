@@ -1,25 +1,36 @@
 ﻿@using Resources
+@using Shared.Enums
 @using Shared.Helpers
-@using Shared.Models
-@model PersonRelationChain
+@using Shared.Viewmodels
+@model PersonPartialViewRelationsModel
 
-@{ 
-    //DONT ALLOW DELETE IF LAST RECORD! IN CHILDREN!
-    //DONT SHOW OBJECT HIMSELF!
-}
-
-@foreach (var person in Model.Children.Persons)
+@foreach (var relation in Model.Relations)
 {
-    var kvp = new KeyValuePair<string, object>("RelationType", Model.Children.RelationTypeId);
-    @Html.Partial("Person/_PersonLineForRelation", person, new ViewDataDictionary() { kvp })
+    <div class="row item">
+        <div class="col-md-1">
+            @if (Model.Person.Id == relation.Inviter.Id)
+            {
+                @Resource.ResourceManager.GetLocalizedStringForEnumValue(relation.RelationType, relation.Invited.Sex)
+            }
+            else
+            {
+                @Resource.ResourceManager.GetLocalizedStringForEnumValue(relation.RelationType, relation.Inviter.Sex)
+            }
+        </div>
+        <div class="col-md-9">
+            @if (Model.Person.Id == relation.Inviter.Id)
+            {
+                @relation.Invited.Name
+            }
+            else
+            {
+                @relation.Inviter.Name
+            }
+        </div>
+        <div class="col-md-1">
+            <button id="DestroyRelation" inviter="@relation.Inviter.Id" invited="@relation.Invited.Id" reltype="@((int)relation.RelationType)" type="button" class="btn btn-danger" data-dismiss="modal">
+                <i class="glyphicon glyphicon-trash"></i>
+            </button>
+        </div>
+    </div>
 }
-
-@if (Model.Parents != null)
-{
-    foreach (var person in Model.Parents.Persons)
-    {
-        var kvp = new KeyValuePair<string, object>("RelationType", Model.Parents.RelationTypeId);
-        @Html.Partial("Person/_PersonLineForRelation", person, new ViewDataDictionary() { kvp })
-    }
-}
-

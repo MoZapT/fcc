@@ -35,5 +35,13 @@ namespace FamilyControlCenter.Controllers
             _vwbFcc.HandleAction(vm);
             return View(vm);
         }
+
+        [/*Authorize,*/ HttpPost]
+        public PartialViewResult PersonRelations(string personId)
+        {
+            BeforeLoadAction();
+            var vm = _vwbFcc.CreatePersonPartialViewRelationsModel(personId);
+            return PartialView("Person/_RelationsList", vm);
+        }
     }
 }

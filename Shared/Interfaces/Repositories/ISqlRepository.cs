@@ -1,4 +1,5 @@
-﻿using Shared.Models;
+﻿using Shared.Enums;
+using Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,20 +25,17 @@ namespace Shared.Interfaces.Repositories
         bool UpdatePersonName(PersonName entity);
         bool DeletePersonName(string id);
 
-        PersonRelation ReadPersonRelation(string id);
-        IEnumerable<PersonRelation> ReadAllPersonRelationByPersonId(string id);
-        IEnumerable<PersonRelation> ReadAllPersonRelationByGroupId(string id);
+        #region PersonRelation
+
+        PersonRelation ReadPersonRelation(string inviter, string invited, RelationType type);
+        IEnumerable<PersonRelation> ReadAllPersonRelationBetweenInviterAndInvited(string inviter, string invited);
+        IEnumerable<PersonRelation> ReadAllPersonRelationsByInviterId(string id);
         string CreatePersonRelation(PersonRelation entity);
         bool UpdatePersonRelation(PersonRelation entity);
-        bool DeletePersonRelation(string id);
+        bool DeletePersonRelation(string inviter, string invited);
+        bool DeletePersonRelation(string inviter, string invited, RelationType type);
 
-        PersonRelationGroup ReadPersonRelationGroup(string id);
-        PersonRelationGroup ReadPersonRelationGroupByPersonAndType(string personId, int type);
-        IEnumerable<PersonRelationGroup> ReadAllPersonRelationGroupsByPersonId(string id);
-        string CreatePersonRelationGroup(PersonRelationGroup entity);
-        bool UpdatePersonRelationGroup(PersonRelationGroup entity);
-        bool DeletePersonRelationGroup(string id);
-        bool MoveRelationsToOtherRelationGroupAndDelete(string fromId, string toId);
+        #endregion
 
     }
 }

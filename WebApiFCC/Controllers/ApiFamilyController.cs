@@ -24,22 +24,62 @@ namespace FamilyControlCenter.Controllers
         }
 
         //[Authorize]
-        [Route("relation/set/{excludePersonId?}/{query?}")]
-        public void SetPersonRelation(PersonRelation from, PersonRelation to, RelationType type)
+        [HttpGet]
+        [Route("relation/set/{inviter}/{invited}/{type}")]
+        public void SetPersonRelation(string inviter, string invited, RelationType type)
         {
-            _mgrFcc.SetPersonRelation(from, to, type);
+            _mgrFcc.SetPersonRelation(inviter, invited, type);
         }
 
         //[Authorize]
-        [Route("relation/delete/{personId}/{groupId}")]
-        public void DeletePersonRelation(string personId, string groupId)
+        [HttpGet]
+        [Route("relation/delete/{inviter}/{invited}/{type}")]
+        public void DeletePersonRelation(string inviter, string invited, RelationType type)
         {
-            //if group (parents) became completely empty, then delete it from DB
-            _mgrFcc.DeletePersonRelation("");
-            throw new NotImplementedException();
+            _mgrFcc.DeletePersonRelation(inviter, invited, type);
+        }
+
+        [HttpGet]
+        [Route("relationtype/all/{inviter}/{invited}")]
+        public IEnumerable<System.Web.Mvc.SelectListItem> GetRelationTypes(string inviter, string invited)
+        {
+            var rMgr = Resources.Resource.ResourceManager;
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(invited) || string.IsNullOrWhiteSpace(inviter))
+                {
+                    return new List<System.Web.Mvc.SelectListItem>();
+                }
+
+                //var personInviter = _mgrFcc.GetPerson(invited);
+                var personInvited = _mgrFcc.GetPerson(invited);
+                if (personInvited == null)
+                    return new List<System.Web.Mvc.SelectListItem>();
+
+                var alreadyExistingRelationTypes = _mgrFcc
+                    .ReadAllPersonRelationsBetweenPersons(inviter, invited)
+                    .Select(e => new System.Web.Mvc.SelectListItem()
+                    {
+                        Text = rMgr.GetLocalizedStringForEnumValue(e.RelationType, personInvited.Sex),
+                        Value = e.RelationType.ToString()
+                    });
+
+                return FccEnumHelper
+                    .GetTranslatedSelectListItemCollection<RelationType>
+                        (typeof(RelationType),
+                        personInvited.Sex)
+                    .Where(e => alreadyExistingRelationTypes
+                        .FirstOrDefault(i => i.Value == e.Value) == null);
+            }
+            catch (Exception)
+            {
+                return new List<System.Web.Mvc.SelectListItem>();
+            }
         }
 
         //[Authorize]
+        [HttpGet]
         [Route("typeahead/person/{excludePersonId?}/{query?}")]
         public IEnumerable<KeyValuePair<string, string>> GetPersonTypeahead(string excludePersonId, string query = "")
         {
@@ -50,31 +90,6 @@ namespace FamilyControlCenter.Controllers
             catch (Exception)
             {
                 return new List<KeyValuePair<string, string>>();
-            }
-        }
-
-        [Route("relationtype/all/{userId}")]
-        public IEnumerable<System.Web.Mvc.SelectListItem> GetRelationTypes(string userId)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(userId))
-                {
-                    return new List<System.Web.Mvc.SelectListItem>();
-                }
-
-                var person = _mgrFcc.GetPerson(userId);
-                if (person == null)
-                    return new List<System.Web.Mvc.SelectListItem>();
-
-                return FccEnumHelper
-                    .GetTranslatedSelectListItemCollection<RelationType>
-                        (typeof(RelationType), 
-                        person.Sex);
-            }
-            catch (Exception)
-            {
-                return new List<System.Web.Mvc.SelectListItem>();
             }
         }
     }

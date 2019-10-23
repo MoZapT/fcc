@@ -129,13 +129,25 @@
   <data name="Brother" xml:space="preserve">
     <value />
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value />
+  </data>
   <data name="Close" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Daughter" xml:space="preserve">
     <value />
   </data>
   <data name="DeadTimeKnown" xml:space="preserve">
     <value />
   </data>
   <data name="DeadTimeNotKnown" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value />
+  </data>
+  <data name="EmptyDatePlaceholder" xml:space="preserve">
     <value />
   </data>
   <data name="Father" xml:space="preserve">
@@ -175,6 +187,9 @@
     <value />
   </data>
   <data name="Sister" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Son" xml:space="preserve">
     <value />
   </data>
   <data name="Wife" xml:space="preserve">
