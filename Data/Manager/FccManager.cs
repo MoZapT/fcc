@@ -24,14 +24,42 @@ namespace Data.Manager
 
         #region Person
 
-        public string SetPerson(Person entity)
+        public string SetPerson(Person entity, PersonBiography biography = null)
         {
-            return _repo.CreatePerson(entity);
+            string result = null;
+
+            _repo.Transaction(new Task(() => 
+            {
+                _repo.CreatePerson(entity);
+                if (biography == null)
+                    return;
+
+                _repo.CreatePersonBiography(biography);
+            }));
+
+            return result;
         }
 
-        public bool UpdatePerson(Person entity)
+        public bool UpdatePerson(Person entity, PersonBiography biography = null)
         {
-            return _repo.UpdatePerson(entity);
+            return _repo.Transaction(new Task(() =>
+            {
+                _repo.UpdatePerson(entity);
+                if (biography == null)
+                    return;
+
+                bool hasBiography = string.IsNullOrWhiteSpace(biography.Id) ? false : true;
+
+                if (hasBiography)
+                {
+                    _repo.UpdatePersonBiography(biography);
+                }
+                else
+                {
+                    biography.Id = Guid.NewGuid().ToString();
+                    _repo.CreatePersonBiography(biography);
+                }
+            }));
         }
 
         public bool DeletePerson(string id)
@@ -46,12 +74,21 @@ namespace Data.Manager
 
         public Person GetPerson(string userId)
         {
-            return _repo.ReadPerson(userId);
+            Person person = _repo.ReadPerson(userId);
+            person.IsMarried = _repo.IsMarried(userId);
+
+            return person;
         }
 
         public List<Person> GetListPerson()
         {
-            return _repo.ReadAllPerson().ToList();
+            return _repo.ReadAllPerson()
+                .Select(e => 
+                {
+                    e.IsMarried = _repo.IsMarried(e.Id);
+                    return e;
+                })
+                .ToList();
         }
 
         public IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string excludePersonId, string query)

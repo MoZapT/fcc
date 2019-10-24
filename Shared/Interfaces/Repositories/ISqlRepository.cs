@@ -34,12 +34,15 @@ namespace Shared.Interfaces.Repositories
         bool UpdatePersonRelation(PersonRelation entity);
         bool DeletePersonRelation(string inviter, string invited);
         bool DeletePersonRelation(string inviter, string invited, RelationType type);
+        bool IsMarried(string personId);
 
         #endregion
 
         #region PersonBiography
 
         PersonBiography ReadPersonBiographyByPersonId(string personId);
+        string CreatePersonBiography(PersonBiography entity);
+        bool UpdatePersonBiography(PersonBiography entity);
 
         #endregion
 

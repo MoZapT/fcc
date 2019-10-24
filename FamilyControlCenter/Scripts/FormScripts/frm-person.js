@@ -139,6 +139,10 @@
             }
         });
 
+        $('.row.item input[type="checkbox"] + label').on('click, touchstart, dblclick', function (e) {
+            e.stopPropagation();
+        });
+
         $('.row.item').on('touchstart, dblclick', function (e) {
             $(e.currentTarget).find('button.crud[args="3"]').click();
         });

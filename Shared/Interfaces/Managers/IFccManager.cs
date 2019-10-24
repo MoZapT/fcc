@@ -10,8 +10,8 @@ namespace Shared.Interfaces.Managers
 
         #region Person
 
-        string SetPerson(Person entity);
-        bool UpdatePerson(Person entity);
+        string SetPerson(Person entity, PersonBiography biography = null);
+        bool UpdatePerson(Person entity, PersonBiography biography = null);
         bool DeletePerson(string id);
         bool ExistPerson(string id);
         Person GetPerson(string userId);

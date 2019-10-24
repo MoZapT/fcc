@@ -1,8 +1,4 @@
-﻿@media (max-width: 786px) {
-
-}
-
-.crud {
+﻿.crud {
 }
 
 .item {
@@ -11,8 +7,10 @@
 .row.item {
     min-height: 50px;
     margin-bottom: 1px;
-    /*border-bottom: 1px solid;
-    border-bottom-color: rgb(152, 152, 152)*/
+}
+
+.row.item:not(:first-child) {
+    border-top: 1px solid rgb(152, 152, 152);
 }
 
 .row.item:nth-of-type(even) {
@@ -21,8 +19,59 @@
 }
 
 .row.item:hover, .row-item:nth-of-type(even):hover {
-    background-color: #b7e4fe;
+    /*background-color: #b7e4fe;*/
+    color: white;
+    background-color: rgba(89, 78, 69, 0.80);
+    -webkit-transition: background-color 0.2s, color 0.5s;
+    transition: background-color 0.2s, color 0.5s;
     cursor: pointer;
+}
+
+@-webkit-keyframes itemrowbtns {
+    from { right: -100%; }
+    to { right: 0px; }
+}
+
+@keyframes itemrowbtns {
+    from { right: -100%; }
+    to { right: 0px; }
+}
+
+.row.item input[type="checkbox"] {
+    display: none;
+}
+.row.item input[type='checkbox'] + label:before, input[type='checkbox'] + label:after {
+    position: relative;
+    top: 1px;
+    left: -2px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.row.item input[type='checkbox'] + label:before {
+    content: "\e157";
+}
+.row.item input[type='checkbox']:checked + label:before {
+    content: "\e067";
+}
+.row.item .checkbox {
+    margin: auto;
+    object-fit: fill;
+    font-size: 150%;
+}
+.row.item .checkbox label {
+    padding: 0 0 0 0;
+}
+.row.item:hover input[type="checkbox"]:hover + label:before {
+    color: cyan;
+}
+
+.nopadding {
+    padding: 0 0 0 0;
 }
 
 /*Photo frame*/
@@ -104,4 +153,33 @@ input.sexswitcher:checked ~ .slider {
 
 input.sexswitcher ~ .slider {
     background-color: #2196F3;
+}
+
+.text-male {
+    color: #2196F3;
+}
+
+.text-female {
+    color: #f241b3;
+}
+
+/* Mobile with small screen */
+@media (min-width: 768px) {
+    .row.item .btn {
+        display: none;
+    }
+
+    .row.item:hover .btn {
+        display: inline-block;
+        position: relative;
+        -webkit-animation-name: itemrowbtns; /* Safari 4.0 - 8.0 */
+        -webkit-animation-duration: 0.5s; /* Safari 4.0 - 8.0 */
+        animation-name: itemrowbtns;
+        animation-duration: 0.5s;
+    }
+}
+
+/* Mobile with small screen */
+@media (max-width: 768px) {
+
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Family Control Centre</title>
+    <title>@ViewBag.Title - @Resources.Resource.FCCApplicationNameShort</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/fontawesome")
     @Scripts.Render("~/bundles/modernizr")
@@ -18,7 +18,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Управление", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a class="navbar-brand" href="/">
+                    <i class="fas fa-home"></i>
+                    @Resources.Resource.Homepage
+                </a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -27,17 +30,23 @@
                     @*{*@
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            Семейное управление
+                            <i class="fas fa-address-book"></i>
+                            @Resources.Resource.FamilyManagement
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="@Url.Action("Person", "Family")">Пасспорт</a></li>
+                            <li>
+                                <a href="@Url.Action("Person", "Family")">
+                                    <i class="fas fa-id-card"></i>
+                                    @Resources.Resource.PassportView
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     @*}*@
 
-                    <li>@Html.ActionLink("О сайте", "About", "Home")</li>
-                    <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
+                    @*<li>@Html.ActionLink("О сайте", "About", "Home")</li>*@
+                    @*<li>@Html.ActionLink("Контакт", "Contact", "Home")</li>*@
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -47,7 +56,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Family Control Centre</p>
+            <p>&copy; @DateTime.Now.Year - @Resources.Resource.FCCApplicationNameShort</p>
         </footer>
     </div>
 

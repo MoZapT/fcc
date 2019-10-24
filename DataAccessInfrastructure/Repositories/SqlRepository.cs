@@ -380,6 +380,18 @@ namespace DataAccessInfrastructure.Repositories
                 new { @InviterId = inviter, @InvitedId = invited, @RelationType = type })
                 > 0 ? true : false;
         }
+        public bool IsMarried(string personId)
+        {
+            string query = @"
+				   SELECT COUNT(Id)
+                   FROM [PersonRelation]
+                   WHERE 
+                       InviterId = @PersonId
+                   AND RelationType = @RelationType";
+
+            return QueryFoD<int>(query, new { @PersonId = personId, @RelationType = RelationType.HusbandWife })
+                > 0 ? true : false;
+        }
 
         #endregion
 
@@ -394,6 +406,42 @@ namespace DataAccessInfrastructure.Repositories
                         PersonId = @PersonId";
 
             return QueryFoD<PersonBiography>(query, new { @PersonId = personId});
+        }
+
+        public string CreatePersonBiography(PersonBiography entity)
+        {
+            string query = @"
+                   INSERT INTO [PersonBiography]
+                       ([Id]
+                       ,[PersonId]
+                       ,[BiographyText]
+                       ,[DateCreated]
+                       ,[DateModified]
+                       ,[IsActive])
+                   OUTPUT INSERTED.Id
+                   VALUES
+                       (@Id
+                       ,@PersonId
+                       ,@BiographyText
+                       ,@DateCreated
+                       ,@DateModified
+                       ,@IsActive)";
+
+            return QueryFoD<string>(query, new DynamicParameters(entity));
+        }
+
+        public bool UpdatePersonBiography(PersonBiography entity)
+        {
+            string query = @"
+                    UPDATE [PersonBiography]
+                       SET [PersonId] = @PersonId
+                          ,[BiographyText] = @BiographyText
+                          ,[DateCreated] = @DateCreated
+                          ,[DateModified] = @DateModified
+                          ,[IsActive] = @IsActive
+                     WHERE Id = @Id";
+
+            return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
         }
 
         #endregion

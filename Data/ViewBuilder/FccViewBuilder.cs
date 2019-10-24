@@ -90,11 +90,11 @@ namespace Data.ViewBuilder
                 //save person as new
                 if (!_mgrFcc.ExistPerson(vm.Model.Id))
                 {
-                    _mgrFcc.SetPerson(vm.Model);
+                    _mgrFcc.SetPerson(vm.Model, vm.PersonBiography);
                 }
 
                 //update already existing person
-                success = _mgrFcc.UpdatePerson(vm.Model);
+                success = _mgrFcc.UpdatePerson(vm.Model, vm.PersonBiography);
 
                 return success;
             }
@@ -110,6 +110,11 @@ namespace Data.ViewBuilder
             {
                 vm.Model = _mgrFcc.GetPerson(vm.Model.Id);
                 vm.PersonBiography = _mgrFcc.GetPersonBiographyByPersonId(vm.Model.Id);
+                if (vm.PersonBiography == null)
+                {
+                    vm.PersonBiography = new PersonBiography();
+                    vm.PersonBiography.PersonId = vm.Model.Id;
+                }
                 vm.RelationsPartialViewModel = CreateRelationsPartialViewModel(vm.Model);
             }
             catch (Exception)

@@ -1,19 +1,27 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using Resources
+@{
+    ViewBag.Title = Resource.IndexPageTitle;
 }
 
 <div class="jumbotron">
-    <h1>FCC</h1>
-    <p class="lead">Добро пожаловать в FCC - Семейный контрольный центр!</p>
-    @*<p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
+    <h1>@Resource.FCCApplicationNameShort</h1>
+    <p class="lead">@Resource.FCCIndexWelcomeMessage</p>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Пасспорт</h2>
+        <h2>
+            <i class="fas fa-id-card"></i>
+            @Resource.PassportView
+        </h2>
         <p>
-            Здесь вы можете завести нового члена семьи или редактировать его информацию.
+            @Resource.PassportViewDescription
         </p>
-        <p><a class="btn btn-default" href="@Url.Action("Person", "Family")">Перейти &raquo;</a></p>
+        <p>
+            <a class="btn btn-default" href="@Url.Action("Person", "Family")">
+                @Resource.Goto @*&raquo;*@
+                <i class="fas fa-angle-double-right"></i>
+            </a>
+        </p>
     </div>
 </div>

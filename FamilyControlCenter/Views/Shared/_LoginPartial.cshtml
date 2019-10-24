@@ -1,22 +1,39 @@
 ﻿@using Microsoft.AspNet.Identity
+@using Resources
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Привет " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Выход</a></li>
-    </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink(Resource.Welcome + " " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li>
+                <a href="javascript:document.getElementById('logoutForm').submit()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    @Resource.SignOut
+                </a>
+            </li>
+        </ul>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Вход", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>
+            <a href="/ru-RU/Account/Register" id="registerLink">
+                <i class="fas fa-key"></i>
+                @Resource.Register
+            </a>
+            @*@Html.ActionLink(Resource.Register, "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })*@</li>
+        <li>
+            <a href="/ru-RU/Account/Login" id="loginLink">
+                <i class="fas fa-sign-in-alt"></i>
+                @Resource.SignIn
+            </a>
+            @*@Html.ActionLink(Resource.SignIn, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })*@
+        </li>
     </ul>
 }

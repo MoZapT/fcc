@@ -3,8 +3,25 @@
     @model Shared.Viewmodels.PersonViewModel
 }
 
-<div class="panel">
-    <div class="panel-heading"></div>
+@Html.HiddenFor(m => m.PersonBiography.Id)
+@Html.HiddenFor(m => m.PersonBiography.PersonId)
+@Html.HiddenFor(m => m.PersonBiography.DateModified)
+@Html.HiddenFor(m => m.PersonBiography.DateCreated)
+@Html.HiddenFor(m => m.PersonBiography.IsActive)
+
+<a href="/ru-RU/Family/Person">
+    <i class="fas fa-angle-double-left"></i>
+    @Resource.Back
+</a>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>
+            @Resource.Edit
+            <i class="fas fa-id-card"></i>
+            @Resource.PassportView
+        </h2>
+    </div>
     <div class="panel-body">
         <div class="row">
             <div class="col-md-6">
@@ -30,12 +47,14 @@
                     <div class="col-md-6">
                         <div class="form-inline">
                             @Html.Label("Sex_Checkbox_Male_Text", Resource.Male)
+                            <i class="text-male fas fa-mars"></i>
                             <div class="checkbox">
                                 <label class="switch">
                                     @Html.CheckBoxFor(m => m.Model.Sex, new { @class = "sexswitcher inline" })
                                     <span class="slider round"></span>
                                 </label>
                             </div>
+                            <i class="text-female fas fa-venus"></i>
                             @Html.Label("Sex_Checkbox_Female_Text", Resource.Female)
                         </div>
                     </div>
@@ -103,11 +122,11 @@
                 <div class="row form-group">
                     <div class="col-md-12">
                         <label>
-                            @if (Model.IsMarried)
+                            @if (Model.Model.IsMarried)
                             {
                                 <i class="fas fa-ring text-success"></i>
                                 @(Shared.Helpers.FccEnumHelper.GetGenderizedText("MarriedMale|MarriedFemale", Model.Model.Sex) + " ")
-                                @Model.MarriedOn.Name
+                                <a href="#">@Model.MarriedOn.Name</a>
                             }
                             else
                             {
