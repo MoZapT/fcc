@@ -46,6 +46,7 @@
                 panel.attr('style', '');
                 $('.modal-backdrop').remove();
                 initRelationListControls();
+                Window.CustomizedTypeahead.InitElement($('#NewRelationPersonName'));
             }
         });
     }
@@ -151,6 +152,7 @@
 
     function initializeComponent() {
         initRelationListControls();
+        initHandlePersonNamesControls();
 
         $('#Model_HasBirthDate, #Model_HasDeathDate').on('click', function (e) {
             DatepickerVisibility();
@@ -234,6 +236,49 @@
             var type = $('#NewRelationRelationTypeId').val();
 
             setRelations(inviter, invited, type);
+        });
+    }
+
+    function initHandlePersonNamesControls() {
+        $('button#SaveNamesAndPatronym').off();
+        $('[data-target="#AddPreviousNameAndPatronymModal"]').off();
+        $('[data-target="#ShowPreviousNamesAndPatronymsModal"]').off();
+        //-------------------------------------------------------
+        $('button#SaveNamesAndPatronym').on('click', function (e) {
+            //TODO check if names changed before send!
+
+            $.ajax({
+                url: getApiRoute() + 'personname/set/' +
+                    $('#NewName').val() + '/' +
+                    $('#NewLastname').val() + '/' +
+                    $('#NewPatronym').val() + '/' +
+                    $('#ActiveFrom').val()+ '/' +
+                    $('#Model_Id').val(),
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    if (response === false) {
+                        //TODO error message! error occured!
+                        $('.modal-backdrop').removeAll();
+                        $('#AddPreviousNameAndPatronymModal').modal();
+                    }
+                }
+            });
+        });
+        $('[data-target="#AddPreviousNameAndPatronymModal"]').on('click', function (e) {
+            $('#NewName').val($('#Model_Firstname').val());
+            $('#NewLastname').val($('#Model_Lastname').val());
+            $('#NewPatronym').val($('#Model_Patronym').val());
+            $('#ActiveFrom').datepicker("setDate", new Date());
+
+            //$('#NamesAndPatronymHistorySections').html();
+            //$.ajax();
+            //TODO load names partoaö!
+        });
+        $('[data-target="#ShowPreviousNamesAndPatronymsModal"]').on('click', function (e) {
+            //$('#NamesAndPatronymHistorySections').html();
+            //$.ajax();
+            //TODO load names partoaö!
         });
     }
 

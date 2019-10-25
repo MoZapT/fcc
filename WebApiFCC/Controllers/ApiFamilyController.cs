@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Web.Http;
 using WebApiFCC;
+using System.Web.Http.Cors;
 
 namespace FamilyControlCenter.Controllers
 {
@@ -21,6 +22,41 @@ namespace FamilyControlCenter.Controllers
         public ApiFamilyController()
         {
             _mgrFcc = ManagerCollection.Configuration.FccManager;
+        }
+
+        //[Authorize]
+        [HttpGet]
+        [Route("personname/set/{fName}/{lName}/{patronym}/{date}/{personId}")]
+        public bool SetPersonName(string fName, string lName, string patronym, string date, string personId)
+        {
+            if (string.IsNullOrWhiteSpace(fName) ||
+                string.IsNullOrWhiteSpace(personId))
+            {
+                return false;
+            }
+
+            PersonName personName = new PersonName();
+            personName.Id = Guid.NewGuid().ToString();
+            personName.Firstname = fName;
+            personName.Lastname = lName;
+            personName.Patronym = patronym;
+            personName.DateNameChanged = DateTime.Parse(date);
+            personName.PersonId = personId;
+
+            var person = _mgrFcc.GetPerson(personId);
+            bool hasNothingChanged = 
+                (person.Firstname == fName && 
+                person.Lastname == lName && 
+                person.Patronym == patronym) ? true : false;
+
+            if (hasNothingChanged)
+                return false;
+
+            var result = _mgrFcc.SetPersonName(personName);
+            if (string.IsNullOrWhiteSpace(result))
+                return false;
+
+            return true;
         }
 
         //[Authorize]
@@ -57,45 +93,33 @@ namespace FamilyControlCenter.Controllers
                 if (personInvited == null)
                     return new List<System.Web.Mvc.SelectListItem>();
 
-                var alreadyExistingRelationTypes = _mgrFcc
-                    .ReadAllPersonRelationsBetweenPersons(inviter, invited)
-                    .Select(e => new System.Web.Mvc.SelectListItem()
-                    {
-                        Text = rMgr.GetLocalizedStringForEnumValue(e.RelationType, personInvited.Sex),
-                        Value = e.RelationType.ToString()
-                    });
-
-                return GetAvaibleRelationTypeSelects(personInvited)
-                    .Where(e => alreadyExistingRelationTypes
-                        .FirstOrDefault(i => i.Value == e.Value) == null);
+                return GetAvaibleRelationTypeSelects(inviter, personInvited);
             }
             catch (Exception)
             {
                 return new List<System.Web.Mvc.SelectListItem>();
             }
         }
-        private List<System.Web.Mvc.SelectListItem> GetAvaibleRelationTypeSelects(Person personInvited)
+        private IEnumerable<System.Web.Mvc.SelectListItem> GetAvaibleRelationTypeSelects(string inviter, Person personInvited)
         {
-            var rMgr = Resources.Resource.ResourceManager;
+            var list = FccRelationTypeHelper.GetFamilySiblingsSelectGroup(personInvited.Sex);
 
-            return new List<System.Web.Mvc.SelectListItem>()
-                {
-                    new System.Web.Mvc.SelectListItem()
-                    {
-                        Value = ((int)RelationType.FatherMother).ToString(),
-                        Text = rMgr.GetLocalizedStringForEnumValue(RelationType.FatherMother, personInvited.Sex)
-                    },
-                    new System.Web.Mvc.SelectListItem()
-                    {
-                        Value = ((int)RelationType.SonDaughter).ToString(),
-                        Text = rMgr.GetLocalizedStringForEnumValue(RelationType.SonDaughter, personInvited.Sex)
-                    },
-                    new System.Web.Mvc.SelectListItem()
-                    {
-                        Value = ((int)RelationType.BrotherSister).ToString(),
-                        Text = rMgr.GetLocalizedStringForEnumValue(RelationType.BrotherSister, personInvited.Sex)
-                    },
-                };
+            var alreadyExistingRelationTypes = _mgrFcc
+                .GetAllPersonRelationsBetweenPersons(inviter, personInvited.Id)
+                .Select(e => e.RelationType);
+
+            var exclusionList = new List<RelationType>();
+            foreach (var type in alreadyExistingRelationTypes)
+            {
+                exclusionList = exclusionList
+                    .Concat(FccRelationTypeHelper.GetRelationTypeExclusion(type))
+                    .ToList();
+            }
+
+            list = list
+                .Where(e => !exclusionList.Contains((RelationType)int.Parse(e.Value)));
+
+            return list;
         }
 
         //[Authorize]

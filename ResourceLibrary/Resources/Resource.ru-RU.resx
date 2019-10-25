@@ -270,4 +270,13 @@
   <data name="Back" xml:space="preserve">
     <value>Назад</value>
   </data>
+  <data name="AddPreviousNameAndPatronym" xml:space="preserve">
+    <value>Добавить предыдущие ФИО</value>
+  </data>
+  <data name="ShowPreviousNamesAndPatronyms" xml:space="preserve">
+    <value>Показать предыдущие ФИО</value>
+  </data>
+  <data name="PersonNameWasActiveFrom" xml:space="preserve">
+    <value>Было актуально до</value>
+  </data>
 </root>

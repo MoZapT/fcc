@@ -141,7 +141,7 @@ namespace Data.ViewBuilder
         {
             var pvm = new PersonPartialViewRelationsModel();
             pvm.Person = person;
-            pvm.Relations = _mgrFcc.ReadAllPersonRelationsByInviterId(person.Id);
+            pvm.Relations = _mgrFcc.GetAllPersonRelationsByInviterId(person.Id);
 
             return pvm;
         }

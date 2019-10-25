@@ -98,9 +98,18 @@ namespace Data.Manager
 
         #endregion
 
+        #region PersonName
+
+        public string SetPersonName(PersonName entity)
+        {
+            return _repo.CreatePersonName(entity);
+        }
+
+        #endregion
+
         #region PersonRelation
 
-        public List<PersonRelation> ReadAllPersonRelationsBetweenPersons(string inviter, string invited)
+        public List<PersonRelation> GetAllPersonRelationsBetweenPersons(string inviter, string invited)
         {
             return _repo.ReadAllPersonRelationBetweenInviterAndInvited(inviter, invited)
                 .Select(e =>
@@ -112,7 +121,7 @@ namespace Data.Manager
                 .ToList();
         }
 
-        public List<PersonRelation> ReadAllPersonRelationsByInviterId(string personId)
+        public List<PersonRelation> GetAllPersonRelationsByInviterId(string personId)
         {
             return _repo.ReadAllPersonRelationsByInviterId(personId)
                 .Select(e => 

@@ -1,0 +1,54 @@
+﻿@using Shared.Helpers
+@using Shared.Enums
+@using Resources
+@model Shared.Models.Person
+
+<a href="#" data-toggle="modal" data-target="#AddPreviousNameAndPatronymModal">
+    <i class="fas fa-signature"></i>
+    <i class="fas fa-pen"></i>
+    @Resource.AddPreviousNameAndPatronym
+</a>
+
+<div class="modal fade" id="AddPreviousNameAndPatronymModal" tabindex="-1" role="dialog" aria-labelledby="AddPreviousNameAndPatronymModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">@Resource.AddPreviousNameAndPatronym</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        @Html.Label("NewName", Resource.Name)
+                        @Html.TextBox("NewName", Model.Firstname, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        @Html.Label("NewLastname", Resource.Lastname)
+                        @Html.TextBox("NewLastname", Model.Lastname, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        @Html.Label("NewPatronym", Resource.Patronym)
+                        @Html.TextBox("NewPatronym", Model.Patronym, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        @Html.Label("ActiveFrom", Resource.PersonNameWasActiveFrom)
+                        @Html.TextBox("ActiveFrom", DateTime.Now, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })
+                    </div>
+                </div>
+                <div id="NamesAndPatronymHistorySections"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="SaveNamesAndPatronym" type="button" class="btn btn-primary" data-dismiss="modal">@Resource.Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@Resource.Close</button>
+            </div>
+        </div>
+    </div>
+</div>

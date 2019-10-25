@@ -46,6 +46,14 @@
                 </div>
                 <div class="row form-group">
                     <div class="col-md-6">
+                        @Html.Partial("Person/_AddNameModal", Model.Model)
+                    </div>
+                    <div class="col-md-6">
+                        @Html.Partial("Person/_ShowNamesModal", Model.Model)
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-6">
                         <div class="form-inline">
                             @Html.Label("Sex_Checkbox_Male_Text", Resource.Male)
                             <i class="text-male fas fa-mars"></i>

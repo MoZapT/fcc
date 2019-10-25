@@ -478,6 +478,8 @@
     <Content Include="Views\Shared\Person\_RelationModal.cshtml" />
     <Content Include="Views\Shared\Person\_RelationsList.cshtml" />
     <Content Include="Views\Shared\Person\_MarriageSection.cshtml" />
+    <Content Include="Views\Shared\Person\_ShowNamesModal.cshtml" />
+    <Content Include="Views\Shared\Person\_AddNameModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

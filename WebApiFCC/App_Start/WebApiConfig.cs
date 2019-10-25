@@ -10,6 +10,8 @@ namespace WebApiFCC
     {
         public static void Register(HttpConfiguration config)
         {
+            config.EnableCors();
+
             // Web-API-Konfiguration und -Dienste
             config.Filters.Add(new LocalizationAttribute());
 

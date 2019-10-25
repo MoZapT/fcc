@@ -20,10 +20,16 @@ namespace Shared.Interfaces.Managers
 
         #endregion
 
+        #region PersonName
+
+        string SetPersonName(PersonName entity);
+
+        #endregion
+
         #region PersonRelation
 
-        List<PersonRelation> ReadAllPersonRelationsBetweenPersons(string inviter, string invited);
-        List<PersonRelation> ReadAllPersonRelationsByInviterId(string personId);
+        List<PersonRelation> GetAllPersonRelationsBetweenPersons(string inviter, string invited);
+        List<PersonRelation> GetAllPersonRelationsByInviterId(string personId);
         bool DeletePersonRelation(string inviter, string invited, RelationType type);
         bool SetPersonRelation(string inviter, string invited, RelationType type);
 
