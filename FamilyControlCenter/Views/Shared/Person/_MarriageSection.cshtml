@@ -16,7 +16,7 @@
         <a href="#">@marriedOn.Name</a>
 
         <a href="#" id="RemoveSpouse" inviter="@person.Id" invited="@marriedOn.Id" reltype="@((int)RelationType.HusbandWife)">
-            <i id="RemoveSpouse" class=" fas fa-ban text-danger"></i>
+            <i id="RemoveSpouse" class=" fas fa-trash text-danger"></i>
         </a>
     }
     else
@@ -25,7 +25,7 @@
         @Shared.Helpers.FccEnumHelper.GetGenderizedText("NotMarriedMale|NotMarriedFemale", person.Sex)
 
         <a href="#" id="AddSpouse" reltype="@((int)RelationType.HusbandWife)" data-toggle="modal" data-target="#NewSpouseModal">
-            <i class="fas fa-plus text-success"></i>
+            <i class="fas fa-user-plus text-success"></i>
         </a>
     }
 </label>

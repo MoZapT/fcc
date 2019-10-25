@@ -65,10 +65,7 @@ namespace FamilyControlCenter.Controllers
                         Value = e.RelationType.ToString()
                     });
 
-                var types = FccEnumHelper.GetTranslatedSelectListItemCollection<RelationType>(typeof(RelationType), personInvited.Sex);
-                types = AllowOnlySiblingsRelationTypes(types);
-
-                return types
+                return GetAvaibleRelationTypeSelects(personInvited)
                     .Where(e => alreadyExistingRelationTypes
                         .FirstOrDefault(i => i.Value == e.Value) == null);
             }
@@ -77,11 +74,28 @@ namespace FamilyControlCenter.Controllers
                 return new List<System.Web.Mvc.SelectListItem>();
             }
         }
-        private IEnumerable<System.Web.Mvc.SelectListItem> AllowOnlySiblingsRelationTypes(IEnumerable<System.Web.Mvc.SelectListItem> list)
+        private List<System.Web.Mvc.SelectListItem> GetAvaibleRelationTypeSelects(Person personInvited)
         {
-            return list
-                .Where(e => e.Value != ((int)RelationType.HusbandWife).ToString())
-                .Where(e => e.Value != ((int)RelationType.LivePartner).ToString());
+            var rMgr = Resources.Resource.ResourceManager;
+
+            return new List<System.Web.Mvc.SelectListItem>()
+                {
+                    new System.Web.Mvc.SelectListItem()
+                    {
+                        Value = ((int)RelationType.FatherMother).ToString(),
+                        Text = rMgr.GetLocalizedStringForEnumValue(RelationType.FatherMother, personInvited.Sex)
+                    },
+                    new System.Web.Mvc.SelectListItem()
+                    {
+                        Value = ((int)RelationType.SonDaughter).ToString(),
+                        Text = rMgr.GetLocalizedStringForEnumValue(RelationType.SonDaughter, personInvited.Sex)
+                    },
+                    new System.Web.Mvc.SelectListItem()
+                    {
+                        Value = ((int)RelationType.BrotherSister).ToString(),
+                        Text = rMgr.GetLocalizedStringForEnumValue(RelationType.BrotherSister, personInvited.Sex)
+                    },
+                };
         }
 
         //[Authorize]

@@ -66,6 +66,7 @@
                 }
 
                 container.html(response.responseText);
+                initRelationListControls();
                 Window.CustomizedTypeahead.InitElement($('#NewSpouseName'));
                 $('.modal-backdrop').remove();
             }
