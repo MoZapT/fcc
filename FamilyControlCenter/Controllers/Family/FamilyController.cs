@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Shared.Enums;
 using System;
 using Shared.Interfaces.ViewBuilders;
+using System.Collections.Generic;
 
 namespace FamilyControlCenter.Controllers
 {
@@ -42,6 +43,14 @@ namespace FamilyControlCenter.Controllers
             BeforeLoadAction();
             var vm = _vwbFcc.CreatePersonPartialViewRelationsModel(personId);
             return PartialView("Person/_RelationsList", vm);
+        }
+
+        [/*Authorize,*/ HttpPost]
+        public PartialViewResult MarriagePartialView(string personId, string spouseId)
+        {
+            BeforeLoadAction();
+            var vm = _vwbFcc.CreatePartialViewForMarriageOrLivePartner(personId, spouseId);
+            return PartialView("Person/_MarriageSection", vm);
         }
     }
 }

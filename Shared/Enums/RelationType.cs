@@ -20,5 +20,8 @@ namespace Shared.Enums
         FatherMother,
         [Description("Son|Daughter")] //not translated yet!!!
         SonDaughter,
+
+        [Description("LivePartnerMale|LivePartnerFemale")]
+        LivePartner,
     }
 }

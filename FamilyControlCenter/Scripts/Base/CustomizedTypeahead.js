@@ -89,6 +89,31 @@
     Window.CustomizedTypeahead = {
         Init: function () {
             initializeComponent();
+        },
+
+        InitElement: function (elem) {
+            var typeaheadList = $('.typeahead');
+
+            $(elem).typeahead(
+                dftOptions,
+                dftDataset($(crtTa).attr('taname'), $(crtTa).attr('taurl')));
+
+            $(elem).bind('typeahead:select', function (e, suggestion) {
+                typeaheadSelect(e.currentTarget, suggestion.Key);
+            });
+
+            $(elem).bind('typeahead:close', function (e) {
+                validateTaInput($(e.currentTarget), $(e.currentTarget).prop('value'));
+            });
+
+            spantwitter = $(elem).closest('span.twitter-typeahead');
+            $(spantwitter).append('<span class="wsc-tt-clear glyphicon glyphicon-remove"></span>');
+
+            $(spantwitter).siblings('span.wsc-tt-clear').on('click', function (e) {
+                var parentTa = $(e.currentTarget).siblings('.typeahead');
+                parentTa.typeahead('val', '');
+                typeaheadSelect(parentTa, '');
+            });
         }
     };
 })();

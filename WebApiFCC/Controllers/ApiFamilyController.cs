@@ -65,10 +65,10 @@ namespace FamilyControlCenter.Controllers
                         Value = e.RelationType.ToString()
                     });
 
-                return FccEnumHelper
-                    .GetTranslatedSelectListItemCollection<RelationType>
-                        (typeof(RelationType),
-                        personInvited.Sex)
+                var types = FccEnumHelper.GetTranslatedSelectListItemCollection<RelationType>(typeof(RelationType), personInvited.Sex);
+                types = AllowOnlySiblingsRelationTypes(types);
+
+                return types
                     .Where(e => alreadyExistingRelationTypes
                         .FirstOrDefault(i => i.Value == e.Value) == null);
             }
@@ -76,6 +76,12 @@ namespace FamilyControlCenter.Controllers
             {
                 return new List<System.Web.Mvc.SelectListItem>();
             }
+        }
+        private IEnumerable<System.Web.Mvc.SelectListItem> AllowOnlySiblingsRelationTypes(IEnumerable<System.Web.Mvc.SelectListItem> list)
+        {
+            return list
+                .Where(e => e.Value != ((int)RelationType.HusbandWife).ToString())
+                .Where(e => e.Value != ((int)RelationType.LivePartner).ToString());
         }
 
         //[Authorize]

@@ -24,51 +24,94 @@
         }
     }
 
-    function refreshRelations() {
+    function refreshRelations(personId) {
         var container = $('div#RelationListContainer');
 
         $.ajax({
             url: 'PersonRelations',
-            data: JSON.stringify({ personId: $('#Model_Id').val() }),
+            data: JSON.stringify({ personId: personId }),
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             traditional: true,
             complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
                 container.html(response.responseText);
+                var panel = container.find('#RelationsPanel');
+                panel.addClass('in');
+                panel.attr('aria-expanded', 'true');
+                panel.attr('style', '');
+                $('.modal-backdrop').remove();
                 initRelationListControls();
             }
         });
     }
 
-    function setRelations() {
-        var inviter = $('#Model_Id').val();
-        var invited = $('#NewRelationPersonId').val();
-        var type = $('#NewRelationRelationTypeId').val();
+    function updateSpouseOrLivePartnerSection(personId, spouseId) {
+        var container = $('div#MarriageStatus');
 
+        $.ajax({
+            url: 'MarriagePartialView',
+            data: JSON.stringify({ personId: personId, spouseId: spouseId }),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
+                container.html(response.responseText);
+                Window.CustomizedTypeahead.InitElement($('#NewSpouseName'));
+                $('.modal-backdrop').remove();
+            }
+        });
+    }
+
+    function setRelations(inviter, invited, type) {
         $.ajax({
             url: getApiRoute() + 'relation/set/' + inviter + '/' + invited + '/' + type,
             type: 'GET',
             dataType: 'json',
             success: function (response) {
-                refreshRelations();
+                refreshRelations(inviter);
             }
         });
     }
 
-    function deleteRelation() {
-        var btn = $('button#DestroyRelation');
-
-        var inviter = $(btn).attr('inviter');
-        var invited = $(btn).attr('invited');
-        var type = $(btn).attr('reltype');
-
+    function deleteRelation(inviter, invited, type) {
         $.ajax({
             url: getApiRoute() + 'relation/delete/' + inviter + '/' + invited + '/' + type,
             type: 'GET',
             dataType: 'json',
             success: function (response) {
-                refreshRelations();
+                refreshRelations(inviter);
+            }
+        });
+    }
+
+    function addSpouse(inviter, invited, type) {
+        $.ajax({
+            url: getApiRoute() + 'relation/set/' + inviter + '/' + invited + '/' + type,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                updateSpouseOrLivePartnerSection(inviter, invited);
+            }
+        });
+    }
+
+    function removeSpouse(inviter, invited, type) {
+        $.ajax({
+            url: getApiRoute() + 'relation/delete/' + inviter + '/' + invited + '/' + type,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                updateSpouseOrLivePartnerSection(inviter, invited);
             }
         });
     }
@@ -106,39 +149,13 @@
     }
 
     function initializeComponent() {
-        $('#NewRelationPersonId').on('change', function (e) {
-            getRelationTypes();
-        });
-
-        $('button[data-target="#NewRelationModal"]').on('click', function (e) {
-            $('#NewRelationPersonId').val('');
-            $('#NewRelationPersonName').typeahead('val', '');
-            $('#NewRelationRelationTypeId').html('');
-            $('button#SaveRelation').attr('disabled', 'disabled');
-        });
+        initRelationListControls();
 
         $('#Model_HasBirthDate, #Model_HasDeathDate').on('click', function (e) {
             DatepickerVisibility();
         });
 
-        $('button#SaveRelation').on('click', function (e) {
-            setRelations(e.currentTarget);
-        });
-
-        initRelationListControls();
-
-        $('input#NewRelationPersonId').on('change', function (e) {
-            var row = $(e.currentTarget).closest('div.row');
-            var btn = row.find('button#SetRelation');
-
-            if ($(e.currentTarget).val()) {
-                btn.removeClass('hide');
-            }
-            else {
-                btn.addClass('hide');
-            }
-        });
-
+        /*ListFeatures*/
         $('.row.item input[type="checkbox"] + label').on('click, touchstart, dblclick', function (e) {
             e.stopPropagation();
         });
@@ -163,10 +180,59 @@
     }
 
     function initRelationListControls() {
+        $('input#NewRelationPersonId').off();
+        $('button[data-target="#NewRelationModal"]').off();
         $('button#DestroyRelation').off();
+        $('a#RemoveSpouse').off();
+        $('#NewSpouseId').off();
+        $('button#SaveRelation').off();
         //-------------------------------------------------------
+        $('input#NewRelationPersonId').on('change', function (e) {
+            var row = $(e.currentTarget).closest('div.row');
+            var btn = row.find('button#SaveRelation');
+
+            if ($(e.currentTarget).val()) {
+                btn.removeClass('hide');
+            }
+            else {
+                btn.addClass('hide');
+            }
+
+            getRelationTypes();
+        });
+        $('button[data-target="#NewRelationModal"]').on('click', function (e) {
+            $('#NewRelationPersonId').val('');
+            $('#NewRelationPersonName').typeahead('val', '');
+            $('#NewRelationRelationTypeId').html('');
+            $('button#SaveRelation').attr('disabled', 'disabled');
+        });
         $('button#DestroyRelation').on('click', function (e) {
-            deleteRelation(e.currentTarget);
+            var inviter = $(e.currentTarget).attr('inviter');
+            var invited = $(e.currentTarget).attr('invited');
+            var type = $(e.currentTarget).attr('reltype');
+
+            deleteRelation(inviter, invited, type);
+        });
+        $('a#RemoveSpouse').on('click', function (e) {
+            var inviter = $(e.currentTarget).attr('inviter');
+            var invited = $(e.currentTarget).attr('invited');
+            var type = $(e.currentTarget).attr('reltype');
+
+            removeSpouse(inviter, invited, type);
+        });
+        $('#NewSpouseId').on('change', function (e) {
+            var inviter = $('#Model_Id').val();
+            var invited = $(e.currentTarget).val();
+            var type = $('a#AddSpouse').attr('reltype');
+
+            addSpouse(inviter, invited, type);
+        });
+        $('button#SaveRelation').on('click', function (e) {
+            var inviter = $('#Model_Id').val();
+            var invited = $('#NewRelationPersonId').val();
+            var type = $('#NewRelationRelationTypeId').val();
+
+            setRelations(inviter, invited, type);
         });
     }
 

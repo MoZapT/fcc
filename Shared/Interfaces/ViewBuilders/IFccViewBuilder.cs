@@ -10,5 +10,6 @@ namespace Shared.Interfaces.ViewBuilders
     {
         void HandleAction(PersonViewModel vm);
         PersonPartialViewRelationsModel CreatePersonPartialViewRelationsModel(string personId);
+        KeyValuePair<Person, Person> CreatePartialViewForMarriageOrLivePartner(string personId, string spouseId);
     }
 }

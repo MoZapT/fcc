@@ -22,7 +22,10 @@ namespace Shared.Viewmodels
                 var marriageRelation = RelationsPartialViewModel?.Relations?
                     .FirstOrDefault(e => e.RelationType == RelationType.HusbandWife);
 
-                return marriageRelation.Invited;
+                if (marriageRelation != null)
+                    return marriageRelation.Invited;
+                else
+                    return null;
             }
         }
         public PersonBiography PersonBiography { get; set; }

@@ -16,6 +16,11 @@
         <div class="panel-body">
             @foreach (var relation in Model.Relations)
             {
+                if (relation.RelationType == RelationType.HusbandWife /*|| ForLivePartnership reserved!*/)
+                {
+                    continue;
+                }
+
                 <div class="row item">
                     <div class="col-md-1">
                         @if (Model.Person.Id == relation.Inviter.Id)
