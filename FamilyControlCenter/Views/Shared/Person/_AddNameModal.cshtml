@@ -43,6 +43,7 @@
                         @Html.TextBox("ActiveFrom", DateTime.Now, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })
                     </div>
                 </div>
+                <label id="PersonNameAddingErrorMsg" class="text-danger hide">@Resource.PersonNameCouldNotBeAdded</label>
                 <div id="NamesAndPatronymHistorySections"></div>
             </div>
             <div class="modal-footer">

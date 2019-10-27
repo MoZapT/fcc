@@ -244,8 +244,47 @@
         $('[data-target="#AddPreviousNameAndPatronymModal"]').off();
         $('[data-target="#ShowPreviousNamesAndPatronymsModal"]').off();
         //-------------------------------------------------------
+        $('#ActiveFrom').on('change', function (e) {
+            var todayDate = new Date();
+            todayDate.setHours(0);
+            todayDate.setMinutes(0);
+            todayDate.setSeconds(0);
+            todayDate.setMilliseconds(0);
+            var selectedDate = $(e.currentTarget).datepicker("getDate");
+            selectedDate.setHours(0);
+            selectedDate.setMinutes(0);
+            selectedDate.setSeconds(0);
+            selectedDate.setMilliseconds(0);
+
+            var isNotValid = false;
+            if (todayDate < selectedDate) {
+                isNotValid = true;
+            }
+
+            if (isNotValid) {
+                $('button#SaveNamesAndPatronym').addClass('disabled');
+            }
+            else {
+                $('button#SaveNamesAndPatronym').removeClass('disabled');
+            }
+        });
+        $('#NewName,#NewLastname,#NewPatronym').on('change', function (e) {
+            var isNotValid =
+                ($('#NewName').val() == $('#Model_Firstname').val() &&
+                $('#NewLastname').val() == $('#Model_Lastname').val() &&
+                $('#NewPatronym').val() == $('#Model_Patronym').val()) ? true : false;
+
+            if (isNotValid) {
+                $('button#SaveNamesAndPatronym').addClass('disabled');
+            }
+            else {
+                $('button#SaveNamesAndPatronym').removeClass('disabled');
+            }
+        });
         $('button#SaveNamesAndPatronym').on('click', function (e) {
-            //TODO check if names changed before send!
+            if ($(e.currentTarget).hasClass('disabled')) {
+                return;
+            }
 
             $.ajax({
                 url: getApiRoute() + 'personname/set/' +
@@ -258,10 +297,12 @@
                 dataType: 'json',
                 success: function (response) {
                     if (response === false) {
-                        //TODO error message! error occured!
+                        $('#PersonNameAddingErrorMsg').removeClass('hide');
                         $('.modal-backdrop').removeAll();
                         $('#AddPreviousNameAndPatronymModal').modal();
                     }
+
+                    $('#PersonNameAddingErrorMsg').addClass('hide');
                 }
             });
         });

@@ -279,4 +279,7 @@
   <data name="PersonNameWasActiveFrom" xml:space="preserve">
     <value>Было актуально до</value>
   </data>
+  <data name="PersonNameCouldNotBeAdded" xml:space="preserve">
+    <value>Ошибка! Не получилось добавить имя! Проверьте ваше соединение или введённые данные!</value>
+  </data>
 </root>

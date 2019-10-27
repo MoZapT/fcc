@@ -279,4 +279,7 @@
   <data name="PersonNameWasActiveFrom" xml:space="preserve">
     <value />
   </data>
+  <data name="PersonNameCouldNotBeAdded" xml:space="preserve">
+    <value />
+  </data>
 </root>

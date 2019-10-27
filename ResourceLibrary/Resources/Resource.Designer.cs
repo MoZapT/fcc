@@ -432,6 +432,15 @@ namespace Resources {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        public static string PersonNameCouldNotBeAdded {
+            get {
+                return ResourceManager.GetString("PersonNameCouldNotBeAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         public static string PersonNameWasActiveFrom {
             get {
                 return ResourceManager.GetString("PersonNameWasActiveFrom", resourceCulture);
