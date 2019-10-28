@@ -52,5 +52,13 @@ namespace FamilyControlCenter.Controllers
             var vm = _vwbFcc.CreatePartialViewForMarriageOrLivePartner(personId, spouseId);
             return PartialView("Person/_MarriageSection", vm);
         }
+
+        [/*Authorize,*/ HttpPost]
+        public PartialViewResult NamesAndPatronymPartialView(string personId)
+        {
+            BeforeLoadAction();
+            List<PersonName> vm = _vwbFcc.CreatePartialViewForNamesAndPatronymList(personId);
+            return PartialView("Person/_NamesList", vm);
+        }
     }
 }

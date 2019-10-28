@@ -61,6 +61,14 @@ namespace FamilyControlCenter.Controllers
 
         //[Authorize]
         [HttpGet]
+        [Route("personname/delete/{id}")]
+        public bool DeletePersonName(string id)
+        {
+            return _mgrFcc.DeletePersonName(id);
+        }
+
+        //[Authorize]
+        [HttpGet]
         [Route("relation/set/{inviter}/{invited}/{type}")]
         public void SetPersonRelation(string inviter, string invited, RelationType type)
         {

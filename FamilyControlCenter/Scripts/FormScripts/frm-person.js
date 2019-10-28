@@ -182,6 +182,69 @@
         return url + 'api/';
     }
 
+    function loadNamesAndPatronyms(personId, sections) {
+        $.ajax({
+            url: 'NamesAndPatronymPartialView',
+            data: JSON.stringify({ personId: personId }),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
+                sections.html(response.responseText);
+                $('a#DeletePersonName').off();
+                $('a#DeletePersonName').on('click', function (e) {
+                    var pnId = $(e.currentTarget).closest('a').siblings('[name="PersonNameId"][type="hidden"]').val();
+                    var sections = $(e.currentTarget).parents('#NamesAndPatronymHistorySections');
+
+                    deletePersonName(pnId, sections);
+                });
+            }
+        });
+    }
+
+    function savePersonName(firstname, lastname, patronym, datechanged) {
+        $.ajax({
+            url: getApiRoute() + 'personname/set/' +
+                firstname + '/' +
+                lastname + '/' +
+                patronym + '/' +
+                datechanged + '/' +
+                $('#Model_Id').val(),
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response === false) {
+                    $('#PersonNameAddingErrorMsg').removeClass('hide');
+                    $('.modal-backdrop').removeAll();
+                    $('#AddPreviousNameAndPatronymModal').modal();
+                }
+
+                $('#PersonNameAddingErrorMsg').addClass('hide');
+            }
+        });
+    }
+
+    function deletePersonName(id, sections) {
+        $.ajax({
+            url: getApiRoute() + 'personname/delete/' + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response === false) {
+                    return;
+                }
+
+                //$('.modal-backdrop').remove();
+                loadNamesAndPatronyms($('#Model_Id').val(), sections);
+            }
+        });
+    }
+
     function initRelationListControls() {
         $('input#NewRelationPersonId').off();
         $('button[data-target="#NewRelationModal"]').off();
@@ -244,37 +307,29 @@
         $('[data-target="#AddPreviousNameAndPatronymModal"]').off();
         $('[data-target="#ShowPreviousNamesAndPatronymsModal"]').off();
         //-------------------------------------------------------
-        $('#ActiveFrom').on('change', function (e) {
+        $('#ActiveFrom,#NewName,#NewLastname,#NewPatronym').on('change', function (e) {
             var todayDate = new Date();
             todayDate.setHours(0);
             todayDate.setMinutes(0);
             todayDate.setSeconds(0);
             todayDate.setMilliseconds(0);
-            var selectedDate = $(e.currentTarget).datepicker("getDate");
+            var selectedDate = $('#ActiveFrom').datepicker("getDate");
             selectedDate.setHours(0);
             selectedDate.setMinutes(0);
             selectedDate.setSeconds(0);
             selectedDate.setMilliseconds(0);
 
-            var isNotValid = false;
-            if (todayDate < selectedDate) {
-                isNotValid = true;
+            var isNotValidDateChangedForAddNamesAndPatronym = false;
+            if (todayDate <= selectedDate) {
+                isNotValidDateChangedForAddNamesAndPatronym = true;
             }
 
-            if (isNotValid) {
-                $('button#SaveNamesAndPatronym').addClass('disabled');
-            }
-            else {
-                $('button#SaveNamesAndPatronym').removeClass('disabled');
-            }
-        });
-        $('#NewName,#NewLastname,#NewPatronym').on('change', function (e) {
-            var isNotValid =
-                ($('#NewName').val() == $('#Model_Firstname').val() &&
-                $('#NewLastname').val() == $('#Model_Lastname').val() &&
-                $('#NewPatronym').val() == $('#Model_Patronym').val()) ? true : false;
+            var isNotValidFieldsForAddNamesAndPatronym =
+                $('#NewName').val() === $('#Model_Firstname').val() &&
+                $('#NewLastname').val() === $('#Model_Lastname').val() &&
+                $('#NewPatronym').val() === $('#Model_Patronym').val() ? true : false;
 
-            if (isNotValid) {
+            if (isNotValidDateChangedForAddNamesAndPatronym || isNotValidFieldsForAddNamesAndPatronym) {
                 $('button#SaveNamesAndPatronym').addClass('disabled');
             }
             else {
@@ -286,25 +341,13 @@
                 return;
             }
 
-            $.ajax({
-                url: getApiRoute() + 'personname/set/' +
-                    $('#NewName').val() + '/' +
-                    $('#NewLastname').val() + '/' +
-                    $('#NewPatronym').val() + '/' +
-                    $('#ActiveFrom').val()+ '/' +
-                    $('#Model_Id').val(),
-                type: 'GET',
-                dataType: 'json',
-                success: function (response) {
-                    if (response === false) {
-                        $('#PersonNameAddingErrorMsg').removeClass('hide');
-                        $('.modal-backdrop').removeAll();
-                        $('#AddPreviousNameAndPatronymModal').modal();
-                    }
+            savePersonName($('#NewName').val(), $('#NewLastname').val(), $('#NewPatronym').val(), $('#ActiveFrom').val());
 
-                    $('#PersonNameAddingErrorMsg').addClass('hide');
-                }
-            });
+            var sections = $(e.currentTarget)
+                .closest('.modal-footer')
+                .siblings('.modal-body')
+                .find('#NamesAndPatronymHistorySections');
+            loadNamesAndPatronyms($('#Model_Id').val(), sections);
         });
         $('[data-target="#AddPreviousNameAndPatronymModal"]').on('click', function (e) {
             $('#NewName').val($('#Model_Firstname').val());
@@ -312,14 +355,20 @@
             $('#NewPatronym').val($('#Model_Patronym').val());
             $('#ActiveFrom').datepicker("setDate", new Date());
 
-            //$('#NamesAndPatronymHistorySections').html();
-            //$.ajax();
-            //TODO load names partoaö!
+            var isNotValidDateChangedForAddNamesAndPatronym = true;
+            var isNotValidFieldsForAddNamesAndPatronym = true;
+
+            if (isNotValidDateChangedForAddNamesAndPatronym || isNotValidFieldsForAddNamesAndPatronym) {
+                $('button#SaveNamesAndPatronym').addClass('disabled');
+            }
+            else {
+                $('button#SaveNamesAndPatronym').removeClass('disabled');
+            }
+
+            loadNamesAndPatronyms($('#Model_Id').val(), $('#AddPreviousNameAndPatronymModal #NamesAndPatronymHistorySections'));
         });
         $('[data-target="#ShowPreviousNamesAndPatronymsModal"]').on('click', function (e) {
-            //$('#NamesAndPatronymHistorySections').html();
-            //$.ajax();
-            //TODO load names partoaö!
+            loadNamesAndPatronyms($('#Model_Id').val(), $('#ShowPreviousNamesAndPatronymsModal #NamesAndPatronymHistorySections'));
         });
     }
 

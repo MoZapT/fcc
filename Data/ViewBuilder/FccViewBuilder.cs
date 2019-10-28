@@ -31,6 +31,11 @@ namespace Data.ViewBuilder
             HandleState(vm);
         }
 
+        public List<PersonName> CreatePartialViewForNamesAndPatronymList(string personId)
+        {
+            return _mgrFcc.GetAllPersonName(personId);
+        }
+
         public KeyValuePair<Person, Person> CreatePartialViewForMarriageOrLivePartner(string personId, string spouseId)
         {
             var kvp = new KeyValuePair<Person, Person>(_mgrFcc.GetPerson(personId), _mgrFcc.GetPerson(spouseId));

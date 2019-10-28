@@ -274,7 +274,7 @@ namespace DataAccessInfrastructure.Repositories
         {
             var query = @"
                 DELETE FROM [PersonName]
-                WHERE PersonId = @Id";
+                WHERE Id = @Id";
 
             return Execute(query, new { @Id = id }) > 0 ? true : false;
         }

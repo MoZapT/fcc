@@ -22,7 +22,9 @@ namespace Shared.Interfaces.Managers
 
         #region PersonName
 
+        List<PersonName> GetAllPersonName(string personId);
         string SetPersonName(PersonName entity);
+        bool DeletePersonName(string id);
 
         #endregion
 

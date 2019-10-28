@@ -1,4 +1,17 @@
-﻿.crud {
+﻿.group-border {
+    border-top: 2px dashed;
+    border-left: 2px solid;
+    border-right: 2px solid;
+    border-bottom: 2px dashed;
+    border-radius: 6px;
+    padding: 5px 5px 5px 5px;
+    border-color: #a1a1a1;
+}
+.group-border + .group-border {
+    margin-top: 10px;
+}
+
+.crud {
 }
 
 .item {

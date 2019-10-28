@@ -19,35 +19,33 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        @Html.Label("NewName", Resource.Name)
-                        @Html.TextBox("NewName", Model.Firstname, new { @class = "form-control" })
+                <div class="group-border">
+                    <div class="row form-group">
+                        <div class="col-md-6">
+                            @Html.Label("NewName", Resource.Name)
+                            @Html.TextBox("NewName", Model.Firstname, new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.Label("NewLastname", Resource.Lastname)
+                            @Html.TextBox("NewLastname", Model.Lastname, new { @class = "form-control" })
+                        </div>
                     </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        @Html.Label("NewLastname", Resource.Lastname)
-                        @Html.TextBox("NewLastname", Model.Lastname, new { @class = "form-control" })
+                    <div class="row form-group">
+                        <div class="col-md-6">
+                            @Html.Label("NewPatronym", Resource.Patronym)
+                            @Html.TextBox("NewPatronym", Model.Patronym, new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.Label("ActiveFrom", Resource.PersonNameWasActiveFrom)
+                            @Html.TextBox("ActiveFrom", DateTime.Now, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })
+                        </div>
                     </div>
+                    <label id="PersonNameAddingErrorMsg" class="text-danger hide">@Resource.PersonNameCouldNotBeAdded</label>
                 </div>
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        @Html.Label("NewPatronym", Resource.Patronym)
-                        @Html.TextBox("NewPatronym", Model.Patronym, new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        @Html.Label("ActiveFrom", Resource.PersonNameWasActiveFrom)
-                        @Html.TextBox("ActiveFrom", DateTime.Now, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })
-                    </div>
-                </div>
-                <label id="PersonNameAddingErrorMsg" class="text-danger hide">@Resource.PersonNameCouldNotBeAdded</label>
-                <div id="NamesAndPatronymHistorySections"></div>
+                <div id="NamesAndPatronymHistorySections" class="group-border"></div>
             </div>
             <div class="modal-footer">
-                <button id="SaveNamesAndPatronym" type="button" class="btn btn-primary" data-dismiss="modal">@Resource.Save</button>
+                <button id="SaveNamesAndPatronym" type="button" class="btn btn-primary">@Resource.Save</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">@Resource.Close</button>
             </div>
         </div>

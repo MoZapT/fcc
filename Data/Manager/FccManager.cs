@@ -105,6 +105,16 @@ namespace Data.Manager
             return _repo.CreatePersonName(entity);
         }
 
+        public List<PersonName> GetAllPersonName(string personId)
+        {
+            return _repo.ReadAllPersonNameByPersonId(personId).ToList();
+        }
+
+        public bool DeletePersonName(string id)
+        {
+            return _repo.DeletePersonName(id);
+        }
+
         #endregion
 
         #region PersonRelation
