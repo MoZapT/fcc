@@ -37,32 +37,19 @@ namespace DataAccessInfrastructure.Repositories
 
             return Query<Person>(query);
         }
-        public IEnumerable<Person> ReadAllPersonByRelationGroupId(string id)
+        public IEnumerable<Person> ReadAllPersonByRelation(string personId, RelationType type)
         {
             var query = @"
-                SELECT p.*
-                FROM [Person] AS p
-	                JOIN [PersonRelation] AS pr ON p.Id = pr.PersonId
-		                AND pr.PersonRelationGroupId = @PersonRelationGroupId
-		                AND pr.IsActive = 1
+                SELECT per.*
+                FROM [PersonRelation] AS rel
+                JOIN [Person] AS per
+	                ON per.Id = rel.InvitedId
                 WHERE 
-	                p.IsActive = 1";
+	                rel.InviterId = @Id
+	                AND rel.IsActive = 1
+	                AND per.IsActive = 1";
 
-            return Query<Person>(query, new { @PersonRelationGroupId = id });
-        }
-        public IEnumerable<Person> ReadAllPersonByRelationGroupIdExcludeCaller(string id, string callerId)
-        {
-            var query = @"
-                SELECT p.*
-                FROM [Person] AS p
-	                JOIN [PersonRelation] AS pr ON p.Id = pr.PersonId
-		                AND pr.PersonRelationGroupId = @PersonRelationGroupId
-		                AND pr.IsActive = 1
-                WHERE 
-	                p.IsActive = 1
-	                AND NOT p.Id = @Id";
-
-            return Query<Person>(query, new { @PersonRelationGroupId = id, @Id = callerId });
+            return Query<Person>(query, new { @Id = personId, @RelationType = type});
         }
         public string CreatePerson(Person entity)
         {

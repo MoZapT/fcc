@@ -19,7 +19,48 @@
     }
     else
     {
-        @Html.Partial("Person/_PersonDetail", Model)
+        <a href="/ru-RU/Family/Person">
+            <i class="fas fa-angle-double-left"></i>
+            @Resource.Back
+        </a>
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item active">
+                <a class="nav-link" href="#passport" id="passport-tab" data-toggle="tab" role="tab" aria-controls="passport" aria-selected="true" aria-expanded="true">
+                    @Resource.PassportView
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#relations" id="relations-tab" data-toggle="tab" role="tab" aria-controls="relations" aria-selected="true">
+                    @Resource.PersonRelations
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#names" id="names-tab" data-toggle="tab" role="tab" aria-controls="names" aria-selected="true">
+                    @Resource.PreviousNames
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#biography" id="biography-tab" data-toggle="tab" role="tab" aria-controls="biography" aria-selected="true">
+                    @Resource.Biography
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="passport" role="tabpanel" aria-labelledby="passport-tab">
+                @Html.Partial("Person/_PersonDetail", Model)
+            </div>
+            <div class="tab-pane" id="relations" role="tabpanel" aria-labelledby="relations-tab">
+                @Html.Partial("Person/_PersonRelations", Model.PersonRelations, new ViewDataDictionary() { new KeyValuePair<string, object>("PersonId", Model.Model.Id) })
+            </div>
+            <div class="tab-pane" id="names" role="tabpanel" aria-labelledby="names-tab">
+                @Html.Partial("Person/_PersonNames", Model.PersonNames)
+            </div>
+            <div class="tab-pane" id="biography" role="tabpanel" aria-labelledby="biography-tab">
+                @Html.Partial("Person/_PersonBiography", Model.PersonBiography)
+            </div>
+        </div>
+        
     }
 }
 

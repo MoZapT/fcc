@@ -1,0 +1,69 @@
+﻿@{
+    @model Shared.Viewmodels.PersonViewModel
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>
+            <i class="fas fa-id-card"></i>
+            @Resources.Resource.PassportView
+        </h2>
+    </div>
+    <div class="panel-body">
+        @for (int i = 0; i < Model.Models.Count; i++)
+        {
+            var e = Model.Models[i];
+            string birthDateString = e.BirthDate == null ? null : e.BirthDate.Value.ToString("dd.MM.yyyy");
+            string deathDateString = e.DeathDate == null ? null : e.DeathDate.Value.ToString("dd.MM.yyyy");
+
+            <div class="row item">
+                <div class="col-md-3 col-sm-3 col-xs-2">
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <div class="checkbox">
+                            <input type="checkbox" id="Person_@i" value="true">
+                            <label for="Person_@i"></label>
+                            <input type="hidden" value="false">
+                        </div>
+                    </div>
+                    <div class="col-md-10 col-sm-10 col-xs-10">
+                        <i class="fas fa-user"></i>
+                        @if (e.Sex)
+                        {
+                            <i class="text-female fas fa-venus"></i>
+                        }
+                        else
+                        {
+                            <i class="text-male fas fa-mars"></i>
+                        }
+                        @if (e.IsMarried)
+                        {
+                            <i class="fas fa-ring text-success"></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-ring"></i>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-8 col-xs-8">
+                    <div class="col-md-4 col-sm-6 col-xs-6">
+                        @e.Name
+                    </div>
+                    <div class="col-md-3 col-sm-4 col-xs-4">
+                        @(birthDateString ?? Resources.Resource.BornTimeNotKnown)
+                    </div>
+                    <div class="col-md-3 col-sm-4 col-xs-4">
+                        @(deathDateString ?? Resources.Resource.DeadTimeNotKnown)
+                    </div>
+                </div>
+                <div class="col-md-1 col-sm-1 col-xs-2">
+                    @Html.Partial("ToolsSharedViews/_DefaultCRUD", e)
+                </div>
+            </div>
+        }
+    </div>
+    <div class="panel-footer clearfix">
+        @Html.Partial("ToolsSharedViews/_DefaultToolBar")
+    </div>
+</div>
+

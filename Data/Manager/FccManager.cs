@@ -80,6 +80,11 @@ namespace Data.Manager
             return person;
         }
 
+        public List<Person> GetPersonByRelationType(string personId, RelationType type)
+        {
+            return _repo.ReadAllPersonByRelation(personId, type).ToList();
+        }
+
         public List<Person> GetListPerson()
         {
             return _repo.ReadAllPerson()

@@ -1,0 +1,53 @@
+﻿@using Shared.Helpers
+@using Shared.Enums
+@using Resources
+@using Shared.Models
+@model List<PersonName>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>
+            <i class="fas fa-signature"></i>
+            @Resource.PreviousNames
+        </h2>
+    </div>
+    <div class="panel-body">
+        <div class="group-border">
+            <div class="row form-group">
+                <div class="col-md-6">
+                    @Html.Label("NewName", Resource.Name)
+                    @Html.TextBox("NewName", "", new { @class = "form-control" })
+                </div>
+                <div class="col-md-6">
+                    @Html.Label("NewLastname", Resource.Lastname)
+                    @Html.TextBox("NewLastname", "", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-6">
+                    @Html.Label("NewPatronym", Resource.Patronym)
+                    @Html.TextBox("NewPatronym", "", new { @class = "form-control" })
+                </div>
+                <div class="col-md-6">
+                    @Html.Label("ActiveFrom", Resource.PersonNameWasActiveFrom)
+                    @Html.TextBox("ActiveFrom", DateTime.Now, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })
+                </div>
+            </div>
+            <label id="PersonNameAddingErrorMsg" class="text-danger hide">@Resource.PersonNameCouldNotBeAdded</label>
+            <div>
+                <button id="SaveNamesAndPatronym" type="button" class="btn btn-primary">@Resource.Save</button>
+            </div>
+        </div>
+
+        @foreach (var name in Model)
+        {
+            <div>
+                @Html.Hidden("PersonNameId", name.Id)
+                @(name.Name + " ") @name.DateNameChanged.ToString("dd.MM.yyyy")
+                <a href="#" id="DeletePersonName">
+                    <i class="fas fa-trash text-danger"></i>
+                </a>
+            </div>
+        }
+    </div>
+</div>

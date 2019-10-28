@@ -1,0 +1,55 @@
+﻿@using Shared.Models
+@using Shared.Enums
+@using Resources
+@model KeyValuePair<Person, Person>
+
+@{
+    var person = Model.Key;
+    var marriedOn = Model.Value;
+}
+
+<label>
+    @if (person.IsMarried)
+    {
+        <i class="fas fa-ring text-success"></i>
+        @(Shared.Helpers.FccEnumHelper.GetGenderizedText("MarriedMale|MarriedFemale", person.Sex))
+        <a href="#">@marriedOn.Name</a>
+
+        <a href="#" id="RemoveSpouse" inviter="@person.Id" invited="@marriedOn.Id" reltype="@((int)RelationType.HusbandWife)">
+            <i id="RemoveSpouse" class=" fas fa-trash text-danger"></i>
+        </a>
+    }
+    else
+    {
+        <i class="fas fa-ring"></i>
+        @Shared.Helpers.FccEnumHelper.GetGenderizedText("NotMarriedMale|NotMarriedFemale", person.Sex)
+
+        <a href="#" id="AddSpouse" reltype="@((int)RelationType.HusbandWife)" data-toggle="modal" data-target="#NewSpouseModal">
+            <i class="fas fa-user-plus text-success"></i>
+        </a>
+    }
+</label>
+
+<div class="modal fade" id="NewSpouseModal" tabindex="-1" role="dialog" aria-labelledby="NewSpouseModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="NewSpouseLabel">@Resource.AddRelation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        @Html.Hidden("NewSpouseId", "")
+                        @Html.TextBox("NewSpouseName", "", new { @class = "form-control typeahead", placeholder = "", taname = "PersonTypeahead", taurl = "typeahead/person/" + person.Id + "/" })
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@Resource.Close</button>
+            </div>
+        </div>
+    </div>
+</div>

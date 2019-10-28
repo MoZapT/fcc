@@ -31,6 +31,11 @@ namespace Data.ViewBuilder
             HandleState(vm);
         }
 
+        public PersonBiography CreatePartialViewPersonBiography(string personId)
+        {
+            return _mgrFcc.GetPersonBiographyByPersonId(personId);
+        }
+
         public List<PersonName> CreatePartialViewForNamesAndPatronymList(string personId)
         {
             return _mgrFcc.GetAllPersonName(personId);
@@ -43,9 +48,9 @@ namespace Data.ViewBuilder
             return kvp;
         }
 
-        public PersonPartialViewRelationsModel CreatePersonPartialViewRelationsModel(string personId)
+        public List<PersonRelation> CreatePersonPartialViewRelationsModel(string personId)
         {
-            return CreateRelationsPartialViewModel(_mgrFcc.GetPerson(personId));
+            return _mgrFcc.GetAllPersonRelationsByInviterId(personId);
         }
 
         private void HandleCommand(PersonViewModel vm)
@@ -121,13 +126,10 @@ namespace Data.ViewBuilder
             try
             {
                 vm.Model = _mgrFcc.GetPerson(vm.Model.Id);
-                vm.PersonBiography = _mgrFcc.GetPersonBiographyByPersonId(vm.Model.Id);
-                if (vm.PersonBiography == null)
-                {
-                    vm.PersonBiography = new PersonBiography();
-                    vm.PersonBiography.PersonId = vm.Model.Id;
-                }
-                vm.RelationsPartialViewModel = CreateRelationsPartialViewModel(vm.Model);
+                vm.MarriedOn = _mgrFcc.GetPersonByRelationType(vm.Model.Id, RelationType.HusbandWife).FirstOrDefault();
+                vm.PersonBiography = new PersonBiography();
+                vm.PersonNames = new List<PersonName>();
+                vm.PersonRelations = new List<PersonRelation>();
             }
             catch (Exception)
             {
@@ -138,17 +140,9 @@ namespace Data.ViewBuilder
         private void CreateEmptyPerson(PersonViewModel vm)
         {
             vm.Model = new Person() { Id = Guid.NewGuid().ToString() };
-            vm.RelationsPartialViewModel = new PersonPartialViewRelationsModel();
-            vm.RelationsPartialViewModel.Relations = new List<PersonRelation>();
-        }
-
-        private PersonPartialViewRelationsModel CreateRelationsPartialViewModel(Person person)
-        {
-            var pvm = new PersonPartialViewRelationsModel();
-            pvm.Person = person;
-            pvm.Relations = _mgrFcc.GetAllPersonRelationsByInviterId(person.Id);
-
-            return pvm;
+            vm.PersonBiography = new PersonBiography();
+            vm.PersonNames = new List<PersonName>();
+            vm.PersonRelations = new List<PersonRelation>();
         }
 
         #endregion

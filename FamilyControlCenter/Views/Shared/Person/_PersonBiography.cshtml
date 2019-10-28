@@ -1,0 +1,21 @@
+﻿@using Shared.Helpers
+@using Shared.Enums
+@using Resources
+@using Shared.Models
+@model PersonBiography
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>
+            <i class="fas fa-pencil-alt"></i>
+            @Resource.Biography
+        </h2>
+    </div>
+    <div class="panel-body">
+        <div class="row form-group">
+            <div class="col-md-12">
+                @Html.TextAreaFor(m => m.BiographyText, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>

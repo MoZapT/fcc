@@ -16,6 +16,7 @@ namespace Shared.Interfaces.Managers
         bool ExistPerson(string id);
         Person GetPerson(string userId);
         List<Person> GetListPerson();
+        List<Person> GetPersonByRelationType(string personId, RelationType type);
         IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string excludePersonId, string query);
 
         #endregion

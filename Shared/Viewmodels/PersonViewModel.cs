@@ -12,23 +12,13 @@ namespace Shared.Viewmodels
 
         #region PROPERTIES
 
-        public PersonPartialViewRelationsModel RelationsPartialViewModel {get; set; }
+        public List<PersonRelation> PersonRelations { get; set; }
+        public List<PersonName> PersonNames { get; set; }
+        public PersonBiography PersonBiography { get; set; }
+
 
         public Person Model { get; set; }
-        public Person MarriedOn
-        {
-            get
-            {
-                var marriageRelation = RelationsPartialViewModel?.Relations?
-                    .FirstOrDefault(e => e.RelationType == RelationType.HusbandWife);
-
-                if (marriageRelation != null)
-                    return marriageRelation.Invited;
-                else
-                    return null;
-            }
-        }
-        public PersonBiography PersonBiography { get; set; }
+        public Person MarriedOn { get; set; }
         public List<Person> Models { get; set; }
 
         #endregion

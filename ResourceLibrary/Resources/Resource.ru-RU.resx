@@ -282,4 +282,7 @@
   <data name="PersonNameCouldNotBeAdded" xml:space="preserve">
     <value>Ошибка! Не получилось добавить имя! Проверьте ваше соединение или введённые данные!</value>
   </data>
+  <data name="PreviousNames" xml:space="preserve">
+    <value>Предыдущие ФИО</value>
+  </data>
 </root>

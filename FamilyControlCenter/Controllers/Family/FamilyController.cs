@@ -41,8 +41,17 @@ namespace FamilyControlCenter.Controllers
         public PartialViewResult PersonRelations(string personId)
         {
             BeforeLoadAction();
+            List<PersonRelation> vm = _vwbFcc.CreatePersonPartialViewRelationsModel(personId);
+            ViewData = new ViewDataDictionary() { new KeyValuePair<string, object>("PersonId", personId) };
+            return PartialView("Person/_PersonRelations", vm);
+        }
+
+        [/*Authorize,*/ HttpPost]
+        public PartialViewResult PersonBiography(string personId)
+        {
+            BeforeLoadAction();
             var vm = _vwbFcc.CreatePersonPartialViewRelationsModel(personId);
-            return PartialView("Person/_RelationsList", vm);
+            return PartialView("Person/_PersonBiography", vm);
         }
 
         [/*Authorize,*/ HttpPost]
@@ -58,7 +67,7 @@ namespace FamilyControlCenter.Controllers
         {
             BeforeLoadAction();
             List<PersonName> vm = _vwbFcc.CreatePartialViewForNamesAndPatronymList(personId);
-            return PartialView("Person/_NamesList", vm);
+            return PartialView("Person/_PersonNames", vm);
         }
     }
 }

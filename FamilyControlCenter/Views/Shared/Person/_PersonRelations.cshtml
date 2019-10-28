@@ -1,0 +1,59 @@
+﻿@using Resources
+@using Shared.Enums
+@using Shared.Helpers
+@using Shared.Models
+@model List<PersonRelation>
+
+@{ 
+    string personId = (string)ViewData["PersonId"];
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>
+            <i class="fas fa-users"></i>
+            @Resource.PersonRelations
+        </h2>
+    </div>
+    <div class="panel-body">
+        <div class="row form-group">
+            <div class="col-md-6">
+                @Html.Hidden("NewRelationPersonId", "")
+                @Html.TextBox("NewRelationPersonName", "", new { @class = "form-control typeahead", placeholder = "", taname = "PersonTypeahead", taurl = "typeahead/person/" + personId + "/" })
+            </div>
+            <div class="col-md-6">
+                @Html.DropDownList("NewRelationRelationTypeId", new List<SelectListItem>(), new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row form-group">
+            <button id="SaveRelation" type="button" class="btn btn-primary">@Resource.Save</button>
+        </div>
+
+        @foreach (var relation in Model)
+        {
+            if (relation.RelationType == RelationType.HusbandWife /*|| ForLivePartnership reserved!*/)
+            {
+                continue;
+            }
+
+            <div class="row item">
+                <div class="col-md-2">
+                    @Resource.ResourceManager.GetLocalizedStringForEnumValue(relation.RelationType, relation.Invited.Sex)
+                </div>
+                <div class="col-md-8">
+                    @relation.Invited.Name
+                </div>
+                <div class="col-md-2">
+                    <button id="DestroyRelation" inviter="@relation.Inviter.Id" invited="@relation.Invited.Id" reltype="@((int)relation.RelationType)" type="button" class="btn btn-danger pull-right" data-dismiss="modal">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+

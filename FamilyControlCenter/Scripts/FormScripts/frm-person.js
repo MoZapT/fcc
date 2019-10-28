@@ -1,6 +1,60 @@
 ﻿Window.FormScripts = {};
 
 (function () {
+    var relationsLoaded = false;
+    var namesLoaded = false;
+    var biographyLoaded = false;
+
+    //Switch tabs
+    function initializeComponent() {
+        initializeDetail();
+
+        $('#relations-tab').on('click', function (e) {
+            if (relationsLoaded) {
+                return;
+            }
+
+            loadRelations();
+            relationsLoaded = true;
+        });
+
+        $('#names-tab').on('click', function (e) {
+            if (namesLoaded) {
+                return;
+            }
+
+            loadNames();
+            namesLoaded = true;
+        });
+
+        $('#biography-tab').on('click', function (e) {
+            if (biographyLoaded) {
+                return;
+            }
+
+            loadBiography();
+            biographyLoaded = true;
+        });
+    }
+
+    //Detail view
+    function initializeDetail() {
+        $('#Model_HasBirthDate, #Model_HasDeathDate').on('click', function (e) {
+            DatepickerVisibility();
+        });
+
+        /*ListFeatures*/
+        $('.row.item input[type="checkbox"] + label').on('click, touchstart, dblclick', function (e) {
+            e.stopPropagation();
+        });
+
+        $('.row.item').on('touchstart, dblclick', function (e) {
+            $(e.currentTarget).find('button.crud[args="3"]').click();
+        });
+
+        initSpouseManagement();
+    }
+
     function DatepickerVisibility() {
         var hasBirthdate = $('#Model_HasBirthDate').is(':checked');
         var hasDeathdate = $('#Model_HasDeathDate').is(':checked');
@@ -24,75 +78,24 @@
         }
     }
 
-    function refreshRelations(personId) {
-        var container = $('div#RelationListContainer');
+    //SpouseManagementInDetailView
+    function initSpouseManagement() {
+        $('a#RemoveSpouse').off();
+        $('#NewSpouseId').off();
 
-        $.ajax({
-            url: 'PersonRelations',
-            data: JSON.stringify({ personId: personId }),
-            type: 'POST',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            traditional: true,
-            complete: function (response) {
-                if (response.status !== 200) {
-                    return;
-                }
+        $('a#RemoveSpouse').on('click', function (e) {
+            var inviter = $(e.currentTarget).attr('inviter');
+            var invited = $(e.currentTarget).attr('invited');
+            var type = $(e.currentTarget).attr('reltype');
 
-                container.html(response.responseText);
-                var panel = container.find('#RelationsPanel');
-                panel.addClass('in');
-                panel.attr('aria-expanded', 'true');
-                panel.attr('style', '');
-                $('.modal-backdrop').remove();
-                initRelationListControls();
-                Window.CustomizedTypeahead.InitElement($('#NewRelationPersonName'));
-            }
+            removeSpouse(inviter, invited, type);
         });
-    }
+        $('#NewSpouseId').on('change', function (e) {
+            var inviter = $('#Model_Id').val();
+            var invited = $(e.currentTarget).val();
+            var type = $('a#AddSpouse').attr('reltype');
 
-    function updateSpouseOrLivePartnerSection(personId, spouseId) {
-        var container = $('div#MarriageStatus');
-
-        $.ajax({
-            url: 'MarriagePartialView',
-            data: JSON.stringify({ personId: personId, spouseId: spouseId }),
-            type: 'POST',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            traditional: true,
-            complete: function (response) {
-                if (response.status !== 200) {
-                    return;
-                }
-
-                container.html(response.responseText);
-                initRelationListControls();
-                Window.CustomizedTypeahead.InitElement($('#NewSpouseName'));
-                $('.modal-backdrop').remove();
-            }
-        });
-    }
-
-    function setRelations(inviter, invited, type) {
-        $.ajax({
-            url: getApiRoute() + 'relation/set/' + inviter + '/' + invited + '/' + type,
-            type: 'GET',
-            dataType: 'json',
-            success: function (response) {
-                refreshRelations(inviter);
-            }
-        });
-    }
-
-    function deleteRelation(inviter, invited, type) {
-        $.ajax({
-            url: getApiRoute() + 'relation/delete/' + inviter + '/' + invited + '/' + type,
-            type: 'GET',
-            dataType: 'json',
-            success: function (response) {
-                refreshRelations(inviter);
-            }
+            addSpouse(inviter, invited, type);
         });
     }
 
@@ -114,6 +117,109 @@
             dataType: 'json',
             success: function (response) {
                 updateSpouseOrLivePartnerSection(inviter, invited);
+            }
+        });
+    }
+
+    function updateSpouseOrLivePartnerSection(personId, spouseId) {
+        var container = $('div#MarriageStatus');
+
+        $.ajax({
+            url: 'MarriagePartialView',
+            data: JSON.stringify({ personId: personId, spouseId: spouseId }),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
+                container.html(response.responseText);
+                initSpouseManagement();
+                Window.CustomizedTypeahead.InitElement($('#NewSpouseName'));
+                $('.modal-backdrop').remove();
+            }
+        });
+    }
+
+    //RelationsTab
+    function initRelationsTab() {
+        $('input#NewRelationPersonId').on('change', function (e) {
+            var row = $(e.currentTarget).closest('div.row');
+            var btn = row.find('button#SaveRelation');
+
+            if ($(e.currentTarget).val()) {
+                btn.removeClass('disabled');
+            }
+            else {
+                btn.addClass('disabled');
+            }
+
+            getRelationTypes();
+        });
+
+        $('button#SaveRelation').on('click', function (e) {
+            if ($(this).hasClass('disabled')) {
+                return;
+            }
+
+            var inviter = $('#Model_Id').val();
+            var invited = $('#NewRelationPersonId').val();
+            var type = $('#NewRelationRelationTypeId').val();
+
+            setRelations(inviter, invited, type);
+        });
+
+        $('button#DestroyRelation').on('click', function (e) {
+            var inviter = $(e.currentTarget).attr('inviter');
+            var invited = $(e.currentTarget).attr('invited');
+            var type = $(e.currentTarget).attr('reltype');
+
+            deleteRelation(inviter, invited, type);
+        });
+    }
+
+    function loadRelations() {
+        $.ajax({
+            url: 'PersonRelations',
+            data: JSON.stringify({ personId: $('#Model_Id').val() }),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
+                $('.tab-pane#relations').html(response.responseText);
+                //$('.modal-backdrop').remove();
+                initRelationsTab();
+                Window.CustomizedTypeahead.InitElement($('#NewRelationPersonName'));
+            }
+        });
+    }
+
+    function setRelations(inviter, invited, type) {
+        $.ajax({
+            url: getApiRoute() + 'relation/set/' + inviter + '/' + invited + '/' + type,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                loadRelations();
+            }
+        });
+    }
+
+    function deleteRelation(inviter, invited, type) {
+        $.ajax({
+            url: getApiRoute() + 'relation/delete/' + inviter + '/' + invited + '/' + type,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                loadRelations();
             }
         });
     }
@@ -150,163 +256,8 @@
         });
     }
 
-    function initializeComponent() {
-        initRelationListControls();
-        initHandlePersonNamesControls();
-
-        $('#Model_HasBirthDate, #Model_HasDeathDate').on('click', function (e) {
-            DatepickerVisibility();
-        });
-
-        /*ListFeatures*/
-        $('.row.item input[type="checkbox"] + label').on('click, touchstart, dblclick', function (e) {
-            e.stopPropagation();
-        });
-
-        $('.row.item').on('touchstart, dblclick', function (e) {
-            $(e.currentTarget).find('button.crud[args="3"]').click();
-        });
-    }
-
-    function getApiRoute() {
-        var apiDebug = 'http://localhost:55057/';
-        var apiLive = '';
-
-        var url = '';
-        if (window.location.hostname === 'localhost') {
-            url += apiDebug;
-        }
-        var lang = window.location.pathname.split('/')[1] + '/';
-        url += lang;
-
-        return url + 'api/';
-    }
-
-    function loadNamesAndPatronyms(personId, sections) {
-        $.ajax({
-            url: 'NamesAndPatronymPartialView',
-            data: JSON.stringify({ personId: personId }),
-            type: 'POST',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            traditional: true,
-            complete: function (response) {
-                if (response.status !== 200) {
-                    return;
-                }
-
-                sections.html(response.responseText);
-                $('a#DeletePersonName').off();
-                $('a#DeletePersonName').on('click', function (e) {
-                    var pnId = $(e.currentTarget).closest('a').siblings('[name="PersonNameId"][type="hidden"]').val();
-                    var sections = $(e.currentTarget).parents('#NamesAndPatronymHistorySections');
-
-                    deletePersonName(pnId, sections);
-                });
-            }
-        });
-    }
-
-    function savePersonName(firstname, lastname, patronym, datechanged) {
-        $.ajax({
-            url: getApiRoute() + 'personname/set/' +
-                firstname + '/' +
-                lastname + '/' +
-                patronym + '/' +
-                datechanged + '/' +
-                $('#Model_Id').val(),
-            type: 'GET',
-            dataType: 'json',
-            success: function (response) {
-                if (response === false) {
-                    $('#PersonNameAddingErrorMsg').removeClass('hide');
-                    $('.modal-backdrop').removeAll();
-                    $('#AddPreviousNameAndPatronymModal').modal();
-                }
-
-                $('#PersonNameAddingErrorMsg').addClass('hide');
-            }
-        });
-    }
-
-    function deletePersonName(id, sections) {
-        $.ajax({
-            url: getApiRoute() + 'personname/delete/' + id,
-            type: 'GET',
-            dataType: 'json',
-            success: function (response) {
-                if (response === false) {
-                    return;
-                }
-
-                //$('.modal-backdrop').remove();
-                loadNamesAndPatronyms($('#Model_Id').val(), sections);
-            }
-        });
-    }
-
-    function initRelationListControls() {
-        $('input#NewRelationPersonId').off();
-        $('button[data-target="#NewRelationModal"]').off();
-        $('button#DestroyRelation').off();
-        $('a#RemoveSpouse').off();
-        $('#NewSpouseId').off();
-        $('button#SaveRelation').off();
-        //-------------------------------------------------------
-        $('input#NewRelationPersonId').on('change', function (e) {
-            var row = $(e.currentTarget).closest('div.row');
-            var btn = row.find('button#SaveRelation');
-
-            if ($(e.currentTarget).val()) {
-                btn.removeClass('hide');
-            }
-            else {
-                btn.addClass('hide');
-            }
-
-            getRelationTypes();
-        });
-        $('button[data-target="#NewRelationModal"]').on('click', function (e) {
-            $('#NewRelationPersonId').val('');
-            $('#NewRelationPersonName').typeahead('val', '');
-            $('#NewRelationRelationTypeId').html('');
-            $('button#SaveRelation').attr('disabled', 'disabled');
-        });
-        $('button#DestroyRelation').on('click', function (e) {
-            var inviter = $(e.currentTarget).attr('inviter');
-            var invited = $(e.currentTarget).attr('invited');
-            var type = $(e.currentTarget).attr('reltype');
-
-            deleteRelation(inviter, invited, type);
-        });
-        $('a#RemoveSpouse').on('click', function (e) {
-            var inviter = $(e.currentTarget).attr('inviter');
-            var invited = $(e.currentTarget).attr('invited');
-            var type = $(e.currentTarget).attr('reltype');
-
-            removeSpouse(inviter, invited, type);
-        });
-        $('#NewSpouseId').on('change', function (e) {
-            var inviter = $('#Model_Id').val();
-            var invited = $(e.currentTarget).val();
-            var type = $('a#AddSpouse').attr('reltype');
-
-            addSpouse(inviter, invited, type);
-        });
-        $('button#SaveRelation').on('click', function (e) {
-            var inviter = $('#Model_Id').val();
-            var invited = $('#NewRelationPersonId').val();
-            var type = $('#NewRelationRelationTypeId').val();
-
-            setRelations(inviter, invited, type);
-        });
-    }
-
-    function initHandlePersonNamesControls() {
-        $('button#SaveNamesAndPatronym').off();
-        $('[data-target="#AddPreviousNameAndPatronymModal"]').off();
-        $('[data-target="#ShowPreviousNamesAndPatronymsModal"]').off();
-        //-------------------------------------------------------
+    //NamesTab
+    function initNamesTab() {
         $('#ActiveFrom,#NewName,#NewLastname,#NewPatronym').on('change', function (e) {
             var todayDate = new Date();
             todayDate.setHours(0);
@@ -326,8 +277,8 @@
 
             var isNotValidFieldsForAddNamesAndPatronym =
                 $('#NewName').val() === $('#Model_Firstname').val() &&
-                $('#NewLastname').val() === $('#Model_Lastname').val() &&
-                $('#NewPatronym').val() === $('#Model_Patronym').val() ? true : false;
+                    $('#NewLastname').val() === $('#Model_Lastname').val() &&
+                    $('#NewPatronym').val() === $('#Model_Patronym').val() ? true : false;
 
             if (isNotValidDateChangedForAddNamesAndPatronym || isNotValidFieldsForAddNamesAndPatronym) {
                 $('button#SaveNamesAndPatronym').addClass('disabled');
@@ -336,45 +287,114 @@
                 $('button#SaveNamesAndPatronym').removeClass('disabled');
             }
         });
+
         $('button#SaveNamesAndPatronym').on('click', function (e) {
             if ($(e.currentTarget).hasClass('disabled')) {
                 return;
             }
 
             savePersonName($('#NewName').val(), $('#NewLastname').val(), $('#NewPatronym').val(), $('#ActiveFrom').val());
-
-            var sections = $(e.currentTarget)
-                .closest('.modal-footer')
-                .siblings('.modal-body')
-                .find('#NamesAndPatronymHistorySections');
-            loadNamesAndPatronyms($('#Model_Id').val(), sections);
         });
-        $('[data-target="#AddPreviousNameAndPatronymModal"]').on('click', function (e) {
-            $('#NewName').val($('#Model_Firstname').val());
-            $('#NewLastname').val($('#Model_Lastname').val());
-            $('#NewPatronym').val($('#Model_Patronym').val());
-            $('#ActiveFrom').datepicker("setDate", new Date());
 
-            var isNotValidDateChangedForAddNamesAndPatronym = true;
-            var isNotValidFieldsForAddNamesAndPatronym = true;
-
-            if (isNotValidDateChangedForAddNamesAndPatronym || isNotValidFieldsForAddNamesAndPatronym) {
-                $('button#SaveNamesAndPatronym').addClass('disabled');
-            }
-            else {
-                $('button#SaveNamesAndPatronym').removeClass('disabled');
-            }
-
-            loadNamesAndPatronyms($('#Model_Id').val(), $('#AddPreviousNameAndPatronymModal #NamesAndPatronymHistorySections'));
-        });
-        $('[data-target="#ShowPreviousNamesAndPatronymsModal"]').on('click', function (e) {
-            loadNamesAndPatronyms($('#Model_Id').val(), $('#ShowPreviousNamesAndPatronymsModal #NamesAndPatronymHistorySections'));
+        $('button#DeletePersonName').on('click', function (e) {
+            deletePersonName(('#PersonNameId').val());
         });
     }
 
+    function savePersonName(firstname, lastname, patronym, datechanged) {
+        $.ajax({
+            url: getApiRoute() + 'personname/set/' +
+                firstname + '/' +
+                lastname + '/' +
+                patronym + '/' +
+                datechanged + '/' +
+                $('#Model_Id').val(),
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response === false) {
+                    $('#PersonNameAddingErrorMsg').removeClass('hide');
+                    //$('.modal-backdrop').removeAll();
+                }
+
+                $('#PersonNameAddingErrorMsg').addClass('hide');
+                loadNames();
+            }
+        });
+    }
+
+    function deletePersonName(id) {
+        $.ajax({
+            url: getApiRoute() + 'personname/delete/' + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                loadNames();
+            }
+        });
+    }
+
+    function loadNames() {
+        $.ajax({
+            url: 'NamesAndPatronymPartialView',
+            data: JSON.stringify({ personId: $('#Model_Id').val() }),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
+                $('.tab-pane#names').html(response.responseText);
+                initNamesTab();
+            }
+        });
+    }
+
+    //BiographyTab
+    function initBiographyTab() {
+
+    }
+
+    function loadBiography() {
+        $.ajax({
+            url: 'PersonBiography',
+            data: JSON.stringify({ personId: $('#Model_Id').val() }),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
+                $('.tab-pane#biography').html(response.responseText);
+                initBiographyTab();
+            }
+        });
+    }
+
+    //Base
     Window.FormScripts = {
         Init: function () {
             initializeComponent();
         }
     };
+
+    function getApiRoute() {
+        var apiDebug = 'http://localhost:55057/';
+        var apiLive = '';
+
+        var url = '';
+        if (window.location.hostname === 'localhost') {
+            url += apiDebug;
+        }
+        var lang = window.location.pathname.split('/')[1] + '/';
+        url += lang;
+
+        return url + 'api/';
+    }
 })();

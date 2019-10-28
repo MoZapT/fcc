@@ -282,4 +282,7 @@
   <data name="PersonNameCouldNotBeAdded" xml:space="preserve">
     <value />
   </data>
+  <data name="PreviousNames" xml:space="preserve">
+    <value />
+  </data>
 </root>

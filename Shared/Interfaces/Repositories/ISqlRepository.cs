@@ -12,7 +12,7 @@ namespace Shared.Interfaces.Repositories
     {
         Person ReadPerson(string id);
         IEnumerable<Person> ReadAllPerson();
-        IEnumerable<Person> ReadAllPersonByRelationGroupId(string id);
+        IEnumerable<Person> ReadAllPersonByRelation(string personId, RelationType type);
         string CreatePerson(Person entity);
         bool UpdatePerson(Person entity);
         bool DeletePerson(string id);

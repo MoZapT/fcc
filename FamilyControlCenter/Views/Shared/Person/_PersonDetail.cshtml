@@ -10,15 +10,9 @@
 @Html.HiddenFor(m => m.PersonBiography.DateCreated)
 @Html.HiddenFor(m => m.PersonBiography.IsActive)
 
-<a href="/ru-RU/Family/Person">
-    <i class="fas fa-angle-double-left"></i>
-    @Resource.Back
-</a>
-
 <div class="panel panel-default">
     <div class="panel-heading">
         <h2>
-            @Resource.Edit
             <i class="fas fa-id-card"></i>
             @Resource.PassportView
         </h2>
@@ -42,14 +36,6 @@
                     <div class="col-md-12">
                         @Html.LabelFor(m => m.Model.Patronym, Resource.Patronym)
                         @Html.TextBoxFor(m => m.Model.Patronym, new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-6">
-                        @Html.Partial("Person/_ShowNamesModal", Model.Model)
-                    </div>
-                    <div class="col-md-6">
-                        @Html.Partial("Person/_AddNameModal", Model.Model)
                     </div>
                 </div>
                 <div class="row form-group">
@@ -139,30 +125,8 @@
                 </div>
             </div>
         </div>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#BiographyPanel">
-                        @Resource.Biography
-                    </a>
-                </h4>
-            </div>
-            <div id="BiographyPanel" class="panel-collapse collapse">
-                <div class="panel-body">
-                    @Html.TextAreaFor(m => m.PersonBiography.BiographyText, new { @class = "form-control" })
-                </div>
-            </div>
-        </div>
-
-        @if (Model.Command == Shared.Enums.ActionCommand.Open)
-        {
-            <div id="RelationListContainer">
-                @Html.Partial("Person/_RelationsList", Model.RelationsPartialViewModel)
-            </div>
-        }
     </div>
-    <div class="panel-footer clearfix">
+    @*<div class="panel-footer clearfix">
         @Html.Partial("ToolsSharedViews/_DefaultSaveCancelDelete", Model)
-    </div>
+    </div>*@
 </div>

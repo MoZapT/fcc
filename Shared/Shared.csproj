@@ -81,7 +81,6 @@
     <Compile Include="Models\Family\Person.cs" />
     <Compile Include="Enums\RelationType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Viewmodels\PersonPartialViewRelationsModel.cs" />
     <Compile Include="Viewmodels\PersonViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -93,5 +92,6 @@
       <Name>ResourceLibrary</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
