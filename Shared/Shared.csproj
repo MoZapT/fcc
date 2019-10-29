@@ -73,8 +73,12 @@
     <Compile Include="Interfaces\Common\IBaseModel.cs" />
     <Compile Include="Interfaces\Managers\IFccManager.cs" />
     <Compile Include="Interfaces\Repositories\ISqlBaseRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IUserRepository.cs" />
     <Compile Include="Interfaces\Repositories\ISqlRepository.cs" />
     <Compile Include="Interfaces\ViewBuilders\IFccViewBuilder.cs" />
+    <Compile Include="Models\Account\AspNetRoles.cs" />
+    <Compile Include="Models\Account\AspNetUserRoles.cs" />
+    <Compile Include="Models\Account\AspNetUsers.cs" />
     <Compile Include="Models\Family\PersonBiography.cs" />
     <Compile Include="Models\Family\PersonRelation.cs" />
     <Compile Include="Models\Family\PersonName.cs" />

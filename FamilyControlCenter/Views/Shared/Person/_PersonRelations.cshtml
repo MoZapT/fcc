@@ -1,8 +1,4 @@
-﻿@using Resources
-@using Shared.Enums
-@using Shared.Helpers
-@using Shared.Models
-@model List<PersonRelation>
+﻿@model List<PersonRelation>
 
 @{ 
     string personId = (string)ViewData["PersonId"];
@@ -16,19 +12,28 @@
         </h2>
     </div>
     <div class="panel-body">
-        <div class="row form-group">
-            <div class="col-md-6">
-                @Html.Hidden("NewRelationPersonId", "")
-                @Html.TextBox("NewRelationPersonName", "", new { @class = "form-control typeahead", placeholder = "", taname = "PersonTypeahead", taurl = "typeahead/person/" + personId + "/" })
+        <div class="well well-lg">
+            <div class="row form-group">
+                <div class="col-md-6">
+                    @Html.Hidden("NewRelationPersonId", "")
+                    @Html.TextBox("NewRelationPersonName", "", new { @class = "form-control typeahead", placeholder = "", taname = "PersonTypeahead", taurl = "typeahead/person/" + personId + "/" })
+                </div>
+                <div class="col-md-6">
+                    @Html.DropDownList("NewRelationRelationTypeId", new List<SelectListItem>(), new { @class = "form-control" })
+                </div>
             </div>
-            <div class="col-md-6">
-                @Html.DropDownList("NewRelationRelationTypeId", new List<SelectListItem>(), new { @class = "form-control" })
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <button id="SaveRelation" type="button" class="btn btn-primary">@Resource.Save</button>
+                </div>
             </div>
-        </div>
-        <div class="row form-group">
-            <button id="SaveRelation" type="button" class="btn btn-primary">@Resource.Save</button>
         </div>
 
+        <div class="row form-group">
+            <div class="col-md-12">
+                <h4>@Resource.PersonRelations</h4>
+            </div>
+        </div>
         @foreach (var relation in Model)
         {
             if (relation.RelationType == RelationType.HusbandWife /*|| ForLivePartnership reserved!*/)

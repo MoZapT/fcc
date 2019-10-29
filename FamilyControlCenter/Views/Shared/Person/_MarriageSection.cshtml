@@ -1,7 +1,4 @@
-﻿@using Shared.Models
-@using Shared.Enums
-@using Resources
-@model KeyValuePair<Person, Person>
+﻿@model KeyValuePair<Person, Person>
 
 @{
     var person = Model.Key;
@@ -34,10 +31,11 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="NewSpouseLabel">@Resource.AddRelation</h5>
+                @*<h5 class="modal-title" id="NewSpouseLabel">@Resource.AddRelation</h5>*@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
+                @Html.Raw(@Resource.MarriageSectionWarning)
             </div>
             <div class="modal-body">
                 <div class="row form-group">

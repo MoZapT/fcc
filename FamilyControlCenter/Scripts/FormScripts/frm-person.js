@@ -258,6 +258,8 @@
 
     //NamesTab
     function initNamesTab() {
+        $('button#SaveNamesAndPatronym').addClass('disabled');
+
         $('#ActiveFrom,#NewName,#NewLastname,#NewPatronym').on('change', function (e) {
             var todayDate = new Date();
             todayDate.setHours(0);
@@ -277,8 +279,13 @@
 
             var isNotValidFieldsForAddNamesAndPatronym =
                 $('#NewName').val() === $('#Model_Firstname').val() &&
-                    $('#NewLastname').val() === $('#Model_Lastname').val() &&
-                    $('#NewPatronym').val() === $('#Model_Patronym').val() ? true : false;
+                $('#NewLastname').val() === $('#Model_Lastname').val() &&
+                $('#NewPatronym').val() === $('#Model_Patronym').val() ? true : false;
+
+            isNotValidFieldsForAddNamesAndPatronym =
+                $('#NewName').val() === '' &&
+                $('#NewLastname').val() === '' &&
+                $('#NewPatronym').val() === '' ? true : false;
 
             if (isNotValidDateChangedForAddNamesAndPatronym || isNotValidFieldsForAddNamesAndPatronym) {
                 $('button#SaveNamesAndPatronym').addClass('disabled');

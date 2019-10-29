@@ -26,6 +26,7 @@ namespace FamilyControlCenter.DependencyResolver
         private void PartialRegisterRepositories()
         {
             Bind<ISqlRepository>().To<SqlRepository>().InSingletonScope();
+            Bind<IUserRepository>().To<UserRepository>().InSingletonScope();
         }
 
         private void PartialRegisterServices()

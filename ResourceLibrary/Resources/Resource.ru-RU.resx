@@ -285,4 +285,7 @@
   <data name="PreviousNames" xml:space="preserve">
     <value>Предыдущие ФИО</value>
   </data>
+  <data name="MarriageSectionWarning" xml:space="preserve">
+    <value>&lt;b&gt;Внимание!&lt;/b&gt; Данное изменение сохраняется назвисимо от основного формуляра!</value>
+  </data>
 </root>

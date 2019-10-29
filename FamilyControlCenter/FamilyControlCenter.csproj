@@ -475,15 +475,7 @@
     <Content Include="Views\Shared\ToolsSharedViews\_DefaultSaveCancelDelete.cshtml" />
     <Content Include="Views\Shared\Person\_PersonDetail.cshtml" />
     <Content Include="Views\Shared\Person\_PersonList.cshtml" />
-    <Content Include="Views\Shared\Person_deprecated\_RelationModal.cshtml" />
-    <Content Include="Views\Shared\Person_deprecated\_RelationsList.cshtml" />
-    <Content Include="Views\Shared\Person_deprecated\_MarriageSection.cshtml" />
-    <Content Include="Views\Shared\Person_deprecated\_ShowNamesModal.cshtml" />
-    <Content Include="Views\Shared\Person_deprecated\_AddNameModal.cshtml" />
-    <Content Include="Views\Shared\Person_deprecated\_NamesList.cshtml" />
     <Content Include="Views\Shared\Person\_PersonRelations.cshtml" />
-    <Content Include="Views\Shared\Person_deprecated\_PersonDetail.cshtml" />
-    <Content Include="Views\Shared\Person_deprecated\_PersonList.cshtml" />
     <Content Include="Views\Shared\Person\_PersonNames.cshtml" />
     <Content Include="Views\Shared\Person\_MarriageSection.cshtml" />
     <Content Include="Views\Shared\Person\_PersonBiography.cshtml" />
