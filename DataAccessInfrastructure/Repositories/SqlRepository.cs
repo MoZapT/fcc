@@ -188,6 +188,23 @@ namespace DataAccessInfrastructure.Repositories
 
             return Query<KeyValuePair<string, string>>(query, new { @ExcludeId = excludePersonId, @Search = search });
         }
+        public IEnumerable<KeyValuePair<string, string>> GetOnlyPossiblePersonSelectList(string excludePersonId, string search)
+        {
+            var query = @"
+                SELECT
+	                p.Id AS 'Key'
+	                ,FirstName + ' ' + LastName + ' ' + Patronym AS 'Value'
+                FROM [Person] AS p
+                JOIN [PersonRelation] AS pr
+	                ON NOT p.Id = pr.InvitedId AND pr.InviterId = @ExcludeId
+                WHERE 
+	                NOT p.Id = @ExcludeId
+	                AND (Firstname LIKE '%'+@Search+'%' 
+	                OR LastName LIKE '%'+@Search+'%'
+	                OR Patronym LIKE '%'+@Search+'%')";
+
+            return Query<KeyValuePair<string, string>>(query, new { @ExcludeId = excludePersonId, @Search = search });
+        }
 
         #endregion
 

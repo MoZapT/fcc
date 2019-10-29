@@ -18,6 +18,7 @@ namespace Shared.Interfaces.Repositories
         bool DeletePerson(string id);
         IEnumerable<KeyValuePair<string, string>> GetPersonSelectList();
         IEnumerable<KeyValuePair<string, string>> GetPersonSelectList(string excludePersonId, string query);
+        IEnumerable<KeyValuePair<string, string>> GetOnlyPossiblePersonSelectList(string excludePersonId, string query);
 
         PersonName ReadLastPersonName(string id);
         IEnumerable<PersonName> ReadAllPersonNameByPersonId(string id);

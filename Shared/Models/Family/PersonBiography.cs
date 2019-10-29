@@ -5,7 +5,7 @@ namespace Shared.Models
 {
     public class PersonBiography : BaseModel
     {
-        public string BiographyText { get; set; }
         public string PersonId { get; set; }
+        public string BiographyText { get; set; }
     }
 }

@@ -288,4 +288,10 @@
   <data name="MarriageSectionWarning" xml:space="preserve">
     <value>&lt;b&gt;Внимание!&lt;/b&gt; Данное изменение сохраняется назвисимо от основного формуляра!</value>
   </data>
+  <data name="Changed" xml:space="preserve">
+    <value>Измененно</value>
+  </data>
+  <data name="Edited" xml:space="preserve">
+    <value>Редактированно</value>
+  </data>
 </root>

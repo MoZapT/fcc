@@ -10,14 +10,15 @@ namespace Shared.Interfaces.Managers
 
         #region Person
 
-        string SetPerson(Person entity, PersonBiography biography = null);
-        bool UpdatePerson(Person entity, PersonBiography biography = null);
+        string SetPerson(Person entity);
+        bool UpdatePerson(Person entity);
         bool DeletePerson(string id);
         bool ExistPerson(string id);
         Person GetPerson(string userId);
         List<Person> GetListPerson();
         List<Person> GetPersonByRelationType(string personId, RelationType type);
         IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string excludePersonId, string query);
+        IEnumerable<KeyValuePair<string, string>> PersonTypeaheadWithPossibilities(string excludePersonId, string query);
 
         #endregion
 

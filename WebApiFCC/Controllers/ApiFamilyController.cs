@@ -96,24 +96,24 @@ namespace FamilyControlCenter.Controllers
                     return new List<System.Web.Mvc.SelectListItem>();
                 }
 
-                //var personInviter = _mgrFcc.GetPerson(invited);
+                var personInviter = _mgrFcc.GetPerson(inviter);
                 var personInvited = _mgrFcc.GetPerson(invited);
                 if (personInvited == null)
                     return new List<System.Web.Mvc.SelectListItem>();
 
-                return GetAvaibleRelationTypeSelects(inviter, personInvited);
+                return GetAvaibleRelationTypeSelects(personInviter, personInvited);
             }
             catch (Exception)
             {
                 return new List<System.Web.Mvc.SelectListItem>();
             }
         }
-        private IEnumerable<System.Web.Mvc.SelectListItem> GetAvaibleRelationTypeSelects(string inviter, Person personInvited)
+        private IEnumerable<System.Web.Mvc.SelectListItem> GetAvaibleRelationTypeSelects(Person inviter, Person invited)
         {
-            var list = FccRelationTypeHelper.GetFamilySiblingsSelectGroup(personInvited.Sex);
+            var list = FccRelationTypeHelper.GetFamilySiblingsSelectGroup(invited.Sex);
 
             var alreadyExistingRelationTypes = _mgrFcc
-                .GetAllPersonRelationsBetweenPersons(inviter, personInvited.Id)
+                .GetAllPersonRelationsBetweenPersons(inviter.Id, invited.Id)
                 .Select(e => e.RelationType);
 
             var exclusionList = new List<RelationType>();
@@ -127,6 +127,12 @@ namespace FamilyControlCenter.Controllers
             list = list
                 .Where(e => !exclusionList.Contains((RelationType)int.Parse(e.Value)));
 
+            list = list
+                .Where(e => !((RelationType)int.Parse(e.Value) == RelationType.FatherMother &&
+                    invited.BirthDate >= inviter.BirthDate))
+                .Where(e => !((RelationType)int.Parse(e.Value) == RelationType.SonDaughter &&
+                    invited.BirthDate <= inviter.BirthDate));
+
             return list;
         }
 
@@ -137,7 +143,7 @@ namespace FamilyControlCenter.Controllers
         {
             try
             {
-                return _mgrFcc.PersonTypeahead(excludePersonId, query);
+                return _mgrFcc.PersonTypeaheadWithPossibilities(excludePersonId, query);
             }
             catch (Exception)
             {

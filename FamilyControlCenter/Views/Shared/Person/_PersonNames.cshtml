@@ -8,7 +8,7 @@
         </h2>
     </div>
     <div class="panel-body">
-        <div class="group-border">
+        <div class="well well-lg">
             <div class="row form-group">
                 <div class="col-md-6">
                     @Html.Label("NewName", Resource.Name)
@@ -35,14 +35,21 @@
             </div>
         </div>
 
+        <div class="row form-group">
+            <div class="col-md-12">
+                <h4>@Resource.PreviousNames</h4>
+            </div>
+        </div>
         @foreach (var name in Model)
         {
-            <div>
-                @Html.Hidden("PersonNameId", name.Id)
-                @(name.Name + " ") @name.DateNameChanged.ToString("dd.MM.yyyy")
-                <a href="#" id="DeletePersonName">
-                    <i class="fas fa-trash text-danger"></i>
-                </a>
+            <div class="row form-group">
+                <div class="col-md-12">
+                    @Html.Hidden("PersonNameId", name.Id)
+                    @name.Name@(", "+Resource.Changed+" ") @name.DateNameChanged.ToString("dd.MM.yyyy")
+                    <a href="#" id="DeletePersonName">
+                        <i class="fas fa-trash text-danger"></i>
+                    </a>
+                </div>
             </div>
         }
     </div>

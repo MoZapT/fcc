@@ -288,4 +288,10 @@
   <data name="MarriageSectionWarning" xml:space="preserve">
     <value />
   </data>
+  <data name="Changed" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Edited" xml:space="preserve">
+    <value />
+  </data>
 </root>

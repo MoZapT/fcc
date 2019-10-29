@@ -24,41 +24,20 @@ namespace Data.Manager
 
         #region Person
 
-        public string SetPerson(Person entity, PersonBiography biography = null)
+        public string SetPerson(Person entity)
         {
             string result = null;
 
-            _repo.Transaction(new Task(() => 
-            {
-                _repo.CreatePerson(entity);
-                if (biography == null)
-                    return;
-
-                _repo.CreatePersonBiography(biography);
-            }));
+            result = _repo.CreatePerson(entity);
 
             return result;
         }
 
-        public bool UpdatePerson(Person entity, PersonBiography biography = null)
+        public bool UpdatePerson(Person entity)
         {
             return _repo.Transaction(new Task(() =>
             {
                 _repo.UpdatePerson(entity);
-                if (biography == null)
-                    return;
-
-                bool hasBiography = string.IsNullOrWhiteSpace(biography.Id) ? false : true;
-
-                if (hasBiography)
-                {
-                    _repo.UpdatePersonBiography(biography);
-                }
-                else
-                {
-                    biography.Id = Guid.NewGuid().ToString();
-                    _repo.CreatePersonBiography(biography);
-                }
             }));
         }
 
@@ -99,6 +78,11 @@ namespace Data.Manager
         public IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string excludePersonId, string query)
         {
             return _repo.GetPersonSelectList(excludePersonId, query);
+        }
+
+        public IEnumerable<KeyValuePair<string, string>> PersonTypeaheadWithPossibilities(string excludePersonId, string query)
+        {
+            return _repo.GetOnlyPossiblePersonSelectList(excludePersonId, query);
         }
 
         #endregion

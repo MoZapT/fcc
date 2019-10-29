@@ -107,11 +107,11 @@ namespace Data.ViewBuilder
                 //save person as new
                 if (!_mgrFcc.ExistPerson(vm.Model.Id))
                 {
-                    _mgrFcc.SetPerson(vm.Model, vm.PersonBiography);
+                    _mgrFcc.SetPerson(vm.Model);
                 }
 
                 //update already existing person
-                success = _mgrFcc.UpdatePerson(vm.Model, vm.PersonBiography);
+                success = _mgrFcc.UpdatePerson(vm.Model);
 
                 return success;
             }
