@@ -362,7 +362,26 @@
 
     //BiographyTab
     function initBiographyTab() {
+        $('button#SaveBiography').on('click', function (e) {
+            savePersonBiography();
+        });
+    }
 
+    function savePersonBiography() {
+        $.ajax({
+            url: getApiRoute() + 'personbiography/save/' + $('#Model_Id').val() + '/' + $('#BiographyText').val(),
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                //if (response === false) {
+                    //$('#PersonNameAddingErrorMsg').removeClass('hide');
+                    //$('.modal-backdrop').removeAll();
+                //}
+
+                //$('#PersonNameAddingErrorMsg').addClass('hide');
+                loadBiography();
+            }
+        });
     }
 
     function loadBiography() {

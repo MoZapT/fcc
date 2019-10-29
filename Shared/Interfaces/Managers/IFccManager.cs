@@ -41,6 +41,8 @@ namespace Shared.Interfaces.Managers
 
         #region PersonBiography
 
+        string SetPersonBiography(PersonBiography entity);
+        bool UpdatePersonBiography(PersonBiography entity);
         PersonBiography GetPersonBiographyByPersonId(string person);
 
         #endregion

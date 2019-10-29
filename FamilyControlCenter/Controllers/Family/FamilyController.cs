@@ -10,6 +10,7 @@ using System.Collections.Generic;
 
 namespace FamilyControlCenter.Controllers
 {
+    [Authorize(Roles = "User")]
     [RoutePrefix("{lang}/family")]
     public class FamilyController : BaseController
     {
@@ -20,7 +21,6 @@ namespace FamilyControlCenter.Controllers
             _vwbFcc = vwbFcc;
         }
 
-        [Authorize]
         public ActionResult Person()
         {
             BeforeLoadAction();
@@ -29,7 +29,7 @@ namespace FamilyControlCenter.Controllers
             return View(vm);
         }
 
-        [Authorize(Roles = "User"), HttpPost]
+        [HttpPost]
         public ActionResult Person(PersonViewModel vm)
         {
             BeforeLoadAction();
@@ -37,7 +37,7 @@ namespace FamilyControlCenter.Controllers
             return View(vm);
         }
 
-        [Authorize, HttpPost]
+        [HttpPost]
         public PartialViewResult PersonRelations(string personId)
         {
             BeforeLoadAction();
@@ -46,15 +46,15 @@ namespace FamilyControlCenter.Controllers
             return PartialView("Person/_PersonRelations", vm);
         }
 
-        [Authorize, HttpPost]
+        [HttpPost]
         public PartialViewResult PersonBiography(string personId)
         {
             BeforeLoadAction();
-            var vm = _vwbFcc.CreatePersonPartialViewRelationsModel(personId);
+            var vm = _vwbFcc.CreatePartialViewPersonBiography(personId);
             return PartialView("Person/_PersonBiography", vm);
         }
 
-        [Authorize, HttpPost]
+        [HttpPost]
         public PartialViewResult MarriagePartialView(string personId, string spouseId)
         {
             BeforeLoadAction();
@@ -62,7 +62,7 @@ namespace FamilyControlCenter.Controllers
             return PartialView("Person/_MarriageSection", vm);
         }
 
-        [Authorize, HttpPost]
+        [HttpPost]
         public PartialViewResult NamesAndPatronymPartialView(string personId)
         {
             BeforeLoadAction();

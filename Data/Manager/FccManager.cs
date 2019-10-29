@@ -174,6 +174,14 @@ namespace Data.Manager
 
         #region PersonBiography
 
+        public string SetPersonBiography(PersonBiography entity)
+        {
+            return _repo.CreatePersonBiography(entity);
+        }
+        public bool UpdatePersonBiography(PersonBiography entity)
+        {
+            return _repo.UpdatePersonBiography(entity);
+        }
         public PersonBiography GetPersonBiographyByPersonId(string person)
         {
             return _repo.ReadPersonBiographyByPersonId(person);

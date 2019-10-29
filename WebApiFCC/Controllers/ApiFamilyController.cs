@@ -26,6 +26,31 @@ namespace FamilyControlCenter.Controllers
 
         //[Authorize]
         [HttpGet]
+        [Route("personbiography/save/{personId}/{biographyText}")]
+        public bool SavePersonBiography(string personId, string biographyText/*PersonBiography biography*/)
+        {
+            bool success = false;
+
+            var biography = _mgrFcc.GetPersonBiographyByPersonId(personId);
+            if(biography != null)
+            {
+                biography.BiographyText = biographyText;
+                _mgrFcc.UpdatePersonBiography(biography);
+            }
+            else
+            {
+                biography = new PersonBiography();
+                biography.Id = Guid.NewGuid().ToString();
+                biography.BiographyText = biographyText;
+                biography.PersonId = personId;
+                _mgrFcc.SetPersonBiography(biography);
+            }
+
+            return success;
+        }
+
+        //[Authorize]
+        [HttpGet]
         [Route("personname/set/{fName}/{lName}/{patronym}/{date}/{personId}")]
         public bool SetPersonName(string fName, string lName, string patronym, string date, string personId)
         {
@@ -127,11 +152,14 @@ namespace FamilyControlCenter.Controllers
             list = list
                 .Where(e => !exclusionList.Contains((RelationType)int.Parse(e.Value)));
 
-            list = list
-                .Where(e => !((RelationType)int.Parse(e.Value) == RelationType.FatherMother &&
-                    invited.BirthDate >= inviter.BirthDate))
-                .Where(e => !((RelationType)int.Parse(e.Value) == RelationType.SonDaughter &&
-                    invited.BirthDate <= inviter.BirthDate));
+            if (invited.HasBirthDate && inviter.HasBirthDate)
+            {
+                list = list
+                    .Where(e => !((RelationType)int.Parse(e.Value) == RelationType.FatherMother &&
+                        invited.BirthDate >= inviter.BirthDate))
+                    .Where(e => !((RelationType)int.Parse(e.Value) == RelationType.SonDaughter &&
+                        invited.BirthDate <= inviter.BirthDate));
+            }
 
             return list;
         }
