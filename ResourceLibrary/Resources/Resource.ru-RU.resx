@@ -294,4 +294,7 @@
   <data name="Edited" xml:space="preserve">
     <value>Редактированно</value>
   </data>
+  <data name="GoToHome" xml:space="preserve">
+    <value>Домой</value>
+  </data>
 </root>

@@ -5,6 +5,8 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
+
     <!-- BEGIN HIDDEN FIELD AREA -->
     @Html.HiddenFor(m => m.Model.Id)
     @Html.HiddenFor(m => m.Command)
@@ -13,11 +15,15 @@
 
     if (Model.State == VmState.List)
     {
+        <a href="/">
+            <i class="fas fa-angle-double-left"></i>
+            @Resource.GoToHome
+        </a>
         @Html.Partial("Person/_PersonList", Model)
     }
     else
     {
-        <a href="/ru-RU/Family/Person">
+        <a href="@Request.FilePath">
             <i class="fas fa-angle-double-left"></i>
             @Resource.Back
         </a>
@@ -58,7 +64,11 @@
                 @Html.Partial("Person/_PersonBiography", Model.PersonBiography)
             </div>
         </div>
-        
+
+        <a href="@Request.FilePath" class="pull-right">
+            <i class="fas fa-angle-double-left"></i>
+            @Resource.Back
+        </a>
     }
 }
 

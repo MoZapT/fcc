@@ -315,6 +315,15 @@ namespace Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
+        public static string GoToHome {
+            get {
+                return ResourceManager.GetString("GoToHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
         public static string Homepage {
             get {
                 return ResourceManager.GetString("Homepage", resourceCulture);

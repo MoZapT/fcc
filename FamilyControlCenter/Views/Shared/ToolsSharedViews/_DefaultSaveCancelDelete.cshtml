@@ -9,16 +9,16 @@
         @Resources.Resource.Save
     </button>
 
-    @if (Model.Command == ActionCommand.Open)
+    @*@if (Model.Command == ActionCommand.Open)
     {
         <button class="btn crud btn-danger" type="button" args="@((int)ActionCommand.Delete)" obj="@Model.Model.Id">
             <i class="glyphicon glyphicon-trash"></i>
             @Resources.Resource.Delete
         </button>
-    }
+    }*@
 
-    <button class="btn crud btn-warning" type="button" args="@((int)ActionCommand.Cancel)" obj="@Model.Model.Id">
+    @*<button class="btn crud btn-warning" type="button" args="@((int)ActionCommand.Cancel)" obj="@Model.Model.Id">
         <i class="fas fa-angle-double-left"></i>
         @Resources.Resource.Back
-    </button>
+    </button>*@
 </div>

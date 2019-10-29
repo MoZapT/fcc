@@ -30,6 +30,7 @@ namespace FamilyControlCenter.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Person(PersonViewModel vm)
         {
             BeforeLoadAction();

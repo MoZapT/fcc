@@ -125,6 +125,10 @@
         </div>
     </div>
     <div class="panel-footer clearfix">
-        @Html.Partial("ToolsSharedViews/_DefaultSaveCancelDelete", Model)
+        <button class="btn crud btn-primary" type="button" args="@((int)ActionCommand.Save)" obj="@Model.Model.Id">
+            <i class="glyphicon glyphicon-floppy-disk"></i>
+            @Resources.Resource.Save
+        </button>
+        @*@Html.Partial("ToolsSharedViews/_DefaultSaveCancelDelete", Model)*@
     </div>
 </div>
