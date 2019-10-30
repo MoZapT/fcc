@@ -191,17 +191,22 @@ namespace DataAccessInfrastructure.Repositories
         public IEnumerable<KeyValuePair<string, string>> GetOnlyPossiblePersonSelectList(string excludePersonId, string search)
         {
             var query = @"
+                DECLARE @list table(Id nvarchar(128))
+                INSERT INTO @list
+                SELECT InvitedId
+                FROM [PersonRelation]
+                WHERE InviterId = @ExcludeId
+
                 SELECT
-	                p.Id AS 'Key'
-	                ,FirstName + ' ' + LastName + ' ' + Patronym AS 'Value'
-                FROM [Person] AS p
-                JOIN [PersonRelation] AS pr
-	                ON NOT p.Id = pr.InvitedId AND pr.InviterId = @ExcludeId
+                Id AS 'Key'
+                ,FirstName + ' ' + LastName + ' ' + Patronym AS 'Value'
+                FROM [Person]
                 WHERE 
-	                NOT p.Id = @ExcludeId
-	                AND (Firstname LIKE '%'+@Search+'%' 
-	                OR LastName LIKE '%'+@Search+'%'
-	                OR Patronym LIKE '%'+@Search+'%')";
+                    NOT Id = @ExcludeId
+                    AND NOT Id IN(SELECT * FROM @list)
+                    AND (Firstname LIKE '%'+@Search+'%' 
+                    OR LastName LIKE '%'+@Search+'%'
+                    OR Patronym LIKE '%'+@Search+'%')";
 
             return Query<KeyValuePair<string, string>>(query, new { @ExcludeId = excludePersonId, @Search = search });
         }
@@ -446,6 +451,64 @@ namespace DataAccessInfrastructure.Repositories
                      WHERE Id = @Id";
 
             return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
+        }
+
+        #endregion
+
+        #region PersonActivity
+
+        public PersonActivity ReadPersonActivity(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<PersonActivity> ReadAllPersonActivityByPerson(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<PersonActivity> ReadAllPersonActivityByPerson(string id, string type)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PersonActivity CreatePersonActivity(PersonActivity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PersonActivity UpdatePersonActivity(PersonActivity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PersonActivity DeletePersonActivity(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region FileContent
+
+        public FileContent ReadFileContent(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public FileContent CreateFileContent(FileContent entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public FileContent UpdateFileContent(FileContent entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public FileContent DeleteFileContent(string id)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -59,5 +59,8 @@
   <ItemGroup>
     <None Include="Common\FCC.bak" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Common\TextFile1.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

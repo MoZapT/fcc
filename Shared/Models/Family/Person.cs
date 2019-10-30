@@ -15,6 +15,7 @@ namespace Shared.Models
         public bool HasDeathDate { get { return (DeathDate == null ? false : true); } }
         public bool Sex { get; set; }
         public bool IsMarried { get; set; }
+        public string FileContentId { get; set; }
 
         private string GetFullName()
         {

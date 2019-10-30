@@ -47,5 +47,25 @@ namespace Shared.Interfaces.Managers
 
         #endregion
 
+        #region PersonActivity
+
+        PersonActivity GetPersonActivity(string id);
+        List<PersonActivity> GetAllPersonActivityByPerson(string id);
+        List<PersonActivity> GetAllPersonActivityByPerson(string id, string type);
+        PersonActivity SetPersonActivity(PersonActivity entity);
+        PersonActivity UpdatePersonActivity(PersonActivity entity);
+        PersonActivity DeletePersonActivity(string id);
+
+        #endregion
+
+        #region FileContent
+
+        FileContent GetFileContent(string id);
+        FileContent SetFileContent(FileContent entity);
+        FileContent UpdateFileContent(FileContent entity);
+        FileContent DeleteFileContent(string id);
+
+        #endregion
+
     }
 }

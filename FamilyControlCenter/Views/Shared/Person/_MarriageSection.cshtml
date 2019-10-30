@@ -10,7 +10,8 @@
     {
         <i class="fas fa-ring text-success"></i>
         @(Shared.Helpers.FccEnumHelper.GetGenderizedText("MarriedMale|MarriedFemale", person.Sex))
-        <a href="#">@marriedOn.Name</a>
+        @*@Html.Hidden("MarriedOn_Id", marriedOn.Id)*@
+        <a href="PersonDetail?personId=@marriedOn.Id">@marriedOn.Name</a>
 
         <a href="#" id="RemoveSpouse" inviter="@person.Id" invited="@marriedOn.Id" reltype="@((int)RelationType.HusbandWife)">
             <i id="RemoveSpouse" class=" fas fa-trash text-danger"></i>

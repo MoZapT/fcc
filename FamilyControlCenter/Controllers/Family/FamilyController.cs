@@ -28,6 +28,18 @@ namespace FamilyControlCenter.Controllers
             _vwbFcc.HandleAction(vm);
             return View(vm);
         }
+        
+        public ActionResult PersonDetail(string personId)
+        {
+            BeforeLoadAction();
+            PersonViewModel vm = new PersonViewModel();
+            vm.Model = new Person();
+            vm.Model.Id = personId;
+            vm.Command = ActionCommand.Open;
+            vm.State = VmState.Detail;
+            _vwbFcc.HandleAction(vm);
+            return View("Person", vm);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -146,17 +146,10 @@
 
     //RelationsTab
     function initRelationsTab() {
+        SaveRelationButtonHandler();
+
         $('input#NewRelationPersonId').on('change', function (e) {
-            var row = $(e.currentTarget).closest('div.row');
-            var btn = row.find('button#SaveRelation');
-
-            if ($(e.currentTarget).val()) {
-                btn.removeClass('disabled');
-            }
-            else {
-                btn.addClass('disabled');
-            }
-
+            SaveRelationButtonHandler();
             getRelationTypes();
         });
 
@@ -254,6 +247,17 @@
                 }
             }
         });
+    }
+
+    function SaveRelationButtonHandler() {
+        var btn = $('button#SaveRelation');
+
+        if ($('input#NewRelationPersonId').val()) {
+            btn.removeClass('disabled');
+        }
+        else {
+            btn.addClass('disabled');
+        }
     }
 
     //NamesTab

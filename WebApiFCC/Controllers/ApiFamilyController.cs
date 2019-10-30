@@ -24,7 +24,6 @@ namespace FamilyControlCenter.Controllers
             _mgrFcc = ManagerCollection.Configuration.FccManager;
         }
 
-        //[Authorize]
         [HttpGet]
         [Route("personbiography/save/{personId}/{biographyText}")]
         public bool SavePersonBiography(string personId, string biographyText/*PersonBiography biography*/)
@@ -49,7 +48,6 @@ namespace FamilyControlCenter.Controllers
             return success;
         }
 
-        //[Authorize]
         [HttpGet]
         [Route("personname/set/{fName}/{lName}/{patronym}/{date}/{personId}")]
         public bool SetPersonName(string fName, string lName, string patronym, string date, string personId)
@@ -84,7 +82,6 @@ namespace FamilyControlCenter.Controllers
             return true;
         }
 
-        //[Authorize]
         [HttpGet]
         [Route("personname/delete/{id}")]
         public bool DeletePersonName(string id)
@@ -92,7 +89,6 @@ namespace FamilyControlCenter.Controllers
             return _mgrFcc.DeletePersonName(id);
         }
 
-        //[Authorize]
         [HttpGet]
         [Route("relation/set/{inviter}/{invited}/{type}")]
         public void SetPersonRelation(string inviter, string invited, RelationType type)
@@ -100,7 +96,6 @@ namespace FamilyControlCenter.Controllers
             _mgrFcc.SetPersonRelation(inviter, invited, type);
         }
 
-        //[Authorize]
         [HttpGet]
         [Route("relation/delete/{inviter}/{invited}/{type}")]
         public void DeletePersonRelation(string inviter, string invited, RelationType type)
@@ -164,7 +159,6 @@ namespace FamilyControlCenter.Controllers
             return list;
         }
 
-        //[Authorize]
         [HttpGet]
         [Route("typeahead/person/{excludePersonId?}/{query?}")]
         public IEnumerable<KeyValuePair<string, string>> GetPersonTypeahead(string excludePersonId, string query = "")
@@ -177,6 +171,122 @@ namespace FamilyControlCenter.Controllers
             {
                 return new List<KeyValuePair<string, string>>();
             }
+        }
+
+        [HttpPost]
+        [Route("person/photo/upload/{personId}")]
+        public IEnumerable<KeyValuePair<string, string>> UploadPersonPhoto(string personId)
+        {
+            //            var httpCode = new HttpStatusCodeResult(HttpStatusCode.OK);
+            var context = HttpContext;
+            //            string prId = context.Request.Params["prId"];
+            //#if DEBUG
+            //            string fileDirectory = @"Z:\Intranet\PurchaseRequisition\" + prId + @"\";
+            //#else
+            //                    string fileDirectory = @"\\kdsv1606\Intranet\PurchaseRequisition\" + prId + @"\";
+            //#endif
+
+            //            if (!Directory.Exists(fileDirectory))
+            //            {
+            //                Directory.CreateDirectory(fileDirectory);
+            //            }
+
+            if (context.Request.Files.Count <= 0)
+            {
+                context.Response.Write("No file uploaded");
+            }
+            else
+            {
+                for (int i = 0; i < context.Request.Files.Count; ++i)
+                {
+                    HttpPostedFileBase file = context.Request.Files[i];
+                    var size = file.ContentLength;
+                    string filePath = fileDirectory + file.FileName;
+
+                    if (context.Request.Form != null)
+                    {
+                        string imageid = context.Request.Form.ToString();
+                        imageid = imageid.Substring(imageid.IndexOf('=') + 1);
+
+                        if (file != null)
+                        {
+                            string ext = file.FileName.Substring(file.FileName.IndexOf('.'));
+                            byte[] data;
+                            using (Stream inputStream = file.InputStream)
+                            {
+                                MemoryStream memoryStream = inputStream as MemoryStream;
+                                if (memoryStream == null)
+                                {
+                                    memoryStream = new MemoryStream();
+                                    inputStream.CopyTo(memoryStream);
+                                }
+                                data = memoryStream.ToArray();
+
+                                using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                                {
+                                    fs.Write(data, 0, data.Length);
+                                }
+                            }
+                            //if (ext.ToLower().Contains("gif") || ext.ToLower().Contains("jpg") || ext.ToLower().Contains("jpeg") || ext.ToLower().Contains("png"))
+                            //{
+                            //byte[] data;
+                            //using (Stream inputStream = file.InputStream)
+                            //{
+                            //    MemoryStream memoryStream = inputStream as MemoryStream;
+                            //    if (memoryStream == null)
+                            //    {
+                            //        memoryStream = new MemoryStream();
+                            //        inputStream.CopyTo(memoryStream);
+                            //    }
+                            //    data = memoryStream.ToArray();
+
+                            //    using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                            //    {
+                            //        fs.Write(data, 0, data.Length);
+                            //    }
+                            //}
+                            //}
+                        }
+                    }
+                    else
+                    {
+                        context.Response.Write("Error: No file uploaded");
+                    }
+
+                    try
+                    {
+                        var prFile = new PurchaseRequisitionFileModel();
+                        prFile.Id = Guid.NewGuid().ToString();
+                        prFile.PurchaseRequisitionId = prId;
+                        prFile.ContentType = file.ContentType;
+                        prFile.Name = file.FileName;
+                        prFile.Size = size;
+                        prFile.Url = filePath;
+                        prFile.DateCreated = DateTime.Now;
+                        prFile.DateModified = DateTime.Now;
+                        prFile.IsActive = true;
+
+                        var dbFile = _mgrPr.GetPurchaseRequisitionFileByFileName(file.FileName);
+                        if (string.IsNullOrWhiteSpace(dbFile.Id) || prFile.PurchaseRequisitionId != dbFile.PurchaseRequisitionId)
+                        {
+                            _mgrPr.SetPurchaseRequisitionFile(prFile);
+                        }
+                        else
+                        {
+                            prFile.Id = dbFile.Id;
+                            _mgrPr.UpdatePurchaseRequisitionFile(prFile);
+                        }
+
+                        context.Response.Write("File uploaded");
+                    }
+                    catch (Exception)
+                    {
+                        context.Response.Write("Error: Exception occured while uploading!");
+                    }
+                }
+            }
+
+            return httpCode;
         }
     }
 }

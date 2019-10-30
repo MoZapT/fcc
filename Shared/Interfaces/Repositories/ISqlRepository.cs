@@ -47,5 +47,25 @@ namespace Shared.Interfaces.Repositories
 
         #endregion
 
+        #region PersonActivity
+
+        PersonActivity ReadPersonActivity(string id);
+        IEnumerable<PersonActivity> ReadAllPersonActivityByPerson(string id);
+        IEnumerable<PersonActivity> ReadAllPersonActivityByPerson(string id, string type);
+        PersonActivity CreatePersonActivity(PersonActivity entity);
+        PersonActivity UpdatePersonActivity(PersonActivity entity);
+        PersonActivity DeletePersonActivity(string id);
+
+        #endregion
+
+        #region FileContent
+
+        FileContent ReadFileContent(string id);
+        FileContent CreateFileContent(FileContent entity);
+        FileContent UpdateFileContent(FileContent entity);
+        FileContent DeleteFileContent(string id);
+
+        #endregion
+
     }
 }

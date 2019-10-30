@@ -8,7 +8,7 @@
         </h2>
     </div>
     <div class="panel-body">
-        <div class="well well-lg">
+        <div class="well well-lg clearfix">
             <div class="row form-group">
                 <div class="col-md-6">
                     @Html.Label("NewName", Resource.Name)
@@ -31,7 +31,10 @@
             </div>
             <label id="PersonNameAddingErrorMsg" class="text-danger hide">@Resource.PersonNameCouldNotBeAdded</label>
             <div>
-                <button id="SaveNamesAndPatronym" type="button" class="btn btn-primary">@Resource.Save</button>
+                <button id="SaveNamesAndPatronym" type="button" class="btn btn-primary pull-right">
+                    <i class="glyphicon glyphicon-floppy-disk"></i>
+                    @Resource.Save
+                </button>
             </div>
         </div>
 

@@ -3,7 +3,7 @@
     ViewBag.Title = Resource.PassportView;
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Person", "Family", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
@@ -20,10 +20,14 @@
             @Resource.GoToHome
         </a>
         @Html.Partial("Person/_PersonList", Model)
+        <a href="/" class="pull-right">
+            <i class="fas fa-angle-double-left"></i>
+            @Resource.GoToHome
+        </a>
     }
     else
     {
-        <a href="@Request.FilePath">
+        <a href="Person">
             <i class="fas fa-angle-double-left"></i>
             @Resource.Back
         </a>
@@ -65,7 +69,7 @@
             </div>
         </div>
 
-        <a href="@Request.FilePath" class="pull-right">
+        <a href="Person" class="pull-right">
             <i class="fas fa-angle-double-left"></i>
             @Resource.Back
         </a>

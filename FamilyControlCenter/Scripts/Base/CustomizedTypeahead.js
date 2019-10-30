@@ -109,7 +109,7 @@
             spantwitter = $(elem).closest('span.twitter-typeahead');
             $(spantwitter).append('<span class="wsc-tt-clear glyphicon glyphicon-remove"></span>');
 
-            $(spantwitter).siblings('span.wsc-tt-clear').on('click', function (e) {
+            $(spantwitter).children('span.wsc-tt-clear').on('click', function (e) {
                 var parentTa = $(e.currentTarget).siblings('.typeahead');
                 parentTa.typeahead('val', '');
                 typeaheadSelect(parentTa, '');

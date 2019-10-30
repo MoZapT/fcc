@@ -189,5 +189,63 @@ namespace Data.Manager
 
         #endregion
 
+        #region MyRegion
+
+        public PersonActivity GetPersonActivity(string id)
+        {
+            return _repo.ReadPersonActivity(id);
+        }
+
+        public List<PersonActivity> GetAllPersonActivityByPerson(string id)
+        {
+            return _repo.ReadAllPersonActivityByPerson(id).ToList();
+        }
+
+        public List<PersonActivity> GetAllPersonActivityByPerson(string id, string type)
+        {
+            return _repo.ReadAllPersonActivityByPerson(id, type).ToList();
+        }
+
+        public PersonActivity SetPersonActivity(PersonActivity entity)
+        {
+            return _repo.CreatePersonActivity(entity);
+        }
+
+        public PersonActivity UpdatePersonActivity(PersonActivity entity)
+        {
+            return _repo.UpdatePersonActivity(entity);
+        }
+
+        public PersonActivity DeletePersonActivity(string id)
+        {
+            return _repo.DeletePersonActivity(id);
+        }
+
+        #endregion
+
+        #region FileContent
+
+        public FileContent GetFileContent(string id)
+        {
+            return _repo.ReadFileContent(id);
+        }
+
+        public FileContent SetFileContent(FileContent entity)
+        {
+            return _repo.CreateFileContent(entity);
+        }
+
+        public FileContent UpdateFileContent(FileContent entity)
+        {
+            return _repo.UpdateFileContent(entity);
+        }
+
+        public FileContent DeleteFileContent(string id)
+        {
+            return _repo.DeleteFileContent(id);
+        }
+
+        #endregion
+
     }
 }
