@@ -11,6 +11,11 @@ using System.Threading;
 using System.Web.Http;
 using WebApiFCC;
 using System.Web.Http.Cors;
+using System.Web;
+using System.IO;
+using System.Net.Http;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace FamilyControlCenter.Controllers
 {
@@ -175,118 +180,94 @@ namespace FamilyControlCenter.Controllers
 
         [HttpPost]
         [Route("person/photo/upload/{personId}")]
-        public IEnumerable<KeyValuePair<string, string>> UploadPersonPhoto(string personId)
+        public async Task<HttpResponseMessage> UploadPersonPhoto(string personId)
         {
-            //            var httpCode = new HttpStatusCodeResult(HttpStatusCode.OK);
-            var context = HttpContext;
-            //            string prId = context.Request.Params["prId"];
-            //#if DEBUG
-            //            string fileDirectory = @"Z:\Intranet\PurchaseRequisition\" + prId + @"\";
-            //#else
-            //                    string fileDirectory = @"\\kdsv1606\Intranet\PurchaseRequisition\" + prId + @"\";
-            //#endif
-
-            //            if (!Directory.Exists(fileDirectory))
-            //            {
-            //                Directory.CreateDirectory(fileDirectory);
-            //            }
-
-            if (context.Request.Files.Count <= 0)
+            Person person = _mgrFcc.GetPerson(personId);
+            if (person == null)
             {
-                context.Response.Write("No file uploaded");
+                throw new HttpResponseException(HttpStatusCode.Unauthorized);
             }
-            else
+
+            // Check if the request contains multipart/form-data.
+            if (!Request.Content.IsMimeMultipartContent())
             {
-                for (int i = 0; i < context.Request.Files.Count; ++i)
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
+
+            try
+            {
+                var provider = new MultipartMemoryStreamProvider();
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                foreach (var file in provider.Contents)
                 {
-                    HttpPostedFileBase file = context.Request.Files[i];
-                    var size = file.ContentLength;
-                    string filePath = fileDirectory + file.FileName;
-
-                    if (context.Request.Form != null)
+                    if (!CheckSupportedType(file))
                     {
-                        string imageid = context.Request.Form.ToString();
-                        imageid = imageid.Substring(imageid.IndexOf('=') + 1);
-
-                        if (file != null)
-                        {
-                            string ext = file.FileName.Substring(file.FileName.IndexOf('.'));
-                            byte[] data;
-                            using (Stream inputStream = file.InputStream)
-                            {
-                                MemoryStream memoryStream = inputStream as MemoryStream;
-                                if (memoryStream == null)
-                                {
-                                    memoryStream = new MemoryStream();
-                                    inputStream.CopyTo(memoryStream);
-                                }
-                                data = memoryStream.ToArray();
-
-                                using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-                                {
-                                    fs.Write(data, 0, data.Length);
-                                }
-                            }
-                            //if (ext.ToLower().Contains("gif") || ext.ToLower().Contains("jpg") || ext.ToLower().Contains("jpeg") || ext.ToLower().Contains("png"))
-                            //{
-                            //byte[] data;
-                            //using (Stream inputStream = file.InputStream)
-                            //{
-                            //    MemoryStream memoryStream = inputStream as MemoryStream;
-                            //    if (memoryStream == null)
-                            //    {
-                            //        memoryStream = new MemoryStream();
-                            //        inputStream.CopyTo(memoryStream);
-                            //    }
-                            //    data = memoryStream.ToArray();
-
-                            //    using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-                            //    {
-                            //        fs.Write(data, 0, data.Length);
-                            //    }
-                            //}
-                            //}
-                        }
-                    }
-                    else
-                    {
-                        context.Response.Write("Error: No file uploaded");
+                        throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
                     }
 
-                    try
+                    FileContent newFile = new FileContent();
+
+                    var dataStream = await file.ReadAsStreamAsync();
+                    var ctnLength = Convert.ToInt32(file.Headers.ContentLength);
+                    byte[] buffer = new byte[ctnLength];
+                    while (dataStream.Read(buffer, 0, ctnLength) > 0)
                     {
-                        var prFile = new PurchaseRequisitionFileModel();
-                        prFile.Id = Guid.NewGuid().ToString();
-                        prFile.PurchaseRequisitionId = prId;
-                        prFile.ContentType = file.ContentType;
-                        prFile.Name = file.FileName;
-                        prFile.Size = size;
-                        prFile.Url = filePath;
-                        prFile.DateCreated = DateTime.Now;
-                        prFile.DateModified = DateTime.Now;
-                        prFile.IsActive = true;
-
-                        var dbFile = _mgrPr.GetPurchaseRequisitionFileByFileName(file.FileName);
-                        if (string.IsNullOrWhiteSpace(dbFile.Id) || prFile.PurchaseRequisitionId != dbFile.PurchaseRequisitionId)
-                        {
-                            _mgrPr.SetPurchaseRequisitionFile(prFile);
-                        }
-                        else
-                        {
-                            prFile.Id = dbFile.Id;
-                            _mgrPr.UpdatePurchaseRequisitionFile(prFile);
-                        }
-
-                        context.Response.Write("File uploaded");
+                        newFile.Id = Guid.NewGuid().ToString();
+                        newFile.BinaryContent = buffer;
+                        newFile.FileType = file.Headers.ContentType.ToString();
+                        newFile.Name = file.Headers.ContentDisposition.FileName;
+                        newFile.DateModified = DateTime.Now;
                     }
-                    catch (Exception)
+
+                    string result = _mgrFcc.SetPersonFileContent(personId, newFile);
+                    if (string.IsNullOrWhiteSpace(result))
                     {
-                        context.Response.Write("Error: Exception occured while uploading!");
+                        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                    }
+
+                    if (string.IsNullOrWhiteSpace(person.FileContentId))
+                    {
+                        person.FileContentId = result;
+                        person.DateModified = DateTime.Now;
+                        _mgrFcc.UpdatePerson(person);
                     }
                 }
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (System.Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
+        ////TODO create cdn, move to cdn!
+        //[Route("filecontent/get/{contentId}")]
+        //public System.Web.Mvc.FileStreamResult GetFileContent(string contentId)
+        //{
+
+        //}
+
+        private bool CheckSupportedType(HttpContent file)
+        {
+            var isSupported = false;
+
+            switch (file.Headers.ContentType.ToString())
+            {
+                case "image/gif":
+                case "image/bmp":
+                case "image/tiff":
+                case "image/png":
+                case "image/jpeg":
+                case "application/pdf":
+                    isSupported = true;
+                    break;
+                default:
+                    break;
             }
 
-            return httpCode;
+            return isSupported;
         }
     }
 }

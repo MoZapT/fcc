@@ -26,6 +26,12 @@ namespace Shared.Interfaces.Repositories
         bool UpdatePersonName(PersonName entity);
         bool DeletePersonName(string id);
 
+        FileContent ReadFileContentByPersonId(string id);
+        IEnumerable<FileContent> ReadAllFileContentByPersonId(string id);
+        string CreatePersonFileContent(string personId, string fileId);
+        bool DeletePersonFileContent(string personId, string fileId);
+        bool DeleteAllPersonFileContent(string personId);
+
         #region PersonRelation
 
         PersonRelation ReadPersonRelation(string inviter, string invited, RelationType type);
@@ -52,18 +58,18 @@ namespace Shared.Interfaces.Repositories
         PersonActivity ReadPersonActivity(string id);
         IEnumerable<PersonActivity> ReadAllPersonActivityByPerson(string id);
         IEnumerable<PersonActivity> ReadAllPersonActivityByPerson(string id, string type);
-        PersonActivity CreatePersonActivity(PersonActivity entity);
-        PersonActivity UpdatePersonActivity(PersonActivity entity);
-        PersonActivity DeletePersonActivity(string id);
+        string CreatePersonActivity(PersonActivity entity);
+        bool UpdatePersonActivity(PersonActivity entity);
+        bool DeletePersonActivity(string id);
 
         #endregion
 
         #region FileContent
 
         FileContent ReadFileContent(string id);
-        FileContent CreateFileContent(FileContent entity);
-        FileContent UpdateFileContent(FileContent entity);
-        FileContent DeleteFileContent(string id);
+        string CreateFileContent(FileContent entity);
+        bool UpdateFileContent(FileContent entity);
+        bool DeleteFileContent(string id);
 
         #endregion
 

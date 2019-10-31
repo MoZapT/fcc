@@ -12,6 +12,7 @@ namespace Shared.Viewmodels
 
         #region PROPERTIES
 
+        public List<FileContent> Photos { get; set; }
         public List<PersonRelation> PersonRelations { get; set; }
         public List<PersonName> PersonNames { get; set; }
         public PersonBiography PersonBiography { get; set; }

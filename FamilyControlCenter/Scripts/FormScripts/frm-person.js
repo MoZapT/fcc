@@ -52,6 +52,7 @@
             $(e.currentTarget).find('button.crud[args="3"]').click();
         });
 
+        initPictureSection();
         initSpouseManagement();
     }
 
@@ -76,6 +77,56 @@
             $('#DpDeadTime').attr('readonly', 'readonly');
             Window.DatePicker.DestroyElement($('#DpDeadTime'));
         }
+    }
+
+    function initPictureSection() {
+        $('#UploadPicture').on('change', function (e) {
+            uploadPicture();
+        });
+    }
+
+    function uploadPicture() {
+        personId = $('#Model_Id').val();
+        var fd = new FormData();
+        var files = $('[type="file"]')[0].files;
+        for (var i = 0; i < files.length; i++) {
+            fd.append("file_" + i, files[i], files[i].name);
+        }
+
+        $.ajax({
+            url: getApiRoute() + 'person/photo/upload/' + personId,
+            type: 'POST',
+            data: fd,
+            enctype: 'multipart/form-data',
+            contentType: false,
+            processData: false,
+            complete: function (response) {
+                if (response.status === 200) {
+                    reloadPictures();
+                }
+            }
+        });
+    }
+
+    function reloadPictures() {
+        var container = $('div#PhotoSection');
+
+        $.ajax({
+            url: 'PersonPhotoSection',
+            data: JSON.stringify({ personId: personId }),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
+                container.html(response.responseText);
+                initPictureSection();
+            }
+        });
     }
 
     //SpouseManagementInDetailView

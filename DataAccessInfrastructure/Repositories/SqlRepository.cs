@@ -129,6 +129,7 @@ namespace DataAccessInfrastructure.Repositories
                         ,[Firstname] = @Firstname
                         ,[Lastname] = @Lastname
                         ,[Patronym] = @Patronym
+                        ,[FileContentId] = @FileContentId
                     WHERE Id = @Id
 
                 COMMIT TRAN";
@@ -209,6 +210,62 @@ namespace DataAccessInfrastructure.Repositories
                     OR Patronym LIKE '%'+@Search+'%')";
 
             return Query<KeyValuePair<string, string>>(query, new { @ExcludeId = excludePersonId, @Search = search });
+        }
+
+        public FileContent ReadFileContentByPersonId(string id)
+        {
+            var query = @"
+                SELECT fc.*
+                FROM [FileContent] AS fc
+                JOIN [Person] AS p
+	                ON fc.Id = p.FileContentId
+                WHERE 
+	                p.Id = @Id";
+
+            return QueryFoD<FileContent>(query, new { @Id = id });
+        }
+        public IEnumerable<FileContent> ReadAllFileContentByPersonId(string id)
+        {
+            var query = @"
+                SELECT fc.*
+                FROM [FileContent] AS fc
+                JOIN [PersonFileContent] AS pfc
+	                ON fc.Id = pfc.FileContentId
+                WHERE 
+	                pfc.PersonId = @Id";
+
+            return Query<FileContent>(query, new { @Id = id });
+        }
+        public string CreatePersonFileContent(string personId, string fileId)
+        {
+            var query = @"
+                INSERT INTO [dbo].[PersonFileContent]
+                    ([Id]
+                    ,[PersonId]
+                    ,[FileContentId])
+                OUTPUT INSERTED.Id
+                VALUES
+                    (NEWID()
+                    ,@Id
+                    ,@FileContentId)";
+
+            return QueryFoD<string>(query, new { @Id = personId, @FileContentId = fileId });
+        }
+        public bool DeletePersonFileContent(string personId, string fileId)
+        {
+            var query = @"
+                DELETE FROM [PersonFileContent]
+                WHERE PersonId = @Id AND FileContentId = @FileContentId";
+
+            return Execute(query, new { @Id = personId, @FileContentId = fileId }) > 0 ? true : false;
+        }
+        public bool DeleteAllPersonFileContent(string personId)
+        {
+            var query = @"
+                DELETE FROM [PersonFileContent]
+                WHERE PersonId = @Id";
+
+            return Execute(query, new { @Id = personId }) > 0 ? true : false;
         }
 
         #endregion
@@ -472,17 +529,17 @@ namespace DataAccessInfrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public PersonActivity CreatePersonActivity(PersonActivity entity)
+        public string CreatePersonActivity(PersonActivity entity)
         {
             throw new NotImplementedException();
         }
 
-        public PersonActivity UpdatePersonActivity(PersonActivity entity)
+        public bool UpdatePersonActivity(PersonActivity entity)
         {
             throw new NotImplementedException();
         }
 
-        public PersonActivity DeletePersonActivity(string id)
+        public bool DeletePersonActivity(string id)
         {
             throw new NotImplementedException();
         }
@@ -493,22 +550,62 @@ namespace DataAccessInfrastructure.Repositories
 
         public FileContent ReadFileContent(string id)
         {
-            throw new NotImplementedException();
+            var query = @"
+                SELECT *
+                FROM [FileContent]
+                WHERE 
+                    Id = @Id";
+
+            return QueryFoD<FileContent>(query, new { @Id = id });
         }
 
-        public FileContent CreateFileContent(FileContent entity)
+        public string CreateFileContent(FileContent entity)
         {
-            throw new NotImplementedException();
+            var query = @"
+                INSERT INTO [FileContent]
+                    ([Id]
+                    ,[DateCreated]
+                    ,[DateModified]
+                    ,[IsActive]
+                    ,[BinaryContent]
+                    ,[FileType]
+                    ,[Name])
+                OUTPUT INSERTED.Id
+                VALUES
+                    (@Id
+                    ,@DateCreated
+                    ,@DateModified
+                    ,@IsActive
+                    ,@BinaryContent
+                    ,@FileType
+                    ,@Name)";
+
+            return QueryFoD<string>(query, new DynamicParameters(entity));
         }
 
-        public FileContent UpdateFileContent(FileContent entity)
+        public bool UpdateFileContent(FileContent entity)
         {
-            throw new NotImplementedException();
+            var query = @"
+                UPDATE [FileContent]
+                SET [DateCreated] = @DateCreated
+                    ,[DateModified] = @DateModified
+                    ,[IsActive] = @IsActive
+                    ,[BinaryContent] = @BinaryContent
+                    ,[FileType] = @FileType
+                    ,[Name] = @Name
+                WHERE
+                    Id = @Id";
+
+            return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
         }
 
-        public FileContent DeleteFileContent(string id)
+        public bool DeleteFileContent(string id)
         {
-            throw new NotImplementedException();
+            var query = @"
+                DELETE FROM [FileContent]
+                WHERE Id = @Id";
+
+            return Execute(query, new { @Id = id }) > 0 ? true : false;
         }
 
         #endregion

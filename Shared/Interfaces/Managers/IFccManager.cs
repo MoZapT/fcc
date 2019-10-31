@@ -19,6 +19,11 @@ namespace Shared.Interfaces.Managers
         List<Person> GetPersonByRelationType(string personId, RelationType type);
         IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string excludePersonId, string query);
         IEnumerable<KeyValuePair<string, string>> PersonTypeaheadWithPossibilities(string excludePersonId, string query);
+        FileContent GetMainPhotoByPersonId(string id);
+        List<FileContent> GetAllPhotosByPersonId(string id);
+        string SetPersonFileContent(string personId, FileContent entity);
+        bool DeletePersonFileContent(string personId, string fileId);
+        bool DeleteAllPersonFileContent(string personId);
 
         #endregion
 
@@ -52,18 +57,18 @@ namespace Shared.Interfaces.Managers
         PersonActivity GetPersonActivity(string id);
         List<PersonActivity> GetAllPersonActivityByPerson(string id);
         List<PersonActivity> GetAllPersonActivityByPerson(string id, string type);
-        PersonActivity SetPersonActivity(PersonActivity entity);
-        PersonActivity UpdatePersonActivity(PersonActivity entity);
-        PersonActivity DeletePersonActivity(string id);
+        string SetPersonActivity(PersonActivity entity);
+        bool UpdatePersonActivity(PersonActivity entity);
+        bool DeletePersonActivity(string id);
 
         #endregion
 
         #region FileContent
 
         FileContent GetFileContent(string id);
-        FileContent SetFileContent(FileContent entity);
-        FileContent UpdateFileContent(FileContent entity);
-        FileContent DeleteFileContent(string id);
+        string SetFileContent(FileContent entity);
+        bool UpdateFileContent(FileContent entity);
+        bool DeleteFileContent(string id);
 
         #endregion
 

@@ -31,6 +31,12 @@ namespace Data.ViewBuilder
             HandleState(vm);
         }
 
+        public KeyValuePair<string, List<FileContent>> CreatePartialViewPersonPhotos(string personId)
+        {
+            var person = _mgrFcc.GetPerson(personId);
+            return new KeyValuePair<string, List<FileContent>>(person.FileContentId, _mgrFcc.GetAllPhotosByPersonId(personId));
+        }
+
         public PersonBiography CreatePartialViewPersonBiography(string personId)
         {
             return _mgrFcc.GetPersonBiographyByPersonId(personId);
@@ -126,6 +132,7 @@ namespace Data.ViewBuilder
             try
             {
                 vm.Model = _mgrFcc.GetPerson(vm.Model.Id);
+                vm.Photos = _mgrFcc.GetAllPhotosByPersonId(vm.Model.Id);
                 vm.MarriedOn = _mgrFcc.GetPersonByRelationType(vm.Model.Id, RelationType.HusbandWife).FirstOrDefault();
                 vm.PersonBiography = new PersonBiography();
                 vm.PersonNames = new List<PersonName>();

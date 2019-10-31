@@ -28,7 +28,7 @@ namespace FamilyControlCenter.Controllers
             _vwbFcc.HandleAction(vm);
             return View(vm);
         }
-        
+
         public ActionResult PersonDetail(string personId)
         {
             BeforeLoadAction();
@@ -48,6 +48,13 @@ namespace FamilyControlCenter.Controllers
             BeforeLoadAction();
             _vwbFcc.HandleAction(vm);
             return View(vm);
+        }
+
+        public PartialViewResult PersonPhotoSection(string personId)
+        {
+            BeforeLoadAction();
+            KeyValuePair<string, List<FileContent>> vm = _vwbFcc.CreatePartialViewPersonPhotos(personId);
+            return PartialView("Person/_PhotoSection", vm);
         }
 
         [HttpPost]

@@ -85,6 +85,39 @@ namespace Data.Manager
             return _repo.GetOnlyPossiblePersonSelectList(excludePersonId, query);
         }
 
+        public FileContent GetMainPhotoByPersonId(string id)
+        {
+            return _repo.ReadFileContentByPersonId(id);
+        }
+
+        public List<FileContent> GetAllPhotosByPersonId(string id)
+        {
+            return _repo.ReadAllFileContentByPersonId(id).ToList();
+        }
+
+        public string SetPersonFileContent(string personId, FileContent entity)
+        {
+            string result = "";
+
+            bool success = _repo.Transaction(new Task(() => 
+            {
+                result = _repo.CreateFileContent(entity);
+                _repo.CreatePersonFileContent(personId, result);
+            }));
+            if (!success)
+                return null;
+
+            return result;
+        }
+        public bool DeletePersonFileContent(string personId, string fileId)
+        {
+            return _repo.DeletePersonFileContent(personId, fileId);
+        }
+        public bool DeleteAllPersonFileContent(string personId)
+        {
+            return _repo.DeleteAllPersonFileContent(personId);
+        }
+
         #endregion
 
         #region PersonName
@@ -189,7 +222,7 @@ namespace Data.Manager
 
         #endregion
 
-        #region MyRegion
+        #region PersonActivity
 
         public PersonActivity GetPersonActivity(string id)
         {
@@ -206,17 +239,17 @@ namespace Data.Manager
             return _repo.ReadAllPersonActivityByPerson(id, type).ToList();
         }
 
-        public PersonActivity SetPersonActivity(PersonActivity entity)
+        public string SetPersonActivity(PersonActivity entity)
         {
             return _repo.CreatePersonActivity(entity);
         }
 
-        public PersonActivity UpdatePersonActivity(PersonActivity entity)
+        public bool UpdatePersonActivity(PersonActivity entity)
         {
             return _repo.UpdatePersonActivity(entity);
         }
 
-        public PersonActivity DeletePersonActivity(string id)
+        public bool DeletePersonActivity(string id)
         {
             return _repo.DeletePersonActivity(id);
         }
@@ -230,17 +263,17 @@ namespace Data.Manager
             return _repo.ReadFileContent(id);
         }
 
-        public FileContent SetFileContent(FileContent entity)
+        public string SetFileContent(FileContent entity)
         {
             return _repo.CreateFileContent(entity);
         }
 
-        public FileContent UpdateFileContent(FileContent entity)
+        public bool UpdateFileContent(FileContent entity)
         {
             return _repo.UpdateFileContent(entity);
         }
 
-        public FileContent DeleteFileContent(string id)
+        public bool DeleteFileContent(string id)
         {
             return _repo.DeleteFileContent(id);
         }

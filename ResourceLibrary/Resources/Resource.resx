@@ -297,4 +297,13 @@
   <data name="GoToHome" xml:space="preserve">
     <value />
   </data>
+  <data name="BtnLoadPhoto" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value />
+  </data>
 </root>
