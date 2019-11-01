@@ -71,6 +71,8 @@ namespace Data.ViewBuilder
                     break;
                 case ActionCommand.Save:
                     SavePerson(vm);
+                    vm.State = VmState.Detail;
+                    vm.Command = ActionCommand.Open;
                     break;
                 case ActionCommand.Delete:
                     _mgrFcc.DeletePerson(vm.Model.Id);
@@ -98,10 +100,19 @@ namespace Data.ViewBuilder
                     break;
                 case VmState.List:
                 default:
-                    vm.Command = ActionCommand.Cancel;
-                    vm.Models = _mgrFcc.GetListPerson();
+                    PersonList(vm);
                     break;
             }
+        }
+        private void PersonList(PersonViewModel vm)
+        {
+            vm.Command = ActionCommand.Cancel;
+            vm.Models = _mgrFcc.GetListPerson();
+            var tcount = vm.Models.Count();
+            vm.Models = vm.Models.Skip(vm.Skip).Take(vm.Take).ToList();
+            vm.Paging = new PagingViewModel(vm.Skip, vm.Take, tcount);
+
+
         }
 
         private bool SavePerson(PersonViewModel vm)

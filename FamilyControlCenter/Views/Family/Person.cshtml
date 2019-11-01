@@ -15,6 +15,11 @@
 
     if (Model.State == VmState.List)
     {
+        foreach (var elem in Model.Navigation.CallStack)
+        {
+            @elem
+        }
+
         <a href="/">
             <i class="fas fa-angle-double-left"></i>
             @Resource.GoToHome

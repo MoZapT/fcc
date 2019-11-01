@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.Common;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -14,9 +15,16 @@ namespace FamilyControlCenter.Controllers
         {
         }
 
-        public void BeforeLoadAction()
+        public void BeforeLoadAction(BaseViewModel vm = null)
         {
             ModelState.Clear();
+
+            if (vm == null || vm?.Navigation?.CallStack == null)
+            {
+                return;
+            }
+
+            vm.Navigation.CallStack.Add(Request.FilePath);
         }
     }
 }

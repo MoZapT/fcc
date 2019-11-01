@@ -7,6 +7,7 @@
 
     //Switch tabs
     function initializeComponent() {
+        initializeList();
         initializeDetail();
 
         $('#relations-tab').on('click', function (e) {
@@ -35,6 +36,26 @@
             loadBiography();
             biographyLoaded = true;
         });
+    }
+
+    //ListView
+    function initializeList() {
+        var icons = $('.row.item img.icon[uri]');
+
+        for (var i = 0; i < icons.length; i++) {
+            var icon = icons[i];
+            var uri = $(icon).attr('uri');
+
+            $.ajax({
+                url: uri,
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    $(icon).attr('src', response);
+                }
+            });
+        }
+
     }
 
     //Detail view
@@ -80,9 +101,23 @@
     }
 
     function initPictureSection() {
+        $('.custom-carousel-control').on('click', function(e) {
+            //setMainPictureBtnVisibility(e, true);
+        });
+
         $('#UploadPicture').on('change', function (e) {
             uploadPicture();
         });
+
+        $('#SetMainPhoto').on('click', function(e) {
+            setMainPicture();
+        });
+
+        $('#DeletePhoto').on('click', function(e) {
+            deletePicture();
+        });
+
+        //setMainPictureBtnVisibility();
     }
 
     function uploadPicture() {
@@ -108,8 +143,37 @@
         });
     }
 
+    function setMainPicture() {
+        var id = $('.item.active').attr('value');
+        var personId = $('#Model_Id').val();
+
+        $.ajax({
+            url: getApiRoute() + 'person/photo/setmain/' + personId + '/' + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                $('#SetMainPhoto').attr('value', id);
+            }
+        });
+    }
+
+    function deletePicture() {
+        var id = $('.item.active').attr('value');
+        var personId = $('#Model_Id').val();
+
+        $.ajax({
+            url: getApiRoute() + 'person/photo/delete/' + personId + '/' + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                reloadPictures();
+            }
+        });
+    }
+
     function reloadPictures() {
         var container = $('div#PhotoSection');
+        var personId = $('#Model_Id').val();
 
         $.ajax({
             url: 'PersonPhotoSection',

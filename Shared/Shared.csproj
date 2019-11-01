@@ -70,6 +70,7 @@
     <Compile Include="Enums\VmState.cs" />
     <Compile Include="Helpers\FccRelationTypeHelper.cs" />
     <Compile Include="Helpers\FccEnumHelper.cs" />
+    <Compile Include="Helpers\Globals.cs" />
     <Compile Include="Interfaces\Common\IBaseModel.cs" />
     <Compile Include="Interfaces\Managers\IFccManager.cs" />
     <Compile Include="Interfaces\Repositories\ISqlBaseRepository.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Enums\RelationType.cs" />
     <Compile Include="Models\FileContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Viewmodels\PagingViewModel.cs" />
     <Compile Include="Viewmodels\PersonViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

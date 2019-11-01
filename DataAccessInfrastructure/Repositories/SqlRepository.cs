@@ -268,6 +268,62 @@ namespace DataAccessInfrastructure.Repositories
             return Execute(query, new { @Id = personId }) > 0 ? true : false;
         }
 
+        public FileContent ReadDocumentByPersonId(string id)
+        {
+            var query = @"
+                SELECT fc.*
+                FROM [PersonDocument] AS fc
+                JOIN [Person] AS p
+	                ON fc.Id = p.FileContentId
+                WHERE 
+	                p.Id = @Id";
+
+            return QueryFoD<FileContent>(query, new { @Id = id });
+        }
+        public IEnumerable<FileContent> ReadAllDocumentByPersonId(string id)
+        {
+            var query = @"
+                SELECT fc.*
+                FROM [FileContent] AS fc
+                JOIN [PersonDocument] AS pfc
+	                ON fc.Id = pfc.FileContentId
+                WHERE 
+	                pfc.PersonId = @Id";
+
+            return Query<FileContent>(query, new { @Id = id });
+        }
+        public string CreatePersonDocument(string personId, string fileId)
+        {
+            var query = @"
+                INSERT INTO [dbo].[PersonDocument]
+                    ([Id]
+                    ,[PersonId]
+                    ,[FileContentId])
+                OUTPUT INSERTED.Id
+                VALUES
+                    (NEWID()
+                    ,@Id
+                    ,@FileContentId)";
+
+            return QueryFoD<string>(query, new { @Id = personId, @FileContentId = fileId });
+        }
+        public bool DeletePersonDocument(string personId, string fileId)
+        {
+            var query = @"
+                DELETE FROM [PersonDocument]
+                WHERE PersonId = @Id AND FileContentId = @FileContentId";
+
+            return Execute(query, new { @Id = personId, @FileContentId = fileId }) > 0 ? true : false;
+        }
+        public bool DeleteAllPersonDocument(string personId)
+        {
+            var query = @"
+                DELETE FROM [PersonDocument]
+                WHERE PersonId = @Id";
+
+            return Execute(query, new { @Id = personId }) > 0 ? true : false;
+        }
+
         #endregion
 
         #region PersonName

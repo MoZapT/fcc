@@ -32,6 +32,12 @@ namespace Shared.Interfaces.Repositories
         bool DeletePersonFileContent(string personId, string fileId);
         bool DeleteAllPersonFileContent(string personId);
 
+        FileContent ReadDocumentByPersonId(string id);
+        IEnumerable<FileContent> ReadAllDocumentByPersonId(string id);
+        string CreatePersonDocument(string personId, string fileId);
+        bool DeletePersonDocument(string personId, string fileId);
+        bool DeleteAllPersonDocument(string personId);
+
         #region PersonRelation
 
         PersonRelation ReadPersonRelation(string inviter, string invited, RelationType type);

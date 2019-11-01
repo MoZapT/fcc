@@ -242,11 +242,39 @@ namespace FamilyControlCenter.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("person/photo/delete/{personId}/{fileId}")]
+        public void DeletePersonPhoto(string personId, string fileId)
+        {
+            _mgrFcc.DeletePersonFileContent(personId, fileId);
+        }
+
+        [HttpGet]
+        [Route("person/photo/setmain/{personId}/{fileId}")]
+        public void MainPersonPhoto(string personId, string fileId)
+        {
+            var person = _mgrFcc.GetPerson(personId);
+            person.FileContentId = fileId;
+            _mgrFcc.UpdatePerson(person);
+        }
+
+        //TODO create cdn, move to cdn!
+        [Route("person/photo/get/{contentId}")]
+        public string GetPhotoAsBase64(string contentId)
+        {
+            var file = _mgrFcc.GetFileContent(contentId);
+            string img64 = Convert.ToBase64String(file.BinaryContent);
+            string img64Url = string.Format("data:image/" + file.FileType + ";base64,{0}", img64);
+            return img64Url;
+        }
+
         ////TODO create cdn, move to cdn!
         //[Route("filecontent/get/{contentId}")]
-        //public System.Web.Mvc.FileStreamResult GetFileContent(string contentId)
+        //public string GetFileContent(string contentId)
         //{
-
+        //    var file = Model.Value[i];
+        //    string img64 = Convert.ToBase64String(file.BinaryContent);
+        //    return string.Format("data:image/" + file.FileType + ";base64,{0}", img64);
         //}
 
         private bool CheckSupportedType(HttpContent file)

@@ -89,12 +89,10 @@ namespace Data.Manager
         {
             return _repo.ReadFileContentByPersonId(id);
         }
-
         public List<FileContent> GetAllPhotosByPersonId(string id)
         {
             return _repo.ReadAllFileContentByPersonId(id).ToList();
         }
-
         public string SetPersonFileContent(string personId, FileContent entity)
         {
             string result = "";
@@ -111,11 +109,65 @@ namespace Data.Manager
         }
         public bool DeletePersonFileContent(string personId, string fileId)
         {
-            return _repo.DeletePersonFileContent(personId, fileId);
+            var person = _repo.ReadPerson(personId);
+
+            return _repo.Transaction(new Task(() => 
+            {
+                //if deleting main photo, try to set random avaible photo as main
+                if (person.FileContentId == fileId)
+                {
+                    person.FileContentId = null;
+                    List<FileContent> files = _repo.ReadAllFileContentByPersonId(personId).ToList() ?? 
+                        new List<FileContent>();
+                    if (files.Count > 0)
+                    {
+                        person.FileContentId = files.FirstOrDefault().Id;
+                    }
+                    _repo.UpdatePerson(person);
+                }
+                //continue delete photo content
+                _repo.DeletePersonFileContent(personId, fileId);
+                _repo.DeleteFileContent(fileId);
+            }));
         }
         public bool DeleteAllPersonFileContent(string personId)
         {
             return _repo.DeleteAllPersonFileContent(personId);
+        }
+
+        public FileContent GetDocumentByPersonId(string id)
+        {
+            return _repo.ReadDocumentByPersonId(id);
+        }
+        public List<FileContent> GetAllDocumentByPersonId(string id)
+        {
+            return _repo.ReadAllDocumentByPersonId(id).ToList();
+        }
+        public string SetPersonDocument(string personId, FileContent entity)
+        {
+            string result = "";
+
+            bool success = _repo.Transaction(new Task(() =>
+            {
+                result = _repo.CreateFileContent(entity);
+                _repo.CreatePersonDocument(personId, result);
+            }));
+            if (!success)
+                return null;
+
+            return result;
+        }
+        public bool DeletePersonDocument(string personId, string fileId)
+        {
+            return _repo.Transaction(new Task(() =>
+            {
+                _repo.DeletePersonDocument(personId, fileId);
+                _repo.DeleteFileContent(fileId);
+            }));
+        }
+        public bool DeleteAllPersonDocument(string personId)
+        {
+            return _repo.DeleteAllPersonDocument(personId);
         }
 
         #endregion

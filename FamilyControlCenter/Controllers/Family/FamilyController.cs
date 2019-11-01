@@ -21,18 +21,20 @@ namespace FamilyControlCenter.Controllers
             _vwbFcc = vwbFcc;
         }
 
-        public ActionResult Person()
+        public ActionResult Person(int page = 1, int take = 10)
         {
-            BeforeLoadAction();
             var vm = new PersonViewModel();
+            BeforeLoadAction(vm);
+            vm.Page = page;
+            vm.Take = take;
             _vwbFcc.HandleAction(vm);
             return View(vm);
         }
 
         public ActionResult PersonDetail(string personId)
         {
-            BeforeLoadAction();
             PersonViewModel vm = new PersonViewModel();
+            BeforeLoadAction(vm);
             vm.Model = new Person();
             vm.Model.Id = personId;
             vm.Command = ActionCommand.Open;
@@ -45,7 +47,7 @@ namespace FamilyControlCenter.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Person(PersonViewModel vm)
         {
-            BeforeLoadAction();
+            BeforeLoadAction(vm);
             _vwbFcc.HandleAction(vm);
             return View(vm);
         }

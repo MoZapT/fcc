@@ -17,11 +17,16 @@ namespace Shared.Viewmodels
         public List<PersonName> PersonNames { get; set; }
         public PersonBiography PersonBiography { get; set; }
 
-
         public Person Model { get; set; }
         public Person MarriedOn { get; set; }
         public List<Person> Models { get; set; }
 
         #endregion
+
+        public PersonViewModel()
+        {
+            Navigation = new NavigationViewModel();
+            Paging = new PagingViewModel(Take);
+        }
     }
 }
