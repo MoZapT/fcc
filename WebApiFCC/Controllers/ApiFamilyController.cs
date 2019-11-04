@@ -270,6 +270,8 @@ namespace FamilyControlCenter.Controllers
         public string GetPhotoAsBase64(string contentId)
         {
             var file = _mgrFcc.GetFileContent(contentId);
+            if (file?.BinaryContent == null)
+                return string.Empty;
             string img64 = Convert.ToBase64String(file.BinaryContent);
             string img64Url = string.Format("data:image/" + file.FileType + ";base64,{0}", img64);
             return img64Url;
