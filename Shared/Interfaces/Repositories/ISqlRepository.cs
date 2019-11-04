@@ -63,10 +63,11 @@ namespace Shared.Interfaces.Repositories
 
         PersonActivity ReadPersonActivity(string id);
         IEnumerable<PersonActivity> ReadAllPersonActivityByPerson(string id);
-        IEnumerable<PersonActivity> ReadAllPersonActivityByPerson(string id, string type);
+        IEnumerable<PersonActivity> ReadAllPersonActivityByPerson(string id, ActivityType type);
         string CreatePersonActivity(PersonActivity entity);
         bool UpdatePersonActivity(PersonActivity entity);
         bool DeletePersonActivity(string id);
+        bool DeleteAllPersonActivityByPersonId(string id);
 
         #endregion
 

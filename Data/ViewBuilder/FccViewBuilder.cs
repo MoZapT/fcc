@@ -31,15 +31,73 @@ namespace Data.ViewBuilder
             HandleState(vm);
         }
 
+        public List<FileContent> CreatePartialViewPersonDocuments(string personId)
+        {
+            List<FileContent> list = _mgrFcc.GetAllDocumentsByPersonId(personId);
+            return list;
+        }
+
         public KeyValuePair<string, List<FileContent>> CreatePartialViewPersonPhotos(string personId)
         {
             var person = _mgrFcc.GetPerson(personId);
             return new KeyValuePair<string, List<FileContent>>(person.FileContentId, _mgrFcc.GetAllPhotosByPersonId(personId));
         }
 
-        public PersonBiography CreatePartialViewPersonBiography(string personId)
+        public PersonBiographyViewModel CreatePartialViewPersonBiography(string personId)
         {
-            return _mgrFcc.GetPersonBiographyByPersonId(personId);
+            PersonBiographyViewModel biography = new PersonBiographyViewModel();
+            var bio = _mgrFcc.GetPersonBiographyByPersonId(personId);
+
+            biography.PersonBiography = bio ??
+                new PersonBiography() { Id = Guid.NewGuid().ToString() };
+
+            if (bio == null)
+            {
+                return biography;
+            }
+
+            biography.Kindergarden = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.Kindergarden);
+            biography.ElementarySchool = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.ElementarySchool);
+            biography.MiddleSchool = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.MiddleSchool);
+            biography.Highschool = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.Highschool);
+            biography.Practice = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.Practice);
+            biography.College = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.College);
+            biography.TechnicalCollege = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.TechnicalCollege);
+            biography.Trainee = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.Trainee);
+            biography.University = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.University);
+            biography.Unemployed = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.Unemployed);
+            biography.Working = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.Working);
+            biography.Enterpreneur = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.Enterpreneur);
+            biography.Other = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.Other);
+
+            return biography;
+        }
+
+        public bool SavePersonActivity(string personId, string bioId, PersonActivity newact)
+        {
+            bool success;
+            var dbRec = _mgrFcc.GetPersonActivity(newact.Id);
+
+            if (dbRec == null)
+            {
+                newact.Id = Guid.NewGuid().ToString();
+                newact.IsActive = true;
+                newact.DateCreated = DateTime.Now;
+                newact.BiographyId = bioId;
+                newact.DateModified = DateTime.Now;
+                success = string.IsNullOrWhiteSpace(_mgrFcc.SetPersonActivity(newact)) ? false : true;
+            }
+            else
+            {
+                dbRec.DateBegin = newact.DateBegin;
+                dbRec.DateEnd = newact.DateEnd;
+                dbRec.Activity = newact.Activity;
+                dbRec.ActivityType = newact.ActivityType;
+                dbRec.DateModified = DateTime.Now;
+                success = _mgrFcc.UpdatePersonActivity(dbRec);
+            }
+
+            return success;
         }
 
         public List<PersonName> CreatePartialViewForNamesAndPatronymList(string personId)
@@ -104,6 +162,7 @@ namespace Data.ViewBuilder
                     break;
             }
         }
+        
         private void PersonList(PersonViewModel vm)
         {
             vm.Command = ActionCommand.Cancel;
@@ -111,8 +170,6 @@ namespace Data.ViewBuilder
             var tcount = vm.Models.Count();
             vm.Models = vm.Models.Skip(vm.Skip).Take(vm.Take).ToList();
             vm.Paging = new PagingViewModel(vm.Skip, vm.Take, tcount);
-
-
         }
 
         private bool SavePerson(PersonViewModel vm)
@@ -145,7 +202,6 @@ namespace Data.ViewBuilder
                 vm.Model = _mgrFcc.GetPerson(vm.Model.Id);
                 vm.Photos = _mgrFcc.GetAllPhotosByPersonId(vm.Model.Id);
                 vm.MarriedOn = _mgrFcc.GetPersonByRelationType(vm.Model.Id, RelationType.HusbandWife).FirstOrDefault();
-                vm.PersonBiography = new PersonBiography();
                 vm.PersonNames = new List<PersonName>();
                 vm.PersonRelations = new List<PersonRelation>();
             }
@@ -158,7 +214,6 @@ namespace Data.ViewBuilder
         private void CreateEmptyPerson(PersonViewModel vm)
         {
             vm.Model = new Person() { Id = Guid.NewGuid().ToString() };
-            vm.PersonBiography = new PersonBiography();
             vm.PersonNames = new List<PersonName>();
             vm.PersonRelations = new List<PersonRelation>();
         }

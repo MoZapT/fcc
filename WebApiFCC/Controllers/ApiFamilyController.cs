@@ -54,6 +54,13 @@ namespace FamilyControlCenter.Controllers
         }
 
         [HttpGet]
+        [Route("personactivity/delete/{id}")]
+        public bool DeletePersonActivity(string id)
+        {
+            return _mgrFcc.DeletePersonActivity(id);
+        }
+
+        [HttpGet]
         [Route("personname/set/{fName}/{lName}/{patronym}/{date}/{personId}")]
         public bool SetPersonName(string fName, string lName, string patronym, string date, string personId)
         {
@@ -201,7 +208,7 @@ namespace FamilyControlCenter.Controllers
 
                 foreach (var file in provider.Contents)
                 {
-                    if (!CheckSupportedType(file))
+                    if (!ContentTypeHelper.IsImage(file.Headers.ContentType.ToString()))
                     {
                         throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
                     }
@@ -216,11 +223,11 @@ namespace FamilyControlCenter.Controllers
                         newFile.Id = Guid.NewGuid().ToString();
                         newFile.BinaryContent = buffer;
                         newFile.FileType = file.Headers.ContentType.ToString();
-                        newFile.Name = file.Headers.ContentDisposition.FileName;
+                        newFile.Name = file.Headers.ContentDisposition.FileName.Replace("\"", "");
                         newFile.DateModified = DateTime.Now;
                     }
 
-                    string result = _mgrFcc.SetPersonFileContent(personId, newFile);
+                    string result = _mgrFcc.SetPersonPhoto(personId, newFile);
                     if (string.IsNullOrWhiteSpace(result))
                     {
                         throw new HttpResponseException(HttpStatusCode.InternalServerError);
@@ -246,7 +253,7 @@ namespace FamilyControlCenter.Controllers
         [Route("person/photo/delete/{personId}/{fileId}")]
         public void DeletePersonPhoto(string personId, string fileId)
         {
-            _mgrFcc.DeletePersonFileContent(personId, fileId);
+            _mgrFcc.DeletePersonPhoto(personId, fileId);
         }
 
         [HttpGet]
@@ -277,25 +284,75 @@ namespace FamilyControlCenter.Controllers
         //    return string.Format("data:image/" + file.FileType + ";base64,{0}", img64);
         //}
 
-        private bool CheckSupportedType(HttpContent file)
+        [HttpPost]
+        [Route("person/file/upload/{personId}")]
+        public async Task<HttpResponseMessage> UploadPersonDocument(string personId)
         {
-            var isSupported = false;
-
-            switch (file.Headers.ContentType.ToString())
+            Person person = _mgrFcc.GetPerson(personId);
+            if (person == null)
             {
-                case "image/gif":
-                case "image/bmp":
-                case "image/tiff":
-                case "image/png":
-                case "image/jpeg":
-                case "application/pdf":
-                    isSupported = true;
-                    break;
-                default:
-                    break;
+                throw new HttpResponseException(HttpStatusCode.Unauthorized);
             }
 
-            return isSupported;
+            // Check if the request contains multipart/form-data.
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
+
+            try
+            {
+                var provider = new MultipartMemoryStreamProvider();
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                foreach (var file in provider.Contents)
+                {
+                    if (!ContentTypeHelper.IsSupported(file.Headers.ContentType.ToString()))
+                    {
+                        throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+                    }
+
+                    FileContent newFile = new FileContent();
+
+                    var dataStream = await file.ReadAsStreamAsync();
+                    var ctnLength = Convert.ToInt32(file.Headers.ContentLength);
+                    byte[] buffer = new byte[ctnLength];
+                    while (dataStream.Read(buffer, 0, ctnLength) > 0)
+                    {
+                        newFile.Id = Guid.NewGuid().ToString();
+                        newFile.BinaryContent = buffer;
+                        newFile.FileType = file.Headers.ContentType.ToString();
+                        newFile.Name = file.Headers.ContentDisposition.FileName.Replace("\"", "");
+                        newFile.DateModified = DateTime.Now;
+                    }
+
+                    string result = _mgrFcc.SetPersonDocument(personId, newFile);
+                    if (string.IsNullOrWhiteSpace(result))
+                    {
+                        throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                    }
+
+                    if (string.IsNullOrWhiteSpace(person.FileContentId))
+                    {
+                        person.FileContentId = result;
+                        person.DateModified = DateTime.Now;
+                        _mgrFcc.UpdatePerson(person);
+                    }
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (System.Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+            }
+        }
+
+        [HttpGet]
+        [Route("person/file/delete/{personId}/{fileId}")]
+        public void DeletePersonDocument(string personId, string fileId)
+        {
+            _mgrFcc.DeletePersonDocument(personId, fileId);
         }
     }
 }

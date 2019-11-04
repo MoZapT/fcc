@@ -52,6 +52,13 @@ namespace FamilyControlCenter.Controllers
             return View(vm);
         }
 
+        public PartialViewResult PersonDocuments(string personId/*, int section?*/)
+        {
+            BeforeLoadAction();
+            List<FileContent> vm = _vwbFcc.CreatePartialViewPersonDocuments(personId);
+            return PartialView("Person/_PersonDocuments", vm);
+        }
+
         public PartialViewResult PersonPhotoSection(string personId)
         {
             BeforeLoadAction();
@@ -74,6 +81,12 @@ namespace FamilyControlCenter.Controllers
             BeforeLoadAction();
             var vm = _vwbFcc.CreatePartialViewPersonBiography(personId);
             return PartialView("Person/_PersonBiography", vm);
+        }
+
+        [HttpPost]
+        public void SavePersonActivity(string personId, string bioId, PersonActivity newact)
+        {
+            var vm = _vwbFcc.SavePersonActivity(personId, bioId, newact);
         }
 
         [HttpPost]

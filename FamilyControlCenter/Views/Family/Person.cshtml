@@ -15,15 +15,14 @@
 
     if (Model.State == VmState.List)
     {
-        foreach (var elem in Model.Navigation.CallStack)
-        {
-            @elem
-        }
-
-        <a href="/">
-            <i class="fas fa-angle-double-left"></i>
-            @Resource.GoToHome
-        </a>
+        <ul class="breadcrumb">
+            <li>
+                <a href="/">
+                    <i class="fas fa-angle-double-left"></i>
+                    @Resource.GoToHome
+                </a>
+            </li>
+        </ul>
         @Html.Partial("Person/_PersonList", Model)
         <a href="/" class="pull-right">
             <i class="fas fa-angle-double-left"></i>
@@ -32,10 +31,20 @@
     }
     else
     {
-        <a href="Person">
-            <i class="fas fa-angle-double-left"></i>
-            @Resource.Back
-        </a>
+        <ul class="breadcrumb">
+            <li>
+                <a href="/">
+                    <i class="fas fa-angle-double-left"></i>
+                    @Resource.GoToHome
+                </a>
+            </li>
+            <li>
+                <a href="/@Url.RequestContext.RouteData.Values["lang"]/Family/Person">
+                    <i class="fas fa-angle-double-left"></i>
+                    @Resource.Back
+                </a>
+            </li>
+        </ul>
 
         <ul class="nav nav-tabs">
             <li class="nav-item active">
@@ -58,23 +67,31 @@
                     @Resource.Biography
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" modified="false" href="#documents" id="documents-tab" data-toggle="tab" role="tab" aria-controls="documents" aria-selected="true">
+                    @Resource.Documents
+                </a>
+            </li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="passport" role="tabpanel" aria-labelledby="passport-tab">
                 @Html.Partial("Person/_PersonDetail", Model)
             </div>
             <div class="tab-pane" id="relations" role="tabpanel" aria-labelledby="relations-tab">
-                @Html.Partial("Person/_PersonRelations", Model.PersonRelations, new ViewDataDictionary() { new KeyValuePair<string, object>("PersonId", Model.Model.Id) })
+                @*@Html.Partial("Person/_PersonRelations", Model.PersonRelations, new ViewDataDictionary() { new KeyValuePair<string, object>("PersonId", Model.Model.Id) })*@
             </div>
             <div class="tab-pane" id="names" role="tabpanel" aria-labelledby="names-tab">
-                @Html.Partial("Person/_PersonNames", Model.PersonNames)
+                @*@Html.Partial("Person/_PersonNames", Model.PersonNames)*@
             </div>
             <div class="tab-pane" id="biography" role="tabpanel" aria-labelledby="biography-tab">
-                @Html.Partial("Person/_PersonBiography", Model.PersonBiography)
+                @*@Html.Partial("Person/_PersonBiography", Model.PersonBiography)*@
+            </div>
+            <div class="tab-pane" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+                @*@Html.Partial("Person/_PersonDocuments", new List<FileContent>())*@
             </div>
         </div>
 
-        <a href="Person" class="pull-right">
+        <a href="/@Url.RequestContext.RouteData.Values["lang"]/Family/Person" class="pull-right">
             <i class="fas fa-angle-double-left"></i>
             @Resource.Back
         </a>

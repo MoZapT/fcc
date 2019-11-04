@@ -1,5 +1,6 @@
 ﻿using Shared.Enums;
 using Shared.Viewmodels;
+using System.Collections.Generic;
 
 namespace Shared.Common
 {
@@ -8,7 +9,7 @@ namespace Shared.Common
         public ActionCommand Command { get; set; }
         public VmState State { get; set; }
 
-        public NavigationViewModel Navigation { get; set; }
+        public List<string> NavigationLog { get; set; }
 
         public PagingViewModel Paging { get; set; }
 

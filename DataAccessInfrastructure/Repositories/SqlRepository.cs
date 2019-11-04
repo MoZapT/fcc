@@ -572,32 +572,100 @@ namespace DataAccessInfrastructure.Repositories
 
         public PersonActivity ReadPersonActivity(string id)
         {
-            throw new NotImplementedException();
+            var query = @"
+                SELECT *
+                FROM [PersonActivity]
+                WHERE [Id] = @Id";
+
+            return QueryFoD<PersonActivity>(query, new { @Id = id });
         }
 
         public IEnumerable<PersonActivity> ReadAllPersonActivityByPerson(string id)
         {
-            throw new NotImplementedException();
+            var query = @"
+                SELECT *
+                FROM [PersonActivity] AS pa
+                JOIN [PersonBiography] AS pb
+	                ON pa.BiographyId = pb.Id 
+	                AND pb.PersonId = @Id";
+
+            return Query<PersonActivity>(query, new { @Id = id });
         }
 
-        public IEnumerable<PersonActivity> ReadAllPersonActivityByPerson(string id, string type)
+        public IEnumerable<PersonActivity> ReadAllPersonActivityByPerson(string id, ActivityType type)
         {
-            throw new NotImplementedException();
+            var query = @"
+                SELECT *
+                FROM [PersonActivity] AS pa
+                JOIN [PersonBiography] AS pb
+	                ON pa.BiographyId = pb.Id 
+	                AND pb.PersonId = @Id
+	                AND pa.ActivityType = @Type";
+
+            return Query<PersonActivity>(query, new { @Id = id, @Type = type });
         }
 
         public string CreatePersonActivity(PersonActivity entity)
         {
-            throw new NotImplementedException();
+            var query = @"
+                INSERT INTO [PersonActivity]
+                    ([Id]
+                    ,[BiographyId]
+                    ,[DateCreated]
+                    ,[DateModified]
+                    ,[IsActive]
+                    ,[Activity]
+                    ,[ActivityType]
+                    ,[DateBegin]
+                    ,[DateEnd])
+                OUTPUT INSERTED.Id
+                VALUES
+                    (@Id
+                    ,@BiographyId
+                    ,@DateCreated
+                    ,@DateModified
+                    ,@IsActive
+                    ,@Activity
+                    ,@ActivityType
+                    ,@DateBegin
+                    ,@DateEnd)";
+
+            return QueryFoD<string>(query, new DynamicParameters(entity));
         }
 
         public bool UpdatePersonActivity(PersonActivity entity)
         {
-            throw new NotImplementedException();
+            var query = @"
+                UPDATE [PersonActivity]
+                SET [BiographyId] = @BiographyId
+                    ,[DateCreated] = @DateCreated
+                    ,[DateModified] = @DateModified
+                    ,[IsActive] = @IsActive
+                    ,[Activity] = @Activity
+                    ,[ActivityType] = @ActivityType
+                    ,[DateBegin] = @DateBegin
+                    ,[DateEnd] = @DateEnd
+                 WHERE Id = @Id";
+
+            return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
         }
 
         public bool DeletePersonActivity(string id)
         {
-            throw new NotImplementedException();
+            var query = @"
+                DELETE FROM [PersonActivity]
+                WHERE Id = @Id";
+
+            return Execute(query, new { @Id = id }) > 0 ? true : false;
+        }
+
+        public bool DeleteAllPersonActivityByPersonId(string id)
+        {
+            var query = @"
+                DELETE FROM [PersonActivity]
+                WHERE BiographyId = (SELECT Id FROM [PersonBiography] WHERE PersonId = @Id)";
+
+            return Execute(query, new { @Id = id }) > 0 ? true : false;
         }
 
         #endregion

@@ -15,7 +15,6 @@ namespace Shared.Viewmodels
         public List<FileContent> Photos { get; set; }
         public List<PersonRelation> PersonRelations { get; set; }
         public List<PersonName> PersonNames { get; set; }
-        public PersonBiography PersonBiography { get; set; }
 
         public Person Model { get; set; }
         public Person MarriedOn { get; set; }
@@ -25,7 +24,6 @@ namespace Shared.Viewmodels
 
         public PersonViewModel()
         {
-            Navigation = new NavigationViewModel();
             Paging = new PagingViewModel(Take);
         }
     }

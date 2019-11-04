@@ -16,8 +16,8 @@ namespace Shared.Viewmodels
         #region PROPERTIES
 
         public int Amount { get; set; }
-        public int Skip { get; set; }
-        public int Take { get; set; }
+        new public int Skip { get; set; }
+        new public int Take { get; set; }
         public int CurrentPage { get; set; }
         public int Pages { get; set; }
         public int MaximumPageBtns { get { return CurrentPage + _maximumPages; } }

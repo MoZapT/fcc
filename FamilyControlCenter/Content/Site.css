@@ -101,6 +101,20 @@ img.photo {
     max-width: 30px;
 }
 
+.thumbnail {
+    border: 1px solid #ddd; /* Gray border */
+    border-radius: 4px; /* Rounded border */
+    padding: 5px; /* Some padding */
+    width: 150px; /* Set a small width */
+    margin: 5px;
+    overflow: hidden;
+    text-wrap: none;
+    white-space:nowrap;
+}
+.thumbnail:hover {
+    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+}
+
 /*sliders!!!*/
 /* The switch - the box around the slider */
 .switch {

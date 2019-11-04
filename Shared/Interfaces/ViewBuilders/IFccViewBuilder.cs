@@ -9,8 +9,10 @@ namespace Shared.Interfaces.ViewBuilders
     public interface IFccViewBuilder
     {
         void HandleAction(PersonViewModel vm);
+        List<FileContent> CreatePartialViewPersonDocuments(string personId);
         KeyValuePair<string, List<FileContent>> CreatePartialViewPersonPhotos(string personId);
-        PersonBiography CreatePartialViewPersonBiography(string personId);
+        PersonBiographyViewModel CreatePartialViewPersonBiography(string personId);
+        bool SavePersonActivity(string personId, string bioId, PersonActivity newact);
         List<PersonName> CreatePartialViewForNamesAndPatronymList(string personId);
         List<PersonRelation> CreatePersonPartialViewRelationsModel(string personId);
         KeyValuePair<Person, Person> CreatePartialViewForMarriageOrLivePartner(string personId, string spouseId);

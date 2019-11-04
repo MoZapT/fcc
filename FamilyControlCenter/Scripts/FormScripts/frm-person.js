@@ -4,6 +4,7 @@
     var relationsLoaded = false;
     var namesLoaded = false;
     var biographyLoaded = false;
+    var documentsLoaded = false;
 
     //Switch tabs
     function initializeComponent() {
@@ -35,6 +36,15 @@
 
             loadBiography();
             biographyLoaded = true;
+        });
+
+        $('#documents-tab').on('click', function (e) {
+            if (documentsLoaded) {
+                return;
+            }
+
+            loadDocuments();
+            documentsLoaded = true;
         });
     }
 
@@ -123,7 +133,7 @@
     function uploadPicture() {
         personId = $('#Model_Id').val();
         var fd = new FormData();
-        var files = $('[type="file"]')[0].files;
+        var files = $('#UploadPicture[type="file"]')[0].files;
         for (var i = 0; i < files.length; i++) {
             fd.append("file_" + i, files[i], files[i].name);
         }
@@ -423,7 +433,7 @@
         });
 
         $('button#DeletePersonName').on('click', function (e) {
-            deletePersonName(('#PersonNameId').val());
+            deletePersonName($('#PersonNameId').val());
         });
     }
 
@@ -484,6 +494,58 @@
         $('button#SaveBiography').on('click', function (e) {
             savePersonBiography();
         });
+        $('button#SaveActivity').on('click', function (e) {
+            savePersonActivity();
+        });
+        //TODO delete
+
+        Window.DatePicker.ReInitElement($('#NewActivityDateBegin'));
+        Window.DatePicker.ReInitElement($('#NewActivityDateEnd'));
+    }
+
+    function deletePersonActivity() {
+        $.ajax({
+            url: getApiRoute() + 'personactivity/delete/' + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                loadBiography();
+            }
+        });
+    }
+
+    function savePersonActivity() {
+        var model = {
+            "Id": null,
+            "DateCreated": null,
+            "DateModified": null,
+            "IsActive": true,
+            "BiographyId": $('#PersonBiography_Id').val(),
+            "Activity": $('#NewActivityActivity').val(),
+            "ActivityType": $('#NewActivityActivityType').val(),
+            "DateBegin": $('#NewActivityDateBegin').val(),
+            "DateEnd": $('#NewActivityDateEnd').val()
+        };
+
+        $.ajax({
+            url: 'SavePersonActivity',
+            data: JSON.stringify({
+                personId: $('#Model_Id').val(),
+                bioId: $('#PersonBiography_Id').val(),
+                newact: model
+            }),
+            type: 'POST',
+            //dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
+                loadBiography();
+            }
+        });
     }
 
     function savePersonBiography() {
@@ -492,12 +554,6 @@
             type: 'GET',
             dataType: 'json',
             success: function (response) {
-                //if (response === false) {
-                    //$('#PersonNameAddingErrorMsg').removeClass('hide');
-                    //$('.modal-backdrop').removeAll();
-                //}
-
-                //$('#PersonNameAddingErrorMsg').addClass('hide');
                 loadBiography();
             }
         });
@@ -518,6 +574,69 @@
 
                 $('.tab-pane#biography').html(response.responseText);
                 initBiographyTab();
+            }
+        });
+    }
+
+    //DocumentsTab
+    function initDocumentsTab() {
+        $('#UploadFile').on('change', function (e) {
+            uploadFile();
+        });
+    }
+
+    function deleteFile() {
+        var id = $('.item.active').attr('value');
+        var personId = $('#Model_Id').val();
+
+        $.ajax({
+            url: getApiRoute() + 'person/file/delete/' + personId + '/' + id,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                loadDocuments();
+            }
+        });
+    }
+
+    function uploadFile() {
+        personId = $('#Model_Id').val();
+        var fd = new FormData();
+        var files = $('#UploadFile[type="file"]')[0].files;
+        for (var i = 0; i < files.length; i++) {
+            fd.append("file_" + i, files[i], files[i].name);
+        }
+
+        $.ajax({
+            url: getApiRoute() + 'person/file/upload/' + personId,
+            type: 'POST',
+            data: fd,
+            enctype: 'multipart/form-data',
+            contentType: false,
+            processData: false,
+            complete: function (response) {
+                if (response.status === 200) {
+                    loadDocuments();
+                }
+            }
+        });
+    }
+
+    function loadDocuments() {
+        $.ajax({
+            url: 'PersonDocuments',
+            data: JSON.stringify({ personId: $('#Model_Id').val() }),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
+                $('.tab-pane#documents').html(response.responseText);
+                initDocumentsTab();
             }
         });
     }

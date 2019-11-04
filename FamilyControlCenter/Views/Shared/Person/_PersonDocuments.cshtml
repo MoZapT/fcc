@@ -1,0 +1,65 @@
+﻿@model List<FileContent>
+@{ 
+    List<FileContent> files;
+    if (Model == null)
+    {
+        files = new List<FileContent>();
+    }
+    else
+    {
+        files = Model;
+    }
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>
+            <i class="fas fa-file-alt"></i>
+            @Resource.Documents
+        </h2>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            @foreach (var file in files)
+            {
+                <div class="col-md-6 col-xs-12 col-sm-12 thumbnail">
+                    @if (ContentTypeHelper.IsDocument(file.FileType))
+                    {
+                        <img src="~/Content/file-image.png" alt="" />
+                    }
+                    else if (ContentTypeHelper.IsVideo(file.FileType))
+                    {
+                        <img src="~/Content/file-image.png" alt="" />
+                    }
+                    else if (ContentTypeHelper.IsSound(file.FileType))
+                    {
+                        <img src="~/Content/sound-image.png" alt="" />
+                    }
+                    else if (ContentTypeHelper.IsImage(file.FileType))
+                    {
+                        string img64 = Convert.ToBase64String(file.BinaryContent);
+                        string img64Url = string.Format("data:image/" + file.FileType + ";base64,{0}", img64);
+                        <img src="@img64Url" alt="" />
+                    }
+                    <label>@file.Name</label>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="panel-footer clearfix">
+        <div class="row form-group">
+            <div class="col-md-12">
+                <label for="UploadFile" class="btn btn-primary pull-right">
+                    <i class="fas fa-file-upload"></i>
+                    <span class="toggle-text">@Resource.BtnUploadFile</span>
+                </label>
+                <input id="UploadFile" class="hide" type="file" name="files[]" data-multiple-caption="{count} notimplted" multiple="" aria-invalid="false">
+
+                @*<button id="SaveBiography" type="button" class="btn btn-primary pull-right">
+                    <i class="glyphicon glyphicon-floppy-disk"></i>
+                    @Resource.Save
+                </button>*@
+            </div>
+        </div>
+    </div>
+</div>

@@ -21,9 +21,15 @@ namespace Shared.Interfaces.Managers
         IEnumerable<KeyValuePair<string, string>> PersonTypeaheadWithPossibilities(string excludePersonId, string query);
         FileContent GetMainPhotoByPersonId(string id);
         List<FileContent> GetAllPhotosByPersonId(string id);
-        string SetPersonFileContent(string personId, FileContent entity);
-        bool DeletePersonFileContent(string personId, string fileId);
-        bool DeleteAllPersonFileContent(string personId);
+        string SetPersonPhoto(string personId, FileContent entity);
+        bool DeletePersonPhoto(string personId, string fileId);
+        bool DeleteAllPersonPhotos(string personId);
+
+        FileContent GetDocumentByPersonId(string id);
+        List<FileContent> GetAllDocumentsByPersonId(string id);
+        string SetPersonDocument(string personId, FileContent entity);
+        bool DeletePersonDocument(string personId, string fileId);
+        bool DeleteAllPersonDocuments(string personId);
 
         #endregion
 
@@ -56,7 +62,7 @@ namespace Shared.Interfaces.Managers
 
         PersonActivity GetPersonActivity(string id);
         List<PersonActivity> GetAllPersonActivityByPerson(string id);
-        List<PersonActivity> GetAllPersonActivityByPerson(string id, string type);
+        List<PersonActivity> GetAllPersonActivityByPerson(string id, ActivityType type);
         string SetPersonActivity(PersonActivity entity);
         bool UpdatePersonActivity(PersonActivity entity);
         bool DeletePersonActivity(string id);

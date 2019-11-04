@@ -93,7 +93,7 @@ namespace Data.Manager
         {
             return _repo.ReadAllFileContentByPersonId(id).ToList();
         }
-        public string SetPersonFileContent(string personId, FileContent entity)
+        public string SetPersonPhoto(string personId, FileContent entity)
         {
             string result = "";
 
@@ -107,7 +107,7 @@ namespace Data.Manager
 
             return result;
         }
-        public bool DeletePersonFileContent(string personId, string fileId)
+        public bool DeletePersonPhoto(string personId, string fileId)
         {
             var person = _repo.ReadPerson(personId);
 
@@ -130,7 +130,7 @@ namespace Data.Manager
                 _repo.DeleteFileContent(fileId);
             }));
         }
-        public bool DeleteAllPersonFileContent(string personId)
+        public bool DeleteAllPersonPhotos(string personId)
         {
             return _repo.DeleteAllPersonFileContent(personId);
         }
@@ -139,7 +139,7 @@ namespace Data.Manager
         {
             return _repo.ReadDocumentByPersonId(id);
         }
-        public List<FileContent> GetAllDocumentByPersonId(string id)
+        public List<FileContent> GetAllDocumentsByPersonId(string id)
         {
             return _repo.ReadAllDocumentByPersonId(id).ToList();
         }
@@ -165,7 +165,7 @@ namespace Data.Manager
                 _repo.DeleteFileContent(fileId);
             }));
         }
-        public bool DeleteAllPersonDocument(string personId)
+        public bool DeleteAllPersonDocuments(string personId)
         {
             return _repo.DeleteAllPersonDocument(personId);
         }
@@ -286,7 +286,7 @@ namespace Data.Manager
             return _repo.ReadAllPersonActivityByPerson(id).ToList();
         }
 
-        public List<PersonActivity> GetAllPersonActivityByPerson(string id, string type)
+        public List<PersonActivity> GetAllPersonActivityByPerson(string id, ActivityType type)
         {
             return _repo.ReadAllPersonActivityByPerson(id, type).ToList();
         }

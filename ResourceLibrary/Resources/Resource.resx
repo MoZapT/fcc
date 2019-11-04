@@ -309,4 +309,55 @@
   <data name="BtnSetPrimary" xml:space="preserve">
     <value />
   </data>
+  <data name="Documents" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Photos" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PhotosAndVideos" xml:space="preserve">
+    <value />
+  </data>
+  <data name="BtnUploadFile" xml:space="preserve">
+    <value />
+  </data>
+  <data name="College" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ElementarySchool" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Enterpreneur" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Highschool" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Kindergarden" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MiddleSchool" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Practice" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TechnicalCollege" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Trainee" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Unemployed" xml:space="preserve">
+    <value />
+  </data>
+  <data name="University" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Working" xml:space="preserve">
+    <value />
+  </data>
 </root>

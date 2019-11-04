@@ -1,6 +1,15 @@
 ﻿@*@using Shared.Models*@
-@model PersonBiography
+@model PersonBiographyViewModel
 
+@{ 
+    var typeList = FccEnumHelper.GetTranslatedSelectListItemCollection<ActivityType>(typeof(ActivityType));
+}
+
+@Html.HiddenFor(m => m.PersonBiography.Id)
+@Html.HiddenFor(m => m.PersonBiography.PersonId)
+@Html.HiddenFor(m => m.PersonBiography.DateModified)
+@Html.HiddenFor(m => m.PersonBiography.DateCreated)
+@Html.HiddenFor(m => m.PersonBiography.IsActive)
 <div class="panel panel-default">
     <div class="panel-heading">
         <h2>
@@ -9,20 +18,105 @@
         </h2>
     </div>
     <div class="panel-body">
-        <div class="row form-group">
-            <div class="col-md-12">
-                @Html.TextAreaFor(m => m.BiographyText, new { @class = "form-control" })
+        <div class="group-border">
+            <div class="row form-group">
+                <div class="col-md-4">
+                    @Html.DropDownList("NewActivityActivityType", typeList, new { @class = "form-control" })
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBox("NewActivityDateBegin", DateTime.Now, "{0:dd.MM.yyyy}", new { @class = "form-control datepicker" })
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBox("NewActivityDateEnd", DateTime.Now, "{0:dd.MM.yyyy}", new { @class = "form-control datepicker" })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-12">
+                    @Html.TextArea("NewActivityActivity", string.Empty, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row form-group clearfix">
+                <div class="col-md-12">
+                    <button id="SaveActivity" type="button" class="btn btn-primary pull-right">
+                        <i class="glyphicon glyphicon-floppy-disk"></i>
+                        @Resource.Save
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="group-border">
+            <div class="row form-group">
+                @foreach (var activity in Model.Kindergarden)
+                {
+                    @Html.Partial("Person/_PersonActivity", activity)
+                }
+                @foreach (var activity in Model.ElementarySchool)
+                {
+                    @Html.Partial("Person/_PersonActivity", activity)
+                }
+                @foreach (var activity in Model.MiddleSchool)
+                {
+                    @Html.Partial("Person/_PersonActivity", activity)
+                }
+                @foreach (var activity in Model.Highschool)
+                {
+                    @Html.Partial("Person/_PersonActivity", activity)
+                }
+                @foreach (var activity in Model.Practice)
+                {
+                    @Html.Partial("Person/_PersonActivity", activity)
+                }
+                @foreach (var activity in Model.College)
+                {
+                    @Html.Partial("Person/_PersonActivity", activity)
+                }
+                @foreach (var activity in Model.TechnicalCollege)
+                {
+                    @Html.Partial("Person/_PersonActivity", activity)
+                }
+                @foreach (var activity in Model.Trainee)
+                {
+                    @Html.Partial("Person/_PersonActivity", activity)
+                }
+                @foreach (var activity in Model.University)
+                {
+                    @Html.Partial("Person/_PersonActivity", activity)
+                }
+                @foreach (var activity in Model.Unemployed)
+                {
+                    @Html.Partial("Person/_PersonActivity", activity)
+                }
+                @foreach (var activity in Model.Working)
+                {
+                    @Html.Partial("Person/_PersonActivity", activity)
+                }
+                @foreach (var activity in Model.Enterpreneur)
+                {
+                    @Html.Partial("Person/_PersonActivity", activity)
+                }
+                @foreach (var activity in Model.Other)
+                {
+                    @Html.Partial("Person/_PersonActivity", activity)
+                }
+            </div>
+        </div>
+        <div class="group-border">
+            <div class="row form-group">
+                <div class="col-md-12">
+                    @Html.TextAreaFor(m => m.PersonBiography.BiographyText, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <button id="SaveBiography" type="button" class="btn btn-primary pull-right">
+                        <i class="glyphicon glyphicon-floppy-disk"></i>
+                        @Resource.Save
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-    <div class="panel-footer clearfix">
-        <div class="row form-group">
-            <div class="col-md-12">
-                <button id="SaveBiography" type="button" class="btn btn-primary pull-right">
-                    <i class="glyphicon glyphicon-floppy-disk"></i>
-                    @Resource.Save
-                </button>
-            </div>
-        </div>
-    </div>
+    @*<div class="panel-footer clearfix">
+
+    </div>*@
 </div>

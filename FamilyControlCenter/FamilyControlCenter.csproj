@@ -277,6 +277,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\BootstrapOverride.css" />
+    <Content Include="Content\file-image.png" />
+    <Content Include="Content\sound-image.png" />
     <Content Include="Content\webfonts\all.css" />
     <Content Include="Content\webfonts\all.min.css" />
     <Content Include="Content\webfonts\brands.css" />
@@ -481,6 +483,8 @@
     <Content Include="Views\Shared\Person\_PersonBiography.cshtml" />
     <Content Include="Views\Shared\Person\_PhotoSection.cshtml" />
     <Content Include="Views\Shared\Person\_PersonListPaging.cshtml" />
+    <Content Include="Views\Shared\Person\_PersonDocuments.cshtml" />
+    <Content Include="Views\Shared\Person\_PersonActivity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

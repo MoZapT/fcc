@@ -18,13 +18,6 @@ namespace FamilyControlCenter.Controllers
         public void BeforeLoadAction(BaseViewModel vm = null)
         {
             ModelState.Clear();
-
-            if (vm == null || vm?.Navigation?.CallStack == null)
-            {
-                return;
-            }
-
-            vm.Navigation.CallStack.Add(Request.FilePath);
         }
     }
 }
