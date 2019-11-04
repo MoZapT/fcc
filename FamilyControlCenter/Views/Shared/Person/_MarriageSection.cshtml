@@ -1,32 +1,63 @@
-﻿@model KeyValuePair<Person, Person>
+﻿@model Tuple<Person, Person, Person>
 
 @{
-    var person = Model.Key;
-    var marriedOn = Model.Value;
+    var person = Model.Item1;
+    var marriedOn = Model.Item2;
+    var partner = Model.Item3;
 }
 
-<label>
-    @if (person.IsMarried)
-    {
-        <i class="fas fa-ring text-success"></i>
-        @(Shared.Helpers.FccEnumHelper.GetGenderizedText("MarriedMale|MarriedFemale", person.Sex))
-        @*@Html.Hidden("MarriedOn_Id", marriedOn.Id)*@
-        <a href="PersonDetail?personId=@marriedOn.Id">@marriedOn.Name</a>
+<div class="row">
+    <label>
+        @if (person.IsMarried)
+        {
+            <i class="fas fa-ring text-success"></i>
+            @(Shared.Helpers.FccEnumHelper.GetGenderizedText("MarriedMale|MarriedFemale", person.Sex))
+            @*@Html.Hidden("MarriedOn_Id", marriedOn.Id)*@
+            <a href="PersonDetail?personId=@marriedOn.Id">@marriedOn.Name</a>
 
-        <a href="#" id="RemoveSpouse" inviter="@person.Id" invited="@marriedOn.Id" reltype="@((int)RelationType.HusbandWife)">
-            <i id="RemoveSpouse" class=" fas fa-trash text-danger"></i>
-        </a>
-    }
-    else
-    {
-        <i class="fas fa-ring"></i>
-        @Shared.Helpers.FccEnumHelper.GetGenderizedText("NotMarriedMale|NotMarriedFemale", person.Sex)
+            <a href="#" id="RemoveSpouse" inviter="@person.Id" invited="@marriedOn.Id" reltype="@((int)RelationType.HusbandWife)">
+                <i id="RemoveSpouse" class=" fas fa-trash text-danger"></i>
+            </a>
+        }
+        else
+        {
+            <i class="fas fa-ring"></i>
+            @Shared.Helpers.FccEnumHelper.GetGenderizedText("NotMarriedMale|NotMarriedFemale", person.Sex)
 
-        <a href="#" id="AddSpouse" reltype="@((int)RelationType.HusbandWife)" data-toggle="modal" data-target="#NewSpouseModal">
-            <i class="fas fa-user-plus text-success"></i>
-        </a>
-    }
-</label>
+            <a href="#" id="AddSpouse" reltype="@((int)RelationType.HusbandWife)" data-toggle="modal" data-target="#NewSpouseModal">
+                <i class="fas fa-user-plus text-success"></i>
+            </a>
+        }
+    </label>
+</div>
+
+@if (!person.IsMarried)
+{
+    <div class="row">
+        <label>
+            @if (person.IsInPartnership)
+            {
+                <i class="fas fa-ring text-success"></i>
+                @Resource.InLivePartnershipWith
+                @*@Html.Hidden("MarriedOn_Id", marriedOn.Id)*@
+                <a href="PersonDetail?personId=@partner.Id">@partner.Name</a>
+
+                <a href="#" id="RemoveSpouse" inviter="@person.Id" invited="@partner.Id" reltype="@((int)RelationType.LivePartner)">
+                    <i id="RemoveSpouse" class=" fas fa-trash text-danger"></i>
+                </a>
+            }
+            else
+            {
+                <i class="fas fa-venus-mars"></i>
+                @Resource.NotInLivePartnership
+
+                <a href="#" id="AddSpouse" reltype="@((int)RelationType.LivePartner)" data-toggle="modal" data-target="#NewSpouseModal">
+                    <i class="fas fa-user-plus text-success"></i>
+                </a>
+            }
+        </label>
+    </div>
+}
 
 <div class="modal fade" id="NewSpouseModal" tabindex="-1" role="dialog" aria-labelledby="NewSpouseModal" aria-hidden="true">
     <div class="modal-dialog" role="document">

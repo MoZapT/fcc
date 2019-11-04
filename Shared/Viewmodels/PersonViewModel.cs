@@ -18,6 +18,7 @@ namespace Shared.Viewmodels
 
         public Person Model { get; set; }
         public Person MarriedOn { get; set; }
+        public Person PartnerOf { get; set; }
         public List<Person> Models { get; set; }
 
         #endregion

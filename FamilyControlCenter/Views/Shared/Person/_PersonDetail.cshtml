@@ -114,7 +114,7 @@
                         @if (Model.Command == Shared.Enums.ActionCommand.Open)
                         {
                             @Html.Partial("Person/_MarriageSection",
-                            new KeyValuePair<Person, Person>(Model.Model, Model.MarriedOn))
+                            new Tuple<Person, Person, Person>(Model.Model, Model.MarriedOn, Model.PartnerOf))
                         }
                     </div>
                 </div>

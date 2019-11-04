@@ -90,10 +90,10 @@ namespace FamilyControlCenter.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult MarriagePartialView(string personId, string spouseId)
+        public PartialViewResult MarriagePartialView(string personId, string spouseId, string partnerId)
         {
             BeforeLoadAction();
-            var vm = _vwbFcc.CreatePartialViewForMarriageOrLivePartner(personId, spouseId);
+            var vm = _vwbFcc.CreatePartialViewForMarriageOrLivePartner(personId, spouseId, partnerId);
             return PartialView("Person/_MarriageSection", vm);
         }
 

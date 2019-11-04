@@ -105,11 +105,12 @@ namespace Data.ViewBuilder
             return _mgrFcc.GetAllPersonName(personId);
         }
 
-        public KeyValuePair<Person, Person> CreatePartialViewForMarriageOrLivePartner(string personId, string spouseId)
+        public Tuple<Person, Person, Person> CreatePartialViewForMarriageOrLivePartner(string personId, string spouseId, string partnerId)
         {
-            var kvp = new KeyValuePair<Person, Person>(_mgrFcc.GetPerson(personId), _mgrFcc.GetPerson(spouseId));
+            var tuple = new Tuple<Person, Person, Person>
+                (_mgrFcc.GetPerson(personId), _mgrFcc.GetPerson(spouseId), _mgrFcc.GetPerson(partnerId));
 
-            return kvp;
+            return tuple;
         }
 
         public List<PersonRelation> CreatePersonPartialViewRelationsModel(string personId)
@@ -202,6 +203,7 @@ namespace Data.ViewBuilder
                 vm.Model = _mgrFcc.GetPerson(vm.Model.Id);
                 vm.Photos = _mgrFcc.GetAllPhotosByPersonId(vm.Model.Id);
                 vm.MarriedOn = _mgrFcc.GetPersonByRelationType(vm.Model.Id, RelationType.HusbandWife).FirstOrDefault();
+                vm.PartnerOf = _mgrFcc.GetPersonByRelationType(vm.Model.Id, RelationType.LivePartner).FirstOrDefault();
                 vm.PersonNames = new List<PersonName>();
                 vm.PersonRelations = new List<PersonRelation>();
             }

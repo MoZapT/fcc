@@ -3,6 +3,7 @@ using Shared.Models;
 using System.Collections.Generic;
 using Shared.Enums;
 using Shared.Interfaces.Managers;
+using System;
 
 namespace Shared.Interfaces.ViewBuilders
 {
@@ -15,6 +16,6 @@ namespace Shared.Interfaces.ViewBuilders
         bool SavePersonActivity(string personId, string bioId, PersonActivity newact);
         List<PersonName> CreatePartialViewForNamesAndPatronymList(string personId);
         List<PersonRelation> CreatePersonPartialViewRelationsModel(string personId);
-        KeyValuePair<Person, Person> CreatePartialViewForMarriageOrLivePartner(string personId, string spouseId);
+        Tuple<Person, Person, Person> CreatePartialViewForMarriageOrLivePartner(string personId, string spouseId, string partnerId);
     }
 }

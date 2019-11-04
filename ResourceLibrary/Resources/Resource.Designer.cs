@@ -423,6 +423,15 @@ namespace Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
+        public static string InLivePartnershipWith {
+            get {
+                return ResourceManager.GetString("InLivePartnershipWith", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
         public static string Kindergarden {
             get {
                 return ResourceManager.GetString("Kindergarden", resourceCulture);
@@ -516,6 +525,15 @@ namespace Resources {
         public static string Next {
             get {
                 return ResourceManager.GetString("Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string NotInLivePartnership {
+            get {
+                return ResourceManager.GetString("NotInLivePartnership", resourceCulture);
             }
         }
         

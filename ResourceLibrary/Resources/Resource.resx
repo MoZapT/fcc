@@ -360,4 +360,10 @@
   <data name="Working" xml:space="preserve">
     <value />
   </data>
+  <data name="InLivePartnershipWith" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NotInLivePartnership" xml:space="preserve">
+    <value />
+  </data>
 </root>
