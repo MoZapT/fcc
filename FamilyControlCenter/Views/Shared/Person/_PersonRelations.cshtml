@@ -1,8 +1,4 @@
-﻿@model List<PersonRelation>
-
-@{ 
-    string personId = (string)ViewData["PersonId"];
-}
+﻿@model PersonRelationsViewModel
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -16,7 +12,7 @@
             <div class="row form-group">
                 <div class="col-md-6">
                     @Html.Hidden("NewRelationPersonId", "")
-                    @Html.TextBox("NewRelationPersonName", "", new { @class = "form-control typeahead", placeholder = "", taname = "PersonTypeahead", taurl = "typeahead/person/" + personId + "/" })
+                    @Html.TextBox("NewRelationPersonName", "", new { @class = "form-control typeahead", placeholder = "", taname = "PersonTypeahead", taurl = "typeahead/person/" + Model.Person.Id + "/" })
                 </div>
                 <div class="col-md-6">
                     @Html.DropDownList("NewRelationRelationTypeId", new List<SelectListItem>(), new { @class = "form-control" })
@@ -37,9 +33,10 @@
                 <h4>@Resource.PersonRelations</h4>
             </div>
         </div>
-        @foreach (var relation in Model)
+        @foreach (var relation in Model.Relations)
         {
-            if (relation.RelationType == RelationType.HusbandWife /*|| ForLivePartnership reserved!*/)
+            if (relation.RelationType == RelationType.HusbandWife || 
+                relation.RelationType == RelationType.LivePartner)
             {
                 continue;
             }

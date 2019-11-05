@@ -70,8 +70,7 @@ namespace FamilyControlCenter.Controllers
         public PartialViewResult PersonRelations(string personId)
         {
             BeforeLoadAction();
-            List<PersonRelation> vm = _vwbFcc.CreatePersonPartialViewRelationsModel(personId);
-            ViewData = new ViewDataDictionary() { new KeyValuePair<string, object>("PersonId", personId) };
+            PersonRelationsViewModel vm = _vwbFcc.CreatePersonPartialViewRelationsModel(personId);
             return PartialView("Person/_PersonRelations", vm);
         }
 

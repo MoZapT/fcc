@@ -112,9 +112,13 @@ namespace Data.ViewBuilder
             return tuple;
         }
 
-        public List<PersonRelation> CreatePersonPartialViewRelationsModel(string personId)
+        public PersonRelationsViewModel CreatePersonPartialViewRelationsModel(string personId)
         {
-            return _mgrFcc.GetAllPersonRelationsByInviterId(personId);
+            var vm = new PersonRelationsViewModel();
+            vm.Person = _mgrFcc.GetPerson(personId);
+            vm.Relations = _mgrFcc.GetAllPersonRelationsByInviterId(personId);
+
+            return vm;
         }
 
         private void HandleCommand(PersonViewModel vm)

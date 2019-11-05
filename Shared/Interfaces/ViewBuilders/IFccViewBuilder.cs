@@ -15,7 +15,7 @@ namespace Shared.Interfaces.ViewBuilders
         PersonBiographyViewModel CreatePartialViewPersonBiography(string personId);
         bool SavePersonActivity(string personId, string bioId, PersonActivity newact);
         List<PersonName> CreatePartialViewForNamesAndPatronymList(string personId);
-        List<PersonRelation> CreatePersonPartialViewRelationsModel(string personId);
+        PersonRelationsViewModel CreatePersonPartialViewRelationsModel(string personId);
         Tuple<Person, Person, Person> CreatePartialViewForMarriageOrLivePartner(string personId, string spouseId, string partnerId);
     }
 }

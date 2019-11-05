@@ -372,4 +372,82 @@
   <data name="ErrorDocumentCategoryEmpty" xml:space="preserve">
     <value>Категория документа не должна быть пустой!</value>
   </data>
+  <data name="Aunt" xml:space="preserve">
+    <value>Тётя</value>
+  </data>
+  <data name="CousinFemale" xml:space="preserve">
+    <value>Кузина</value>
+  </data>
+  <data name="CousinMale" xml:space="preserve">
+    <value>Кузен</value>
+  </data>
+  <data name="Granddaughter" xml:space="preserve">
+    <value>Внучка</value>
+  </data>
+  <data name="Grandfather" xml:space="preserve">
+    <value>Дедушка</value>
+  </data>
+  <data name="Grandmother" xml:space="preserve">
+    <value>Бабушка</value>
+  </data>
+  <data name="Grandson" xml:space="preserve">
+    <value>Внук</value>
+  </data>
+  <data name="InLawBrother" xml:space="preserve">
+    <value>Шурин/Свояк</value>
+  </data>
+  <data name="InLawDaughter" xml:space="preserve">
+    <value>Невестка</value>
+  </data>
+  <data name="InLawFather" xml:space="preserve">
+    <value>Тесть/Свекор</value>
+  </data>
+  <data name="InLawMother" xml:space="preserve">
+    <value>Тёща/Свекровь</value>
+  </data>
+  <data name="InLawSiblingFemale" xml:space="preserve">
+    <value>Родственница через брак</value>
+  </data>
+  <data name="InLawSiblingMale" xml:space="preserve">
+    <value>Родственник через брак</value>
+  </data>
+  <data name="InLawSister" xml:space="preserve">
+    <value>Невестка/Свояченица</value>
+  </data>
+  <data name="InLawSon" xml:space="preserve">
+    <value>Зять</value>
+  </data>
+  <data name="Nephew" xml:space="preserve">
+    <value>Племянник</value>
+  </data>
+  <data name="Niece" xml:space="preserve">
+    <value>Племянница</value>
+  </data>
+  <data name="SiblingFemale" xml:space="preserve">
+    <value>Родственница по крови</value>
+  </data>
+  <data name="SiblingMale" xml:space="preserve">
+    <value>Родственник по крови</value>
+  </data>
+  <data name="StepBrother" xml:space="preserve">
+    <value>Сводный брат</value>
+  </data>
+  <data name="StepDaughter" xml:space="preserve">
+    <value>Падчерица</value>
+  </data>
+  <data name="StepFather" xml:space="preserve">
+    <value>Отчим</value>
+  </data>
+  <data name="StepMother" xml:space="preserve">
+    <value>Мачеха</value>
+  </data>
+  <data name="StepSister" xml:space="preserve">
+    <value>Сводная сестра</value>
+  </data>
+  <data name="StepSon" xml:space="preserve">
+    <value>Пасынок</value>
+  </data>
+  <data name="Uncle" xml:space="preserve">
+    <value>Дядя</value>
+  </data>
 </root>
