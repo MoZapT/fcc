@@ -366,4 +366,10 @@
   <data name="NotInLivePartnership" xml:space="preserve">
     <value />
   </data>
+  <data name="Category" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ErrorDocumentCategoryEmpty" xml:space="preserve">
+    <value />
+  </data>
 </root>

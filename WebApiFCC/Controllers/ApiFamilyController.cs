@@ -287,8 +287,8 @@ namespace FamilyControlCenter.Controllers
         //}
 
         [HttpPost]
-        [Route("person/file/upload/{personId}")]
-        public async Task<HttpResponseMessage> UploadPersonDocument(string personId)
+        [Route("person/file/upload/{personId}/{category}/{activityId?}")]
+        public async Task<HttpResponseMessage> UploadPersonDocument(string personId, string category, string activityId = null)
         {
             Person person = _mgrFcc.GetPerson(personId);
             if (person == null)
@@ -328,7 +328,7 @@ namespace FamilyControlCenter.Controllers
                         newFile.DateModified = DateTime.Now;
                     }
 
-                    string result = _mgrFcc.SetPersonDocument(personId, newFile);
+                    string result = _mgrFcc.SetPersonDocument(personId, newFile, category, activityId);
                     if (string.IsNullOrWhiteSpace(result))
                     {
                         throw new HttpResponseException(HttpStatusCode.InternalServerError);
@@ -355,6 +355,21 @@ namespace FamilyControlCenter.Controllers
         public void DeletePersonDocument(string personId, string fileId)
         {
             _mgrFcc.DeletePersonDocument(personId, fileId);
+        }
+
+        [HttpGet]
+        [Route("document/categories/{query}")]
+        public IEnumerable<KeyValuePair<string, string>> GetDocumentCategories(string query)
+        {
+            try
+            {
+                return _mgrFcc.GetDocumentCategories(query)
+                    .Select(e => new KeyValuePair<string, string>(e, e));
+            }
+            catch (Exception)
+            {
+                return new List<KeyValuePair<string, string>>();
+            }
         }
     }
 }

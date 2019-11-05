@@ -366,4 +366,10 @@
   <data name="NotInLivePartnership" xml:space="preserve">
     <value>Не в отношениях</value>
   </data>
+  <data name="Category" xml:space="preserve">
+    <value>Категория</value>
+  </data>
+  <data name="ErrorDocumentCategoryEmpty" xml:space="preserve">
+    <value>Категория документа не должна быть пустой!</value>
+  </data>
 </root>

@@ -92,11 +92,9 @@
         },
 
         InitElement: function (elem) {
-            var typeaheadList = $('.typeahead');
-
             $(elem).typeahead(
                 dftOptions,
-                dftDataset($(crtTa).attr('taname'), $(crtTa).attr('taurl')));
+                dftDataset($(elem).attr('taname'), $(elem).attr('taurl')));
 
             $(elem).bind('typeahead:select', function (e, suggestion) {
                 typeaheadSelect(e.currentTarget, suggestion.Key);

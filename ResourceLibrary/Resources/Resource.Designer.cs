@@ -171,6 +171,15 @@ namespace Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
+        public static string Category {
+            get {
+                return ResourceManager.GetString("Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
         public static string Changed {
             get {
                 return ResourceManager.GetString("Changed", resourceCulture);
@@ -300,6 +309,15 @@ namespace Resources {
         public static string Enterpreneur {
             get {
                 return ResourceManager.GetString("Enterpreneur", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string ErrorDocumentCategoryEmpty {
+            get {
+                return ResourceManager.GetString("ErrorDocumentCategoryEmpty", resourceCulture);
             }
         }
         

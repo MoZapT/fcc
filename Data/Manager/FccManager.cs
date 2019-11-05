@@ -135,22 +135,26 @@ namespace Data.Manager
             return _repo.DeleteAllPersonFileContent(personId);
         }
 
-        public FileContent GetDocumentByPersonId(string id)
+        public PersonDocument GetDocumentByPersonId(string id)
         {
             return _repo.ReadDocumentByPersonId(id);
         }
-        public List<FileContent> GetAllDocumentsByPersonId(string id)
+        public List<PersonDocument> GetAllDocumentsByPersonId(string id)
         {
             return _repo.ReadAllDocumentByPersonId(id).ToList();
         }
-        public string SetPersonDocument(string personId, FileContent entity)
+        public List<PersonDocument> GetAllDocumentsByPersonIdAndCategory(string id, string category)
+        {
+            return _repo.ReadAllDocumentByPersonIdAndCategory(id, category).ToList();
+        }
+        public string SetPersonDocument(string personId, FileContent entity, string category, string activityId = null)
         {
             string result = "";
 
             bool success = _repo.Transaction(new Task(() =>
             {
                 result = _repo.CreateFileContent(entity);
-                _repo.CreatePersonDocument(personId, result);
+                _repo.CreatePersonDocument(personId, result, category, activityId);
             }));
             if (!success)
                 return null;
@@ -168,6 +172,11 @@ namespace Data.Manager
         public bool DeleteAllPersonDocuments(string personId)
         {
             return _repo.DeleteAllPersonDocument(personId);
+        }
+
+        public List<string> GetDocumentCategories(string query)
+        {
+            return _repo.ReadAllDocumentCategories(query).ToList();
         }
 
         #endregion

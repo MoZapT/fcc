@@ -268,7 +268,7 @@ namespace DataAccessInfrastructure.Repositories
             return Execute(query, new { @Id = personId }) > 0 ? true : false;
         }
 
-        public FileContent ReadDocumentByPersonId(string id)
+        public PersonDocument ReadDocumentByPersonId(string id)
         {
             var query = @"
                 SELECT fc.*
@@ -278,9 +278,9 @@ namespace DataAccessInfrastructure.Repositories
                 WHERE 
 	                p.Id = @Id";
 
-            return QueryFoD<FileContent>(query, new { @Id = id });
+            return QueryFoD<PersonDocument>(query, new { @Id = id });
         }
-        public IEnumerable<FileContent> ReadAllDocumentByPersonId(string id)
+        public IEnumerable<PersonDocument> ReadAllDocumentByPersonId(string id)
         {
             var query = @"
                 SELECT fc.*
@@ -290,22 +290,40 @@ namespace DataAccessInfrastructure.Repositories
                 WHERE 
 	                pfc.PersonId = @Id";
 
-            return Query<FileContent>(query, new { @Id = id });
+            return Query<PersonDocument>(query, new { @Id = id });
         }
-        public string CreatePersonDocument(string personId, string fileId)
+        public IEnumerable<PersonDocument> ReadAllDocumentByPersonIdAndCategory(string id, string category)
+        {
+            var query = @"
+                SELECT fc.*
+                FROM [FileContent] AS fc
+                JOIN [PersonDocument] AS pfc
+	                ON fc.Id = pfc.FileContentId
+                WHERE 
+	                pfc.PersonId = @Id
+	                AND pfc.CategoryName = @Category";
+
+            return Query<PersonDocument>(query, new { @Id = id, @Category = category });
+        }       
+        public string CreatePersonDocument(string personId, string fileId, string category, string activityId = null)
         {
             var query = @"
                 INSERT INTO [dbo].[PersonDocument]
                     ([Id]
                     ,[PersonId]
-                    ,[FileContentId])
+                    ,[FileContentId]
+					,[CategoryName]
+					,[PersonActivityId])
                 OUTPUT INSERTED.Id
                 VALUES
                     (NEWID()
                     ,@Id
-                    ,@FileContentId)";
+                    ,@FileContentId
+					,@Category
+					,@ActivityId)";
 
-            return QueryFoD<string>(query, new { @Id = personId, @FileContentId = fileId });
+            return QueryFoD<string>(query, 
+                new { @Id = personId, @FileContentId = fileId, @Category = category, @ActivityId = activityId });
         }
         public bool DeletePersonDocument(string personId, string fileId)
         {
@@ -322,6 +340,18 @@ namespace DataAccessInfrastructure.Repositories
                 WHERE PersonId = @Id";
 
             return Execute(query, new { @Id = personId }) > 0 ? true : false;
+        }
+
+        public IEnumerable<string> ReadAllDocumentCategories(string search)
+        {
+            var query = @"
+                SELECT CategoryName
+                FROM [PersonDocument]
+                WHERE CategoryName LIKE '%'+@Search+'%'
+                GROUP BY CategoryName
+                ORDER BY CategoryName DESC";
+
+            return Query<string>(query, new { @Search = search });
         }
 
         #endregion

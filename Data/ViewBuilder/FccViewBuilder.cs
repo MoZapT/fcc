@@ -31,10 +31,9 @@ namespace Data.ViewBuilder
             HandleState(vm);
         }
 
-        public List<FileContent> CreatePartialViewPersonDocuments(string personId)
+        public List<PersonDocument> CreatePartialViewPersonDocuments(string personId)
         {
-            List<FileContent> list = _mgrFcc.GetAllDocumentsByPersonId(personId);
-            return list;
+            return _mgrFcc.GetAllDocumentsByPersonId(personId);
         }
 
         public KeyValuePair<string, List<FileContent>> CreatePartialViewPersonPhotos(string personId)

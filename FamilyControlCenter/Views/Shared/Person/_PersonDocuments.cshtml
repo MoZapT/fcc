@@ -1,9 +1,9 @@
-﻿@model List<FileContent>
+﻿@model List<PersonDocument>
 @{ 
-    List<FileContent> files;
+    List<PersonDocument> files;
     if (Model == null)
     {
-        files = new List<FileContent>();
+        files = new List<PersonDocument>();
     }
     else
     {
@@ -23,6 +23,7 @@
             @foreach (var file in files)
             {
                 <div class="col-md-6 col-xs-12 col-sm-12 thumbnail">
+                    <a href="#" id="DeleteDocument" fileid="@file.Id"><i class="text-danger fas fa-trash"></i></a>
                     @if (ContentTypeHelper.IsDocument(file.FileType))
                     {
                         <img src="~/Content/file-image.png" alt="" />
@@ -47,18 +48,21 @@
         </div>
     </div>
     <div class="panel-footer clearfix">
-        <div class="row form-group">
-            <div class="col-md-12">
-                <label for="UploadFile" class="btn btn-primary pull-right">
+        <div class="col-md-12">
+            <span id="ErrorDocumentCategory" class="text-danger hide">
+                @Resource.ErrorDocumentCategoryEmpty
+            </span>
+        </div>
+        <div class="col-md-12">
+            <div class="input-group">
+                <span class="input-group-addon">@Resource.Category</span>
+                @Html.Hidden("DocumentCategory")
+                @Html.TextBox("DocumentCategoryTa", "", new { @class = "form-control typeahead", placeholder = "", taname = "DocumentCategoryTa", taurl = "document/categories/" })
+                <label for="UploadFile" class="btn input-group-addon">
                     <i class="fas fa-file-upload"></i>
                     <span class="toggle-text">@Resource.BtnUploadFile</span>
                 </label>
                 <input id="UploadFile" class="hide" type="file" name="files[]" data-multiple-caption="{count} notimplted" multiple="" aria-invalid="false">
-
-                @*<button id="SaveBiography" type="button" class="btn btn-primary pull-right">
-                    <i class="glyphicon glyphicon-floppy-disk"></i>
-                    @Resource.Save
-                </button>*@
             </div>
         </div>
     </div>

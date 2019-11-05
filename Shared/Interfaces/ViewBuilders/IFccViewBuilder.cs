@@ -10,7 +10,7 @@ namespace Shared.Interfaces.ViewBuilders
     public interface IFccViewBuilder
     {
         void HandleAction(PersonViewModel vm);
-        List<FileContent> CreatePartialViewPersonDocuments(string personId);
+        List<PersonDocument> CreatePartialViewPersonDocuments(string personId);
         KeyValuePair<string, List<FileContent>> CreatePartialViewPersonPhotos(string personId);
         PersonBiographyViewModel CreatePartialViewPersonBiography(string personId);
         bool SavePersonActivity(string personId, string bioId, PersonActivity newact);

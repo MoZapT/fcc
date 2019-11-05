@@ -25,11 +25,14 @@ namespace Shared.Interfaces.Managers
         bool DeletePersonPhoto(string personId, string fileId);
         bool DeleteAllPersonPhotos(string personId);
 
-        FileContent GetDocumentByPersonId(string id);
-        List<FileContent> GetAllDocumentsByPersonId(string id);
-        string SetPersonDocument(string personId, FileContent entity);
+        PersonDocument GetDocumentByPersonId(string id);
+        List<PersonDocument> GetAllDocumentsByPersonId(string id);
+        List<PersonDocument> GetAllDocumentsByPersonIdAndCategory(string id, string category);
+        string SetPersonDocument(string personId, FileContent entity, string category, string activityId = null);
         bool DeletePersonDocument(string personId, string fileId);
         bool DeleteAllPersonDocuments(string personId);
+
+        List<string> GetDocumentCategories(string query);
 
         #endregion
 

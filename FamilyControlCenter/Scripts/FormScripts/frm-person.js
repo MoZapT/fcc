@@ -559,17 +559,32 @@
 
     //DocumentsTab
     function initDocumentsTab() {
+        Window.CustomizedTypeahead.InitElement($('#DocumentCategoryTa'));
+        $('#DocumentCategoryTa').off('typeahead:close');
+        $('#DocumentCategoryTa').on('change', function (e) {
+            $('#DocumentCategory').val(e.currentTarget.value);
+        });
+
         $('#UploadFile').on('change', function (e) {
+            if (!$('#DocumentCategory').val()) {
+                $('#ErrorDocumentCategory').removeClass('hide');
+                return;
+            }
+            $('#ErrorDocumentCategory').addClass('hide');
+
             uploadFile();
+        });
+
+        $('a#DeleteDocument').on('click', function (e) {
+            deleteFile($(e.currentTarget).attr('fileid'));
         });
     }
 
-    function deleteFile() {
-        var id = $('.item.active').attr('value');
+    function deleteFile(fileid) {
         var personId = $('#Model_Id').val();
 
         $.ajax({
-            url: getApiRoute() + 'person/file/delete/' + personId + '/' + id,
+            url: getApiRoute() + 'person/file/delete/' + personId + '/' + fileid,
             type: 'GET',
             dataType: 'json',
             success: function (response) {
@@ -586,8 +601,14 @@
             fd.append("file_" + i, files[i], files[i].name);
         }
 
+        var category = $('#DocumentCategory').val();
+        //var activityId = '';
+
         $.ajax({
-            url: getApiRoute() + 'person/file/upload/' + personId,
+            url: getApiRoute() + 'person/file/upload/'
+                + personId + '/'
+                + category,// + '/'
+                //+ activityId,
             type: 'POST',
             data: fd,
             enctype: 'multipart/form-data',

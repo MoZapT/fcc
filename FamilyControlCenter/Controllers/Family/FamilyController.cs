@@ -55,7 +55,7 @@ namespace FamilyControlCenter.Controllers
         public PartialViewResult PersonDocuments(string personId/*, int section?*/)
         {
             BeforeLoadAction();
-            List<FileContent> vm = _vwbFcc.CreatePartialViewPersonDocuments(personId);
+            List<PersonDocument> vm = _vwbFcc.CreatePartialViewPersonDocuments(personId);
             return PartialView("Person/_PersonDocuments", vm);
         }
 
