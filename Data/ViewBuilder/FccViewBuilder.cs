@@ -171,6 +171,18 @@ namespace Data.ViewBuilder
             var tcount = vm.Models.Count();
             vm.Models = vm.Models.Skip(vm.Skip).Take(vm.Take).ToList();
             vm.Paging = new PagingViewModel(vm.Skip, vm.Take, tcount);
+            vm.PersonIcons = new Dictionary<string, string>();
+
+
+            foreach (Person p in vm.Models)
+            {
+                var file = _mgrFcc.GetMainPhotoByPersonId(p.Id);
+                if (file?.BinaryContent == null)
+                    continue;
+                string img64 = Convert.ToBase64String(file.BinaryContent);
+                string img64Url = string.Format("data:image/" + file.FileType + ";base64,{0}", img64);
+                vm.PersonIcons.Add(p.Id, img64Url);
+            }
         }
 
         private bool SavePerson(PersonViewModel vm)

@@ -8,7 +8,6 @@
 
     //Switch tabs
     function initializeComponent() {
-        initializeList();
         initializeDetail();
 
         $('#relations-tab').on('click', function (e) {
@@ -46,26 +45,6 @@
             loadDocuments();
             documentsLoaded = true;
         });
-    }
-
-    //ListView
-    function initializeList() {
-        var icons = $('.row.item img.icon[uri]');
-
-        for (var i = 0; i < icons.length; i++) {
-            var icon = icons[i];
-            var uri = $(icon).attr('uri');
-
-            $.ajax({
-                url: uri,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    $(icon).attr('src', response);
-                }
-            });
-        }
-
     }
 
     //Detail view

@@ -20,6 +20,7 @@ namespace Shared.Viewmodels
         public Person MarriedOn { get; set; }
         public Person PartnerOf { get; set; }
         public List<Person> Models { get; set; }
+        public Dictionary<string, string> PersonIcons { get; set; }
 
         #endregion
 

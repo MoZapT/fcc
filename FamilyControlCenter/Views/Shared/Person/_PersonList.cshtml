@@ -28,7 +28,7 @@
 
                     @if (!string.IsNullOrWhiteSpace(e.FileContentId))
                     {
-                        <img class="icon" src="" uri="@(Globals.ApiRoute)person/photo/get/@(e.FileContentId)" alt="" />
+                        <img class="icon" src="@Model.PersonIcons[e.Id]" alt="" />
                     }
                     else
                     {
