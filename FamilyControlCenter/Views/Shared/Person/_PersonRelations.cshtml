@@ -33,22 +33,30 @@
                 <h4>@Resource.PersonRelations</h4>
             </div>
         </div>
+
         @foreach (var relationKvp in Model.Relations)
         {
             var relationType = relationKvp.Key;
             foreach (var relation in relationKvp.Value)
             {
-                <div class="row item">
-                    <div class="col-md-2">
-                        @Resource.ResourceManager.GetLocalizedStringForEnumValue(relationType, relation.Sex)
+                <div class="card col-md-3">
+                    <div class="card-header">
+                        <div class="col-md-10">
+                            @{
+                                var dict = new ViewDataDictionary();
+                                dict.Add("RelationType", relationType);
+                                dict.Add("Sex", relation.Sex);
+                            }
+                            @Html.Partial("Person/_RelationIcon", dict)
+                        </div>
+                        <div class="col-md-2">
+                            <button id="DestroyRelation" inviter="@Model.Person.Id" invited="@relation.Id" reltype="@((int)relationType)" type="button" class="btn btn-danger pull-right">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="card-body">
                         @relation.Name
-                    </div>
-                    <div class="col-md-2">
-                        <button id="DestroyRelation" inviter="@relation.Id" invited="@relation.Id" reltype="@((int)relationType)" type="button" class="btn btn-danger pull-right" data-dismiss="modal">
-                            <i class="glyphicon glyphicon-trash"></i>
-                        </button>
                     </div>
                 </div>
             }

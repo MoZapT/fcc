@@ -55,19 +55,10 @@ namespace Data.ViewBuilder
                 return biography;
             }
 
-            biography.Kindergarden = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.Kindergarden);
-            biography.ElementarySchool = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.ElementarySchool);
-            biography.MiddleSchool = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.MiddleSchool);
-            biography.Highschool = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.Highschool);
-            biography.Practice = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.Practice);
-            biography.College = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.College);
-            biography.TechnicalCollege = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.TechnicalCollege);
-            biography.Trainee = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.Trainee);
-            biography.University = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.University);
-            biography.Unemployed = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.Unemployed);
-            biography.Working = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.Working);
-            biography.Enterpreneur = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.Enterpreneur);
-            biography.Other = _mgrFcc.GetAllPersonActivityByPerson(personId, ActivityType.Other);
+            foreach (var activity in biography.ActivityTypeLoadingList)
+            {
+                biography.Activities.Add(activity, _mgrFcc.GetAllPersonActivityByPerson(personId, activity));
+            }
 
             return biography;
         }

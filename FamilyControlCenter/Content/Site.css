@@ -115,6 +115,27 @@ img.photo {
     box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
 }
 
+/* CARD DESIGN */
+.card {
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.6);
+    margin: 5px;
+    height: 80px; /*dynamic?*/
+}
+
+.card-header div, .card-body div {
+    padding: 0 0 0 0;
+}
+
+.card .card-header, .card .card-body {
+    height: 50%;
+}
+
+.card-header .btn {
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.6);
+    border-radius: 0px;
+}
+
 /*sliders!!!*/
 /* The switch - the box around the slider */
 .switch {

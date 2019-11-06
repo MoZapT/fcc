@@ -412,7 +412,7 @@
         });
 
         $('button#DeletePersonName').on('click', function (e) {
-            deletePersonName($('#PersonNameId').val());
+            deletePersonName($(e.currentTarget).attr('nameid'));
         });
     }
 

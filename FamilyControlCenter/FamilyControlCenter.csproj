@@ -485,6 +485,7 @@
     <Content Include="Views\Shared\Person\_PersonListPaging.cshtml" />
     <Content Include="Views\Shared\Person\_PersonDocuments.cshtml" />
     <Content Include="Views\Shared\Person\_PersonActivity.cshtml" />
+    <Content Include="Views\Shared\Person\_RelationIcon.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

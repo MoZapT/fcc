@@ -15,6 +15,22 @@ namespace Shared.Helpers
                     return RelationType.SonDaughter;
                 case RelationType.SonDaughter:
                     return RelationType.FatherMother;
+                case RelationType.StepFatherMother:
+                    return RelationType.StepSonDaughter;
+                case RelationType.StepSonDaughter:
+                    return RelationType.StepFatherMother;
+                case RelationType.GrandFatherMother:
+                    return RelationType.GrandSonDaughter;
+                case RelationType.GrandSonDaughter:
+                    return RelationType.GrandFatherMother;
+                case RelationType.UncleAunt:
+                    return RelationType.NephewNiece;
+                case RelationType.NephewNiece:
+                    return RelationType.UncleAunt;
+                case RelationType.InLawFatherMother:
+                    return RelationType.InLawSonDaughter;
+                case RelationType.InLawSonDaughter:
+                    return RelationType.InLawFatherMother;
                 default:
                     return type;
             }

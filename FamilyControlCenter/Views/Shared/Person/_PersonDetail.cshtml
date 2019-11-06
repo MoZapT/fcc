@@ -109,14 +109,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="row form-group">
-                    <div id="MarriageStatus" class="col-md-12">
-                        @if (Model.Command == Shared.Enums.ActionCommand.Open)
-                        {
-                            @Html.Partial("Person/_MarriageSection",
-                            new Tuple<Person, Person, Person>(Model.Model, Model.MarriedOn, Model.PartnerOf))
-                        }
-                    </div>
+                <div id="MarriageStatus">
+                    @if (Model.Command == Shared.Enums.ActionCommand.Open)
+                    {
+                        @Html.Partial("Person/_MarriageSection",
+                        new Tuple<Person, Person, Person>(Model.Model, Model.MarriedOn, Model.PartnerOf))
+                    }
                 </div>
             </div>
         </div>

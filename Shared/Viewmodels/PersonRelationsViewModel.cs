@@ -13,7 +13,6 @@ namespace Shared.Viewmodels
         #region PROPERTIES
 
         public Person Person { get; set; }
-        //public List<PersonRelation> Relations { get; set; }
         public Dictionary<RelationType, List<Person>> Relations { get; set; }
         public List<RelationType> RelationTypeLoadingList { set; get; }
 

@@ -45,13 +45,22 @@
         </div>
         @foreach (var name in Model)
         {
-            <div class="row form-group">
-                <div class="col-md-12">
-                    @Html.Hidden("PersonNameId", name.Id)
-                    @name.Name@(", "+Resource.Changed+" ") @name.DateNameChanged.ToString("dd.MM.yyyy")
-                    <a href="#" id="DeletePersonName">
-                        <i class="fas fa-trash text-danger"></i>
-                    </a>
+            <div class="card col-md-3">
+                <div class="card-header">
+                    <div class="col-md-10">
+                        @name.Name
+                    </div>
+                    <div class="col-md-2">
+                        <button id="DeletePersonName" nameid="@name.Id" type="button" class="btn btn-danger pull-right">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="col-md-12">
+                        @Resource.Changed
+                        @name.DateNameChanged.ToString("dd.MM.yyyy")
+                    </div>
                 </div>
             </div>
         }

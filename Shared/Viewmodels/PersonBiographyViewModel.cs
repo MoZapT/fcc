@@ -13,38 +13,33 @@ namespace Shared.Viewmodels
         #region PROPERTIES
 
         public PersonBiography PersonBiography { get; set; }
-
-        public List<PersonActivity> Kindergarden { get; set; }
-        public List<PersonActivity> ElementarySchool { get; set; }
-        public List<PersonActivity> MiddleSchool { get; set; }
-        public List<PersonActivity> Highschool { get; set; }
-        public List<PersonActivity> Practice { get; set; }
-        public List<PersonActivity> College { get; set; }
-        public List<PersonActivity> TechnicalCollege { get; set; }
-        public List<PersonActivity> Trainee { get; set; }
-        public List<PersonActivity> University { get; set; }
-        public List<PersonActivity> Unemployed { get; set; }
-        public List<PersonActivity> Working { get; set; }
-        public List<PersonActivity> Enterpreneur { get; set; }
-        public List<PersonActivity> Other { get; set; }
+        public Dictionary<ActivityType, List<PersonActivity>> Activities { get; set; }
+        public List<ActivityType> ActivityTypeLoadingList { set; get; }
 
         #endregion
 
         public PersonBiographyViewModel()
         {
-            Kindergarden = new List<PersonActivity>();
-            ElementarySchool = new List<PersonActivity>();
-            MiddleSchool = new List<PersonActivity>();
-            Highschool = new List<PersonActivity>();
-            Practice = new List<PersonActivity>();
-            College = new List<PersonActivity>();
-            TechnicalCollege = new List<PersonActivity>();
-            Trainee = new List<PersonActivity>();
-            University = new List<PersonActivity>();
-            Unemployed = new List<PersonActivity>();
-            Working = new List<PersonActivity>();
-            Enterpreneur = new List<PersonActivity>();
-            Other = new List<PersonActivity>();
+            InitActivitiesDictionaryList();
+        }
+
+        private void InitActivitiesDictionaryList()
+        {
+            Activities = new Dictionary<ActivityType, List<PersonActivity>>();
+            ActivityTypeLoadingList = new List<ActivityType>();
+            ActivityTypeLoadingList.Add(ActivityType.ElementarySchool);
+            ActivityTypeLoadingList.Add(ActivityType.MiddleSchool);
+            ActivityTypeLoadingList.Add(ActivityType.Highschool);
+            ActivityTypeLoadingList.Add(ActivityType.Practice);
+            ActivityTypeLoadingList.Add(ActivityType.College);
+            ActivityTypeLoadingList.Add(ActivityType.TechnicalCollege);
+            ActivityTypeLoadingList.Add(ActivityType.University);
+            ActivityTypeLoadingList.Add(ActivityType.Working);
+            ActivityTypeLoadingList.Add(ActivityType.Unemployed);
+            ActivityTypeLoadingList.Add(ActivityType.Enterpreneur);
+            ActivityTypeLoadingList.Add(ActivityType.Kindergarden);
+            ActivityTypeLoadingList.Add(ActivityType.Other);
+            ActivityTypeLoadingList.Add(ActivityType.Trainee);
         }
     }
 }
