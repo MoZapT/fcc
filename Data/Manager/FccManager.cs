@@ -243,6 +243,43 @@ namespace Data.Manager
 
         public bool SetPersonRelation(string inviter, string invited, RelationType type)
         {
+            //PersonRelation inviterRelation = new PersonRelation();
+            //inviterRelation.Id = Guid.NewGuid().ToString();
+            //inviterRelation.InviterId = inviter;
+            //inviterRelation.InvitedId = invited;
+            //inviterRelation.RelationType = type;
+
+            //PersonRelation invitedRelation = new PersonRelation();
+            //invitedRelation.Id = Guid.NewGuid().ToString();
+            //invitedRelation.InviterId = invited;
+            //invitedRelation.InvitedId = inviter;
+            //invitedRelation.RelationType = FccRelationTypeHelper.GetCounterRelationType(type);
+
+            //bool success = _repo.Transaction(new Task(() => 
+            //{
+            //    _repo.CreatePersonRelation(inviterRelation);
+            //    _repo.CreatePersonRelation(invitedRelation);
+            //}));
+
+            List<PersonRelation> updateStack = GetUpdateRelationsStack(inviter, invited, type);
+            //no mesh for livepartners!
+            if (type != RelationType.LivePartner)
+            {
+                CreateRelationsMesh(updateStack, inviter, invited);
+            }
+
+            bool success = _repo.Transaction(new Task(() =>
+            {
+                foreach (var relation in updateStack)
+                {
+                    _repo.CreatePersonRelation(relation);
+                }
+            }));
+
+            return success;
+        }
+        private List<PersonRelation> GetUpdateRelationsStack(string inviter, string invited, RelationType type)
+        {
             PersonRelation inviterRelation = new PersonRelation();
             inviterRelation.Id = Guid.NewGuid().ToString();
             inviterRelation.InviterId = inviter;
@@ -255,13 +292,46 @@ namespace Data.Manager
             invitedRelation.InvitedId = inviter;
             invitedRelation.RelationType = FccRelationTypeHelper.GetCounterRelationType(type);
 
-            bool success = _repo.Transaction(new Task(() => 
-            {
-                _repo.CreatePersonRelation(inviterRelation);
-                _repo.CreatePersonRelation(invitedRelation);
-            }));
+            List<PersonRelation> updateStack = new List<PersonRelation>();
+            updateStack.Add(inviterRelation);
+            updateStack.Add(invitedRelation);
 
-            return success;
+            return updateStack;
+        }
+        private void CreateRelationsMesh(List<PersonRelation> stack, string inviter, string invited)
+        {
+            //var relatedToInviter = GetAllPersonRelationsByInviterId(inviter) ?? new List<PersonRelation>();
+            //var relatedToInvited = GetAllPersonRelationsByInviterId(invited) ?? new List<PersonRelation>();
+
+            //foreach (var inviterSide in relatedToInviter)
+            //{
+            //    foreach (var invitedSide in relatedToInvited)
+            //    {
+            //        bool isAlreadyInRelation = (GetAllPersonRelationsBetweenPersons
+            //            (inviterSide.InviterId, invitedSide.InvitedId) ?? new List<PersonRelation>()).Count > 0 ?
+            //            true : false;
+
+            //        if (isAlreadyInRelation)
+            //            continue;
+
+            //        PersonRelation inviterSideRelation = new PersonRelation();
+            //        inviterSideRelation.Id = Guid.NewGuid().ToString();
+            //        inviterSideRelation.InviterId = inviter;
+            //        inviterSideRelation.InvitedId = invited;
+            //        inviterSideRelation.RelationType = 
+            //            FccRelationTypeHelper.GetCounterRelationType(invitedSide.RelationType);
+
+            //        PersonRelation invitedSideRelation = new PersonRelation();
+            //        invitedSideRelation.Id = Guid.NewGuid().ToString();
+            //        invitedSideRelation.InviterId = invited;
+            //        invitedSideRelation.InvitedId = inviter;
+            //        invitedSideRelation.RelationType = 
+            //            FccRelationTypeHelper.GetCounterRelationType(inviterSide.RelationType);
+
+            //        stack.Add(inviterSideRelation);
+            //        stack.Add(invitedSideRelation);
+            //    }
+            //}
         }
 
         #endregion

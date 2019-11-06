@@ -33,27 +33,25 @@
                 <h4>@Resource.PersonRelations</h4>
             </div>
         </div>
-        @foreach (var relation in Model.Relations)
+        @foreach (var relationKvp in Model.Relations)
         {
-            if (relation.RelationType == RelationType.HusbandWife || 
-                relation.RelationType == RelationType.LivePartner)
+            var relationType = relationKvp.Key;
+            foreach (var relation in relationKvp.Value)
             {
-                continue;
+                <div class="row item">
+                    <div class="col-md-2">
+                        @Resource.ResourceManager.GetLocalizedStringForEnumValue(relationType, relation.Sex)
+                    </div>
+                    <div class="col-md-8">
+                        @relation.Name
+                    </div>
+                    <div class="col-md-2">
+                        <button id="DestroyRelation" inviter="@relation.Id" invited="@relation.Id" reltype="@((int)relationType)" type="button" class="btn btn-danger pull-right" data-dismiss="modal">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </button>
+                    </div>
+                </div>
             }
-
-            <div class="row item">
-                <div class="col-md-2">
-                    @Resource.ResourceManager.GetLocalizedStringForEnumValue(relation.RelationType, relation.Invited.Sex)
-                </div>
-                <div class="col-md-8">
-                    @relation.Invited.Name
-                </div>
-                <div class="col-md-2">
-                    <button id="DestroyRelation" inviter="@relation.Inviter.Id" invited="@relation.Invited.Id" reltype="@((int)relation.RelationType)" type="button" class="btn btn-danger pull-right" data-dismiss="modal">
-                        <i class="glyphicon glyphicon-trash"></i>
-                    </button>
-                </div>
-            </div>
         }
     </div>
 </div>

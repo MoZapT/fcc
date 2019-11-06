@@ -46,6 +46,7 @@ namespace DataAccessInfrastructure.Repositories
 	                ON per.Id = rel.InvitedId
                 WHERE 
 	                rel.InviterId = @Id
+                    AND rel.RelationType = @RelationType
 	                AND rel.IsActive = 1
 	                AND per.IsActive = 1";
 

@@ -144,28 +144,36 @@ namespace FamilyControlCenter.Controllers
         {
             var list = FccRelationTypeHelper.GetFamilySiblingsSelectGroup(invited.Sex);
 
-            var alreadyExistingRelationTypes = _mgrFcc
-                .GetAllPersonRelationsBetweenPersons(inviter.Id, invited.Id)
-                .Select(e => e.RelationType);
+            var isAlreadyRelated = 
+                (_mgrFcc.GetAllPersonRelationsBetweenPersons(inviter.Id, invited.Id) ?? 
+                new List<PersonRelation>()).Count > 0 ?
+                true : false;
 
-            var exclusionList = new List<RelationType>();
-            foreach (var type in alreadyExistingRelationTypes)
+            if (isAlreadyRelated)
             {
-                exclusionList = exclusionList
-                    .Concat(FccRelationTypeHelper.GetRelationTypeExclusion(type))
-                    .ToList();
+                return new List<System.Web.Mvc.SelectListItem>();
             }
-
-            list = list
-                .Where(e => !exclusionList.Contains((RelationType)int.Parse(e.Value)));
 
             if (invited.HasBirthDate && inviter.HasBirthDate)
             {
                 list = list
-                    .Where(e => !((RelationType)int.Parse(e.Value) == RelationType.FatherMother &&
-                        invited.BirthDate >= inviter.BirthDate))
-                    .Where(e => !((RelationType)int.Parse(e.Value) == RelationType.SonDaughter &&
-                        invited.BirthDate <= inviter.BirthDate));
+                    .Where(e => 
+                    {
+                        if ((e.Value == RelationType.FatherMother.ToString() || 
+                            e.Value == RelationType.GrandFatherMother.ToString()) &&
+                            invited.BirthDate >= inviter.BirthDate)
+                        {
+                            return false;
+                        }
+                        else if ((e.Value == RelationType.SonDaughter.ToString() ||
+                                 e.Value == RelationType.GrandSonDaughter.ToString()) &&
+                                 invited.BirthDate <= inviter.BirthDate)
+                        {
+                            return false;
+                        }
+
+                        return true;
+                    });
             }
 
             return list;
