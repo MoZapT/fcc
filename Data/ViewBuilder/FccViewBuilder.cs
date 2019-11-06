@@ -31,7 +31,7 @@ namespace Data.ViewBuilder
             HandleState(vm);
         }
 
-        public List<PersonDocument> CreatePartialViewPersonDocuments(string personId)
+        public PersonDocumentsViewModel CreatePartialViewPersonDocuments(string personId)
         {
             return _mgrFcc.GetAllDocumentsByPersonId(personId);
         }
