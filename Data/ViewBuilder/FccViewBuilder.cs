@@ -33,7 +33,8 @@ namespace Data.ViewBuilder
 
         public PersonDocumentsViewModel CreatePartialViewPersonDocuments(string personId)
         {
-            return _mgrFcc.GetAllDocumentsByPersonId(personId);
+            return new PersonDocumentsViewModel();
+            //return _mgrFcc.GetAllDocumentsByPersonId(personId);
         }
 
         public KeyValuePair<string, List<FileContent>> CreatePartialViewPersonPhotos(string personId)
