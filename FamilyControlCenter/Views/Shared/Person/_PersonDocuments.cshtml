@@ -1,13 +1,10 @@
 ﻿@model PersonDocumentsViewModel
 @{ 
-    List<PersonDocument> files;
-    if (Model == null)
+    List<PersonDocument> files = new List<PersonDocument>();
+    foreach (var userFiles in Model.Documents.Values)
     {
-        files = new List<PersonDocument>();
-    }
-    else
-    {
-        files = Model;
+        files = userFiles;
+        break;
     }
 }
 
