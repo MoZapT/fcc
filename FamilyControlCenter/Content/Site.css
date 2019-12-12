@@ -1,4 +1,8 @@
-﻿.group-border {
+﻿.hide {
+    display: none;
+}
+
+.group-border {
     border-top: 2px dashed;
     border-left: 2px solid;
     border-right: 2px solid;
@@ -7,12 +11,13 @@
     padding: 5px 5px 5px 5px;
     border-color: #a1a1a1;
 }
-.group-border + .group-border {
-    margin-top: 10px;
-}
+
+    .group-border + .group-border {
+        margin-top: 10px;
+    }
 
 .invisible {
-    visibility:hidden;
+    visibility: hidden;
 }
 
 .crud {
@@ -24,58 +29,21 @@
 .row.item {
     min-height: 50px;
     margin-bottom: 1px;
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
-.row.item + .row.item {
-    border-top: 1px solid rgb(152, 152, 152);
-}
+    .row.item + .row.item {
+        border-top: 1px solid rgb(152, 152, 152);
+    }
 
-.row.item:nth-of-type(even) {
-    /*background-color: rgba(4, 62, 96, 0.74);
-    color: white;*/
-}
-
-.row.item:hover, .row-item:nth-of-type(even):hover {
-    /*background-color: #b7e4fe;*/
-    color: white;
-    background-color: rgba(89, 78, 69, 0.80);
-    -webkit-transition: background-color 0.2s, color 0.5s;
-    transition: background-color 0.2s, color 0.5s;
-    cursor: pointer;
-}
-
-.row.item input[type="checkbox"] {
-    display: none;
-}
-.row.item input[type='checkbox'] + label:before, input[type='checkbox'] + label:after {
-    position: relative;
-    top: 1px;
-    left: -2px;
-    display: inline-block;
-    font-family: 'Glyphicons Halflings';
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-.row.item input[type='checkbox'] + label:before {
-    content: "\e157";
-}
-.row.item input[type='checkbox']:checked + label:before {
-    content: "\e067";
-}
-.row.item .checkbox {
-    margin: auto;
-    object-fit: fill;
-    font-size: 150%;
-}
-.row.item .checkbox label {
-    padding: 0 0 0 0;
-}
-.row.item:hover input[type="checkbox"]:hover + label:before {
-    color: cyan;
-}
+    .row.item:hover, .row-item:nth-of-type(even):hover {
+        color: white;
+        background-color: rgba(89, 78, 69, 0.80);
+        -webkit-transition: background-color 0.2s, color 0.5s;
+        transition: background-color 0.2s, color 0.5s;
+        cursor: pointer;
+    }
 
 .nopadding {
     padding: 0 0 0 0;
@@ -83,8 +51,9 @@
 
 /*Photo frame*/
 .carousel {
-    border: 1px solid;
+    border: 1px solid #ced4da;
 }
+
 .item > img.photo,
 img.photo {
     position: relative;
@@ -109,104 +78,27 @@ img.photo {
     margin: 5px;
     overflow: hidden;
     text-wrap: none;
-    white-space:nowrap;
-}
-.thumbnail:hover {
-    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+    white-space: nowrap;
 }
 
-/* CARD DESIGN */
-.card {
-    border: 1px solid rgba(0, 0, 0, 0.6);
-    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.6);
-    margin: 5px;
-    height: 80px; /*dynamic?*/
+    .thumbnail:hover {
+        box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+    }
+
+/* custom sex swticher override */
+.custom-control-input.sexswitcher:checked ~ .custom-control-label::before {
+    background-color: #f241b3;
+    border: #adb5bd solid 1px;
 }
 
-.card-header div, .card-body div {
-    padding: 0 0 0 0;
-}
-
-.card .card-header, .card .card-body {
-    height: 50%;
-}
-
-.card-header .btn {
-    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.6);
-    border-radius: 0px;
-}
-
-/*sliders!!!*/
-/* The switch - the box around the slider */
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 40px;
-    height: 20px;
-}
-
-/* Hide default HTML checkbox */
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-/* The slider */
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 16px;
-    width: 16px;
-    left: 4px;
-    bottom: 2px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-}
-
-input:checked ~ .slider {
-    background-color: #21c247;
-}
-
-input:focus ~ .slider {
-    box-shadow: 0 0 1px #21c247;
-}
-
-input:checked ~ .slider:before {
-    -webkit-transform: translateX(16px);
-    -ms-transform: translateX(16px);
-    transform: translateX(16px);
-}
-
-/* Rounded sliders */
-.slider.round {
-    border-radius: 20px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
+.custom-control-input.sexswitcher ~ .custom-control-label::before {
+    background-color: #2196F3;
+    border: #ddd solid 1px;
 }
 
 /* custom sex swticher override */
-input.sexswitcher:checked ~ .slider {
-    background-color: #f241b3;
-}
-
-input.sexswitcher ~ .slider {
-    background-color: #2196F3;
+.custom-control-input.sexswitcher ~ .custom-control-label::after {
+    background-color: #fff;
 }
 
 .text-male {
@@ -222,57 +114,27 @@ input.sexswitcher ~ .slider {
     border-radius: 0px;
 }
 
-/* Mobile with small screen */
-@media (min-width: 768px) {
-    .row.item .btn {
-        opacity: 0;
-        position: relative;
-        transition: opacity 0.5s;
-    }
-    .row.item:hover .btn {
-        opacity: 1;
-        position: relative;
-        transition: opacity 0.5s;
-    }
-
-    .sideslide {
-        width: 15%;
-        transition: width 1s;
-    }
-
-    .sideslide .toggle-text {
-        opacity: 0;
-        transition: opacity 1s;
-    }
-
-    .sideslide:hover {
-        width: 100%;
-        transition: width 1s;
-    }
-
-    .sideslide:hover .toggle-text {
-        opacity: 1;
-        transition: opacity 1s 0.5s;
-    }
-
-    .custom-carousel-control {
-        width: 100%;
-        color: rgba(0, 0, 0, 0.6);
-        text-align: center;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-        background-color: rgba(0, 0, 0, 0);
-        filter: alpha(opacity=50);
-        opacity: 0.5;
-    }
+.row.item .btn {
+    opacity: 0;
+    position: relative;
+    transition: opacity 0.5s;
 }
 
-/* Mobile with small screen */
-@media (max-width: 768px) {
-    .sideslide {
-        width: 100%;
-    }
+.row.item:hover .btn {
+    opacity: 1;
+    position: relative;
+    transition: opacity 0.5s;
+}
+
+label.sideslide {
+    margin-bottom: 0rem;
+}
+
+.sideslide {
+    width: 100%;
+}
 
 .custom-carousel-control {
-    display: none;
-}
+    width: 50%;
+    opacity: 0.5;
 }

@@ -7,32 +7,17 @@
         @Html.Label("Foto", Resource.Foto)
     </div>
 
-    @if (Model.Value?.Count > 0)
+    @if (Model.Value?.Count > 1)
     {
         <div class="col-md-12">
-            <button id="SetMainPhoto" class="btn btn-default btn-edges sideslide" type="button">
-                <i class="fas fa-star"></i>
-                <span class="toggle-text">@Resource.BtnSetPrimary</span>
+            <button id="SetMainPhoto" class="btn btn-light btn-edges sideslide" type="button">
+                <span class="fas fa-star"></span>
+                <span>@Resource.BtnSetPrimary</span>
             </button>
         </div>
     }
     <div class="col-md-12 photo">
         <div id="PhotosCarousel" class="carousel shadow slide" data-ride="carousel" data-interval="false">
-            <!-- Indicators -->
-            @*<ol class="carousel-indicators">
-                    @for (int i = 0; i < Model.Value.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            <li data-target="#PhotosCarousel" data-slide-to="@i" class="active"></li>
-                        }
-                        else
-                        {
-                            <li data-target="#PhotosCarousel" data-slide-to="@i"></li>
-                        }
-                    }
-                </ol>*@
-
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
                 @if (Model.Value?.Count <= 0)
@@ -50,13 +35,13 @@
 
                     if (Model.Key == file.Id)
                     {
-                        <div class="item active" value="@file.Id">
+                        <div class="carousel-item active" value="@file.Id">
                             <img src="@img64Url" alt="@file.Name" class="photo">
                         </div>
                     }
                     else
                     {
-                        <div class="item" value="@file.Id">
+                        <div class="carousel-item" value="@file.Id">
                             <img src="@img64Url" alt="@file.Name" class="photo">
                         </div>
                     }
@@ -64,22 +49,18 @@
             </div>
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="col-md-12 d-inline-flex">
         @if (Model.Value.Count > 1)
         {
             <!-- Left and right controls -->
-            <div class="nopadding col-md-6">
-                <a class="custom-carousel-control btn btn-primary btn-edges" href="#PhotosCarousel" data-slide="prev">
-                    <span class="glyphicon glyphicon-chevron-left"></span>
-                    <span class="sr-only">@Resource.Previous</span>
-                </a>
-            </div>
-            <div class="nopadding col-md-6">
-                <a class="custom-carousel-control btn btn-primary btn-edges" href="#PhotosCarousel" data-slide="next">
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                    <span class="sr-only">@Resource.Next</span>
-                </a>
-            </div>
+            <a class="custom-carousel-control btn btn-dark btn-edges" href="#PhotosCarousel" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span>@Resource.Previous</span>
+            </a>
+            <a class="custom-carousel-control btn btn-dark btn-edges" href="#PhotosCarousel" data-slide="next">
+                <span>@Resource.Next</span>
+                <span class="carousel-control-next-icon"></span>
+            </a>
         }
     </div>
     <div class="col-md-12">

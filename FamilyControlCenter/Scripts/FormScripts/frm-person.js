@@ -54,7 +54,7 @@
         });
 
         /*ListFeatures*/
-        $('.row.item input[type="checkbox"] + label').on('click, touchstart, dblclick', function (e) {
+        $('.custom-checkbox').on('click, touchstart, dblclick', function (e) {
             e.stopPropagation();
         });
 

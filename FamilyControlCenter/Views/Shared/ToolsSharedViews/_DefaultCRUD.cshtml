@@ -9,11 +9,11 @@
 @*<button class="btn crud" type="button" args="copy" obj="@Model.Model.Id">
             <i class="glyphicon glyphicon-file"></i>
     </button>*@
-<button class="btn btn-xs crud btn-default hide" type="button" args="@((int)ActionCommand.Open)" obj="@Model.Id">
-    <i class="glyphicon glyphicon-pencil"></i>
+<button class="btn btn-xs crud btn-default" type="button" args="@((int)ActionCommand.Open)" obj="@Model.Id">
+    <span class="fas fa-pen"></span>
 </button>
 <button class="btn btn-xs crud btn-danger" type="button" args="@((int)ActionCommand.Delete)" obj="@Model.Id">
-    <i class="glyphicon glyphicon-trash"></i>
+    <span class="fas fa-trash-alt"></span>
 </button>
 
 

@@ -15,7 +15,7 @@ namespace Data.ViewBuilder
 {
     public class FccViewBuilder : IFccViewBuilder
     {
-        private IFccManager _mgrFcc;
+        private readonly IFccManager _mgrFcc;
 
         public FccViewBuilder(IFccManager mgrFcc)
         {
