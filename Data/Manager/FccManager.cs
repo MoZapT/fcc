@@ -54,6 +54,9 @@ namespace Data.Manager
         public Person GetPerson(string userId)
         {
             Person person = _repo.ReadPerson(userId);
+            if (person == null)
+                return person;
+
             person.IsMarried = _repo.IsMarried(userId);
 
             return person;

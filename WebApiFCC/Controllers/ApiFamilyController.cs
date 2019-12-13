@@ -22,7 +22,7 @@ namespace FamilyControlCenter.Controllers
     [RoutePrefix("{lang}/api")]
     public class ApiFamilyController : ApiController
     {
-        IFccManager _mgrFcc;
+        private readonly IFccManager _mgrFcc;
 
         public ApiFamilyController()
         {

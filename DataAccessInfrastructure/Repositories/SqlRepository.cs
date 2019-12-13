@@ -201,7 +201,7 @@ namespace DataAccessInfrastructure.Repositories
 
                 SELECT
                 Id AS 'Key'
-                ,FirstName + ' ' + LastName + ' ' + Patronym AS 'Value'
+                ,ISNULL(FirstName, '') + ' ' + ISNULL(LastName, '') + ' ' + ISNULL(Patronym, '') AS 'Value'
                 FROM [Person]
                 WHERE 
                     NOT Id = @ExcludeId
@@ -561,6 +561,17 @@ namespace DataAccessInfrastructure.Repositories
             return QueryFoD<PersonBiography>(query, new { @PersonId = personId});
         }
 
+        public PersonBiography ReadPersonBiography(string biographyId)
+        {
+            string query = @"
+                    SELECT *
+                    FROM [PersonBiography]
+                    WHERE 
+                        Id = @Id";
+
+            return QueryFoD<PersonBiography>(query, new { @Id = biographyId });
+        }
+
         public string CreatePersonBiography(PersonBiography entity)
         {
             string query = @"
@@ -647,7 +658,9 @@ namespace DataAccessInfrastructure.Repositories
                     ,[IsActive]
                     ,[Activity]
                     ,[ActivityType]
+                    ,[HasBegun]
                     ,[DateBegin]
+                    ,[HasEnded]
                     ,[DateEnd])
                 OUTPUT INSERTED.Id
                 VALUES
@@ -658,7 +671,9 @@ namespace DataAccessInfrastructure.Repositories
                     ,@IsActive
                     ,@Activity
                     ,@ActivityType
+                    ,@HasBegun
                     ,@DateBegin
+                    ,@HasEnded
                     ,@DateEnd)";
 
             return QueryFoD<string>(query, new DynamicParameters(entity));
@@ -674,7 +689,9 @@ namespace DataAccessInfrastructure.Repositories
                     ,[IsActive] = @IsActive
                     ,[Activity] = @Activity
                     ,[ActivityType] = @ActivityType
+                    ,[HasBegun] = @HasBegun
                     ,[DateBegin] = @DateBegin
+                    ,[HasEnded] = @HasEnded
                     ,[DateEnd] = @DateEnd
                  WHERE Id = @Id";
 

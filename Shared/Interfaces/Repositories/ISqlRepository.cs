@@ -57,6 +57,7 @@ namespace Shared.Interfaces.Repositories
         #region PersonBiography
 
         PersonBiography ReadPersonBiographyByPersonId(string personId);
+        PersonBiography ReadPersonBiography(string biographyId);
         string CreatePersonBiography(PersonBiography entity);
         bool UpdatePersonBiography(PersonBiography entity);
 

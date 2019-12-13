@@ -67,9 +67,18 @@ namespace Data.ViewBuilder
 
         public bool SavePersonActivity(string personId, string bioId, PersonActivity newact)
         {
-            bool success;
-            var dbRec = _mgrFcc.GetPersonActivity(newact.Id);
+            var bio = _mgrFcc.GetPersonBiographyByPersonId(personId);
+            if (bio == null)
+            {
+                bioId = _mgrFcc.SetPersonBiography(new PersonBiography()
+                {
+                    Id = bioId,
+                    PersonId = personId,
+                    BiographyText = null
+                });
+            }
 
+            var dbRec = _mgrFcc.GetPersonActivity(newact.Id);
             if (dbRec == null)
             {
                 newact.Id = Guid.NewGuid().ToString();
@@ -77,19 +86,17 @@ namespace Data.ViewBuilder
                 newact.DateCreated = DateTime.Now;
                 newact.BiographyId = bioId;
                 newact.DateModified = DateTime.Now;
-                success = string.IsNullOrWhiteSpace(_mgrFcc.SetPersonActivity(newact)) ? false : true;
-            }
-            else
-            {
-                dbRec.DateBegin = newact.DateBegin;
-                dbRec.DateEnd = newact.DateEnd;
-                dbRec.Activity = newact.Activity;
-                dbRec.ActivityType = newact.ActivityType;
-                dbRec.DateModified = DateTime.Now;
-                success = _mgrFcc.UpdatePersonActivity(dbRec);
+                return !string.IsNullOrWhiteSpace(_mgrFcc.SetPersonActivity(newact));
             }
 
-            return success;
+            dbRec.DateBegin = newact.DateBegin;
+            dbRec.HasBegun = newact.HasBegun;
+            dbRec.HasEnded = newact.HasEnded;
+            dbRec.DateEnd = newact.DateEnd;
+            dbRec.Activity = newact.Activity;
+            dbRec.ActivityType = newact.ActivityType;
+            dbRec.DateModified = DateTime.Now;
+            return _mgrFcc.UpdatePersonActivity(dbRec);
         }
 
         public List<PersonName> CreatePartialViewForNamesAndPatronymList(string personId)

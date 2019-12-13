@@ -58,26 +58,29 @@
                     @Resource.PassportView
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" modified="false" href="#relations" id="relations-tab" data-toggle="tab" role="tab" aria-controls="relations" aria-selected="true">
-                    @Resource.PersonRelations
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" modified="false" href="#names" id="names-tab" data-toggle="tab" role="tab" aria-controls="names" aria-selected="true">
-                    @Resource.PreviousNames
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" modified="false" href="#biography" id="biography-tab" data-toggle="tab" role="tab" aria-controls="biography" aria-selected="true">
-                    @Resource.Biography
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" modified="false" href="#documents" id="documents-tab" data-toggle="tab" role="tab" aria-controls="documents" aria-selected="true">
-                    @Resource.Documents
-                </a>
-            </li>
+            @if (Model.Command == ActionCommand.Open)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" modified="false" href="#relations" id="relations-tab" data-toggle="tab" role="tab" aria-controls="relations" aria-selected="true">
+                        @Resource.PersonRelations
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" modified="false" href="#names" id="names-tab" data-toggle="tab" role="tab" aria-controls="names" aria-selected="true">
+                        @Resource.PreviousNames
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" modified="false" href="#biography" id="biography-tab" data-toggle="tab" role="tab" aria-controls="biography" aria-selected="true">
+                        @Resource.Biography
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" modified="false" href="#documents" id="documents-tab" data-toggle="tab" role="tab" aria-controls="documents" aria-selected="true">
+                        @Resource.Documents
+                    </a>
+                </li>
+            }
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="passport" role="tabpanel" aria-labelledby="passport-tab">

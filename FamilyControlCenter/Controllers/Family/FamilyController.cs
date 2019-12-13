@@ -14,7 +14,7 @@ namespace FamilyControlCenter.Controllers
     [RoutePrefix("{lang}/family")]
     public class FamilyController : BaseController
     {
-        IFccViewBuilder _vwbFcc;
+        private readonly IFccViewBuilder _vwbFcc;
 
         public FamilyController(IFccViewBuilder vwbFcc)
         {
@@ -85,7 +85,7 @@ namespace FamilyControlCenter.Controllers
         [HttpPost]
         public void SavePersonActivity(string personId, string bioId, PersonActivity newact)
         {
-            var vm = _vwbFcc.SavePersonActivity(personId, bioId, newact);
+            _vwbFcc.SavePersonActivity(personId, bioId, newact);
         }
 
         [HttpPost]

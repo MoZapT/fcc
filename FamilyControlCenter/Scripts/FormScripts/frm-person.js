@@ -367,6 +367,7 @@
     //NamesTab
     function initNamesTab() {
         $('button#SaveNamesAndPatronym').addClass('disabled');
+        Window.DatePicker.ReInitElement($('#ActiveFrom'));
 
         $('#ActiveFrom,#NewName,#NewLastname,#NewPatronym').on('change', function (e) {
             var todayDate = new Date();
@@ -479,7 +480,38 @@
         //TODO delete
 
         Window.DatePicker.ReInitElement($('#NewActivityDateBegin'));
-        Window.DatePicker.ReInitElement($('#NewActivityDateEnd'));
+        $('#NewHasBegun').on('change', function (e) {
+            var field = $('#NewActivityDateBegin');
+
+            if (e.currentTarget.checked) {
+                SetUpNewActivityDateField(field);
+            }
+            else {
+                DestroyNewActivityDateField(field);
+            }
+        });
+        $('#NewHasEnded').on('change', function (e) {
+            var field = $('#NewActivityDateEnd');
+
+            if (e.currentTarget.checked) {
+                SetUpNewActivityDateField(field);
+            }
+            else {
+                DestroyNewActivityDateField(field);
+            }
+        });
+    }
+
+    function SetUpNewActivityDateField(field) {
+        field.removeAttr('readonly');
+        Window.DatePicker.ReInitElement(field);
+        field.datepicker('setDate', new Date());
+    }
+
+    function DestroyNewActivityDateField(field) {
+        field.datepicker('setDate', '');
+        field.attr('readonly', 'readonly');
+        Window.DatePicker.DestroyElement(field);
     }
 
     function deletePersonActivity() {
@@ -502,7 +534,9 @@
             "BiographyId": $('#PersonBiography_Id').val(),
             "Activity": $('#NewActivityActivity').val(),
             "ActivityType": $('#NewActivityActivityType').val(),
+            "HasBegun": $('#NewHasBegun').is(':checked'),
             "DateBegin": $('#NewActivityDateBegin').val(),
+            "HasEnded": $('#NewHasEnded').is(':checked'),
             "DateEnd": $('#NewActivityDateEnd').val()
         };
 
