@@ -16,30 +16,34 @@
         </h2>
     </div>
     <div class="card-body">
-        <div class="row">
+        <div class="card-deck">
             @foreach (var file in files)
             {
-                <div class="col-md-6 col-xs-12 col-sm-12 thumbnail">
-                    <a href="#" id="DeleteDocument" fileid="@file.Id"><i class="text-danger fas fa-trash"></i></a>
-                    @if (ContentTypeHelper.IsDocument(file.FileType))
-                    {
-                        <img src="~/Content/file-image.png" alt="" />
-                    }
-                    else if (ContentTypeHelper.IsVideo(file.FileType))
-                    {
-                        <img src="~/Content/file-image.png" alt="" />
-                    }
-                    else if (ContentTypeHelper.IsSound(file.FileType))
-                    {
-                        <img src="~/Content/sound-image.png" alt="" />
-                    }
-                    else if (ContentTypeHelper.IsImage(file.FileType))
-                    {
-                        string img64 = Convert.ToBase64String(file.BinaryContent);
-                        string img64Url = string.Format("data:image/" + file.FileType + ";base64,{0}", img64);
-                        <img src="@img64Url" alt="" />
-                    }
-                    <label>@file.Name</label>
+                <div class="card">
+                    <div class="card-header">
+                        <a href="#" id="DeleteDocument" fileid="@file.Id"><i class="text-danger fas fa-trash-alt"></i></a>
+                    </div>
+                    <div class="card-body">
+                        @if (ContentTypeHelper.IsDocument(file.FileType))
+                        {
+                            <img class="thumbnail" src="~/Content/file-image.png" alt="" />
+                        }
+                        else if (ContentTypeHelper.IsVideo(file.FileType))
+                        {
+                            <img class="thumbnail" src="~/Content/file-image.png" alt="" />
+                        }
+                        else if (ContentTypeHelper.IsSound(file.FileType))
+                        {
+                            <img class="thumbnail" src="~/Content/sound-image.png" alt="" />
+                        }
+                        else if (ContentTypeHelper.IsImage(file.FileType))
+                        {
+                            string img64 = Convert.ToBase64String(file.BinaryContent);
+                            string img64Url = string.Format("data:image/" + file.FileType + ";base64,{0}", img64);
+                            <img class="thumbnail" src="@img64Url" alt="" />
+                        }
+                        <label>@file.Name</label>
+                    </div>
                 </div>
             }
         </div>
@@ -55,7 +59,7 @@
                 <span class="input-group-addon">@Resource.Category</span>
                 @Html.Hidden("DocumentCategory")
                 @Html.TextBox("DocumentCategoryTa", "", new { @class = "form-control typeahead", placeholder = "", taname = "DocumentCategoryTa", taurl = "document/categories/" })
-                <label for="UploadFile" class="btn input-group-addon">
+                <label for="UploadFile" class="btn btn-primary btn-edges input-group-addon">
                     <i class="fas fa-file-upload"></i>
                     <span class="toggle-text">@Resource.BtnUploadFile</span>
                 </label>

@@ -74,7 +74,7 @@ img.photo {
     border: 1px solid #ddd; /* Gray border */
     border-radius: 4px; /* Rounded border */
     padding: 5px; /* Some padding */
-    width: 150px; /* Set a small width */
+    width: 100%; /* Set a small width */
     margin: 5px;
     overflow: hidden;
     text-wrap: none;

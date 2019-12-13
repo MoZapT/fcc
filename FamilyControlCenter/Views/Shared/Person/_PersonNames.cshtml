@@ -46,13 +46,13 @@
             @foreach (var name in Model)
             {
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header d-inline-flex">
                         <div class="col-md-10">
                             @name.Name
                         </div>
                         <div class="col-md-2">
                             <button id="DeletePersonName" nameid="@name.Id" type="button" class="btn btn-danger pull-right">
-                                <i class="glyphicon glyphicon-trash"></i>
+                                <em class="fas fa-trash-alt"></em>
                             </button>
                         </div>
                     </div>
