@@ -1,6 +1,6 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [FCC]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Database [FCC]    Script Date: 13.12.2019 15:45:13 ******/
 CREATE DATABASE [FCC]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -75,7 +75,7 @@ ALTER DATABASE [FCC] SET DELAYED_DURABILITY = DISABLED
 GO
 USE [FCC]
 GO
-/****** Object:  Table [dbo].[__MigrationHistory]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Table [dbo].[__MigrationHistory]    Script Date: 13.12.2019 15:45:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -97,7 +97,7 @@ CREATE TABLE [dbo].[__MigrationHistory](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[AspNetRoles]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Table [dbo].[AspNetRoles]    Script Date: 13.12.2019 15:45:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -112,7 +112,7 @@ CREATE TABLE [dbo].[AspNetRoles](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[AspNetUserClaims]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Table [dbo].[AspNetUserClaims]    Script Date: 13.12.2019 15:45:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -129,7 +129,7 @@ CREATE TABLE [dbo].[AspNetUserClaims](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[AspNetUserLogins]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Table [dbo].[AspNetUserLogins]    Script Date: 13.12.2019 15:45:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -147,7 +147,7 @@ CREATE TABLE [dbo].[AspNetUserLogins](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[AspNetUserRoles]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Table [dbo].[AspNetUserRoles]    Script Date: 13.12.2019 15:45:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -163,7 +163,7 @@ CREATE TABLE [dbo].[AspNetUserRoles](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[AspNetUsers]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Table [dbo].[AspNetUsers]    Script Date: 13.12.2019 15:45:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -188,7 +188,7 @@ CREATE TABLE [dbo].[AspNetUsers](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[FileContent]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Table [dbo].[FileContent]    Script Date: 13.12.2019 15:45:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -212,7 +212,7 @@ CREATE TABLE [dbo].[FileContent](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Person]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Table [dbo].[Person]    Script Date: 13.12.2019 15:45:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -236,7 +236,7 @@ CREATE TABLE [dbo].[Person](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[PersonActivity]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Table [dbo].[PersonActivity]    Script Date: 13.12.2019 15:45:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -249,6 +249,8 @@ CREATE TABLE [dbo].[PersonActivity](
 	[IsActive] [bit] NOT NULL,
 	[Activity] [nvarchar](500) NOT NULL,
 	[ActivityType] [int] NOT NULL,
+	[HasBegun] [bit] NOT NULL,
+	[HasEnded] [bit] NOT NULL,
 	[DateBegin] [datetime2](7) NULL,
 	[DateEnd] [datetime2](7) NULL,
  CONSTRAINT [PK_PersonActivity] PRIMARY KEY CLUSTERED 
@@ -258,7 +260,7 @@ CREATE TABLE [dbo].[PersonActivity](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[PersonBiography]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Table [dbo].[PersonBiography]    Script Date: 13.12.2019 15:45:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -277,7 +279,7 @@ CREATE TABLE [dbo].[PersonBiography](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[PersonDocument]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Table [dbo].[PersonDocument]    Script Date: 13.12.2019 15:45:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -295,7 +297,7 @@ CREATE TABLE [dbo].[PersonDocument](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[PersonFileContent]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Table [dbo].[PersonFileContent]    Script Date: 13.12.2019 15:45:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -311,7 +313,7 @@ CREATE TABLE [dbo].[PersonFileContent](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[PersonName]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Table [dbo].[PersonName]    Script Date: 13.12.2019 15:45:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -333,7 +335,7 @@ CREATE TABLE [dbo].[PersonName](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[PersonRelation]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Table [dbo].[PersonRelation]    Script Date: 13.12.2019 15:45:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -356,7 +358,7 @@ GO
 SET ANSI_PADDING ON
 
 GO
-/****** Object:  Index [RoleNameIndex]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Index [RoleNameIndex]    Script Date: 13.12.2019 15:45:13 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [RoleNameIndex] ON [dbo].[AspNetRoles]
 (
 	[Name] ASC
@@ -365,7 +367,7 @@ GO
 SET ANSI_PADDING ON
 
 GO
-/****** Object:  Index [IX_UserId]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Index [IX_UserId]    Script Date: 13.12.2019 15:45:13 ******/
 CREATE NONCLUSTERED INDEX [IX_UserId] ON [dbo].[AspNetUserClaims]
 (
 	[UserId] ASC
@@ -374,7 +376,7 @@ GO
 SET ANSI_PADDING ON
 
 GO
-/****** Object:  Index [IX_UserId]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Index [IX_UserId]    Script Date: 13.12.2019 15:45:13 ******/
 CREATE NONCLUSTERED INDEX [IX_UserId] ON [dbo].[AspNetUserLogins]
 (
 	[UserId] ASC
@@ -383,7 +385,7 @@ GO
 SET ANSI_PADDING ON
 
 GO
-/****** Object:  Index [IX_RoleId]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Index [IX_RoleId]    Script Date: 13.12.2019 15:45:13 ******/
 CREATE NONCLUSTERED INDEX [IX_RoleId] ON [dbo].[AspNetUserRoles]
 (
 	[RoleId] ASC
@@ -392,7 +394,7 @@ GO
 SET ANSI_PADDING ON
 
 GO
-/****** Object:  Index [IX_UserId]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Index [IX_UserId]    Script Date: 13.12.2019 15:45:13 ******/
 CREATE NONCLUSTERED INDEX [IX_UserId] ON [dbo].[AspNetUserRoles]
 (
 	[UserId] ASC
@@ -401,7 +403,7 @@ GO
 SET ANSI_PADDING ON
 
 GO
-/****** Object:  Index [UserNameIndex]    Script Date: 05.11.2019 14:44:12 ******/
+/****** Object:  Index [UserNameIndex]    Script Date: 13.12.2019 15:45:13 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [UserNameIndex] ON [dbo].[AspNetUsers]
 (
 	[UserName] ASC

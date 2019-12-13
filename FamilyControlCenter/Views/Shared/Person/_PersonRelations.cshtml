@@ -8,61 +8,72 @@
         </h2>
     </div>
     <div class="card-body">
-        <div class="well well-lg clearfix">
-            <div class="row form-group">
-                <div class="col-md-6">
-                    @Html.Hidden("NewRelationPersonId", "")
-                    @Html.TextBox("NewRelationPersonName", "", new { @class = "form-control typeahead", placeholder = "", taname = "PersonTypeahead", taurl = "typeahead/person/" + Model.Person.Id + "/" })
-                </div>
-                <div class="col-md-6">
-                    @Html.DropDownList("NewRelationRelationTypeId", new List<SelectListItem>(), new { @class = "form-control" })
-                </div>
+        <div class="card">
+            <div class="card-header">
+                <h3>Dobavit noviy</h3>
             </div>
-            <div class="row form-group">
-                <div class="col-md-12">
-                    <button id="SaveRelation" type="button" class="btn btn-primary">
-                        <i class="fas fa-plus"></i>
-                        @Resource.Add
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="row form-group">
-            <div class="col-md-12">
-                <h4>@Resource.PersonRelations</h4>
-            </div>
-        </div>
-
-        <div class="card-deck">
-            @foreach (var relationKvp in Model.Relations)
-            {
-                var relationType = relationKvp.Key;
-                foreach (var relation in relationKvp.Value)
-                {
-                    <div class="card">
-                        <div class="card-header d-inline-flex">
-                            <div class="col-md-9">
-                                @{
-                                    var dict = new ViewDataDictionary();
-                                    dict.Add("RelationType", relationType);
-                                    dict.Add("Sex", relation.Sex);
-                                }
-                                @Html.Partial("Person/_RelationIcon", dict)
-                            </div>
-                            <div class="col-md-3">
-                                <button id="DestroyRelation" inviter="@Model.Person.Id" invited="@relation.Id" reltype="@((int)relationType)" type="button" class="btn btn-danger">
-                                    <span class="fas fa-trash-alt"></span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            @relation.Name
-                        </div>
+            <div class="card-body">
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        @Html.Hidden("NewRelationPersonId", "")
+                        @Html.TextBox("NewRelationPersonName", "", new { @class = "form-control typeahead", placeholder = "", taname = "PersonTypeahead", taurl = "typeahead/person/" + Model.Person.Id + "/" })
                     </div>
-                }
-            }
+                    <div class="col-md-6">
+                        @Html.DropDownList("NewRelationRelationTypeId", new List<SelectListItem>(), new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <button id="SaveRelation" type="button" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            @Resource.Add
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>@Resource.PersonRelations</h3>
+            </div>
+            <div class="card-body">
+                <div class="card-deck">
+                    @foreach (var relationKvp in Model.Relations)
+                    {
+                        var relationType = relationKvp.Key;
+                        foreach (var relation in relationKvp.Value)
+                        {
+                            <div class="card">
+                                <div class="card-header d-inline-flex">
+                                    <div class="col-md-9">
+                                        @{
+                                            var dict = new ViewDataDictionary();
+                                            dict.Add("RelationType", relationType);
+                                            dict.Add("Sex", relation.Sex);
+                                        }
+                                        @Html.Partial("Person/_RelationIcon", dict)
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button id="DestroyRelation" inviter="@Model.Person.Id" invited="@relation.Id" reltype="@((int)relationType)" type="button" class="btn btn-danger">
+                                            <span class="fas fa-trash-alt"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    @relation.Name
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        @if (Model.RelationUpdateStack?.Count > 0)
+        {
+            @Html.Partial("Person/_PersonRelationsUpdateStack", Model.RelationUpdateStack)
+        }
     </div>
 </div>
 

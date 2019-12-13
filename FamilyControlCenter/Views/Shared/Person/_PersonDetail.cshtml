@@ -2,119 +2,130 @@
     @model Shared.Viewmodels.PersonViewModel
 }
 
-<div class="card">
-    <div class="card-header">
-        <h2>
-            <i class="fas fa-id-card"></i>
-            @Resource.PassportView
-        </h2>
-    </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="row form-group">
-                    <div class="col-md-12" id="PhotoSection">
+@using (Html.BeginForm("Person", "Family", FormMethod.Post, new { id = "PersonView" }))
+{
+    @Html.AntiForgeryToken()
+
+    <!-- BEGIN HIDDEN FIELD AREA -->
+    @Html.HiddenFor(m => m.Model.Id)
+    @Html.HiddenFor(m => m.Command)
+    @Html.HiddenFor(m => m.State)
+    <!-- END HIDDEN FIELD AREA -->
+
+    <div class="card">
+        <div class="card-header">
+            <h2>
+                <i class="fas fa-id-card"></i>
+                @Resource.PassportView
+            </h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="row form-group">
+                        <div class="col-md-12" id="PhotoSection">
+                            @if (Model.Command == Shared.Enums.ActionCommand.Open)
+                            {
+                                var photoVm = new KeyValuePair<string, List<FileContent>>(Model.Model.FileContentId, Model.Photos);
+                                @Html.Partial("Person/_PhotoSection", photoVm)
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(m => m.Model.Firstname, Resource.Name)
+                            @Html.TextBoxFor(m => m.Model.Firstname, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(m => m.Model.Lastname, Resource.Lastname)
+                            @Html.TextBoxFor(m => m.Model.Lastname, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(m => m.Model.Patronym, Resource.Patronym)
+                            @Html.TextBoxFor(m => m.Model.Patronym, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-6">
+                            <div class="form-inline">
+                                @Html.Label("Sex_Checkbox_Male_Text", Resource.Male)
+                                <span class="text-male fas fa-mars"></span>
+                                <div class="custom-control custom-switch">
+                                    @Html.CheckBoxFor(m => m.Model.Sex, new { @class = "custom-control-input sexswitcher" })
+                                    <label class="custom-control-label" for="Model_Sex"></label>
+                                </div>
+                                <span class="text-female fas fa-venus"></span>
+                                @Html.Label("Sex_Checkbox_Female_Text", Resource.Female)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col-md-12 form-inline">
+                                    <div class="custom-control custom-checkbox">
+                                        @Html.CheckBoxFor(m => m.Model.HasBirthDate, new { @class = "custom-control-input" })
+                                        @Html.LabelFor(m => m.Model.HasBirthDate, Resource.BornTimeKnown, new { @class = "custom-control-label" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    @Html.HiddenFor(m => m.Model.BirthDate)
+                                    @if (Model.Model.HasBirthDate)
+                                    {
+                                        @Html.TextBox("DpBornTime", Model.Model.BirthDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBox("DpBornTime", Model.Model.BirthDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control", @readonly = "readonly" })
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col-md-12 form-inline">
+                                    <div class="custom-control custom-checkbox">
+                                        @Html.CheckBoxFor(m => m.Model.HasDeathDate, new { @class = "custom-control-input" })
+                                        @Html.LabelFor(m => m.Model.HasDeathDate, Resource.DeadTimeKnown, new { @class = "custom-control-label" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    @Html.HiddenFor(m => m.Model.DeathDate)
+                                    @if (Model.Model.HasDeathDate)
+                                    {
+                                        @Html.TextBox("DpDeadTime", Model.Model.DeathDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBox("DpDeadTime", Model.Model.DeathDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control", @readonly = "readonly" })
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="MarriageStatus">
                         @if (Model.Command == Shared.Enums.ActionCommand.Open)
                         {
-                            var photoVm = new KeyValuePair<string, List<FileContent>>(Model.Model.FileContentId, Model.Photos);
-                            @Html.Partial("Person/_PhotoSection", photoVm)
+                            @Html.Partial("Person/_MarriageSection",
+                            new Tuple<Person, Person, Person>(Model.Model, Model.MarriedOn, Model.PartnerOf))
                         }
                     </div>
                 </div>
             </div>
-            <div class="col-md-9">
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        @Html.LabelFor(m => m.Model.Firstname, Resource.Name)
-                        @Html.TextBoxFor(m => m.Model.Firstname, new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        @Html.LabelFor(m => m.Model.Lastname, Resource.Lastname)
-                        @Html.TextBoxFor(m => m.Model.Lastname, new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        @Html.LabelFor(m => m.Model.Patronym, Resource.Patronym)
-                        @Html.TextBoxFor(m => m.Model.Patronym, new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-6">
-                        <div class="form-inline">
-                            @Html.Label("Sex_Checkbox_Male_Text", Resource.Male)
-                            <span class="text-male fas fa-mars"></span>
-                            <div class="custom-control custom-switch">
-                                @Html.CheckBoxFor(m => m.Model.Sex, new { @class = "custom-control-input sexswitcher" })
-                                <label class="custom-control-label" for="Model_Sex"></label>
-                            </div>
-                            <span class="text-female fas fa-venus"></span>
-                            @Html.Label("Sex_Checkbox_Female_Text", Resource.Female)
-                        </div>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-6">
-                        <div class="row form-group">
-                            <div class="col-md-12 form-inline">
-                                <div class="custom-control custom-checkbox">
-                                    @Html.CheckBoxFor(m => m.Model.HasBirthDate, new { @class = "custom-control-input" })
-                                    @Html.LabelFor(m => m.Model.HasBirthDate, Resource.BornTimeKnown, new { @class = "custom-control-label" })
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                @Html.HiddenFor(m => m.Model.BirthDate)
-                                @if (Model.Model.HasBirthDate)
-                                {
-                                    @Html.TextBox("DpBornTime", Model.Model.BirthDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })
-                                }
-                                else
-                                {
-                                    @Html.TextBox("DpBornTime", Model.Model.BirthDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control", @readonly = "readonly" })
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="row form-group">
-                            <div class="col-md-12 form-inline">
-                                <div class="custom-control custom-checkbox">
-                                    @Html.CheckBoxFor(m => m.Model.HasDeathDate, new { @class = "custom-control-input" })
-                                    @Html.LabelFor(m => m.Model.HasDeathDate, Resource.DeadTimeKnown, new { @class = "custom-control-label" })
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                @Html.HiddenFor(m => m.Model.DeathDate)
-                                @if (Model.Model.HasDeathDate)
-                                {
-                                    @Html.TextBox("DpDeadTime", Model.Model.DeathDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })
-                                }
-                                else
-                                {
-                                    @Html.TextBox("DpDeadTime", Model.Model.DeathDate, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "datepicker form-control", @readonly = "readonly" })
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="MarriageStatus">
-                    @if (Model.Command == Shared.Enums.ActionCommand.Open)
-                    {
-                        @Html.Partial("Person/_MarriageSection",
-                        new Tuple<Person, Person, Person>(Model.Model, Model.MarriedOn, Model.PartnerOf))
-                    }
-                </div>
-            </div>
+        </div>
+        <div class="card-footer clearfix">
+            <button class="btn crud btn-primary" type="button" args="@((int)ActionCommand.Save)" obj="@Model.Model.Id">
+                <i class="glyphicon glyphicon-floppy-disk"></i>
+                @Resources.Resource.Save
+            </button>
         </div>
     </div>
-    <div class="card-footer clearfix">
-        <button class="btn crud btn-primary pull-right" type="button" args="@((int)ActionCommand.Save)" obj="@Model.Model.Id">
-            <i class="glyphicon glyphicon-floppy-disk"></i>
-            @Resources.Resource.Save
-        </button>
-    </div>
-</div>
+}

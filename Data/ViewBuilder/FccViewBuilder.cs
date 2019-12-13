@@ -116,6 +116,7 @@ namespace Data.ViewBuilder
         {
             var vm = new PersonRelationsViewModel();
             vm.Person = _mgrFcc.GetPerson(personId);
+            vm.RelationUpdateStack = _mgrFcc.CreateRelationsMesh(personId);
             foreach (var relationsType in vm.RelationTypeLoadingList)
             {
                 var personList = _mgrFcc.GetPersonByRelationType(personId, relationsType);

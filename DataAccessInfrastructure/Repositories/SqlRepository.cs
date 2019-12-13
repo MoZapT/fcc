@@ -471,6 +471,25 @@ namespace DataAccessInfrastructure.Repositories
 
             return Query<PersonRelation>(query, new { @PersonId = id });
         }
+
+        public IEnumerable<PersonRelation> ReadAllPersonRelationsThatExistByRelatedPerson(string personId)
+        {
+            string query = @"
+                    DECLARE @table table (Id nvarchar(128))
+
+                    INSERT INTO @table
+                    SELECT InvitedId
+                    FROM [FCC].[dbo].[PersonRelation]
+                    WHERE InviterId = @PersonId
+
+                    SELECT *
+                    FROM [FCC].[dbo].[PersonRelation]
+                    WHERE InviterId IN (SELECT * FROM @table)
+                    AND NOT InvitedId = @PersonId";
+
+            return Query<PersonRelation>(query, new { @PersonId = personId });
+        }
+
         public string CreatePersonRelation(PersonRelation entity)
         {
             string query = @"

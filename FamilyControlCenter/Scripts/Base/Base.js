@@ -12,13 +12,7 @@
             $('#Command').val(args);
             $('#Model_Id').val(id);
 
-            var forms = $('form');
-            if (forms.length > 1) {
-                $('form')[1].submit();
-            }
-            else {
-                $('form')[0].submit();
-            }
+            $('form#PersonView').submit();
         });
     }
 

@@ -15,6 +15,7 @@ namespace Shared.Viewmodels
         public Person Person { get; set; }
         public Dictionary<RelationType, List<Person>> Relations { get; set; }
         public List<RelationType> RelationTypeLoadingList { set; get; }
+        public List<PersonRelation> RelationUpdateStack { get; set; }
 
         #endregion
 
@@ -26,6 +27,7 @@ namespace Shared.Viewmodels
         private void InitRelationsDictionaryList()
         {
             Relations = new Dictionary<RelationType, List<Person>>();
+            RelationUpdateStack = new List<PersonRelation>();
             RelationTypeLoadingList = new List<RelationType>();
             //TODO divorced wife
             //TODO previous live partner

@@ -75,6 +75,12 @@ namespace FamilyControlCenter.Controllers
         }
 
         [HttpPost]
+        public void SavePersonRelationsUpdateStack()
+        {
+
+        }
+
+        [HttpPost]
         public PartialViewResult PersonBiography(string personId)
         {
             BeforeLoadAction();

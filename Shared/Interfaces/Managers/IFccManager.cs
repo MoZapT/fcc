@@ -46,6 +46,7 @@ namespace Shared.Interfaces.Managers
 
         #region PersonRelation
 
+        List<PersonRelation> CreateRelationsMesh(string personId);
         List<PersonRelation> GetAllPersonRelationsBetweenPersons(string inviter, string invited);
         List<PersonRelation> GetAllPersonRelationsByInviterId(string personId);
         bool DeletePersonRelation(string inviter, string invited, RelationType type);

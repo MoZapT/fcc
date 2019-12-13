@@ -1,0 +1,55 @@
+﻿@model List<PersonRelation>
+
+@using (Html.BeginForm("SavePersonRelationsUpdateStack", "Family", FormMethod.Post, new { id = "PersonRelationsUpdateStack" }))
+{
+    <div class="card">
+        <div class="card-header">
+            <h3>Vorschläge</h3>
+        </div>
+        <div class="card-body">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var sl = FccRelationTypeHelper.GetFamilySiblingsSelectGroup(Model[i].Invited.Sex)
+                    .Select(e =>
+                    {
+                        if (Model[i].RelationType == RelationType.HusbandWife &&
+                            e.Value == RelationType.InLawSiblings.ToString())
+                        {
+                            e.Selected = true;
+                            return e;
+                        }
+
+                        if (e.Value == Model[i].RelationType.ToString())
+                        {
+                            e.Selected = true;
+                        }
+
+                        return e;
+                    })
+                    .ToList();
+
+                @Html.HiddenFor(m => m[i].Id)
+                @Html.HiddenFor(m => m[i].DateCreated)
+                @Html.HiddenFor(m => m[i].DateModified)
+                @Html.HiddenFor(m => m[i].InvitedId)
+                @Html.HiddenFor(m => m[i].InviterId)
+                @Html.HiddenFor(m => m[i].IsActive)
+
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(m => m[i].Invited.Name, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(m => m[i].RelationType, sl, new { @class = "form-control" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+
+
+
+
+
