@@ -1,10 +1,10 @@
 ﻿@model List<PersonRelation>
 
-@using (Html.BeginForm("SavePersonRelationsUpdateStack", "Family", FormMethod.Post, new { id = "PersonRelationsUpdateStack" }))
+@using (Html.BeginForm("PersonRelationsUpdateStack", "Family", FormMethod.Post, new { id = "PersonRelationsUpdateStack" }))
 {
     <div class="card">
         <div class="card-header">
-            <h3>Vorschläge</h3>
+            <h3>@Resource.MaybeRelativesOfMsg</h3>
         </div>
         <div class="card-body">
             @for (int i = 0; i < Model.Count; i++)

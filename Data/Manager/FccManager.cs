@@ -278,10 +278,10 @@ namespace Data.Manager
 
         private PersonRelation CreateRelation(string inviter, string invited, RelationType type)
         {
-            if (type == RelationType.HusbandWife)
-            {
-                type = RelationType.InLawSiblings;
-            }
+            //if (type == RelationType.HusbandWife)
+            //{
+            //    type = RelationType.InLawSiblings;
+            //}
 
             return new PersonRelation
             {

@@ -450,4 +450,7 @@
   <data name="Uncle" xml:space="preserve">
     <value>Дядя</value>
   </data>
+  <data name="MaybeRelativesOfMsg" xml:space="preserve">
+    <value>Возможные общие родственники</value>
+  </data>
 </root>

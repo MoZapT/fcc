@@ -75,7 +75,7 @@ namespace FamilyControlCenter.Controllers
         }
 
         [HttpPost]
-        public void SavePersonRelationsUpdateStack()
+        public void PersonRelationsUpdateStack()
         {
 
         }

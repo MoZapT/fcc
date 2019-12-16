@@ -639,6 +639,15 @@ namespace Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
+        public static string MaybeRelativesOfMsg {
+            get {
+                return ResourceManager.GetString("MaybeRelativesOfMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
         public static string MiddleSchool {
             get {
                 return ResourceManager.GetString("MiddleSchool", resourceCulture);

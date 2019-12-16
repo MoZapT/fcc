@@ -10,7 +10,7 @@
     <div class="card-body">
         <div class="card">
             <div class="card-header">
-                <h3>Dobavit noviy</h3>
+                <h3>@Resource.Add</h3>
             </div>
             <div class="card-body">
                 <div class="row form-group">
@@ -33,47 +33,47 @@
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <h3>@Resource.PersonRelations</h3>
-            </div>
-            <div class="card-body">
-                <div class="card-deck">
-                    @foreach (var relationKvp in Model.Relations)
-                    {
-                        var relationType = relationKvp.Key;
-                        foreach (var relation in relationKvp.Value)
+        @if (Model.Relations?.Count > 0)
+        {
+            <div class="card">
+                <div class="card-header">
+                    <h3>@Resource.PersonRelations</h3>
+                </div>
+                <div class="card-body">
+                    <div class="card-deck">
+                        @foreach (var relationKvp in Model.Relations)
                         {
-                            <div class="card">
-                                <div class="card-header d-inline-flex">
-                                    <div class="col-md-9">
-                                        @{
-                                            var dict = new ViewDataDictionary();
-                                            dict.Add("RelationType", relationType);
-                                            dict.Add("Sex", relation.Sex);
-                                        }
-                                        @Html.Partial("Person/_RelationIcon", dict)
+                            var relationType = relationKvp.Key;
+                            foreach (var relation in relationKvp.Value)
+                            {
+                                <div class="card">
+                                    <div class="card-header d-inline-flex">
+                                        <div class="col-md-9">
+                                            @{
+                                                var dict = new ViewDataDictionary();
+                                                dict.Add("RelationType", relationType);
+                                                dict.Add("Sex", relation.Sex);
+                                            }
+                                            @Html.Partial("Person/_RelationIcon", dict)
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button id="DestroyRelation" inviter="@Model.Person.Id" invited="@relation.Id" reltype="@((int)relationType)" type="button" class="btn btn-danger">
+                                                <span class="fas fa-trash-alt"></span>
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <button id="DestroyRelation" inviter="@Model.Person.Id" invited="@relation.Id" reltype="@((int)relationType)" type="button" class="btn btn-danger">
-                                            <span class="fas fa-trash-alt"></span>
-                                        </button>
+                                    <div class="card-body">
+                                        @relation.Name
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    @relation.Name
-                                </div>
-                            </div>
+                            }
                         }
-                    }
+                    </div>
                 </div>
             </div>
-        </div>
-
-        @if (Model.RelationUpdateStack?.Count > 0)
-        {
-            @Html.Partial("Person/_PersonRelationsUpdateStack", Model.RelationUpdateStack)
         }
+
+        <div id="PlaceholderForPersonRelationsUpdateStack"></div>
     </div>
 </div>
 
