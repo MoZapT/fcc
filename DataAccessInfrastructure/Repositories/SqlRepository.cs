@@ -565,6 +565,25 @@ namespace DataAccessInfrastructure.Repositories
                 > 0 ? true : false;
         }
 
+        public IEnumerable<RelationType> GetPersonsRelationTypes(string personId)
+        {
+            string query = @"
+                    SELECT [RelationType]
+                    FROM [FCC].[dbo].[PersonRelation]
+                    WHERE 
+	                    InviterId = @PersonId
+                        AND NOT RelationType = @Spouse
+                        AND NOT RelationType = @LivePartner
+	                    AND IsActive = 1";
+
+            return Query<RelationType>(query, 
+                new { 
+                    @PersonId = personId,
+                    @Spouse = RelationType.HusbandWife,
+                    RelationType.LivePartner
+                });
+        }
+
         #endregion
 
         #region PersonBiography

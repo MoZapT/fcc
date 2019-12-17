@@ -52,6 +52,7 @@ namespace Shared.Interfaces.Repositories
         bool DeletePersonRelation(string inviter, string invited);
         bool DeletePersonRelation(string inviter, string invited, RelationType type);
         bool IsMarried(string personId);
+        IEnumerable<RelationType> GetPersonsRelationTypes(string personId);
 
         #endregion
 

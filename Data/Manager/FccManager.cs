@@ -276,6 +276,11 @@ namespace Data.Manager
                 .ToList();
         }
 
+        public List<RelationType> GetPersonsRelationTypes(string personId)
+        {
+            return _repo.GetPersonsRelationTypes(personId).ToList();
+        }
+
         private PersonRelation CreateRelation(string inviter, string invited, RelationType type)
         {
             //if (type == RelationType.HusbandWife)

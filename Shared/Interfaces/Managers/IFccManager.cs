@@ -51,6 +51,7 @@ namespace Shared.Interfaces.Managers
         List<PersonRelation> GetAllPersonRelationsByInviterId(string personId);
         bool DeletePersonRelation(string inviter, string invited, RelationType type);
         bool SetPersonRelation(string inviter, string invited, RelationType type);
+        List<RelationType> GetPersonsRelationTypes(string personId);
 
         #endregion
 
