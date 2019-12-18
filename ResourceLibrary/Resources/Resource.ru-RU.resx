@@ -462,4 +462,7 @@
   <data name="SameRelationsExistsMsg" xml:space="preserve">
     <value>У вас есть общие родственники, нажмите на "Перейти" чтобы перейти в меню связей.</value>
   </data>
+  <data name="RelationsMenuTitle" xml:space="preserve">
+    <value>Меню связей</value>
+  </data>
 </root>

@@ -864,6 +864,15 @@ namespace Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
+        public static string RelationsMenuTitle {
+            get {
+                return ResourceManager.GetString("RelationsMenuTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
         public static string SameRelationsExistsHeader {
             get {
                 return ResourceManager.GetString("SameRelationsExistsHeader", resourceCulture);

@@ -1,6 +1,6 @@
 ﻿@model RelationsUpdateStackViewModel
 @{ 
-    ViewBag.Title = Resource.PassportView;
+    ViewBag.Title = Resource.RelationsMenuTitle;
 
     var personSl = Model.PersonList.Select(e =>
     {
@@ -29,7 +29,7 @@
 
 <div class="card">
     <div class="card-header">
-        <h3>@Resource.MaybeRelativesOfMsg</h3>
+        <h3>@Resource.RelationsMenuTitle</h3>
     </div>
     <div class="card-body">
         <div class="row">
@@ -40,8 +40,13 @@
                 @Html.DropDownListFor(m => m.SelectedPersonIdWithRelations, personWithPossibleRelationsSl, new { @class = "form-control" })
             </div>
         </div>
-        <div id="RelationsUpdateStackContainer">
-            @Html.Partial("RelationsUpdateStack/_RelationsStack", Model.InitialRelations)
+        <div id="RelationsUpdateStackContainer" class="card">
+            <div class="card-header">
+                <h4>@Resource.MaybeRelativesOfMsg</h4>
+            </div>
+            <div class="card-body">
+                @Html.Partial("RelationsUpdateStack/_RelationsStack", Model.InitialRelations)
+            </div>
         </div>
     </div>
 </div>

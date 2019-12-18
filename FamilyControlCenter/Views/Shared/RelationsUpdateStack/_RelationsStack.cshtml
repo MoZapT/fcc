@@ -2,7 +2,17 @@
 
 @for (int i = 0; i < Model.Count; i++)
 {
-    var sl = FccRelationTypeHelper.GetFamilySiblingsSelectGroup();
+    var sl = FccRelationTypeHelper.GetFamilySiblingsSelectGroup()
+        .Select(e =>
+        {
+            var type = (RelationType)Enum.Parse(typeof(RelationType), e.Value);
+            type = FccRelationTypeHelper.GetCounterRelationType(type);
+            if (e.Value == type.ToString())
+            {
+                e.Selected = true;
+            }
+            return e;
+        });
 
     <div class="row">
         <div class="col-md-6">
