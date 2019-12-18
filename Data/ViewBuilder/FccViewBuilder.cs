@@ -118,6 +118,7 @@ namespace Data.ViewBuilder
             var vm = new PersonRelationsViewModel();
             vm.Person = _mgrFcc.GetPerson(personId);
             vm.SameRelationsAvaible = _mgrFcc.CheckIfSameRelationsAvaible(personId);
+
             foreach (var relationsType in _mgrFcc.GetPersonsRelationTypes(personId))
             {
                 vm.Relations.Add(relationsType, _mgrFcc.GetPersonByRelationType(personId, relationsType));
@@ -244,25 +245,20 @@ namespace Data.ViewBuilder
 
         #region RelationsUpdateStack
 
-        public RelationsUpdateStackViewModel CreateUpdateRelationsStackViewModel(string personId)
+        public RelationsUpdateStackViewModel CreateUpdateRelationsStackViewModel(string personId, string selectedId)
         {
-            var vm = new RelationsUpdateStackViewModel()
-            {
-                PersonId = personId,
-                PersonName = _mgrFcc.GetCurrentPersonName(personId),
-                PersonsWithPossibleRelations = _mgrFcc.GetPersonsKvpWithPossibleRelations(personId)
-                    .Select(e =>
-                    {
-                        return new SelectListItem()
-                        {
-                            Value = e.Key,
-                            Text = e.Value,
-                        };
-                    })
-                    .ToList(),
-            };
+            var vm = new RelationsUpdateStackViewModel();
+            vm.PersonId = personId;
+            vm.PersonList = _mgrFcc.GetPersonsThatHaveRelativesWithPossibleRelations();
+            vm.PersonsWithPossibleRelations = _mgrFcc.GetPersonsKvpWithPossibleRelations(personId);
+            vm.InitialRelations = CreateRelationsUpdateStackPartial(personId, vm.PersonsWithPossibleRelations.FirstOrDefault().Key);
 
             return vm;
+        }
+
+        public List<PersonRelation> CreateRelationsUpdateStackPartial(string personId, string selectedId)
+        {
+            return _mgrFcc.CreateRelationsMesh(personId, selectedId);
         }
 
         #endregion

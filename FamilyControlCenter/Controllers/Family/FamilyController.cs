@@ -104,11 +104,19 @@ namespace FamilyControlCenter.Controllers
             return PartialView("Person/_PersonNames", vm);
         }
 
-        public PartialViewResult PersonRelationsUpdateStack(string personId)
+        public ActionResult PersonRelationsUpdateStack(string personId = null, string selectedId = null)
         {
             BeforeLoadAction();
-            List<PersonName> vm = _vwbFcc.CreatePartialViewForNamesAndPatronymList(personId);
-            return PartialView("Person/_PersonRelationsUpdateStack", vm);
+            var vm = _vwbFcc.CreateUpdateRelationsStackViewModel(personId, selectedId);
+            return View("_PersonRelationsUpdateStack", vm);
+        }
+
+        [HttpPost]
+        public PartialViewResult RelationsUpdateStackPartial(string personId = null, string selectedId = null)
+        {
+            BeforeLoadAction();
+            List<PersonRelation> vm = _vwbFcc.CreateRelationsUpdateStackPartial(personId, selectedId);
+            return PartialView("Person/_PersonNames", vm);
         }
     }
 }

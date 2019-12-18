@@ -266,9 +266,9 @@ namespace Data.Manager
             };
         }
         
-        public List<PersonRelation> CreateRelationsMesh(string personId)
+        public List<PersonRelation> CreateRelationsMesh(string personId, string invitedId)
         {
-            return _repo.ReadAllPersonRelationsThatExistByRelatedPerson(personId)
+            return _repo.ReadAllPersonRelationsThatArePossible(personId, invitedId)
                 .Select(e =>
                 {
                     e.Inviter = _repo.ReadPerson(e.InviterId);
@@ -276,6 +276,11 @@ namespace Data.Manager
                     return e;
                 })
                 .ToList();
+        }
+
+        public List<KeyValuePair<string, string>> GetPersonsThatHaveRelativesWithPossibleRelations()
+        {
+            return _repo.GetPersonsThatHaveRelativesWithPossibleRelations().ToList();
         }
 
         public bool CheckIfSameRelationsAvaible(string personId)

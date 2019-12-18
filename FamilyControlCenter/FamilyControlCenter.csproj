@@ -524,6 +524,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Family\_PersonRelationsUpdateStack.cshtml" />
+    <Content Include="Views\Shared\RelationsUpdateStack\_RelationsStack.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

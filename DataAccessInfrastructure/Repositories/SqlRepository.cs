@@ -482,22 +482,80 @@ namespace DataAccessInfrastructure.Repositories
             return Query<PersonRelation>(query, new { @PersonId = id });
         }
 
-        public IEnumerable<PersonRelation> ReadAllPersonRelationsThatExistByRelatedPerson(string personId)
+        public IEnumerable<KeyValuePair<string, string>> GetPersonsThatHaveRelativesWithPossibleRelations()
         {
             string query = @"
-                    DECLARE @table table (Id nvarchar(128))
+                DECLARE @PersonId nvarchar(36)
+                DECLARE @Table table (Id nvarchar(36), InviterId nvarchar(36), RelationsCount int)
 
-                    INSERT INTO @table
-                    SELECT InvitedId
-                    FROM [FCC].[dbo].[PersonRelation]
-                    WHERE InviterId = @PersonId
+                DECLARE db_cursor CURSOR FOR 
+                SELECT InviterId
+                FROM [PersonRelation]
+                GROUP BY InviterId
 
-                    SELECT *
-                    FROM [FCC].[dbo].[PersonRelation]
-                    WHERE InviterId IN (SELECT * FROM @table)
+                OPEN db_cursor
+                FETCH NEXT FROM db_cursor
+                INTO @PersonId
+
+                WHILE @@FETCH_STATUS = 0   
+                BEGIN
+	                INSERT INTO @Table
+	                SELECT 
+		                @PersonId
+		                ,InviterId
+		                ,COUNT(Id)
+	                FROM [PersonRelation]
+	                WHERE 
+		                NOT InviterId = @PersonId
+		                AND InvitedId IN
+			                (SELECT InvitedId
+			                FROM [PersonRelation]
+			                WHERE InviterId = @PersonId)
+	                GROUP BY
+		                InviterId
+
+	                FETCH NEXT FROM db_cursor
+	                INTO @PersonId
+                END
+
+                CLOSE db_cursor
+                DEALLOCATE db_cursor
+
+                SELECT 
+                    ta.Id AS 'Key'
+	                ,ISNULL(pe.Firstname, '') + ' ' + ISNULL(pe.Lastname, '') + ' ' + ISNULL(pe.Patronym, '') AS 'Value'
+                FROM @Table AS ta
+                JOIN [Person] AS pe   
+	                ON ta.Id = pe.Id    
+                GROUP BY
+	                ta.Id
+	                ,pe.Firstname
+	                ,pe.Lastname
+	                ,pe.Patronym";
+
+            return Query<KeyValuePair<string, string>>(query);
+        }
+
+        public IEnumerable<PersonRelation> ReadAllPersonRelationsThatArePossible(string personId, string inviterId)
+        {
+            string query = @"
+                DECLARE @table table (Id nvarchar(36))
+
+                INSERT INTO @table
+                SELECT InvitedId
+                FROM [PersonRelation]
+                WHERE 
+	                InviterId = @PersonId
+	                AND NOT InvitedId = @InviterId
+
+                SELECT *
+                FROM [PersonRelation]
+                WHERE 
+	                InviterId = @InviterId
+	                AND NOT InvitedId IN (SELECT * FROM @table)
                     AND NOT InvitedId = @PersonId";
 
-            return Query<PersonRelation>(query, new { @PersonId = personId });
+            return Query<PersonRelation>(query, new { @PersonId = personId, @InviterId = inviterId });
         }
 
         public bool CheckIfSameRelationsAvaible(string personId)
@@ -535,7 +593,7 @@ namespace DataAccessInfrastructure.Repositories
 
                 SELECT 
 	                pr.InviterId AS 'Key'
-	                ,pe.Firstname + ' ' + pe.Lastname + ' ' + pe.Patronym AS 'Value'
+	                ,ISNULL(pe.Firstname, '') + ' ' + ISNULL(pe.Lastname, '') + ' ' + ISNULL(pe.Patronym, '') AS 'Value'
                 FROM [PersonRelation] AS pr
                 JOIN [Person] AS pe
 	                ON pr.InviterId = pe.Id
@@ -629,13 +687,15 @@ namespace DataAccessInfrastructure.Repositories
         public IEnumerable<RelationType> GetPersonsRelationTypes(string personId)
         {
             string query = @"
-                    SELECT [RelationType]
-                    FROM [FCC].[dbo].[PersonRelation]
+                    SELECT RelationType
+                    FROM [PersonRelation]
                     WHERE 
 	                    InviterId = @PersonId
                         AND NOT RelationType = @Spouse
                         AND NOT RelationType = @LivePartner
-	                    AND IsActive = 1";
+	                    AND IsActive = 1
+                    GROUP BY
+                        RelationType";
 
             return Query<RelationType>(query, 
                 new { 

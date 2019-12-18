@@ -47,8 +47,9 @@ namespace Shared.Interfaces.Repositories
         PersonRelation ReadPersonRelation(string inviter, string invited, RelationType type);
         IEnumerable<PersonRelation> ReadAllPersonRelationBetweenInviterAndInvited(string inviter, string invited);
         IEnumerable<PersonRelation> ReadAllPersonRelationsByInviterId(string id);
-        IEnumerable<PersonRelation> ReadAllPersonRelationsThatExistByRelatedPerson(string personId);
+        IEnumerable<PersonRelation> ReadAllPersonRelationsThatArePossible(string personId, string inviterId);
         bool CheckIfSameRelationsAvaible(string personId);
+        IEnumerable<KeyValuePair<string, string>> GetPersonsThatHaveRelativesWithPossibleRelations();
         IEnumerable<KeyValuePair<string, string>> GetPersonsKvpWithPossibleRelations(string personId);
         string CreatePersonRelation(PersonRelation entity);
         bool UpdatePersonRelation(PersonRelation entity);
