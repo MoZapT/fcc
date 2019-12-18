@@ -17,5 +17,6 @@ namespace Shared.Interfaces.ViewBuilders
         List<PersonName> CreatePartialViewForNamesAndPatronymList(string personId);
         PersonRelationsViewModel CreatePersonPartialViewRelationsModel(string personId);
         Tuple<Person, Person, Person> CreatePartialViewForMarriageOrLivePartner(string personId, string spouseId, string partnerId);
+        RelationsUpdateStackViewModel CreateUpdateRelationsStackViewModel(string personId);
     }
 }

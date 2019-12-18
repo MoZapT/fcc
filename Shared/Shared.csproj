@@ -94,6 +94,7 @@
     <Compile Include="Viewmodels\PagingViewModel.cs" />
     <Compile Include="Viewmodels\PersonDocumentsViewModel.cs" />
     <Compile Include="Viewmodels\PersonBiographyViewModel.cs" />
+    <Compile Include="Viewmodels\RelationsUpdateStackViewModel.cs" />
     <Compile Include="Viewmodels\PersonRelationsViewModel.cs" />
     <Compile Include="Viewmodels\PersonViewModel.cs" />
   </ItemGroup>

@@ -75,12 +75,6 @@ namespace FamilyControlCenter.Controllers
         }
 
         [HttpPost]
-        public void PersonRelationsUpdateStack()
-        {
-
-        }
-
-        [HttpPost]
         public PartialViewResult PersonBiography(string personId)
         {
             BeforeLoadAction();
@@ -108,6 +102,13 @@ namespace FamilyControlCenter.Controllers
             BeforeLoadAction();
             List<PersonName> vm = _vwbFcc.CreatePartialViewForNamesAndPatronymList(personId);
             return PartialView("Person/_PersonNames", vm);
+        }
+
+        public PartialViewResult PersonRelationsUpdateStack(string personId)
+        {
+            BeforeLoadAction();
+            List<PersonName> vm = _vwbFcc.CreatePartialViewForNamesAndPatronymList(personId);
+            return PartialView("Person/_PersonRelationsUpdateStack", vm);
         }
     }
 }

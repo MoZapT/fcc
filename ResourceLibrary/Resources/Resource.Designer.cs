@@ -603,6 +603,15 @@ namespace Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
+        public static string LastUpdatedOn {
+            get {
+                return ResourceManager.GetString("LastUpdatedOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
         public static string Male {
             get {
                 return ResourceManager.GetString("Male", resourceCulture);
@@ -849,6 +858,24 @@ namespace Resources {
         public static string Register {
             get {
                 return ResourceManager.GetString("Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string SameRelationsExistsHeader {
+            get {
+                return ResourceManager.GetString("SameRelationsExistsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string SameRelationsExistsMsg {
+            get {
+                return ResourceManager.GetString("SameRelationsExistsMsg", resourceCulture);
             }
         }
         

@@ -8,6 +8,26 @@
         </h2>
     </div>
     <div class="card-body">
+        @if (Model.SameRelationsAvaible)
+        {
+            <div class="toast" data-autohide="false">
+                <div class="toast-header">
+                    <strong class="mr-auto text-primary">@Resource.SameRelationsExistsHeader</strong>
+                    @*<small class="text-muted">5 @Resource.LastUpdatedOn</small>*@
+                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+                </div>
+                <div class="toast-body">
+                    <p>
+                        @Resource.SameRelationsExistsMsg
+                    </p>
+                    <a href="PersonRelationsUpdateStack?personId=@Model.Person.Id">
+                        @Resource.Goto
+                        <span class="fas fa-angle-double-right"></span>
+                    </a>
+                </div>
+            </div>
+        }
+
         <div class="card">
             <div class="card-header">
                 <h3>@Resource.Add</h3>

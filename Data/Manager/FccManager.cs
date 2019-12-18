@@ -4,8 +4,6 @@ using Shared.Models;
 using Shared.Enums;
 using System;
 using System.Linq;
-using System.Web.Mvc.Html;
-using Shared.Viewmodels;
 using Shared.Interfaces.Managers;
 using Shared.Interfaces.Repositories;
 using System.Threading.Tasks;
@@ -186,6 +184,10 @@ namespace Data.Manager
 
         #region PersonName
 
+        public string GetCurrentPersonName(string personId)
+        {
+            return _repo.ReadCurrentPersonName(personId);
+        }
         public string SetPersonName(PersonName entity)
         {
             return _repo.CreatePersonName(entity);
@@ -274,6 +276,16 @@ namespace Data.Manager
                     return e;
                 })
                 .ToList();
+        }
+
+        public bool CheckIfSameRelationsAvaible(string personId)
+        {
+            return _repo.CheckIfSameRelationsAvaible(personId);
+        }
+
+        public List<KeyValuePair<string, string>> GetPersonsKvpWithPossibleRelations(string personId)
+        {
+            return _repo.GetPersonsKvpWithPossibleRelations(personId).ToList();
         }
 
         public List<RelationType> GetPersonsRelationTypes(string personId)

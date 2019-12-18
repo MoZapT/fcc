@@ -20,6 +20,7 @@ namespace Shared.Interfaces.Repositories
         IEnumerable<KeyValuePair<string, string>> GetPersonSelectList(string excludePersonId, string query);
         IEnumerable<KeyValuePair<string, string>> GetOnlyPossiblePersonSelectList(string excludePersonId, string query);
 
+        string ReadCurrentPersonName(string personId);
         PersonName ReadLastPersonName(string id);
         IEnumerable<PersonName> ReadAllPersonNameByPersonId(string id);
         string CreatePersonName(PersonName entity);
@@ -47,6 +48,8 @@ namespace Shared.Interfaces.Repositories
         IEnumerable<PersonRelation> ReadAllPersonRelationBetweenInviterAndInvited(string inviter, string invited);
         IEnumerable<PersonRelation> ReadAllPersonRelationsByInviterId(string id);
         IEnumerable<PersonRelation> ReadAllPersonRelationsThatExistByRelatedPerson(string personId);
+        bool CheckIfSameRelationsAvaible(string personId);
+        IEnumerable<KeyValuePair<string, string>> GetPersonsKvpWithPossibleRelations(string personId);
         string CreatePersonRelation(PersonRelation entity);
         bool UpdatePersonRelation(PersonRelation entity);
         bool DeletePersonRelation(string inviter, string invited);

@@ -251,6 +251,7 @@
     //RelationsTab
     function initRelationsTab() {
         SaveRelationButtonHandler();
+        $('.toast').toast('show');
 
         $('input#NewRelationPersonId').on('change', function (e) {
             SaveRelationButtonHandler();

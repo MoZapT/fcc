@@ -12,6 +12,7 @@ namespace Shared.Viewmodels
 
         public Person Person { get; set; }
         public Dictionary<RelationType, List<Person>> Relations { get; set; }
+        public bool SameRelationsAvaible { get; set; }
 
         #endregion
 

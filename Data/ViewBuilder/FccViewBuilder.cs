@@ -10,6 +10,7 @@ using Shared.Interfaces.ViewBuilders;
 using Shared.Interfaces.Repositories;
 using System.Threading.Tasks;
 using Shared.Interfaces.Managers;
+using System.Web.Mvc;
 
 namespace Data.ViewBuilder
 {
@@ -116,6 +117,7 @@ namespace Data.ViewBuilder
         {
             var vm = new PersonRelationsViewModel();
             vm.Person = _mgrFcc.GetPerson(personId);
+            vm.SameRelationsAvaible = _mgrFcc.CheckIfSameRelationsAvaible(personId);
             foreach (var relationsType in _mgrFcc.GetPersonsRelationTypes(personId))
             {
                 vm.Relations.Add(relationsType, _mgrFcc.GetPersonByRelationType(personId, relationsType));
@@ -239,5 +241,31 @@ namespace Data.ViewBuilder
         }
 
         #endregion
+
+        #region RelationsUpdateStack
+
+        public RelationsUpdateStackViewModel CreateUpdateRelationsStackViewModel(string personId)
+        {
+            var vm = new RelationsUpdateStackViewModel()
+            {
+                PersonId = personId,
+                PersonName = _mgrFcc.GetCurrentPersonName(personId),
+                PersonsWithPossibleRelations = _mgrFcc.GetPersonsKvpWithPossibleRelations(personId)
+                    .Select(e =>
+                    {
+                        return new SelectListItem()
+                        {
+                            Value = e.Key,
+                            Text = e.Value,
+                        };
+                    })
+                    .ToList(),
+            };
+
+            return vm;
+        }
+
+        #endregion
+
     }
 }

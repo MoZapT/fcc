@@ -359,6 +359,16 @@ namespace DataAccessInfrastructure.Repositories
 
         #region PersonName
 
+        public string ReadCurrentPersonName(string personId)
+        {
+            var query = @"
+                SELECT Firstname + ' ' + Lastname + ' ' + Patronym AS 'Name'
+                FROM [Person]
+                WHERE 
+	                Id = @PersonId";
+
+            return QueryFoD<string>(query, new { @PersonId = personId });
+        }
         public PersonName ReadLastPersonName(string id)
         {
             var query = @"
@@ -488,6 +498,57 @@ namespace DataAccessInfrastructure.Repositories
                     AND NOT InvitedId = @PersonId";
 
             return Query<PersonRelation>(query, new { @PersonId = personId });
+        }
+
+        public bool CheckIfSameRelationsAvaible(string personId)
+        {
+            string query = @"
+                DECLARE @table table (Id nvarchar(128))
+
+                INSERT INTO @table
+                SELECT InvitedId
+                FROM [PersonRelation]
+                WHERE InviterId = @PersonId
+
+                SELECT 
+	                CASE 
+		                WHEN COUNT(Id) > 0 THEN 1
+		                ELSE 0
+	                END AS Avaible
+                FROM [PersonRelation]
+                WHERE 
+	                InviterId IN (SELECT * FROM @table)
+	                AND NOT InvitedId = @PersonId";
+
+            return QueryFoD<bool>(query, new { @PersonId = personId });
+        }
+
+        public IEnumerable<KeyValuePair<string, string>> GetPersonsKvpWithPossibleRelations(string personId)
+        {
+            string query = @"
+                DECLARE @table table (Id nvarchar(128))
+
+                INSERT INTO @table
+                SELECT InvitedId
+                FROM [PersonRelation]
+                WHERE InviterId = @PersonId
+
+                SELECT 
+	                pr.InviterId AS 'Key'
+	                ,pe.Firstname + ' ' + pe.Lastname + ' ' + pe.Patronym AS 'Value'
+                FROM [PersonRelation] AS pr
+                JOIN [Person] AS pe
+	                ON pr.InviterId = pe.Id
+                WHERE 
+	                pr.InviterId IN (SELECT * FROM @table)
+	                AND NOT pr.InvitedId = @PersonId
+                GROUP BY
+	                pr.InviterId
+	                ,pe.Firstname
+	                ,pe.Lastname
+	                ,pe.Patronym";
+
+            return Query<KeyValuePair<string, string>>(query, new { @PersonId = personId });
         }
 
         public string CreatePersonRelation(PersonRelation entity)

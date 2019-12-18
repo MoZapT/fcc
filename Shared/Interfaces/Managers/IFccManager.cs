@@ -38,6 +38,7 @@ namespace Shared.Interfaces.Managers
 
         #region PersonName
 
+        string GetCurrentPersonName(string personId);
         List<PersonName> GetAllPersonName(string personId);
         string SetPersonName(PersonName entity);
         bool DeletePersonName(string id);
@@ -46,6 +47,8 @@ namespace Shared.Interfaces.Managers
 
         #region PersonRelation
 
+        bool CheckIfSameRelationsAvaible(string personId);
+        List<KeyValuePair<string, string>> GetPersonsKvpWithPossibleRelations(string personId);
         List<PersonRelation> CreateRelationsMesh(string personId);
         List<PersonRelation> GetAllPersonRelationsBetweenPersons(string inviter, string invited);
         List<PersonRelation> GetAllPersonRelationsByInviterId(string personId);
