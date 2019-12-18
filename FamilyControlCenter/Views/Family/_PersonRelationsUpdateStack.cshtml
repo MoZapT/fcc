@@ -48,8 +48,15 @@
     </div>
 }
 
-
-
-
-
-
+@section scripts
+{
+    <script src="~/Scripts/FormScripts/frm-relationsupdatestack.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Window.Base.Init();
+            Window.FormScripts.Init();
+            Window.DatePicker.Init();
+            Window.CustomizedTypeahead.Init();
+        });
+    </script>
+}
