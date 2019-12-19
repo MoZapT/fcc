@@ -379,5 +379,19 @@ namespace FamilyControlCenter.Controllers
                 return new List<KeyValuePair<string, string>>();
             }
         }
+
+        [HttpGet]
+        [Route("person/personwithpossibilities")]
+        public List<KeyValuePair<string, string>> GetPersonsWithRelationsWithPossibleRelations()
+        {
+            return _mgrFcc.GetPersonsThatHaveRelativesWithPossibleRelations();
+        }
+
+        [HttpGet]
+        [Route("person/possiblerelations/{personId}")]
+        public List<KeyValuePair<string, string>> GetPersonsWithPossibleRelations(string personId)
+        {
+            return _mgrFcc.GetPersonsKvpWithPossibleRelations(personId);
+        }
     }
 }

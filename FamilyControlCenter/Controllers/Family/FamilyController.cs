@@ -112,11 +112,10 @@ namespace FamilyControlCenter.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult RelationsUpdateStackPartial(string personId = null, string selectedId = null)
+        public PartialViewResult LoadRelationsPartialForPersonRelationsUpdateStack(string personId, string selectedId)
         {
-            BeforeLoadAction();
-            List<PersonRelation> vm = _vwbFcc.CreateRelationsUpdateStackPartial(personId, selectedId);
-            return PartialView("Person/_PersonNames", vm);
+            var vm = _vwbFcc.CreateRelationsUpdateStackPartial(personId, selectedId);
+            return PartialView("RelationsUpdateStack/_RelationsStack", vm);
         }
     }
 }

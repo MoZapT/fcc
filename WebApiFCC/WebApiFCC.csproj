@@ -135,7 +135,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\ApiFamilyController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Filters\LocalizationAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -2,7 +2,7 @@
 
 @for (int i = 0; i < Model.Count; i++)
 {
-    var sl = FccRelationTypeHelper.GetFamilySiblingsSelectGroup()
+    var sl = FccRelationTypeHelper.GetFamilySiblingsSelectGroup(Model[i].Invited.Sex)
         .Select(e =>
         {
             var type = (RelationType)Enum.Parse(typeof(RelationType), e.Value);
