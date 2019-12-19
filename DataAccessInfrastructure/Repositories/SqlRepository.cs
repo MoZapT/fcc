@@ -486,7 +486,8 @@ namespace DataAccessInfrastructure.Repositories
         {
             string query = @"
                 DECLARE @PersonId nvarchar(36)
-                DECLARE @Table table (Id nvarchar(36), InviterId nvarchar(36), RelationsCount int)
+                DECLARE @table table (Id nvarchar(36))
+                DECLARE @result table (Id nvarchar(36))
 
                 DECLARE db_cursor CURSOR FOR 
                 SELECT InviterId
@@ -499,20 +500,23 @@ namespace DataAccessInfrastructure.Repositories
 
                 WHILE @@FETCH_STATUS = 0   
                 BEGIN
-	                INSERT INTO @Table
+	                DELETE FROM @table
+
+	                INSERT INTO @table
+	                SELECT InvitedId
+	                FROM [PersonRelation]
+	                WHERE InviterId = @PersonId
+
+	                INSERT INTO @result
 	                SELECT 
 		                @PersonId
-		                ,InviterId
-		                ,COUNT(Id)
-	                FROM [PersonRelation]
+	                FROM [PersonRelation] AS pr
+	                JOIN [Person] AS pe
+		                ON pr.InviterId = pe.Id
 	                WHERE 
-		                NOT InviterId = @PersonId
-		                AND InvitedId IN
-			                (SELECT InvitedId
-			                FROM [PersonRelation]
-			                WHERE InviterId = @PersonId)
-	                GROUP BY
-		                InviterId
+		                pr.InviterId IN (SELECT * FROM @table)
+		                AND NOT pr.InvitedId = @PersonId
+		                AND NOT pr.InvitedId IN (SELECT * FROM @table)
 
 	                FETCH NEXT FROM db_cursor
 	                INTO @PersonId
@@ -522,13 +526,13 @@ namespace DataAccessInfrastructure.Repositories
                 DEALLOCATE db_cursor
 
                 SELECT 
-                    ta.Id AS 'Key'
+	                re.Id AS 'Key'
 	                ,ISNULL(pe.Firstname, '') + ' ' + ISNULL(pe.Lastname, '') + ' ' + ISNULL(pe.Patronym, '') AS 'Value'
-                FROM @Table AS ta
-                JOIN [Person] AS pe   
-	                ON ta.Id = pe.Id    
-                GROUP BY
-	                ta.Id
+                FROM @result AS re
+                JOIN [Person] AS pe
+	                ON re.Id = pe.Id
+                GROUP BY 
+	                re.Id
 	                ,pe.Firstname
 	                ,pe.Lastname
 	                ,pe.Patronym";
@@ -600,6 +604,7 @@ namespace DataAccessInfrastructure.Repositories
                 WHERE 
 	                pr.InviterId IN (SELECT * FROM @table)
 	                AND NOT pr.InvitedId = @PersonId
+	                AND NOT pr.InvitedId IN (SELECT * FROM @table)
                 GROUP BY
 	                pr.InviterId
 	                ,pe.Firstname

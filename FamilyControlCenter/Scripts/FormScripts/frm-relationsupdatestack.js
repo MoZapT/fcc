@@ -32,6 +32,7 @@
             dataType: 'json',
             success: function (response) {
                 $('select#SelectedPersonIdWithRelations').html(createOptionConstruct(response));
+                loadRelations();
             }
         });
     }
