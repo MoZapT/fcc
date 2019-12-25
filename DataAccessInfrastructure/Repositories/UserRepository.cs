@@ -19,11 +19,66 @@ namespace DataAccessInfrastructure.Repositories
 
         public bool AddUsersToRoles(string[] usernames, string[] roleNames)
         {
-            throw new NotImplementedException();
+            string query = @"
+                DECLARE @Users table (Id nvarchar(128))
+                DECLARE @Roles table (Id nvarchar(128))
+                DECLARE @UserId nvarchar(128), @RoleId nvarchar(128) 
 
-            //var query = @"";
+                INSERT INTO @Users
+                SELECT Id
+                FROM [AspNetUsers]
+                WHERE 
+	                [UserName] IN @Usernames
 
-            //return Query<Person>(query, new { @Usernames = usernames, @RoleNames = roleNames });
+                INSERT INTO @Roles
+                SELECT Id
+                FROM [AspNetRoles]
+                WHERE 
+	                [Name] IN @RoleNames
+
+                BEGIN TRAN
+
+                DECLARE users_cursor CURSOR FOR 
+                SELECT Id 
+                FROM @Users
+
+                OPEN users_cursor  
+                FETCH NEXT FROM users_cursor INTO @UserId  
+
+                WHILE @@FETCH_STATUS = 0  
+                BEGIN 
+ 
+	                DECLARE roles_cursor CURSOR FOR 
+	                SELECT Id 
+	                FROM @Roles
+
+	                OPEN roles_cursor  
+	                FETCH NEXT FROM roles_cursor INTO @RoleId  
+
+	                WHILE @@FETCH_STATUS = 0  
+	                BEGIN  
+		                INSERT INTO [AspNetUserRoles]
+			                ([UserId]
+			                ,[RoleId])
+		                VALUES
+			                (@UserId
+			                ,@RoleId)
+
+		                FETCH NEXT FROM roles_cursor INTO @RoleId 
+	                END 
+
+	                CLOSE roles_cursor  
+	                DEALLOCATE roles_cursor 
+
+	                FETCH NEXT FROM users_cursor INTO @UserId 
+                END 
+
+                CLOSE users_cursor  
+                DEALLOCATE users_cursor
+
+                COMMIT TRAN";
+
+            return Execute(query, new { @Usernames = usernames, @RoleNames = roleNames }) > 0;
         }
 
         public string CreateRole(string roleName)

@@ -14,16 +14,20 @@ namespace FamilyControlCenter.Filters
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            string lang = (string)filterContext.RouteData.Values["lang"];
+            if (string.IsNullOrWhiteSpace(lang))
+            {
+                return;
+            }
+
             CultureInfo culture;
-            string lang = (string)filterContext.RouteData.Values["lang"] ?? _defaultLanguage;
             try
             {
                 culture = new CultureInfo(lang);
             }
-            catch (Exception /*e*/)
+            catch (Exception)
             {
                 culture = new CultureInfo(_defaultLanguage);
-                //throw new NotSupportedException(String.Format("ERROR: Invalid language code '{0}'.", lang));
             }
 
             Thread.CurrentThread.CurrentCulture = culture;

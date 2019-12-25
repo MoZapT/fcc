@@ -7,11 +7,13 @@ using Shared.Enums;
 using System;
 using Shared.Interfaces.ViewBuilders;
 using System.Collections.Generic;
+using FamilyControlCenter.Filters;
 
 namespace FamilyControlCenter.Controllers
 {
     [Authorize(Roles = "User")]
     [RoutePrefix("{lang}/family")]
+    [Localization]
     public class FamilyController : BaseController
     {
         private readonly IFccViewBuilder _vwbFcc;
