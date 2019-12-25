@@ -36,6 +36,7 @@ namespace FamilyControlCenter
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Content/flag-icon.min.css",
                       "~/Content/fontawesome/fontawesome.css",
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",

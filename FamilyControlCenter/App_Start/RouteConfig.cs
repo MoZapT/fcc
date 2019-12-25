@@ -16,10 +16,17 @@ namespace FamilyControlCenter
             routes.MapMvcAttributeRoutes();
 
             routes.MapRoute(
+               name: "LocalizedDefault",
+               url: "{lang}/{controller}/{action}",
+               defaults: new { controller = "Home", action = "Index" },
+               //constraints: new { lang = "es-ES|fr-FR|en-US" }
+               constraints: new { lang = @"(\w{2})|(\w{2}-\w{2})" }   // en or en-US
+           );
+
+            routes.MapRoute(
                 name: "Default",
-                url: "{lang}/{controller}/{action}/{id}",
-                constraints: new { lang = @"(\w{2})|(\w{2}-\w{2})" },   // en or en-US
-                defaults: new { lang = "ru-RU", controller = "Home", action = "Index", id = UrlParameter.Optional }
+                url: "{controller}/{action}",
+                defaults: new { controller = "Home", action = "Index", lang = "ru-RU" }
             );
         }
     }

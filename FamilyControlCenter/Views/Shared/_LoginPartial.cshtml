@@ -1,12 +1,24 @@
 ﻿@using Microsoft.AspNet.Identity
 @using Resources
-@if (Request.IsAuthenticated)
-{
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form-inline" }))
-    {
-        @Html.AntiForgeryToken()
 
-        <ul class="navbar-nav justify-content-end">
+@{
+    string controller = (string)Url.RequestContext.RouteData.Values["controller"];
+    string action = (string)Url.RequestContext.RouteData.Values["action"];
+}
+
+<ul class="navbar-nav justify-content-end">
+    <li>
+        <a href="/ru-RU/@controller/@action"><span class="flag-icon flag-icon-ru"></span></a>
+        <a href="/de-DE/@controller/@action"><span class="flag-icon flag-icon-de"></span></a>
+        <a href="/en-US/@controller/@action"><span class="flag-icon flag-icon-us"></span></a>
+    </li>
+
+    @if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form-inline" }))
+        {
+            @Html.AntiForgeryToken()
+
             <li class="nav-item">
                 @Html.ActionLink(Resource.Welcome + " " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
             </li>
@@ -16,23 +28,21 @@
                     @Resource.SignOut
                 </a>
             </li>
-        </ul>
+        }
     }
-}
-else
-{
-    <ul class="navbar-nav justify-content-end">
+    else
+    {
         <li class="nav-item">
-            <a class="nav-link" href="/ru-RU/Account/Register" id="registerLink">
+            <a class="nav-link" href="/Account/Register" id="registerLink">
                 <i class="fas fa-key"></i>
                 @Resource.Register
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/ru-RU/Account/Login" id="loginLink">
+            <a class="nav-link" href="/Account/Login" id="loginLink">
                 <i class="fas fa-sign-in-alt"></i>
                 @Resource.SignIn
             </a>
         </li>
-    </ul>
-}
+    }
+</ul>
