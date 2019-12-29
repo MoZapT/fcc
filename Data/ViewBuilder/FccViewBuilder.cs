@@ -20,7 +20,7 @@ namespace Data.ViewBuilder
 
         public FccViewBuilder(IFccManager mgrFcc)
         {
-            _mgrFcc = mgrFcc; 
+            _mgrFcc = mgrFcc;
         }
 
         #region PersonViewModel
