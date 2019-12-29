@@ -4,8 +4,7 @@
     function initializeComponent() {
         var typeaheadList = $('.typeahead');
 
-        for (var i = 0; i < typeaheadList.length; i++)
-        {
+        for (var i = 0; i < typeaheadList.length; i++) {
             crtTa = typeaheadList[i];
 
             $(crtTa)
@@ -41,7 +40,7 @@
     function validateTaInput(typeahead, suggestion) {
         var suggestions = $(typeahead).siblings('div.tt-menu').find('div.tt-selectable').length;
         var isEmptyOrInvalid = suggestions <= 0 ? true : false;
-        
+
         if (isEmptyOrInvalid) {
             $(typeahead).typeahead('val', '');
             typeaheadSelect(typeahead, '');
@@ -60,17 +59,39 @@
             display: 'Value',
             limit: limit,
             source: function (query, processSync, processAsync) {
-                return $.ajax({
-                    url: getApiRoute() + url + query,
-                    type: 'GET',
-                    dataType: 'json',
-                    complete: function (response) {
-                        return processAsync(response.responseJSON);
-                    }
-                });
+                return doAjax(url, query, processSync, processAsync);
             }
         };
     };
+
+    function doAjax(url, query, processSync, processAsync) {
+        var loadingSpinnerScaf = getLoadingSpinnerScaffold();
+        $('body').append(loadingSpinnerScaf);
+
+        return $.ajax({
+            url: getApiRoute() + url + query,
+            type: 'GET',
+            dataType: 'json',
+            complete: function (response) {
+                $('.typeahead-fader').remove();
+
+                return processAsync(response.responseJSON);
+            }
+        });
+    }
+
+    function getLoadingSpinnerScaffold() {
+        var msg = 'Loading...';
+        var html = '<div class="typeahead-fader">';
+        html += '<div class="spinner-border text-primary typeahead-spinner-centre" role="status">';
+        html += '<span class="sr-only">';
+        html += msg;
+        html += '</span>';
+        html += '</div>';
+        html += '</div>';
+
+        return html;
+    }
 
     function getApiRoute() {
         var apiDebug = 'http://localhost:55057/';

@@ -434,3 +434,19 @@ span.twitter-typeahead > .wsc-tt-clear {
     font-size: 15px;
     cursor: pointer;
 }
+
+.typeahead-fader {
+    top: 0;
+    left: 0;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.500);
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+}
+
+.typeahead-spinner-centre {
+    top: 50%;
+    left: 50%;
+    position: fixed;
+}
