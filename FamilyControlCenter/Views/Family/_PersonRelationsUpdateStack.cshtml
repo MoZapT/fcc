@@ -1,55 +1,43 @@
 ﻿@model RelationsUpdateStackViewModel
-@{ 
-    ViewBag.Title = Resource.RelationsMenuTitle;
-
-    var personSl = Model.PersonList.Select(e =>
+<ul class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">
+            <span class="fas fa-angle-double-left"></span>
+            @Resource.GoToHome
+        </a>
+    </li>
+    @if (!string.IsNullOrWhiteSpace(Model.PersonId))
     {
-        var sli = new SelectListItem()
-        {
-            Value = e.Key,
-            Text = e.Value,
-        };
-        if (sli.Value == Model.PersonId)
-            sli.Selected = true;
+        <li class="breadcrumb-item">
+            <a href="/@Url.RequestContext.RouteData.Values["lang"]/Family/PersonDetail?personId=@Model.PersonId">
+                <span class="fas fa-angle-double-left"></span>
+                @Resource.Back
+            </a>
+        </li>
+    }
+</ul>
 
-        return sli;
-    });
-    var personWithPossibleRelationsSl = Model.PersonsWithPossibleRelations.Select(e =>
-    {
-        return new SelectListItem()
-        {
-            Value = e.Key,
-            Text = e.Value,
-        };
-    });
-}
-
-@Html.HiddenFor(m => m.PersonId)
-@Html.HiddenFor(m => m.SelectedPersonIdWithRelations)
-
-<div class="card">
-    <div class="card-header">
-        <h3>@Resource.RelationsMenuTitle</h3>
-    </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-6">
-                @Html.DropDownListFor(m => m.PersonId, personSl, new { @class = "form-control" })
-            </div>
-            <div class="col-md-6">
-                @Html.DropDownListFor(m => m.SelectedPersonIdWithRelations, personWithPossibleRelationsSl, new { @class = "form-control" })
-            </div>
-        </div>
-        <div id="RelationsUpdateStackContainer" class="card">
-            <div class="card-header">
-                <h4>@Resource.MaybeRelativesOfMsg</h4>
-            </div>
-            <div class="card-body">
-                @Html.Partial("RelationsUpdateStack/_RelationsStack", Model.InitialRelations)
-            </div>
-        </div>
-    </div>
+<div id="StackContainer">
+    @Html.Partial("RelationsUpdateStack/_PersonRelationsUpdateStack", Model)
 </div>
+
+<ul class="breadcrumb justify-content-end">
+    <li class="breadcrumb-item">
+        <a href="/">
+            <span class="fas fa-angle-double-left"></span>
+            @Resource.GoToHome
+        </a>
+    </li>
+    @if (!string.IsNullOrWhiteSpace(Model.PersonId))
+    {
+        <li class="breadcrumb-item">
+            <a href="/@Url.RequestContext.RouteData.Values["lang"]/Family/PersonDetail?personId=@Model.PersonId">
+                <span class="fas fa-angle-double-left"></span>
+                @Resource.Back
+            </a>
+        </li>
+    }
+</ul>
 
 @section scripts
 {

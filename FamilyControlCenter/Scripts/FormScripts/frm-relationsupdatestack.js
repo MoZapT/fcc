@@ -2,6 +2,8 @@
 
 (function () {
     function initializeComponent() {
+        $('button[index]').on('click', function (e) { saveRelation(e.currentTarget); });
+
         $('select#PersonId').on('change', function (e) {
             loadPersonsWithRelations();
         });
@@ -9,20 +11,22 @@
         $('select#SelectedPersonIdWithRelations').on('change', function (e) {
             loadRelations();
         });
-
-        //if no more relation avaible, then:
-        //loadPossiblePersons()
     }
 
     function loadPossiblePersons() {
+        var options = 0;
+
         $.ajax({
             url: getApiRoute() + 'person/personwithpossibilities',
             type: 'GET',
             dataType: 'json',
             success: function (response) {
                 $('select#PersonId').html(createOptionConstruct(response));
+                options = $('select#PersonId option').length;
             }
         });
+
+        return options;
     }
 
     function loadPersonsWithRelations() {
@@ -55,6 +59,7 @@
                 }
 
                 $('#RelationsUpdateStackContainer .card-body').html(response.responseText);
+                $('button[index]').on('click', function (e) { saveRelation(e.currentTarget); });
             }
         });
     }
@@ -72,6 +77,55 @@
         }
 
         return html;
+    }
+
+    function saveRelation(btn) {
+        var type = $('#Type_' + $(btn).attr('index')).val();
+        var inviter = $('#PersonId').val();
+        var invited = $(btn).attr('invited');
+
+        $.ajax({
+            url: getApiRoute() + 'relation/set/' + inviter + '/' + invited + '/' + type,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                $(btn).closest('div.row').remove();
+
+                if ($('button[index]').length <= 0) {
+                    var options = loadPossiblePersons();
+
+                    if (options <= 0) {
+                        reloadView();
+                        return;
+                    }
+
+                    loadRelations();
+                }
+            }
+        });
+    }
+
+    function reloadView() {
+        $.ajax({
+            url: 'PersonRelationsUpdateStackAsPartial',
+            data: JSON.stringify(
+                {
+                    personId: $('select#PersonId').val(),
+                    selectedId: $('select#SelectedPersonIdWithRelations').val()
+                }),
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
+                $('#StackContainer').html(response.responseText);
+                initializeComponent();
+            }
+        });
     }
 
     //Base

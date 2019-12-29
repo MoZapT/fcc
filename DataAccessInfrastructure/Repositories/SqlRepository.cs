@@ -570,22 +570,31 @@ namespace DataAccessInfrastructure.Repositories
         public bool CheckIfSameRelationsAvaible(string personId)
         {
             string query = @"
-                DECLARE @table table (Id nvarchar(128))
+                DECLARE @table table (Id nvarchar(36))
+                DECLARE @result table (Id nvarchar(36))
 
                 INSERT INTO @table
                 SELECT InvitedId
                 FROM [PersonRelation]
                 WHERE InviterId = @PersonId
 
+                INSERT INTO @result
+                SELECT 
+	                @PersonId
+                FROM [PersonRelation] AS pr
+                JOIN [Person] AS pe
+	                ON pr.InviterId = pe.Id
+                WHERE 
+	                pr.InviterId IN (SELECT * FROM @table)
+	                AND NOT pr.InvitedId = @PersonId
+	                AND NOT pr.InvitedId IN (SELECT * FROM @table)
+
                 SELECT 
 	                CASE 
 		                WHEN COUNT(Id) > 0 THEN 1
 		                ELSE 0
 	                END AS Avaible
-                FROM [PersonRelation]
-                WHERE 
-	                InviterId IN (SELECT * FROM @table)
-	                AND NOT InvitedId = @PersonId";
+                FROM @result";
 
             return QueryFoD<bool>(query, new { @PersonId = personId });
         }

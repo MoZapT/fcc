@@ -113,6 +113,13 @@ namespace FamilyControlCenter.Controllers
             return View("_PersonRelationsUpdateStack", vm);
         }
 
+        public PartialViewResult PersonRelationsUpdateStackAsPartial(string personId = null, string selectedId = null)
+        {
+            BeforeLoadAction();
+            var vm = _vwbFcc.CreateUpdateRelationsStackViewModel(personId, selectedId);
+            return PartialView("RelationsUpdateStack/_PersonRelationsUpdateStack", vm);
+        }
+
         [HttpPost]
         public PartialViewResult LoadRelationsPartialForPersonRelationsUpdateStack(string personId, string selectedId)
         {

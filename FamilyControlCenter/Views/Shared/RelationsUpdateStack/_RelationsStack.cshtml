@@ -22,7 +22,7 @@
             @Html.DropDownList("Type_"+i, sl, new { @class = "form-control" })
         </div>
         <div class="col-md-2 d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-primary" index="@i">
+            <button type="button" class="btn btn-primary" index="@i" invited="@Model[i].Invited.Id">
                 <span class="fas fa-save"></span>
                 @Resource.Save
             </button>

@@ -172,11 +172,10 @@ namespace Data.ViewBuilder
         {
             vm.Command = ActionCommand.Cancel;
             vm.Models = _mgrFcc.GetListPerson();
-            var tcount = vm.Models.Count(); //TODO totalcount
+            var tcount = vm.Models.Count; //TODO totalcount
             vm.Paging = new PagingViewModel(vm.Skip, vm.Take, tcount);
             vm.Models = vm.Models.Skip(vm.Skip).Take(vm.Take).ToList();
             vm.PersonIcons = new Dictionary<string, string>();
-
 
             foreach (Person p in vm.Models)
             {
