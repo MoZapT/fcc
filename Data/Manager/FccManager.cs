@@ -56,6 +56,7 @@ namespace Data.Manager
                 return person;
 
             person.IsMarried = _repo.IsMarried(userId);
+            person.IsInPartnership = _repo.IsInRelationship(userId);
 
             return person;
         }
@@ -71,6 +72,7 @@ namespace Data.Manager
                 .Select(e => 
                 {
                     e.IsMarried = _repo.IsMarried(e.Id);
+                    e.IsInPartnership = _repo.IsInRelationship(e.Id);
                     return e;
                 })
                 .ToList();

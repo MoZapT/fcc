@@ -689,6 +689,19 @@ namespace DataAccessInfrastructure.Repositories
                 > 0 ? true : false;
         }
 
+        public bool IsInRelationship(string personId)
+        {
+            string query = @"
+				   SELECT COUNT(Id)
+                   FROM [PersonRelation]
+                   WHERE 
+                       InviterId = @PersonId
+                   AND RelationType = @RelationType";
+
+            return QueryFoD<int>(query, new { @PersonId = personId, @RelationType = RelationType.LivePartner })
+                > 0 ? true : false;
+        }
+
         public IEnumerable<RelationType> GetPersonsRelationTypes(string personId)
         {
             string query = @"

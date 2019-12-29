@@ -65,14 +65,23 @@
     };
 
     function doAjax(url, query, processSync, processAsync) {
-        var loadingSpinnerScaf = getLoadingSpinnerScaffold();
-        $('body').append(loadingSpinnerScaf);
+        var runspinner = false; // global scope is necessary
 
         return $.ajax({
             url: getApiRoute() + url + query,
             type: 'GET',
             dataType: 'json',
+            beforeSend: function () {
+                runspinner = true;
+                setTimeout(function () {
+                    if (runspinner) {
+                        var loadingSpinnerScaf = getLoadingSpinnerScaffold();
+                        $('body').append(loadingSpinnerScaf);
+                    }
+                }, 200);
+            },
             complete: function (response) {
+                runspinner = false;
                 $('.typeahead-fader').remove();
 
                 return processAsync(response.responseJSON);

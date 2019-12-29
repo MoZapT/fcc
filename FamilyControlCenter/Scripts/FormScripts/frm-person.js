@@ -186,20 +186,66 @@
     function initSpouseManagement() {
         $('a#RemoveSpouse').off();
         $('#NewSpouseId').off();
+        $('#NewPartnerId').off();
+        $('#AddSpouse').off();
+        $('#AddPartner').off();
+
+        $('#AddSpouse').on('click', function (e) {
+            e.preventDefault();
+            $('#SpouseContainer').removeClass('hide');
+            $('#HideSpouseContainer').removeClass('hide');
+            $('#AddSpouse').addClass('hide');
+        });
+
+        $('#AddPartner').on('click', function (e) {
+            e.preventDefault();
+            $('#PartnerContainer').removeClass('hide');
+            $('#HidePartnerContainer').removeClass('hide');
+            $('#AddPartner').addClass('hide');
+        });
+
+        $('#HideSpouseContainer').on('click', function (e) {
+            e.preventDefault();
+            $('#SpouseContainer').addClass('hide');
+            $('#HideSpouseContainer').addClass('hide');
+            $('#AddSpouse').removeClass('hide');
+            $('#NewSpouseId').val('');
+            $('#NewSpouseName').typeahead('val', '');
+        });
+
+        $('#HidePartnerContainer').on('click', function (e) {
+            e.preventDefault();
+            $('#PartnerContainer').addClass('hide');
+            $('#HidePartnerContainer').addClass('hide');
+            $('#AddPartner').removeClass('hide');
+            $('#NewPartnerId').val('');
+            $('#NewPartnerName').typeahead('val', '');
+        });
 
         $('a#RemoveSpouse').on('click', function (e) {
+            e.preventDefault();
+
             var inviter = $(e.currentTarget).attr('inviter');
             var invited = $(e.currentTarget).attr('invited');
             var type = $(e.currentTarget).attr('reltype');
 
             removeSpouse(inviter, invited, type);
         });
+
         $('#NewSpouseId').on('change', function (e) {
             var inviter = $('#Model_Id').val();
             var invited = $(e.currentTarget).val();
             var type = $('a#AddSpouse').attr('reltype');
 
             addSpouse(inviter, invited, type);
+        });
+
+        $('#NewPartnerId').on('change', function (e) {
+            var inviter = $('#Model_Id').val();
+            var invited = $(e.currentTarget).val();
+            var type = $('a#AddPartner').attr('reltype');
+
+            addPartner(inviter, invited, type);
         });
     }
 
@@ -209,7 +255,18 @@
             type: 'GET',
             dataType: 'json',
             success: function (response) {
-                updateSpouseOrLivePartnerSection(inviter, invited);
+                updateSpouseOrLivePartnerSection(inviter, invited, null);
+            }
+        });
+    }
+
+    function addPartner(inviter, invited, type) {
+        $.ajax({
+            url: getApiRoute() + 'relation/set/' + inviter + '/' + invited + '/' + type,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                updateSpouseOrLivePartnerSection(inviter, null, invited);
             }
         });
     }
@@ -225,12 +282,12 @@
         });
     }
 
-    function updateSpouseOrLivePartnerSection(personId, spouseId) {
+    function updateSpouseOrLivePartnerSection(personId, spouseId, partnerId) {
         var container = $('div#MarriageStatus');
 
         $.ajax({
             url: 'MarriagePartialView',
-            data: JSON.stringify({ personId: personId, spouseId: spouseId }),
+            data: JSON.stringify({ personId: personId, spouseId: spouseId, partnerId: partnerId }),
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -243,7 +300,7 @@
                 container.html(response.responseText);
                 initSpouseManagement();
                 Window.CustomizedTypeahead.InitElement($('#NewSpouseName'));
-                $('.modal-backdrop').remove();
+                Window.CustomizedTypeahead.InitElement($('#NewPartnerName'));
             }
         });
     }
