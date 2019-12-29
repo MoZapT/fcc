@@ -5,20 +5,20 @@
 
 <div class="pull-right">
     <button class="btn crud btn-primary" type="button" args="@((int)ActionCommand.Save)" obj="@Model.Model.Id">
-        <i class="glyphicon glyphicon-floppy-disk"></i>
+        <span class="glyphicon glyphicon-floppy-disk"></span>
         @Resources.Resource.Save
     </button>
 
     @*@if (Model.Command == ActionCommand.Open)
     {
         <button class="btn crud btn-danger" type="button" args="@((int)ActionCommand.Delete)" obj="@Model.Model.Id">
-            <i class="glyphicon glyphicon-trash"></i>
+            <span class="glyphicon glyphicon-trash"></span>
             @Resources.Resource.Delete
         </button>
     }*@
 
     @*<button class="btn crud btn-warning" type="button" args="@((int)ActionCommand.Cancel)" obj="@Model.Model.Id">
-        <i class="fas fa-angle-double-left"></i>
+        <span class="fas fa-angle-double-left"></span>
         @Resources.Resource.Back
     </button>*@
 </div>

@@ -11,7 +11,7 @@
 <div class="card">
     <div class="card-header">
         <h2>
-            <i class="fas fa-file-alt"></i>
+            <span class="fas fa-file-alt"></span>
             @Resource.Documents
         </h2>
     </div>
@@ -21,7 +21,7 @@
             {
                 <div class="card">
                     <div class="card-header">
-                        <a href="#" id="DeleteDocument" fileid="@file.Id"><i class="text-danger fas fa-trash-alt"></i></a>
+                        <a href="#" id="DeleteDocument" fileid="@file.Id"><span class="text-danger fas fa-trash-alt"></span></a>
                     </div>
                     <div class="card-body">
                         @if (ContentTypeHelper.IsDocument(file.FileType))
@@ -60,7 +60,7 @@
                 @Html.Hidden("DocumentCategory")
                 @Html.TextBox("DocumentCategoryTa", "", new { @class = "form-control typeahead", placeholder = "", taname = "DocumentCategoryTa", taurl = "document/categories/" })
                 <label for="UploadFile" class="btn btn-primary btn-edges input-group-addon">
-                    <i class="fas fa-file-upload"></i>
+                    <span class="fas fa-file-upload"></span>
                     <span class="toggle-text">@Resource.BtnUploadFile</span>
                 </label>
                 <input id="UploadFile" class="hide" type="file" name="files[]" data-multiple-caption="{count} notimplted" multiple="" aria-invalid="false">
