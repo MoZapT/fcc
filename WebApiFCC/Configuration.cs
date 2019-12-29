@@ -19,6 +19,11 @@ namespace WebApiFCC
 
     public static class ManagerCollection
     {
-        public static Configuration Configuration;
+        private static Configuration _configuration;
+        public static Configuration Configuration 
+        { 
+            get { return _configuration; } 
+            set { _configuration = value; } 
+        }
     }
 }
