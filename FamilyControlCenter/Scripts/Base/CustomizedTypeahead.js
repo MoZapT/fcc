@@ -65,24 +65,18 @@
     };
 
     function doAjax(url, query, processSync, processAsync) {
-        var runspinner = false; // global scope is necessary
+        var ta = $('[taurl="' + url + '"]');
+        var span = $(ta).closest('span.twitter-typeahead');
 
         return $.ajax({
             url: getApiRoute() + url + query,
             type: 'GET',
             dataType: 'json',
             beforeSend: function () {
-                runspinner = true;
-                setTimeout(function () {
-                    if (runspinner) {
-                        var loadingSpinnerScaf = getLoadingSpinnerScaffold();
-                        $('body').append(loadingSpinnerScaf);
-                    }
-                }, 200);
+                span.append(getLoadingSpinnerScaffold());
             },
             complete: function (response) {
-                runspinner = false;
-                $('.typeahead-fader').remove();
+                span.children('.spinner-border.text-primary.typeahead-spinner-centre').remove();
 
                 return processAsync(response.responseJSON);
             }
@@ -90,13 +84,9 @@
     }
 
     function getLoadingSpinnerScaffold() {
-        var msg = 'Loading...';
-        var html = '<div class="typeahead-fader">';
-        html += '<div class="spinner-border text-primary typeahead-spinner-centre" role="status">';
+        var html = '<div class="spinner-border text-primary typeahead-spinner-centre" role="status">';
         html += '<span class="sr-only">';
-        html += msg;
         html += '</span>';
-        html += '</div>';
         html += '</div>';
 
         return html;

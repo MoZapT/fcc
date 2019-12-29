@@ -2,6 +2,10 @@
     display: none;
 }
 
+.fullwidth {
+    width: 100%;
+}
+
 .group-border {
     border-top: 2px dashed;
     border-left: 2px solid;

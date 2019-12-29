@@ -16,11 +16,11 @@
         </h2>
     </div>
     <div class="card-body">
-        <div class="card-deck">
+        <div class="card-columns">
             @foreach (var file in files)
             {
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header fullwidth">
                         <a href="#" id="DeleteDocument" fileid="@file.Id"><span class="text-danger fas fa-trash-alt"></span></a>
                     </div>
                     <div class="card-body">

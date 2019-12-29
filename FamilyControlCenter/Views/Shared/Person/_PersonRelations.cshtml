@@ -60,14 +60,14 @@
                     <h3>@Resource.PersonRelations</h3>
                 </div>
                 <div class="card-body">
-                    <div class="card-deck">
+                    <div class="card-columns">
                         @foreach (var relationKvp in Model.Relations)
                         {
                             var relationType = relationKvp.Key;
                             foreach (var relation in relationKvp.Value)
                             {
                                 <div class="card">
-                                    <div class="card-header d-inline-flex">
+                                    <div class="card-header d-inline-flex fullwidth">
                                         <div class="col-md-9">
                                             @{
                                                 var dict = new ViewDataDictionary();
