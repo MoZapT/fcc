@@ -17,8 +17,8 @@ namespace Shared.Interfaces.Repositories
         bool UpdatePerson(Person entity);
         bool DeletePerson(string id);
         IEnumerable<KeyValuePair<string, string>> GetPersonSelectList();
-        IEnumerable<KeyValuePair<string, string>> GetPersonSelectList(string excludePersonId, string query);
-        IEnumerable<KeyValuePair<string, string>> GetOnlyPossiblePersonSelectList(string excludePersonId, string query);
+        IEnumerable<KeyValuePair<string, string>> GetPersonSelectList(string excludePersonId, string search);
+        IEnumerable<KeyValuePair<string, string>> GetOnlyPossiblePersonSelectList(string excludePersonId, string search);
 
         string ReadCurrentPersonName(string personId);
         PersonName ReadLastPersonName(string id);
@@ -40,7 +40,7 @@ namespace Shared.Interfaces.Repositories
         bool DeletePersonDocument(string personId, string fileId);
         bool DeleteAllPersonDocument(string personId);
 
-        IEnumerable<string> ReadAllDocumentCategories(string query);
+        IEnumerable<string> ReadAllDocumentCategories(string search);
 
         #region PersonRelation
 
