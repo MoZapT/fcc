@@ -29,12 +29,13 @@
                 string deathDateString = e.DeathDate == null ? null : e.DeathDate.Value.ToString("dd.MM.yyyy");
 
                 <div class="row item">
-                    <div class="col-md-1 form-inline">
+                    <div class="col-md-1">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="Person_@i" name="Person_@i">
                             <label class="custom-control-label" for="Person_@i"></label>
                         </div>
-
+                    </div>
+                    <div class="col-md-1">
                         @if (!string.IsNullOrWhiteSpace(e.FileContentId))
                         {
                             <img class="icon" src="@Model.PersonIcons[e.Id]" alt="" />
@@ -66,7 +67,7 @@
                             <i class="fas fa-ring"></i>
                         }
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         @e.Name
                     </div>
                     <div class="col-md-2">

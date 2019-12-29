@@ -49,6 +49,18 @@
     padding: 0 0 0 0;
 }
 
+.padding-both-sides-15 {
+    padding: 0 1em 0 1em;
+}
+
+.flag-icon {
+    vertical-align: middle;
+}
+
+.flag-selected {
+    box-shadow: 0 0 2px 2px red;
+}
+
 /*Photo frame*/
 .carousel {
     border: 1px solid #ced4da;

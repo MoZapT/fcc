@@ -2,6 +2,10 @@
 
 (function () {
     function initializeComponent() {
+        $('#ru,#de,#us').on('click', function (e) {
+
+        });
+
         $('.crud').on('click', function (e) {
             e.preventDefault();
 

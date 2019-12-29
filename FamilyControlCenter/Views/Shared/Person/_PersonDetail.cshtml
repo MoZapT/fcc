@@ -21,18 +21,21 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-3">
-                    <div class="row form-group">
-                        <div class="col-md-12" id="PhotoSection">
-                            @if (Model.Command == Shared.Enums.ActionCommand.Open)
-                            {
-                                var photoVm = new KeyValuePair<string, List<FileContent>>(Model.Model.FileContentId, Model.Photos);
-                                @Html.Partial("Person/_PhotoSection", photoVm)
-                            }
+                @if (Model.Command == Shared.Enums.ActionCommand.Open)
+                {
+                    <div class="col-md-3">
+                        <div class="row form-group">
+                            <div class="col-md-12" id="PhotoSection">
+                                @if (Model.Command == Shared.Enums.ActionCommand.Open)
+                                {
+                                    var photoVm = new KeyValuePair<string, List<FileContent>>(Model.Model.FileContentId, Model.Photos);
+                                    @Html.Partial("Person/_PhotoSection", photoVm)
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-9">
+                }
+                <div class="col-md-@(Model.Command == Shared.Enums.ActionCommand.Open ? 9 : 12)">
                     <div class="row form-group">
                         <div class="col-md-12">
                             @Html.LabelFor(m => m.Model.Firstname, Resource.Name)
@@ -52,15 +55,15 @@
                         </div>
                     </div>
                     <div class="row form-group">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-inline">
                                 @Html.Label("Sex_Checkbox_Male_Text", Resource.Male)
-                                <span class="text-male fas fa-mars"></span>
+                                <span class="text-male fas fa-mars padding-both-sides-15"></span>
                                 <div class="custom-control custom-switch">
                                     @Html.CheckBoxFor(m => m.Model.Sex, new { @class = "custom-control-input sexswitcher" })
                                     <label class="custom-control-label" for="Model_Sex"></label>
                                 </div>
-                                <span class="text-female fas fa-venus"></span>
+                                <span class="text-female fas fa-venus padding-both-sides-15"></span>
                                 @Html.Label("Sex_Checkbox_Female_Text", Resource.Female)
                             </div>
                         </div>

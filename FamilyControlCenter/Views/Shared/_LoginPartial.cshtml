@@ -2,15 +2,16 @@
 @using Resources
 
 @{
-    string controller = (string)Url.RequestContext.RouteData.Values["controller"];
-    string action = (string)Url.RequestContext.RouteData.Values["action"];
+    string lang = (string)Url.RequestContext.RouteData.Values["lang"] ?? string.Empty;
+    string controller = (string)Url.RequestContext.RouteData.Values["controller"] ?? string.Empty;
+    string action = (string)Url.RequestContext.RouteData.Values["action"] ?? string.Empty;
 }
 
 <ul class="navbar-nav justify-content-end">
     <li>
-        <a href="/ru-RU/@controller/@action"><span class="flag-icon flag-icon-ru"></span></a>
-        <a href="/de-DE/@controller/@action"><span class="flag-icon flag-icon-de"></span></a>
-        <a href="/en-US/@controller/@action"><span class="flag-icon flag-icon-us"></span></a>
+        <a id="ru" href="/ru-RU/@controller/@action"><span class="flag-icon flag-icon-ru @(lang == "ru-RU" ? "flag-selected" : string.Empty)"></span></a>
+        <a id="de" href="/de-DE/@controller/@action"><span class="flag-icon flag-icon-de @(lang == "de-DE" ? "flag-selected" : string.Empty)"></span></a>
+        <a id="us" href="/en-US/@controller/@action"><span class="flag-icon flag-icon-us @(lang == "en-US" ? "flag-selected" : string.Empty)"></span></a>
     </li>
 
     @if (Request.IsAuthenticated)
