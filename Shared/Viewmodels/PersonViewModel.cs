@@ -26,6 +26,10 @@ namespace Shared.Viewmodels
 
         public PersonViewModel()
         {
+            if (Take <= 0)
+            {
+                Take = 10;
+            }
             Paging = new PagingViewModel(Take);
         }
     }

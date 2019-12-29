@@ -140,33 +140,38 @@ namespace DataAccessInfrastructure.Repositories
         public bool DeletePerson(string id)
         {
             var query = @"
-                DECLARE @groups table (Id int)
+            DECLARE @biographies table (Id nvarchar(128))
+            DECLARE @files table (Id nvarchar(128))
 
-                BEGIN TRAN
-                DELETE FROM [Person]
-                WHERE Id = @Id
+            BEGIN TRAN
+            DELETE FROM [Person]
+            WHERE Id = @Id
 
-                DELETE FROM [PersonName]
-                WHERE PersonId = @Id
+            DELETE FROM [PersonName]
+            WHERE PersonId = @Id
 
-                DELETE FROM [PersonRelation]
-                WHERE PersonId = @Id
+            DELETE FROM [PersonRelation]
+            WHERE 
+                InviterId = @Id 
+                OR InvitedId = @Id 
 
-                INSERT INTO @groups(Id)
-                SELECT prg.Id
-                FROM [PersonRelationGroup] AS prg
-                JOIN [PersonRelation] AS pr ON prg.Id = pr.Id
-                WHERE pr.PersonId = @Id
+            DELETE FROM [PersonBiography]
+            OUTPUT deleted.Id INTO @biographies
+            WHERE PersonId = @Id
 
-                DELETE FROM [PersonRelation]
-                WHERE PersonRelationGroupId IN (SELECT Id FROM @groups)
+            DELETE FROM [PersonActivity]
+            WHERE BiographyId IN (SELECT * FROM @biographies)
 
-                DELETE FROM [PersonRelationGroup]
-                WHERE Id IN ((SELECT Id FROM @groups))
+            DELETE FROM [PersonFileContent]
+            OUTPUT deleted.FileContentId INTO @files
+            WHERE PersonId = @Id
 
-                COMMIT TRAN";
+            DELETE FROM [FileContent]
+            WHERE Id IN (SELECT * FROM @files)
 
-            return Execute(query, new { @Id = id }) > 0 ? true : false;
+            COMMIT TRAN";
+
+            return Execute(query, new { @Id = id }) > 0;
         }
         public IEnumerable<KeyValuePair<string, string>> GetPersonSelectList()
         {

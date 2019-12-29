@@ -1,16 +1,11 @@
-﻿using DataAccessInfrastructure.Repositories;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Shared.Models;
 using Shared.Enums;
 using System;
 using System.Linq;
-using System.Web.Mvc.Html;
 using Shared.Viewmodels;
 using Shared.Interfaces.ViewBuilders;
-using Shared.Interfaces.Repositories;
-using System.Threading.Tasks;
 using Shared.Interfaces.Managers;
-using System.Web.Mvc;
 
 namespace Data.ViewBuilder
 {
@@ -177,9 +172,9 @@ namespace Data.ViewBuilder
         {
             vm.Command = ActionCommand.Cancel;
             vm.Models = _mgrFcc.GetListPerson();
-            var tcount = vm.Models.Count();
-            vm.Models = vm.Models.Skip(vm.Skip).Take(vm.Take).ToList();
+            var tcount = vm.Models.Count(); //TODO totalcount
             vm.Paging = new PagingViewModel(vm.Skip, vm.Take, tcount);
+            vm.Models = vm.Models.Skip(vm.Skip).Take(vm.Take).ToList();
             vm.PersonIcons = new Dictionary<string, string>();
 
 
