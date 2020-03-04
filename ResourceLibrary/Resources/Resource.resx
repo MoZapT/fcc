@@ -465,4 +465,13 @@
   <data name="RelationsMenuTitle" xml:space="preserve">
     <value />
   </data>
+  <data name="Beginning" xml:space="preserve">
+    <value />
+  </data>
+  <data name="End" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NoRelationAvaibleMsg" xml:space="preserve">
+    <value />
+  </data>
 </root>

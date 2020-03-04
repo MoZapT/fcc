@@ -116,6 +116,21 @@ namespace FamilyControlCenter.Controllers
         }
 
         [HttpGet]
+        [Route("typeahead/person/count/{excludePersonId}")]
+        public int GetRelationsCount(string excludePersonId/*, string query = ""*/)
+        {
+            try
+            {
+                return _mgrFcc.PersonTypeaheadWithPossibilitiesCount(excludePersonId);
+            }
+            catch (Exception)
+            {
+                //TODO error exception!
+                return 0;
+            }
+        }
+
+        [HttpGet]
         [Route("relationtype/all/{inviter}/{invited}")]
         public IEnumerable<System.Web.Mvc.SelectListItem> GetRelationTypes(string inviter, string invited)
         {

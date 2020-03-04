@@ -6,6 +6,8 @@
         files = userFiles;
         break;
     }
+
+    List<string> categories = files.Select(e => e.CategoryName).Distinct().ToList();
 }
 
 <div class="card">
@@ -16,37 +18,49 @@
         </h2>
     </div>
     <div class="card-body">
-        <div class="card-columns">
-            @foreach (var file in files)
+            @foreach (var category in categories)
             {
+                var catFiles = files.Where(e => e.CategoryName == category);
+
                 <div class="card">
-                    <div class="card-header fullwidth">
-                        <a href="#" id="DeleteDocument" fileid="@file.Id"><span class="text-danger fas fa-trash-alt"></span></a>
+                    <div class="card-header">
+                        @category
                     </div>
                     <div class="card-body">
-                        @if (ContentTypeHelper.IsDocument(file.FileType))
-                        {
-                            <img class="thumbnail" src="~/Content/file-image.png" alt="" />
-                        }
-                        else if (ContentTypeHelper.IsVideo(file.FileType))
-                        {
-                            <img class="thumbnail" src="~/Content/file-image.png" alt="" />
-                        }
-                        else if (ContentTypeHelper.IsSound(file.FileType))
-                        {
-                            <img class="thumbnail" src="~/Content/sound-image.png" alt="" />
-                        }
-                        else if (ContentTypeHelper.IsImage(file.FileType))
-                        {
-                            string img64 = Convert.ToBase64String(file.BinaryContent);
-                            string img64Url = string.Format("data:image/" + file.FileType + ";base64,{0}", img64);
-                            <img class="thumbnail" src="@img64Url" alt="" />
-                        }
-                        <label>@file.Name</label>
+                        <div class="card-columns">
+                            @foreach (var file in catFiles)
+                            {
+                                <div class="card">
+                                    <div class="card-header fullwidth">
+                                        <a href="#" id="DeleteDocument" fileid="@file.Id"><span class="text-danger fas fa-trash-alt"></span></a>
+                                    </div>
+                                    <div class="card-body">
+                                        @if (ContentTypeHelper.IsDocument(file.FileType))
+                                        {
+                                            <img class="thumbnail" src="~/Content/file-image.png" alt="" />
+                                        }
+                                        else if (ContentTypeHelper.IsVideo(file.FileType))
+                                        {
+                                            <img class="thumbnail" src="~/Content/file-image.png" alt="" />
+                                        }
+                                        else if (ContentTypeHelper.IsSound(file.FileType))
+                                        {
+                                            <img class="thumbnail" src="~/Content/sound-image.png" alt="" />
+                                        }
+                                        else if (ContentTypeHelper.IsImage(file.FileType))
+                                        {
+                                            string img64 = Convert.ToBase64String(file.BinaryContent);
+                                            string img64Url = string.Format("data:image/" + file.FileType + ";base64,{0}", img64);
+                                            <img class="thumbnail" src="@img64Url" alt="" />
+                                        }
+                                        <label>@file.Name</label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             }
-        </div>
     </div>
     <div class="card-footer clearfix">
         <div class="col-md-12">

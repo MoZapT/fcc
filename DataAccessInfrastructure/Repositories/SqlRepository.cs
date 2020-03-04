@@ -19,7 +19,7 @@ namespace DataAccessInfrastructure.Repositories
         public Person ReadPerson(string id)
         {
             var query = @"
-                SELECT *
+                SELECT TOP 1 *
                 FROM [Person]
                 WHERE 
 	                Id = @Id
@@ -144,9 +144,6 @@ namespace DataAccessInfrastructure.Repositories
             DECLARE @files table (Id nvarchar(128))
 
             BEGIN TRAN
-            DELETE FROM [Person]
-            WHERE Id = @Id
-
             DELETE FROM [PersonName]
             WHERE PersonId = @Id
 
@@ -168,6 +165,9 @@ namespace DataAccessInfrastructure.Repositories
 
             DELETE FROM [FileContent]
             WHERE Id IN (SELECT * FROM @files)
+
+            DELETE FROM [Person]
+            WHERE Id = @Id
 
             COMMIT TRAN";
 
@@ -216,6 +216,24 @@ namespace DataAccessInfrastructure.Repositories
                     OR Patronym LIKE '%'+@Search+'%')";
 
             return Query<KeyValuePair<string, string>>(query, new { @ExcludeId = excludePersonId, @Search = search });
+        }
+        public int GetOnlyPossiblePersonCount(string excludePersonId)
+        {
+            var query = @"
+                DECLARE @list table(Id nvarchar(128))
+                INSERT INTO @list
+                SELECT InvitedId
+                FROM [PersonRelation]
+                WHERE InviterId = @ExcludeId
+
+                SELECT
+	                COUNT(Id)
+                FROM [Person]
+                WHERE 
+                    NOT Id = @ExcludeId
+                    AND NOT Id IN(SELECT * FROM @list)";
+
+            return QueryFoD<int>(query, new { @ExcludeId = excludePersonId });
         }
 
         public FileContent ReadFileContentByPersonId(string id)
@@ -289,7 +307,7 @@ namespace DataAccessInfrastructure.Repositories
         public IEnumerable<PersonDocument> ReadAllDocumentByPersonId(string id)
         {
             var query = @"
-                SELECT fc.*
+                SELECT fc.*, pfc.CategoryName
                 FROM [FileContent] AS fc
                 JOIN [PersonDocument] AS pfc
 	                ON fc.Id = pfc.FileContentId

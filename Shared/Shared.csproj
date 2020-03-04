@@ -72,6 +72,7 @@
     <Compile Include="Helpers\FccRelationTypeHelper.cs" />
     <Compile Include="Helpers\FccEnumHelper.cs" />
     <Compile Include="Helpers\ContentTypeHelper.cs" />
+    <Compile Include="Helpers\DateTimeHelper.cs" />
     <Compile Include="Helpers\Globals.cs" />
     <Compile Include="Interfaces\Common\IBaseModel.cs" />
     <Compile Include="Interfaces\Managers\IFccManager.cs" />

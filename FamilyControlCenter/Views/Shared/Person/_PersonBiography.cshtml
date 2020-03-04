@@ -22,22 +22,22 @@
             <div class="col-md-4">
                 @Html.DropDownList("NewActivityActivityType", typeList, new { @class = "form-control" })
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <div class="custom-control custom-checkbox">
                     @Html.CheckBox("NewHasBegun", true, new { @class = "custom-control-input" })
-                    @Html.Label("NewHasBegun", "Begun", new { @class = "custom-control-label" })
+                    @Html.Label("NewHasBegun", Resource.Beginning, new { @class = "custom-control-label" })
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 @Html.TextBox("NewActivityDateBegin", DateTime.Now, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "form-control datepicker" })
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <div class="custom-control custom-checkbox">
                     @Html.CheckBox("NewHasEnded", false, new { @class = "custom-control-input" })
-                    @Html.Label("NewHasEnded", "Ended", new { @class = "custom-control-label" })
+                    @Html.Label("NewHasEnded", Resource.End, new { @class = "custom-control-label" })
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 @Html.TextBox("NewActivityDateEnd", null, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "form-control datepicker", @readonly = "readonly" })
             </div>
         </div>

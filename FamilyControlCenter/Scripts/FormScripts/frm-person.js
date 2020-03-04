@@ -147,7 +147,7 @@
     }
 
     function deletePicture() {
-        var id = $('.item.active').attr('value');
+        var id = $('.carousel-item.active').attr('value');
         var personId = $('#Model_Id').val();
 
         $.ajax({
@@ -307,6 +307,12 @@
 
     //RelationsTab
     function initRelationsTab() {
+        //var gg = getRelationsCount();
+        //if (getRelationsCount() <= 0) {
+        //    $('#HideableRelationTab').hide();
+        //    return;
+        //}
+
         SaveRelationButtonHandler();
         $('.toast').toast('show');
 
@@ -422,10 +428,28 @@
         }
     }
 
+    function getRelationsCount() {
+        var returnVal = 0;
+        $.ajax({
+            url: getApiRoute() + 'typeahead/person/count/' + $('#Model_Id').val(),
+            type: 'GET',
+            dataType: 'json',
+            complete: function (response) {
+                returnVal = response.responseJSON;
+            }
+        });
+
+        return returnVal;
+    }
+
     //NamesTab
     function initNamesTab() {
         $('button#SaveNamesAndPatronym').addClass('disabled');
         Window.DatePicker.ReInitElement($('#ActiveFrom'));
+
+        $('#NewName').val($('#Model_Firstname').val());
+        $('#NewLastname').val($('#Model_Lastname').val());
+        $('#NewPatronym').val($('#Model_Patronym').val());
 
         $('#ActiveFrom,#NewName,#NewLastname,#NewPatronym').on('change', function (e) {
             var todayDate = new Date();
@@ -440,7 +464,7 @@
             selectedDate.setMilliseconds(0);
 
             var isNotValidDateChangedForAddNamesAndPatronym = false;
-            if (todayDate <= selectedDate) {
+            if (todayDate < selectedDate) {
                 isNotValidDateChangedForAddNamesAndPatronym = true;
             }
 
@@ -448,11 +472,6 @@
                 $('#NewName').val() === $('#Model_Firstname').val() &&
                 $('#NewLastname').val() === $('#Model_Lastname').val() &&
                 $('#NewPatronym').val() === $('#Model_Patronym').val() ? true : false;
-
-            isNotValidFieldsForAddNamesAndPatronym =
-                $('#NewName').val() === '' &&
-                $('#NewLastname').val() === '' &&
-                $('#NewPatronym').val() === '' ? true : false;
 
             if (isNotValidDateChangedForAddNamesAndPatronym || isNotValidFieldsForAddNamesAndPatronym) {
                 $('button#SaveNamesAndPatronym').addClass('disabled');

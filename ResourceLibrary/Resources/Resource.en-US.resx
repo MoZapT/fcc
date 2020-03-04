@@ -465,4 +465,13 @@
   <data name="RelationsMenuTitle" xml:space="preserve">
     <value>Меню связей</value>
   </data>
+  <data name="Beginning" xml:space="preserve">
+    <value>Начало</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>Конец</value>
+  </data>
+  <data name="NoRelationAvaibleMsg" xml:space="preserve">
+    <value>No relations avaible!</value>
+  </data>
 </root>

@@ -108,6 +108,15 @@ namespace Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
+        public static string Beginning {
+            get {
+                return ResourceManager.GetString("Beginning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
         public static string Biography {
             get {
                 return ResourceManager.GetString("Biography", resourceCulture);
@@ -327,6 +336,15 @@ namespace Resources {
         public static string EmptyDatePlaceholder {
             get {
                 return ResourceManager.GetString("EmptyDatePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string End {
+            get {
+                return ResourceManager.GetString("End", resourceCulture);
             }
         }
         
@@ -714,6 +732,15 @@ namespace Resources {
         public static string Niece {
             get {
                 return ResourceManager.GetString("Niece", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        public static string NoRelationAvaibleMsg {
+            get {
+                return ResourceManager.GetString("NoRelationAvaibleMsg", resourceCulture);
             }
         }
         

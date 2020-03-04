@@ -19,6 +19,7 @@ namespace Shared.Interfaces.Managers
         List<Person> GetPersonByRelationType(string personId, RelationType type);
         IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string excludePersonId, string query);
         IEnumerable<KeyValuePair<string, string>> PersonTypeaheadWithPossibilities(string excludePersonId, string query);
+        int PersonTypeaheadWithPossibilitiesCount(string excludePersonId);
         FileContent GetMainPhotoByPersonId(string id);
         List<FileContent> GetAllPhotosByPersonId(string id);
         string SetPersonPhoto(string personId, FileContent entity);

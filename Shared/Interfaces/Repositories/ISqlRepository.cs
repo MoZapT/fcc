@@ -19,6 +19,7 @@ namespace Shared.Interfaces.Repositories
         IEnumerable<KeyValuePair<string, string>> GetPersonSelectList();
         IEnumerable<KeyValuePair<string, string>> GetPersonSelectList(string excludePersonId, string search);
         IEnumerable<KeyValuePair<string, string>> GetOnlyPossiblePersonSelectList(string excludePersonId, string search);
+        int GetOnlyPossiblePersonCount(string excludePersonId);
 
         string ReadCurrentPersonName(string personId);
         PersonName ReadLastPersonName(string id);

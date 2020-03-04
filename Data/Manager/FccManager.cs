@@ -88,6 +88,11 @@ namespace Data.Manager
             return _repo.GetOnlyPossiblePersonSelectList(excludePersonId, query);
         }
 
+        public int PersonTypeaheadWithPossibilitiesCount(string excludePersonId)
+        {
+            return _repo.GetOnlyPossiblePersonCount(excludePersonId);
+        }
+
         public FileContent GetMainPhotoByPersonId(string id)
         {
             return _repo.ReadFileContentByPersonId(id);
@@ -119,13 +124,10 @@ namespace Data.Manager
                 //if deleting main photo, try to set random avaible photo as main
                 if (person.FileContentId == fileId)
                 {
-                    person.FileContentId = null;
-                    List<FileContent> files = _repo.ReadAllFileContentByPersonId(personId).ToList() ?? 
-                        new List<FileContent>();
-                    if (files.Count > 0)
-                    {
-                        person.FileContentId = files.FirstOrDefault().Id;
-                    }
+                    var files = _repo.ReadAllFileContentByPersonId(personId)
+                        .Where(e => e.Id != fileId);
+
+                    person.FileContentId = files.Any() ? files.FirstOrDefault().Id : null;
                     _repo.UpdatePerson(person);
                 }
                 //continue delete photo content

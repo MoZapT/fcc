@@ -250,7 +250,7 @@
     <value>Homepage</value>
   </data>
   <data name="FamilyManagement" xml:space="preserve">
-    <value>Falimiensteuerung</value>
+    <value>Familiensteuerung</value>
   </data>
   <data name="Homepage" xml:space="preserve">
     <value>Homepage</value>
@@ -464,5 +464,14 @@
   </data>
   <data name="RelationsMenuTitle" xml:space="preserve">
     <value>Verbindungen-Menü</value>
+  </data>
+  <data name="Beginning" xml:space="preserve">
+    <value>Начало</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>Конец</value>
+  </data>
+  <data name="NoRelationAvaibleMsg" xml:space="preserve">
+    <value>Keine Auswahlmöglichkeit vorhanden!</value>
   </data>
 </root>

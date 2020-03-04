@@ -2,9 +2,19 @@
 
 <div class="card">
     <div class="card-header fullwidth">
-
+        @Resource.ResourceManager.GetLocalizedStringForEnumValue(Model.ActivityType)
     </div>
     <div class="card-body">
-        @Model.Activity @Model.ActivityType @Model.DateBegin.ToString() @Model.DateEnd.ToString()
+        @Model.Activity
+        @if (Model.DateBegin != null)
+        {
+            <br />
+            <span>@Resource.Beginning - @DateTimeHelper.ToString(Model.DateBegin, "dd.MM.yyyy")</span>
+        }
+        @if (Model.DateEnd != null)
+        {
+            <br />
+            <span>@Resource.End - @DateTimeHelper.ToString(Model.DateEnd, "dd.MM.yyyy")</span>
+        }
     </div>
 </div>
