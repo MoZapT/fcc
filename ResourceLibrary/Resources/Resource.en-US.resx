@@ -163,7 +163,7 @@
     <value>Редактировать</value>
   </data>
   <data name="EmptyDatePlaceholder" xml:space="preserve">
-    <value>ДД.ММ.ГГГГ</value>
+    <value>DD.MM.YYYY</value>
   </data>
   <data name="Father" xml:space="preserve">
     <value>Отец</value>

@@ -371,7 +371,7 @@ namespace DataAccessInfrastructure.Repositories
             var query = @"
                 SELECT CategoryName
                 FROM [PersonDocument]
-                WHERE CategoryName LIKE '%'+@Search+'%'
+                WHERE CategoryName LIKE '%'+@Search+'%' OR ISNULL(@Search, '') = ''
                 GROUP BY CategoryName
                 ORDER BY CategoryName DESC";
 

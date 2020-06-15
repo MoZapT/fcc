@@ -310,7 +310,7 @@
     <value>Als Hauptbild</value>
   </data>
   <data name="Documents" xml:space="preserve">
-    <value>Документы</value>
+    <value>Dokumente</value>
   </data>
   <data name="Photos" xml:space="preserve">
     <value>Bilder</value>
@@ -466,10 +466,10 @@
     <value>Verbindungen-Menü</value>
   </data>
   <data name="Beginning" xml:space="preserve">
-    <value>Начало</value>
+    <value>Begin</value>
   </data>
   <data name="End" xml:space="preserve">
-    <value>Конец</value>
+    <value>Ende</value>
   </data>
   <data name="NoRelationAvaibleMsg" xml:space="preserve">
     <value>Keine Auswahlmöglichkeit vorhanden!</value>

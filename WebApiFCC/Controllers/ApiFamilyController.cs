@@ -381,7 +381,7 @@ namespace FamilyControlCenter.Controllers
         }
 
         [HttpGet]
-        [Route("document/categories/{query}")]
+        [Route("document/categories/{query?}")]
         public IEnumerable<KeyValuePair<string, string>> GetDocumentCategories(string query)
         {
             try
