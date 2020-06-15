@@ -1,10 +1,7 @@
-﻿using Shared.Interfaces.Managers;
-using Shared.Viewmodels;
+﻿using Shared.Viewmodels;
 using Shared.Models;
-using System.Linq;
 using System.Web.Mvc;
 using Shared.Enums;
-using System;
 using Shared.Interfaces.ViewBuilders;
 using System.Collections.Generic;
 using FamilyControlCenter.Filters;
@@ -23,16 +20,6 @@ namespace FamilyControlCenter.Controllers
             _vwbFcc = vwbFcc;
         }
 
-        public ActionResult Person(int page = 1, int take = 10)
-        {
-            var vm = new PersonViewModel();
-            BeforeLoadAction(vm);
-            vm.Page = page;
-            vm.Take = take;
-            _vwbFcc.HandleAction(vm);
-            return View(vm);
-        }
-
         public ActionResult PersonDetail(string personId)
         {
             PersonViewModel vm = new PersonViewModel();
@@ -45,6 +32,16 @@ namespace FamilyControlCenter.Controllers
             return View("Person", vm);
         }
 
+        public ActionResult Person(int page = 1, int take = 10)
+        {
+            var vm = new PersonViewModel();
+            BeforeLoadAction(vm);
+            vm.Page = page;
+            vm.Take = take;
+            _vwbFcc.HandleAction(vm);
+            return View(vm);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Person(PersonViewModel vm)
@@ -54,7 +51,7 @@ namespace FamilyControlCenter.Controllers
             return View(vm);
         }
 
-        public PartialViewResult PersonDocuments(string personId/*, int section?*/)
+        public PartialViewResult PersonDocuments(string personId)
         {
             BeforeLoadAction();
             var vm = _vwbFcc.CreatePartialViewPersonDocuments(personId);
@@ -64,7 +61,7 @@ namespace FamilyControlCenter.Controllers
         public PartialViewResult PersonPhotoSection(string personId)
         {
             BeforeLoadAction();
-            KeyValuePair<string, List<FileContent>> vm = _vwbFcc.CreatePartialViewPersonPhotos(personId);
+            KeyValuePair<string, IEnumerable<FileContent>> vm = _vwbFcc.CreatePartialViewPersonPhotos(personId);
             return PartialView("Person/_PhotoSection", vm);
         }
 
@@ -102,7 +99,7 @@ namespace FamilyControlCenter.Controllers
         public PartialViewResult NamesAndPatronymPartialView(string personId)
         {
             BeforeLoadAction();
-            List<PersonName> vm = _vwbFcc.CreatePartialViewForNamesAndPatronymList(personId);
+            IEnumerable<PersonName> vm = _vwbFcc.CreatePartialViewForNamesAndPatronymList(personId);
             return PartialView("Person/_PersonNames", vm);
         }
 

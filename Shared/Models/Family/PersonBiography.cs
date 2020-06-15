@@ -1,5 +1,4 @@
 ﻿using Shared.Common;
-using System;
 
 namespace Shared.Models
 {

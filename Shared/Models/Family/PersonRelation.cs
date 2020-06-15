@@ -1,6 +1,5 @@
 ﻿using Shared.Common;
 using Shared.Enums;
-using System;
 
 namespace Shared.Models
 {

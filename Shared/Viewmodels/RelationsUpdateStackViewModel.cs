@@ -8,9 +8,9 @@ namespace Shared.Viewmodels
     {
         public string PersonId { get; set; }
         public string SelectedPersonIdWithRelations { get; set; }
-        public List<KeyValuePair<string, string>> PersonList { get; set; }
-        public List<KeyValuePair<string, string>> PersonsWithPossibleRelations { get; set; }
-        public List<PersonRelation> InitialRelations { get; set; }
+        public IEnumerable<KeyValuePair<string, string>> PersonList { get; set; }
+        public IEnumerable<KeyValuePair<string, string>> PersonsWithPossibleRelations { get; set; }
+        public IEnumerable<PersonRelation> InitialRelations { get; set; }
 
         public RelationsUpdateStackViewModel()
         {

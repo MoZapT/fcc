@@ -11,8 +11,8 @@ namespace Shared.Models
         public string Name { get { return GetFullName(); } }
         public DateTime? BirthDate { get; set; }
         public DateTime? DeathDate { get; set; }
-        public bool HasBirthDate { get { return (BirthDate == null ? false : true); } }
-        public bool HasDeathDate { get { return (DeathDate == null ? false : true); } }
+        public bool HasBirthDate { get { return BirthDate != null; } }
+        public bool HasDeathDate { get { return DeathDate != null; } }
         public bool Sex { get; set; }
         public bool IsMarried { get; set; }
         public bool IsInPartnership { get; set; }
@@ -21,11 +21,11 @@ namespace Shared.Models
         private string GetFullName()
         {
             string result = "";
-            result += string.IsNullOrWhiteSpace(Firstname) ? "" : Firstname;
-            result += string.IsNullOrWhiteSpace(result) ? "" : " ";
-            result += string.IsNullOrWhiteSpace(Lastname) ? "" : Lastname;
-            result += string.IsNullOrWhiteSpace(result) ? "" : " ";
-            result += string.IsNullOrWhiteSpace(Patronym) ? "" : Patronym;
+            result += string.IsNullOrWhiteSpace(Firstname) ? string.Empty : Firstname;
+            result += string.IsNullOrWhiteSpace(result) ? string.Empty : " ";
+            result += string.IsNullOrWhiteSpace(Lastname) ? string.Empty : Lastname;
+            result += string.IsNullOrWhiteSpace(result) ? string.Empty : " ";
+            result += string.IsNullOrWhiteSpace(Patronym) ? string.Empty : Patronym;
             return result;
         }
     }

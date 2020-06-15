@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Dapper;
 using Shared.Enums;
 using Shared.Interfaces.Repositories;
@@ -135,7 +133,7 @@ namespace DataAccessInfrastructure.Repositories
 
                 COMMIT TRAN";
 
-            return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
+            return Execute(query, new DynamicParameters(entity)) > 0;
         }
         public bool DeletePerson(string id)
         {
@@ -281,7 +279,7 @@ namespace DataAccessInfrastructure.Repositories
                 DELETE FROM [PersonFileContent]
                 WHERE PersonId = @Id AND FileContentId = @FileContentId";
 
-            return Execute(query, new { @Id = personId, @FileContentId = fileId }) > 0 ? true : false;
+            return Execute(query, new { @Id = personId, @FileContentId = fileId }) > 0;
         }
         public bool DeleteAllPersonFileContent(string personId)
         {
@@ -289,7 +287,7 @@ namespace DataAccessInfrastructure.Repositories
                 DELETE FROM [PersonFileContent]
                 WHERE PersonId = @Id";
 
-            return Execute(query, new { @Id = personId }) > 0 ? true : false;
+            return Execute(query, new { @Id = personId }) > 0;
         }
 
         public PersonDocument ReadDocumentByPersonId(string id)
@@ -355,7 +353,7 @@ namespace DataAccessInfrastructure.Repositories
                 DELETE FROM [PersonDocument]
                 WHERE PersonId = @Id AND FileContentId = @FileContentId";
 
-            return Execute(query, new { @Id = personId, @FileContentId = fileId }) > 0 ? true : false;
+            return Execute(query, new { @Id = personId, @FileContentId = fileId }) > 0;
         }
         public bool DeleteAllPersonDocument(string personId)
         {
@@ -363,7 +361,7 @@ namespace DataAccessInfrastructure.Repositories
                 DELETE FROM [PersonDocument]
                 WHERE PersonId = @Id";
 
-            return Execute(query, new { @Id = personId }) > 0 ? true : false;
+            return Execute(query, new { @Id = personId }) > 0;
         }
 
         public IEnumerable<string> ReadAllDocumentCategories(string search)
@@ -454,7 +452,7 @@ namespace DataAccessInfrastructure.Repositories
                     ,[Patronym] = @Patronym        
                 WHERE PersonId = @Id";
 
-            return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
+            return Execute(query, new DynamicParameters(entity)) > 0;
         }
         public bool DeletePersonName(string id)
         {
@@ -462,7 +460,7 @@ namespace DataAccessInfrastructure.Repositories
                 DELETE FROM [PersonName]
                 WHERE Id = @Id";
 
-            return Execute(query, new { @Id = id }) > 0 ? true : false;
+            return Execute(query, new { @Id = id }) > 0;
         }
 
         #endregion
@@ -681,7 +679,7 @@ namespace DataAccessInfrastructure.Repositories
                           ,[IsActive] = @IsActive
                      WHERE Id = @Id";
 
-            return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
+            return Execute(query, new DynamicParameters(entity)) > 0;
         }
         public bool DeletePersonRelation(string inviter, string invited)
         {
@@ -693,7 +691,7 @@ namespace DataAccessInfrastructure.Repositories
 
             return Execute(query,
                 new { @InviterId = inviter, @InvitedId = invited })
-                > 0 ? true : false;
+                > 0;
         }
         public bool DeletePersonRelation(string inviter, string invited, RelationType type)
         {
@@ -706,7 +704,7 @@ namespace DataAccessInfrastructure.Repositories
 
             return Execute(query,
                 new { @InviterId = inviter, @InvitedId = invited, @RelationType = type })
-                > 0 ? true : false;
+                > 0;
         }
         public bool IsMarried(string personId)
         {
@@ -718,7 +716,7 @@ namespace DataAccessInfrastructure.Repositories
                    AND RelationType = @RelationType";
 
             return QueryFoD<int>(query, new { @PersonId = personId, @RelationType = RelationType.HusbandWife })
-                > 0 ? true : false;
+                > 0;
         }
 
         public bool IsInRelationship(string personId)
@@ -731,7 +729,7 @@ namespace DataAccessInfrastructure.Repositories
                    AND RelationType = @RelationType";
 
             return QueryFoD<int>(query, new { @PersonId = personId, @RelationType = RelationType.LivePartner })
-                > 0 ? true : false;
+                > 0;
         }
 
         public IEnumerable<RelationType> GetPersonsRelationTypes(string personId)
@@ -814,7 +812,7 @@ namespace DataAccessInfrastructure.Repositories
                           ,[IsActive] = @IsActive
                      WHERE Id = @Id";
 
-            return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
+            return Execute(query, new DynamicParameters(entity)) > 0;
         }
 
         #endregion
@@ -904,7 +902,7 @@ namespace DataAccessInfrastructure.Repositories
                     ,[DateEnd] = @DateEnd
                  WHERE Id = @Id";
 
-            return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
+            return Execute(query, new DynamicParameters(entity)) > 0;
         }
 
         public bool DeletePersonActivity(string id)
@@ -913,7 +911,7 @@ namespace DataAccessInfrastructure.Repositories
                 DELETE FROM [PersonActivity]
                 WHERE Id = @Id";
 
-            return Execute(query, new { @Id = id }) > 0 ? true : false;
+            return Execute(query, new { @Id = id }) > 0;
         }
 
         public bool DeleteAllPersonActivityByPersonId(string id)
@@ -922,7 +920,7 @@ namespace DataAccessInfrastructure.Repositories
                 DELETE FROM [PersonActivity]
                 WHERE BiographyId = (SELECT Id FROM [PersonBiography] WHERE PersonId = @Id)";
 
-            return Execute(query, new { @Id = id }) > 0 ? true : false;
+            return Execute(query, new { @Id = id }) > 0;
         }
 
         #endregion
@@ -977,7 +975,7 @@ namespace DataAccessInfrastructure.Repositories
                 WHERE
                     Id = @Id";
 
-            return Execute(query, new DynamicParameters(entity)) > 0 ? true : false;
+            return Execute(query, new DynamicParameters(entity)) > 0;
         }
 
         public bool DeleteFileContent(string id)
@@ -986,7 +984,7 @@ namespace DataAccessInfrastructure.Repositories
                 DELETE FROM [FileContent]
                 WHERE Id = @Id";
 
-            return Execute(query, new { @Id = id }) > 0 ? true : false;
+            return Execute(query, new { @Id = id }) > 0;
         }
 
         #endregion

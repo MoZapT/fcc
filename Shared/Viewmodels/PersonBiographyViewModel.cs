@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
 using Shared.Common;
 using Shared.Enums;
 using Shared.Models;
@@ -13,8 +11,8 @@ namespace Shared.Viewmodels
         #region PROPERTIES
 
         public PersonBiography PersonBiography { get; set; }
-        public Dictionary<ActivityType, List<PersonActivity>> Activities { get; set; }
-        public List<ActivityType> ActivityTypeLoadingList { set; get; }
+        public Dictionary<ActivityType, IEnumerable<PersonActivity>> Activities { get; set; }
+        public IEnumerable<ActivityType> ActivityTypeLoadingList { set; get; }
 
         #endregion
 
@@ -25,21 +23,22 @@ namespace Shared.Viewmodels
 
         private void InitActivitiesDictionaryList()
         {
-            Activities = new Dictionary<ActivityType, List<PersonActivity>>();
-            ActivityTypeLoadingList = new List<ActivityType>();
-            ActivityTypeLoadingList.Add(ActivityType.ElementarySchool);
-            ActivityTypeLoadingList.Add(ActivityType.MiddleSchool);
-            ActivityTypeLoadingList.Add(ActivityType.Highschool);
-            ActivityTypeLoadingList.Add(ActivityType.Practice);
-            ActivityTypeLoadingList.Add(ActivityType.College);
-            ActivityTypeLoadingList.Add(ActivityType.TechnicalCollege);
-            ActivityTypeLoadingList.Add(ActivityType.University);
-            ActivityTypeLoadingList.Add(ActivityType.Working);
-            ActivityTypeLoadingList.Add(ActivityType.Unemployed);
-            ActivityTypeLoadingList.Add(ActivityType.Enterpreneur);
-            ActivityTypeLoadingList.Add(ActivityType.Kindergarden);
-            ActivityTypeLoadingList.Add(ActivityType.Other);
-            ActivityTypeLoadingList.Add(ActivityType.Trainee);
+            Activities = new Dictionary<ActivityType, IEnumerable<PersonActivity>>();
+            var activities = new List<ActivityType>();
+            activities.Add(ActivityType.ElementarySchool);
+            activities.Add(ActivityType.MiddleSchool);
+            activities.Add(ActivityType.Highschool);
+            activities.Add(ActivityType.Practice);
+            activities.Add(ActivityType.College);
+            activities.Add(ActivityType.TechnicalCollege);
+            activities.Add(ActivityType.University);
+            activities.Add(ActivityType.Working);
+            activities.Add(ActivityType.Unemployed);
+            activities.Add(ActivityType.Enterpreneur);
+            activities.Add(ActivityType.Kindergarden);
+            activities.Add(ActivityType.Other);
+            activities.Add(ActivityType.Trainee);
+            ActivityTypeLoadingList = activities;
         }
     }
 }

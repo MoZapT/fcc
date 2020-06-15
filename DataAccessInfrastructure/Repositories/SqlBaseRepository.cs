@@ -11,8 +11,8 @@ namespace DataAccessInfrastructure.Repositories
 {
     public class SqlBaseRepository : ISqlBaseRepository
     {
-        private string _fccConStr = ConfigurationManager.ConnectionStrings["FccConStr"].ConnectionString;
-        private Dictionary<int, SqlConnection> _conSet;
+        private readonly string _fccConStr = ConfigurationManager.ConnectionStrings["FccConStr"].ConnectionString;
+        private readonly Dictionary<int, SqlConnection> _conSet;
 
         public string FccConStr
         {
@@ -166,7 +166,6 @@ namespace DataAccessInfrastructure.Repositories
         public bool Transaction(Task task, SqlConnection con)
         {
             var success = false;
-            var result = new List<object>();
             using (var transactionScope = new TransactionScope())
             {
                 con.Open();
@@ -193,11 +192,7 @@ namespace DataAccessInfrastructure.Repositories
                     {
                         tcn.Rollback();
                         con.Close();
-                        {
-                            tcn.Rollback();
-                            con.Close();
-                            success = false;
-                        }
+                        success = false;
                     }
 
                     con.Close();

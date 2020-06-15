@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using Shared.Common;
-using Shared.Enums;
-using Shared.Models;
+﻿using Shared.Common;
 
 namespace Shared.Viewmodels
 {

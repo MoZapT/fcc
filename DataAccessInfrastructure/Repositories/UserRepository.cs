@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Dapper;
-using Shared.Enums;
 using Shared.Interfaces.Repositories;
-using Shared.Models;
 
 namespace DataAccessInfrastructure.Repositories
 {
@@ -147,7 +142,7 @@ namespace DataAccessInfrastructure.Repositories
                 JOIN [AspNetUsers] AS u ON u.Id = ur.UserId AND u.UserName = @Username
                 JOIN [AspNetRoles] AS r ON r.Id = ur.RoleId AND r.Name = @RoleName";
 
-            return QueryFoD<int>(query, new { @Username = username, @RoleName = roleName }) > 0 ? true : false;
+            return QueryFoD<int>(query, new { @Username = username, @RoleName = roleName }) > 0;
         }
 
         public bool RemoveUsersFromRoles(string[] usernames, string[] roleNames)
@@ -166,7 +161,7 @@ namespace DataAccessInfrastructure.Repositories
                 FROM [AspNetRoles]
                 WHERE Name = @RoleName";
 
-            return QueryFoD<int>(query, new { @RoleName = roleName }) > 0 ? true : false;
+            return QueryFoD<int>(query, new { @RoleName = roleName }) > 0;
         }
 
         #endregion

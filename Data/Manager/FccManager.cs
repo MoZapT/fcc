@@ -46,7 +46,7 @@ namespace Data.Manager
 
         public bool ExistPerson(string id)
         {
-            return _repo.ReadPerson(id) != null ? true : false;
+            return _repo.ReadPerson(id) != null;
         }
 
         public Person GetPerson(string userId)
@@ -61,12 +61,12 @@ namespace Data.Manager
             return person;
         }
 
-        public List<Person> GetPersonByRelationType(string personId, RelationType type)
+        public IEnumerable<Person> GetPersonByRelationType(string personId, RelationType type)
         {
             return _repo.ReadAllPersonByRelation(personId, type).ToList();
         }
 
-        public List<Person> GetListPerson()
+        public IEnumerable<Person> GetListPerson()
         {
             return _repo.ReadAllPerson()
                 .Select(e => 
@@ -97,7 +97,7 @@ namespace Data.Manager
         {
             return _repo.ReadFileContentByPersonId(id);
         }
-        public List<FileContent> GetAllPhotosByPersonId(string id)
+        public IEnumerable<FileContent> GetAllPhotosByPersonId(string id)
         {
             return _repo.ReadAllFileContentByPersonId(id).ToList();
         }
@@ -144,11 +144,11 @@ namespace Data.Manager
         {
             return _repo.ReadDocumentByPersonId(id);
         }
-        public List<PersonDocument> GetAllDocumentsByPersonId(string id)
+        public IEnumerable<PersonDocument> GetAllDocumentsByPersonId(string id)
         {
             return _repo.ReadAllDocumentByPersonId(id).ToList();
         }
-        public List<PersonDocument> GetAllDocumentsByPersonIdAndCategory(string id, string category)
+        public IEnumerable<PersonDocument> GetAllDocumentsByPersonIdAndCategory(string id, string category)
         {
             return _repo.ReadAllDocumentByPersonIdAndCategory(id, category).ToList();
         }
@@ -179,7 +179,7 @@ namespace Data.Manager
             return _repo.DeleteAllPersonDocument(personId);
         }
 
-        public List<string> GetDocumentCategories(string query)
+        public IEnumerable<string> GetDocumentCategories(string query)
         {
             return _repo.ReadAllDocumentCategories(query).ToList();
         }
@@ -197,7 +197,7 @@ namespace Data.Manager
             return _repo.CreatePersonName(entity);
         }
 
-        public List<PersonName> GetAllPersonName(string personId)
+        public IEnumerable<PersonName> GetAllPersonName(string personId)
         {
             return _repo.ReadAllPersonNameByPersonId(personId).ToList();
         }
@@ -211,7 +211,7 @@ namespace Data.Manager
 
         #region PersonRelation
 
-        public List<PersonRelation> GetAllPersonRelationsBetweenPersons(string inviter, string invited)
+        public IEnumerable<PersonRelation> GetAllPersonRelationsBetweenPersons(string inviter, string invited)
         {
             return _repo.ReadAllPersonRelationBetweenInviterAndInvited(inviter, invited)
                 .Select(e =>
@@ -223,7 +223,7 @@ namespace Data.Manager
                 .ToList();
         }
 
-        public List<PersonRelation> GetAllPersonRelationsByInviterId(string personId)
+        public IEnumerable<PersonRelation> GetAllPersonRelationsByInviterId(string personId)
         {
             return _repo.ReadAllPersonRelationsByInviterId(personId)
                 .Select(e => 
@@ -261,7 +261,7 @@ namespace Data.Manager
             }));
         }
         
-        private List<PersonRelation> GetUpdateRelationsStack(string inviter, string invited, RelationType type)
+        private IEnumerable<PersonRelation> GetUpdateRelationsStack(string inviter, string invited, RelationType type)
         {
             return new List<PersonRelation>
             {
@@ -270,7 +270,7 @@ namespace Data.Manager
             };
         }
         
-        public List<PersonRelation> CreateRelationsMesh(string personId, string invitedId)
+        public IEnumerable<PersonRelation> CreateRelationsMesh(string personId, string invitedId)
         {
             return _repo.ReadAllPersonRelationsThatArePossible(personId, invitedId)
                 .Select(e =>
@@ -282,7 +282,7 @@ namespace Data.Manager
                 .ToList();
         }
 
-        public List<KeyValuePair<string, string>> GetPersonsThatHaveRelativesWithPossibleRelations()
+        public IEnumerable<KeyValuePair<string, string>> GetPersonsThatHaveRelativesWithPossibleRelations()
         {
             return _repo.GetPersonsThatHaveRelativesWithPossibleRelations().ToList();
         }
@@ -292,12 +292,12 @@ namespace Data.Manager
             return _repo.CheckIfSameRelationsAvaible(personId);
         }
 
-        public List<KeyValuePair<string, string>> GetPersonsKvpWithPossibleRelations(string personId)
+        public IEnumerable<KeyValuePair<string, string>> GetPersonsKvpWithPossibleRelations(string personId)
         {
             return _repo.GetPersonsKvpWithPossibleRelations(personId).ToList();
         }
 
-        public List<RelationType> GetPersonsRelationTypes(string personId)
+        public IEnumerable<RelationType> GetPersonsRelationTypes(string personId)
         {
             return _repo.GetPersonsRelationTypes(personId).ToList();
         }
@@ -344,12 +344,12 @@ namespace Data.Manager
             return _repo.ReadPersonActivity(id);
         }
 
-        public List<PersonActivity> GetAllPersonActivityByPerson(string id)
+        public IEnumerable<PersonActivity> GetAllPersonActivityByPerson(string id)
         {
             return _repo.ReadAllPersonActivityByPerson(id).ToList();
         }
 
-        public List<PersonActivity> GetAllPersonActivityByPerson(string id, ActivityType type)
+        public IEnumerable<PersonActivity> GetAllPersonActivityByPerson(string id, ActivityType type)
         {
             return _repo.ReadAllPersonActivityByPerson(id, type).ToList();
         }

@@ -1,18 +1,12 @@
 ﻿using Shared.Helpers;
 using Shared.Interfaces.Managers;
-using Shared.Viewmodels;
 using Shared.Enums;
 using Shared.Models;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Threading;
 using System.Web.Http;
 using WebApiFCC;
-using System.Web.Http.Cors;
-using System.Web;
-using System.IO;
 using System.Net.Http;
 using System.Net;
 using System.Threading.Tasks;
@@ -82,7 +76,7 @@ namespace FamilyControlCenter.Controllers
             bool hasNothingChanged = 
                 (person.Firstname == fName && 
                 person.Lastname == lName && 
-                person.Patronym == patronym) ? true : false;
+                person.Patronym == patronym);
 
             if (hasNothingChanged)
                 return false;
@@ -117,7 +111,7 @@ namespace FamilyControlCenter.Controllers
 
         [HttpGet]
         [Route("typeahead/person/count/{excludePersonId}")]
-        public int GetRelationsCount(string excludePersonId/*, string query = ""*/)
+        public int GetRelationsCount(string excludePersonId)
         {
             try
             {
@@ -134,8 +128,6 @@ namespace FamilyControlCenter.Controllers
         [Route("relationtype/all/{inviter}/{invited}")]
         public IEnumerable<System.Web.Mvc.SelectListItem> GetRelationTypes(string inviter, string invited)
         {
-            var rMgr = Resources.Resource.ResourceManager;
-
             try
             {
                 if (string.IsNullOrWhiteSpace(invited) || string.IsNullOrWhiteSpace(inviter))
@@ -161,8 +153,7 @@ namespace FamilyControlCenter.Controllers
 
             var isAlreadyRelated = 
                 (_mgrFcc.GetAllPersonRelationsBetweenPersons(inviter.Id, invited.Id) ?? 
-                new List<PersonRelation>()).Count > 0 ?
-                true : false;
+                new List<PersonRelation>()).Any();
 
             if (isAlreadyRelated)
             {
@@ -300,15 +291,6 @@ namespace FamilyControlCenter.Controllers
             return img64Url;
         }
 
-        ////TODO create cdn, move to cdn!
-        //[Route("filecontent/get/{contentId}")]
-        //public string GetFileContent(string contentId)
-        //{
-        //    var file = Model.Value[i];
-        //    string img64 = Convert.ToBase64String(file.BinaryContent);
-        //    return string.Format("data:image/" + file.FileType + ";base64,{0}", img64);
-        //}
-
         [HttpPost]
         [Route("person/file/upload/{personId}/{category}/{activityId?}")]
         public async Task<HttpResponseMessage> UploadPersonDocument(string personId, string category, string activityId = null)
@@ -397,14 +379,14 @@ namespace FamilyControlCenter.Controllers
 
         [HttpGet]
         [Route("person/personwithpossibilities")]
-        public List<KeyValuePair<string, string>> GetPersonsWithRelationsWithPossibleRelations()
+        public IEnumerable<KeyValuePair<string, string>> GetPersonsWithRelationsWithPossibleRelations()
         {
             return _mgrFcc.GetPersonsThatHaveRelativesWithPossibleRelations();
         }
 
         [HttpGet]
         [Route("person/possiblerelations/{personId}")]
-        public List<KeyValuePair<string, string>> GetPersonsWithPossibleRelations(string personId)
+        public IEnumerable<KeyValuePair<string, string>> GetPersonsWithPossibleRelations(string personId)
         {
             return _mgrFcc.GetPersonsKvpWithPossibleRelations(personId);
         }

@@ -34,10 +34,10 @@ namespace Data.ViewBuilder
             return vm;
         }
 
-        public KeyValuePair<string, List<FileContent>> CreatePartialViewPersonPhotos(string personId)
+        public KeyValuePair<string, IEnumerable<FileContent>> CreatePartialViewPersonPhotos(string personId)
         {
             var person = _mgrFcc.GetPerson(personId);
-            return new KeyValuePair<string, List<FileContent>>(person.FileContentId, _mgrFcc.GetAllPhotosByPersonId(personId));
+            return new KeyValuePair<string, IEnumerable<FileContent>>(person.FileContentId, _mgrFcc.GetAllPhotosByPersonId(personId));
         }
 
         public PersonBiographyViewModel CreatePartialViewPersonBiography(string personId)
@@ -95,7 +95,7 @@ namespace Data.ViewBuilder
             return _mgrFcc.UpdatePersonActivity(dbRec);
         }
 
-        public List<PersonName> CreatePartialViewForNamesAndPatronymList(string personId)
+        public IEnumerable<PersonName> CreatePartialViewForNamesAndPatronymList(string personId)
         {
             return _mgrFcc.GetAllPersonName(personId);
         }
@@ -172,9 +172,9 @@ namespace Data.ViewBuilder
         {
             vm.Command = ActionCommand.Cancel;
             vm.Models = _mgrFcc.GetListPerson();
-            var tcount = vm.Models.Count; //TODO totalcount
+            int tcount = vm.Models.Count(); //TODO totalcount
             vm.Paging = new PagingViewModel(vm.Skip, vm.Take, tcount);
-            vm.Models = vm.Models.Skip(vm.Skip).Take(vm.Take).ToList();
+            vm.Models = vm.Models.Skip(vm.Skip).Take(vm.Take);
             vm.PersonIcons = new Dictionary<string, string>();
 
             foreach (Person p in vm.Models)
@@ -188,10 +188,8 @@ namespace Data.ViewBuilder
             }
         }
 
-        private bool SavePerson(PersonViewModel vm)
+        private void SavePerson(PersonViewModel vm)
         {
-            bool success = false;
-
             try
             {
                 //save person as new
@@ -201,13 +199,10 @@ namespace Data.ViewBuilder
                 }
 
                 //update already existing person
-                success = _mgrFcc.UpdatePerson(vm.Model);
-
-                return success;
+                _mgrFcc.UpdatePerson(vm.Model);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return success;
             }
         }
 
@@ -250,7 +245,7 @@ namespace Data.ViewBuilder
             return vm;
         }
 
-        public List<PersonRelation> CreateRelationsUpdateStackPartial(string personId, string selectedId)
+        public IEnumerable<PersonRelation> CreateRelationsUpdateStackPartial(string personId, string selectedId)
         {
             return _mgrFcc.CreateRelationsMesh(personId, selectedId);
         }

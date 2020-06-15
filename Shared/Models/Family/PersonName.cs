@@ -14,12 +14,12 @@ namespace Shared.Models
 
         private string GetFullName()
         {
-            string result = "";
-            result += string.IsNullOrWhiteSpace(Firstname) ? "" : Firstname;
-            result += string.IsNullOrWhiteSpace(result) ? "" : " ";
-            result += string.IsNullOrWhiteSpace(Lastname) ? "" : Lastname;
-            result += string.IsNullOrWhiteSpace(result) ? "" : " ";
-            result += string.IsNullOrWhiteSpace(Patronym) ? "" : Patronym;
+            string result = string.Empty;
+            result += string.IsNullOrWhiteSpace(Firstname) ? string.Empty : Firstname;
+            result += string.IsNullOrWhiteSpace(result) ? string.Empty : " ";
+            result += string.IsNullOrWhiteSpace(Lastname) ? string.Empty : Lastname;
+            result += string.IsNullOrWhiteSpace(result) ? string.Empty : " ";
+            result += string.IsNullOrWhiteSpace(Patronym) ? string.Empty : Patronym;
             return result;
         }
     }

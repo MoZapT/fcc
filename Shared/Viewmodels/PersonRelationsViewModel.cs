@@ -11,14 +11,14 @@ namespace Shared.Viewmodels
         #region PROPERTIES
 
         public Person Person { get; set; }
-        public Dictionary<RelationType, List<Person>> Relations { get; set; }
+        public Dictionary<RelationType, IEnumerable<Person>> Relations { get; set; }
         public bool SameRelationsAvaible { get; set; }
 
         #endregion
 
         public PersonRelationsViewModel()
         {
-            Relations = new Dictionary<RelationType, List<Person>>();
+            Relations = new Dictionary<RelationType, IEnumerable<Person>>();
         }
     }
 }
