@@ -29,7 +29,7 @@
                             <div class="col-md-12" id="PhotoSection">
                                 @if (Model.Command == Shared.Enums.ActionCommand.Open)
                                 {
-                                    var photoVm = new KeyValuePair<string, List<FileContent>>(Model.Model.FileContentId, Model.Photos);
+                                    var photoVm = new KeyValuePair<string, IEnumerable<FileContent>>(Model.Model.FileContentId, Model.Photos);
                                     @Html.Partial("Person/_PhotoSection", photoVm)
                                 }
                             </div>

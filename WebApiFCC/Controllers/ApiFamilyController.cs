@@ -18,9 +18,9 @@ namespace FamilyControlCenter.Controllers
     {
         private readonly IFccManager _mgrFcc;
 
-        public ApiFamilyController()
+        public ApiFamilyController(IFccManager mgrFcc)
         {
-            _mgrFcc = ManagerCollection.Configuration.FccManager;
+            _mgrFcc = mgrFcc;
         }
 
         [HttpGet]

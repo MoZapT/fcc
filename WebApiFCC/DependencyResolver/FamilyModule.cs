@@ -3,10 +3,8 @@ using Shared.Interfaces.Managers;
 using Data.Manager;
 using Ninject.Modules;
 using Shared.Interfaces.Repositories;
-using Shared.Interfaces.ViewBuilders;
-using FamilyControlCenter.ViewBuilder;
 
-namespace FamilyControlCenter.DependencyResolver
+namespace WebApiFCC.DependencyResolver
 {
     public class FamilyModule : NinjectModule
     {
@@ -33,8 +31,6 @@ namespace FamilyControlCenter.DependencyResolver
         {
             //  initialize content manager
             Bind<IFccManager>().To<FccManager>().InSingletonScope();
-
-            Bind<IFccViewBuilder>().To<FccViewBuilder>().InSingletonScope();
         }
     }
 }

@@ -260,6 +260,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\IdentityModels.cs" />
+    <Compile Include="ViewBuilder\FccViewBuilder.cs" />
     <Compile Include="Viewmodels\Account\AccountViewModels.cs" />
     <Compile Include="Viewmodels\Account\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

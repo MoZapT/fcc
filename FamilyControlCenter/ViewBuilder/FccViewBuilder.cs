@@ -7,7 +7,7 @@ using Shared.Viewmodels;
 using Shared.Interfaces.ViewBuilders;
 using Shared.Interfaces.Managers;
 
-namespace Data.ViewBuilder
+namespace FamilyControlCenter.ViewBuilder
 {
     public class FccViewBuilder : IFccViewBuilder
     {

@@ -1,21 +1,22 @@
-﻿[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(FamilyControlCenter.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(FamilyControlCenter.App_Start.NinjectWebCommon), "Stop")]
+﻿[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(WebApiFCC.App_Start.NinjectWebCommon), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(WebApiFCC.App_Start.NinjectWebCommon), "Stop")]
 
-namespace FamilyControlCenter.App_Start
+namespace WebApiFCC.App_Start
 {
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;
     using Ninject.Web.Common;
     using Ninject.Web.Common.WebHost;
-    using Ninject.Web.Mvc;
     using System;
     using System.Web;
     using System.Web.Mvc;
     using Ninject.Modules;
     using System.Collections.Generic;
-    using FamilyControlCenter.DependencyResolver;
+    using WebApiFCC.DependencyResolver;
+    using System.Web.Http;
+    using Ninject.Web.WebApi;
 
-    public static class NinjectWebCommon
+    public class NinjectWebCommon
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
 
@@ -51,8 +52,7 @@ namespace FamilyControlCenter.App_Start
 
                 RegisterServices(kernel);
 
-                NinjectDependencyResolver ninjectResolver = new NinjectDependencyResolver(kernel);
-                DependencyResolver.SetResolver(ninjectResolver);    // MVC
+                GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel); // API
 
                 return kernel;
             }

@@ -1,6 +1,6 @@
 ﻿@model PersonDocumentsViewModel
 @{ 
-    List<PersonDocument> files = new List<PersonDocument>();
+    IEnumerable<PersonDocument> files = new List<PersonDocument>();
     foreach (var userFiles in Model.Documents.Values)
     {
         files = userFiles;

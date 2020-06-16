@@ -22,9 +22,9 @@
             @Html.Partial("Person/_PersonListPaging", Model.Paging)
         </div>
         <div class="card-body">
-            @for (int i = 0; i < Model.Models.Count; i++)
+            @for (int i = 0; i < Model.Models.Count(); i++)
             {
-                var e = Model.Models[i];
+                var e = Model.Models.ElementAt(i);
                 string birthDateString = e.BirthDate == null ? null : e.BirthDate.Value.ToString("dd.MM.yyyy");
                 string deathDateString = e.DeathDate == null ? null : e.DeathDate.Value.ToString("dd.MM.yyyy");
 

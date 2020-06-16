@@ -1,4 +1,4 @@
-﻿@model KeyValuePair<string, List<FileContent>>
+﻿@model KeyValuePair<string, IEnumerable<FileContent>>
 
 <div class="row form-group">
     <div id="MainPictureId" value="@Model.Key"></div>
@@ -7,7 +7,7 @@
         @Html.Label("Foto", Resource.Foto)
     </div>
 
-    @if (Model.Value?.Count > 1)
+    @if (Model.Value.Any())
     {
         <div class="col-md-12">
             <button id="SetMainPhoto" class="btn btn-light btn-edges sideslide" type="button">
@@ -20,16 +20,16 @@
         <div id="PhotosCarousel" class="carousel shadow slide" data-ride="carousel" data-interval="false">
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
-                @if (Model.Value?.Count <= 0)
+                @if (!Model.Value.Any())
                 {
                     <div class="item active" value="">
                         <img src="~/Content/no-image-available.jpg" alt="No image avaible" class="photo" />
                     </div>
                 }
 
-                @for (int i = 0; i < Model.Value.Count; i++)
+                @for (int i = 0; i < Model.Value.Count(); i++)
                 {
-                    var file = Model.Value[i];
+                    var file = Model.Value.ElementAt(i);
                     string img64 = Convert.ToBase64String(file.BinaryContent);
                     string img64Url = string.Format("data:image/" + file.FileType + ";base64,{0}", img64);
 
@@ -50,7 +50,7 @@
         </div>
     </div>
     <div class="col-md-12 d-inline-flex">
-        @if (Model.Value.Count > 1)
+        @if (Model.Value.Count() > 1)
         {
             <!-- Left and right controls -->
             <a class="custom-carousel-control btn btn-dark btn-edges" href="#PhotosCarousel" data-slide="prev">
@@ -70,7 +70,7 @@
         </label>
         <input id="UploadPicture" class="hide" type="file" name="files[]" data-multiple-caption="{count} notimplted" multiple="" aria-invalid="false">
     </div>
-    @if (Model.Value?.Count > 0)
+    @if (Model.Value.Any())
     {
         <div class="col-md-12">
             <button id="DeletePhoto" class="btn btn-danger btn-edges sideslide" type="button">
