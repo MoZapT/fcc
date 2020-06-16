@@ -1,0 +1,66 @@
+﻿@model PersonActivity
+
+@{ 
+    var typeList = FccEnumHelper.GetTranslatedSelectListItemCollection<ActivityType>(typeof(ActivityType));
+    typeList = typeList.Select(e =>
+    {
+        if (e.Value == Model.ActivityType.ToString())
+            e.Selected = true;
+        else
+            e.Selected = false;
+
+        return e;
+    });
+}
+
+    <div class="row form-group">
+        @Html.Hidden("NewActivityId", Model.Id)
+        @Html.Hidden("NewDateCreated", Model.DateCreated)
+        @Html.Hidden("NewDateModified", Model.DateModified)
+        @Html.Hidden("NewIsActive", Model.IsActive)
+        <div class="col-md-4">
+            @Html.DropDownList("NewActivityActivityType", typeList, new { @class = "form-control" })
+        </div>
+        <div class="col-md-2">
+            <div class="custom-control custom-checkbox">
+                @Html.CheckBox("NewHasBegun", Model.HasBegun, new { @class = "custom-control-input" })
+                @Html.Label("NewHasBegun", Resource.Beginning, new { @class = "custom-control-label" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            @Html.TextBox("NewActivityDateBegin", Model.DateBegin, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "form-control datepicker" })
+        </div>
+        <div class="col-md-2">
+            <div class="custom-control custom-checkbox">
+                @Html.CheckBox("NewHasEnded", Model.HasEnded, new { @class = "custom-control-input" })
+                @Html.Label("NewHasEnded", Resource.End, new { @class = "custom-control-label" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            @if (Model.HasEnded)
+            {
+                @Html.TextBox("NewActivityDateEnd", Model.DateEnd, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "form-control datepicker" }) 
+            }
+            else
+            {
+                @Html.TextBox("NewActivityDateEnd", Model.DateEnd, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "form-control datepicker", @readonly = "readonly" })
+            }
+        </div>
+    </div>
+<div class="row form-group">
+    <div class="col-md-12">
+        @Html.TextArea("NewActivityActivity", Model.Activity, new { @class = "form-control" })
+    </div>
+</div>
+<div class="row form-group clearfix">
+    <div class="col-md-12">
+        <button id="SaveActivity" type="button" class="btn btn-primary">
+            <span class="fas fa-save"></span>
+            @Resource.Save
+        </button>
+        <button id="CancelActivity" type="button" class="btn btn-danger">
+            <span class="fas fa-times"></span>
+            @Resource.Cancel
+        </button>
+    </div>
+</div>

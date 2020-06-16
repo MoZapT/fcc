@@ -6,12 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using WebApiFCC;
 using System.Net.Http;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace FamilyControlCenter.Controllers
+namespace WebApiFCC.Controllers
 {
     [RoutePrefix("{lang}/api")]
     public class ApiFamilyController : ApiController
@@ -25,15 +24,15 @@ namespace FamilyControlCenter.Controllers
 
         [HttpGet]
         [Route("personbiography/save/{personId}/{biographyText}")]
-        public bool SavePersonBiography(string personId, string biographyText/*PersonBiography biography*/)
+        public async Task<bool> SavePersonBiography(string personId, string biographyText)
         {
             bool success = false;
 
-            var biography = _mgrFcc.GetPersonBiographyByPersonId(personId);
+            var biography = await _mgrFcc.GetPersonBiographyByPersonId(personId);
             if(biography != null)
             {
                 biography.BiographyText = biographyText;
-                _mgrFcc.UpdatePersonBiography(biography);
+                await _mgrFcc.UpdatePersonBiography(biography);
             }
             else
             {
@@ -41,7 +40,7 @@ namespace FamilyControlCenter.Controllers
                 biography.Id = Guid.NewGuid().ToString();
                 biography.BiographyText = biographyText;
                 biography.PersonId = personId;
-                _mgrFcc.SetPersonBiography(biography);
+                await _mgrFcc.SetPersonBiography(biography);
             }
 
             return success;
@@ -49,14 +48,14 @@ namespace FamilyControlCenter.Controllers
 
         [HttpGet]
         [Route("personactivity/delete/{id}")]
-        public bool DeletePersonActivity(string id)
+        public async Task<bool> DeletePersonActivity(string id)
         {
-            return _mgrFcc.DeletePersonActivity(id);
+            return await _mgrFcc.DeletePersonActivity(id);
         }
 
         [HttpGet]
         [Route("personname/set/{fName}/{lName}/{patronym}/{date}/{personId}")]
-        public bool SetPersonName(string fName, string lName, string patronym, string date, string personId)
+        public async Task<bool> SetPersonName(string fName, string lName, string patronym, string date, string personId)
         {
             if (string.IsNullOrWhiteSpace(fName) ||
                 string.IsNullOrWhiteSpace(personId))
@@ -72,7 +71,7 @@ namespace FamilyControlCenter.Controllers
             personName.DateNameChanged = DateTime.Parse(date);
             personName.PersonId = personId;
 
-            var person = _mgrFcc.GetPerson(personId);
+            var person = await _mgrFcc.GetPerson(personId);
             bool hasNothingChanged = 
                 (person.Firstname == fName && 
                 person.Lastname == lName && 
@@ -81,7 +80,7 @@ namespace FamilyControlCenter.Controllers
             if (hasNothingChanged)
                 return false;
 
-            var result = _mgrFcc.SetPersonName(personName);
+            var result = await _mgrFcc.SetPersonName(personName);
             if (string.IsNullOrWhiteSpace(result))
                 return false;
 
@@ -90,32 +89,32 @@ namespace FamilyControlCenter.Controllers
 
         [HttpGet]
         [Route("personname/delete/{id}")]
-        public bool DeletePersonName(string id)
+        public async Task<bool> DeletePersonName(string id)
         {
-            return _mgrFcc.DeletePersonName(id);
+            return await _mgrFcc.DeletePersonName(id);
         }
 
         [HttpGet]
         [Route("relation/set/{inviter}/{invited}/{type}")]
-        public void SetPersonRelation(string inviter, string invited, RelationType type)
+        public async Task SetPersonRelation(string inviter, string invited, RelationType type)
         {
-            _mgrFcc.SetPersonRelation(inviter, invited, type);
+            await _mgrFcc.SetPersonRelation(inviter, invited, type);
         }
 
         [HttpGet]
         [Route("relation/delete/{inviter}/{invited}/{type}")]
-        public void DeletePersonRelation(string inviter, string invited, RelationType type)
+        public async Task DeletePersonRelation(string inviter, string invited, RelationType type)
         {
-            _mgrFcc.DeletePersonRelation(inviter, invited, type);
+            await _mgrFcc.DeletePersonRelation(inviter, invited, type);
         }
 
         [HttpGet]
         [Route("typeahead/person/count/{excludePersonId}")]
-        public int GetRelationsCount(string excludePersonId)
+        public async Task<int> GetRelationsCount(string excludePersonId)
         {
             try
             {
-                return _mgrFcc.PersonTypeaheadWithPossibilitiesCount(excludePersonId);
+                return await _mgrFcc.PersonTypeaheadWithPossibilitiesCount(excludePersonId);
             }
             catch (Exception)
             {
@@ -126,7 +125,7 @@ namespace FamilyControlCenter.Controllers
 
         [HttpGet]
         [Route("relationtype/all/{inviter}/{invited}")]
-        public IEnumerable<System.Web.Mvc.SelectListItem> GetRelationTypes(string inviter, string invited)
+        public async Task<IEnumerable<System.Web.Mvc.SelectListItem>> GetRelationTypes(string inviter, string invited)
         {
             try
             {
@@ -135,24 +134,24 @@ namespace FamilyControlCenter.Controllers
                     return new List<System.Web.Mvc.SelectListItem>();
                 }
 
-                var personInviter = _mgrFcc.GetPerson(inviter);
-                var personInvited = _mgrFcc.GetPerson(invited);
+                var personInviter = await _mgrFcc.GetPerson(inviter);
+                var personInvited = await _mgrFcc.GetPerson(invited);
                 if (personInvited == null)
                     return new List<System.Web.Mvc.SelectListItem>();
 
-                return GetAvaibleRelationTypeSelects(personInviter, personInvited);
+                return await GetAvaibleRelationTypeSelects(personInviter, personInvited);
             }
             catch (Exception)
             {
                 return new List<System.Web.Mvc.SelectListItem>();
             }
         }
-        private IEnumerable<System.Web.Mvc.SelectListItem> GetAvaibleRelationTypeSelects(Person inviter, Person invited)
+        private async Task<IEnumerable<System.Web.Mvc.SelectListItem>> GetAvaibleRelationTypeSelects(Person inviter, Person invited)
         {
             var list = FccRelationTypeHelper.GetFamilySiblingsSelectGroup(invited.Sex);
 
             var isAlreadyRelated = 
-                (_mgrFcc.GetAllPersonRelationsBetweenPersons(inviter.Id, invited.Id) ?? 
+                (await _mgrFcc.GetAllPersonRelationsBetweenPersons(inviter.Id, invited.Id) ?? 
                 new List<PersonRelation>()).Any();
 
             if (isAlreadyRelated)
@@ -187,11 +186,11 @@ namespace FamilyControlCenter.Controllers
 
         [HttpGet]
         [Route("typeahead/person/{excludePersonId?}/{query?}")]
-        public IEnumerable<KeyValuePair<string, string>> GetPersonTypeahead(string excludePersonId, string query = "")
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetPersonTypeahead(string excludePersonId, string query = "")
         {
             try
             {
-                return _mgrFcc.PersonTypeaheadWithPossibilities(excludePersonId, query);
+                return await _mgrFcc.PersonTypeaheadWithPossibilities(excludePersonId, query);
             }
             catch (Exception)
             {
@@ -203,7 +202,7 @@ namespace FamilyControlCenter.Controllers
         [Route("person/photo/upload/{personId}")]
         public async Task<HttpResponseMessage> UploadPersonPhoto(string personId)
         {
-            Person person = _mgrFcc.GetPerson(personId);
+            Person person = await _mgrFcc.GetPerson(personId);
             if (person == null)
             {
                 throw new HttpResponseException(HttpStatusCode.Unauthorized);
@@ -241,7 +240,7 @@ namespace FamilyControlCenter.Controllers
                         newFile.DateModified = DateTime.Now;
                     }
 
-                    string result = _mgrFcc.SetPersonPhoto(personId, newFile);
+                    string result = await _mgrFcc.SetPersonPhoto(personId, newFile);
                     if (string.IsNullOrWhiteSpace(result))
                     {
                         throw new HttpResponseException(HttpStatusCode.InternalServerError);
@@ -251,7 +250,7 @@ namespace FamilyControlCenter.Controllers
                     {
                         person.FileContentId = result;
                         person.DateModified = DateTime.Now;
-                        _mgrFcc.UpdatePerson(person);
+                        await _mgrFcc.UpdatePerson(person);
                     }
                 }
 
@@ -265,25 +264,25 @@ namespace FamilyControlCenter.Controllers
 
         [HttpGet]
         [Route("person/photo/delete/{personId}/{fileId}")]
-        public void DeletePersonPhoto(string personId, string fileId)
+        public async Task DeletePersonPhoto(string personId, string fileId)
         {
-            _mgrFcc.DeletePersonPhoto(personId, fileId);
+            await _mgrFcc.DeletePersonPhoto(personId, fileId);
         }
 
         [HttpGet]
         [Route("person/photo/setmain/{personId}/{fileId}")]
-        public void MainPersonPhoto(string personId, string fileId)
+        public async Task MainPersonPhoto(string personId, string fileId)
         {
-            var person = _mgrFcc.GetPerson(personId);
+            var person = await _mgrFcc.GetPerson(personId);
             person.FileContentId = fileId;
-            _mgrFcc.UpdatePerson(person);
+            await _mgrFcc.UpdatePerson(person);
         }
 
         //TODO create cdn, move to cdn!
         [Route("person/photo/get/{contentId}")]
-        public string GetPhotoAsBase64(string contentId)
+        public async Task<string> GetPhotoAsBase64(string contentId)
         {
-            var file = _mgrFcc.GetFileContent(contentId);
+            var file = await _mgrFcc.GetFileContent(contentId);
             if (file?.BinaryContent == null)
                 return string.Empty;
             string img64 = Convert.ToBase64String(file.BinaryContent);
@@ -295,7 +294,7 @@ namespace FamilyControlCenter.Controllers
         [Route("person/file/upload/{personId}/{category}/{activityId?}")]
         public async Task<HttpResponseMessage> UploadPersonDocument(string personId, string category, string activityId = null)
         {
-            Person person = _mgrFcc.GetPerson(personId);
+            Person person = await _mgrFcc.GetPerson(personId);
             if (person == null)
             {
                 throw new HttpResponseException(HttpStatusCode.Unauthorized);
@@ -333,7 +332,7 @@ namespace FamilyControlCenter.Controllers
                         newFile.DateModified = DateTime.Now;
                     }
 
-                    string result = _mgrFcc.SetPersonDocument(personId, newFile, category, activityId);
+                    string result = await _mgrFcc.SetPersonDocument(personId, newFile, category, activityId);
                     if (string.IsNullOrWhiteSpace(result))
                     {
                         throw new HttpResponseException(HttpStatusCode.InternalServerError);
@@ -343,7 +342,7 @@ namespace FamilyControlCenter.Controllers
                     {
                         person.FileContentId = result;
                         person.DateModified = DateTime.Now;
-                        _mgrFcc.UpdatePerson(person);
+                        await _mgrFcc.UpdatePerson(person);
                     }
                 }
 
@@ -357,18 +356,18 @@ namespace FamilyControlCenter.Controllers
 
         [HttpGet]
         [Route("person/file/delete/{personId}/{fileId}")]
-        public void DeletePersonDocument(string personId, string fileId)
+        public async Task DeletePersonDocument(string personId, string fileId)
         {
-            _mgrFcc.DeletePersonDocument(personId, fileId);
+            await _mgrFcc.DeletePersonDocument(personId, fileId);
         }
 
         [HttpGet]
         [Route("document/categories/{query?}")]
-        public IEnumerable<KeyValuePair<string, string>> GetDocumentCategories(string query)
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetDocumentCategories(string query = null)
         {
             try
             {
-                return _mgrFcc.GetDocumentCategories(query)
+                return (await _mgrFcc.GetDocumentCategories(query))
                     .Select(e => new KeyValuePair<string, string>(e, e));
             }
             catch (Exception)
@@ -378,17 +377,45 @@ namespace FamilyControlCenter.Controllers
         }
 
         [HttpGet]
-        [Route("person/personwithpossibilities")]
-        public IEnumerable<KeyValuePair<string, string>> GetPersonsWithRelationsWithPossibleRelations()
+        [Route("document/move/{personId}/{contentId}/{category}")]
+        public async Task<bool> MoveDocumentToAnotherCategory(string personId, string contentId, string category)
         {
-            return _mgrFcc.GetPersonsThatHaveRelativesWithPossibleRelations();
+            try
+            {
+                return await _mgrFcc.MoveContentToAnotherCategory(personId, contentId, category);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        [HttpGet]
+        [Route("document/move/{personId}/{oldCategory}/{newCategory}")]
+        public async Task<bool> RenameCategory(string personId, string oldCategory, string newCategory)
+        {
+            try
+            {
+                return await _mgrFcc.RenameCategory(personId, oldCategory, newCategory);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        [HttpGet]
+        [Route("person/personwithpossibilities")]
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetPersonsWithRelationsWithPossibleRelations()
+        {
+            return await _mgrFcc.GetPersonsThatHaveRelativesWithPossibleRelations();
         }
 
         [HttpGet]
         [Route("person/possiblerelations/{personId}")]
-        public IEnumerable<KeyValuePair<string, string>> GetPersonsWithPossibleRelations(string personId)
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetPersonsWithPossibleRelations(string personId)
         {
-            return _mgrFcc.GetPersonsKvpWithPossibleRelations(personId);
+            return await _mgrFcc.GetPersonsKvpWithPossibleRelations(personId);
         }
     }
 }

@@ -1,10 +1,6 @@
 ﻿@*@using Shared.Models*@
 @model PersonBiographyViewModel
 
-@{
-    var typeList = FccEnumHelper.GetTranslatedSelectListItemCollection<ActivityType>(typeof(ActivityType));
-}
-
 @Html.HiddenFor(m => m.PersonBiography.Id)
 @Html.HiddenFor(m => m.PersonBiography.PersonId)
 @Html.HiddenFor(m => m.PersonBiography.DateModified)
@@ -18,49 +14,20 @@
         </h2>
     </div>
     <div class="card-body">
-        <div class="row form-group">
-            <div class="col-md-4">
-                @Html.DropDownList("NewActivityActivityType", typeList, new { @class = "form-control" })
-            </div>
-            <div class="col-md-2">
-                <div class="custom-control custom-checkbox">
-                    @Html.CheckBox("NewHasBegun", true, new { @class = "custom-control-input" })
-                    @Html.Label("NewHasBegun", Resource.Beginning, new { @class = "custom-control-label" })
-                </div>
-            </div>
-            <div class="col-md-2">
-                @Html.TextBox("NewActivityDateBegin", DateTime.Now, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "form-control datepicker" })
-            </div>
-            <div class="col-md-2">
-                <div class="custom-control custom-checkbox">
-                    @Html.CheckBox("NewHasEnded", false, new { @class = "custom-control-input" })
-                    @Html.Label("NewHasEnded", Resource.End, new { @class = "custom-control-label" })
-                </div>
-            </div>
-            <div class="col-md-2">
-                @Html.TextBox("NewActivityDateEnd", null, "{0:dd.MM.yyyy}", new { placeholder = Resource.EmptyDatePlaceholder, @class = "form-control datepicker", @readonly = "readonly" })
-            </div>
+        <div class="col-md-12 form-group">
+            <button id="AddActivity" type="button" class="btn btn-primary">
+                <span class="fas fa-plus"></span>
+                @Resource.Add
+            </button>
         </div>
-        <div class="row form-group">
-            <div class="col-md-12">
-                @Html.TextArea("NewActivityActivity", string.Empty, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="row form-group clearfix">
-            <div class="col-md-12">
-                <button id="SaveActivity" type="button" class="btn btn-primary">
-                    <span class="fas fa-plus"></span>
-                    @Resource.Add
-                </button>
-            </div>
-        </div>
+        <div id="PersonActivityEditBlock"></div>
 
         <div class="card-columns">
             @foreach (var activityGroup in Model.Activities)
             {
                 foreach (var activity in activityGroup.Value)
                 {
-                    @Html.Partial("Person/_PersonActivity", activity)
+                    @Html.Partial("Person/_PersonActivity", activity)               
                 }
             }
         </div>

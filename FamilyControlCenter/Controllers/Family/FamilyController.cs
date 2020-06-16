@@ -5,6 +5,8 @@ using Shared.Enums;
 using Shared.Interfaces.ViewBuilders;
 using System.Collections.Generic;
 using FamilyControlCenter.Filters;
+using System;
+using System.Threading.Tasks;
 
 namespace FamilyControlCenter.Controllers
 {
@@ -20,7 +22,7 @@ namespace FamilyControlCenter.Controllers
             _vwbFcc = vwbFcc;
         }
 
-        public ActionResult PersonDetail(string personId)
+        public async Task<ActionResult> PersonDetail(string personId)
         {
             PersonViewModel vm = new PersonViewModel();
             BeforeLoadAction(vm);
@@ -28,100 +30,114 @@ namespace FamilyControlCenter.Controllers
             vm.Model.Id = personId;
             vm.Command = ActionCommand.Open;
             vm.State = VmState.Detail;
-            _vwbFcc.HandleAction(vm);
+            await _vwbFcc.HandleAction(vm);
             return View("Person", vm);
         }
 
-        public ActionResult Person(int page = 1, int take = 10)
+        public async Task<ActionResult> Person(int page = 1, int take = 10)
         {
             var vm = new PersonViewModel();
             BeforeLoadAction(vm);
             vm.Page = page;
             vm.Take = take;
-            _vwbFcc.HandleAction(vm);
+            await _vwbFcc.HandleAction(vm);
             return View(vm);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Person(PersonViewModel vm)
+        public async Task<ActionResult> Person(PersonViewModel vm)
         {
             BeforeLoadAction(vm);
-            _vwbFcc.HandleAction(vm);
+            await _vwbFcc.HandleAction(vm);
             return View(vm);
         }
 
-        public PartialViewResult PersonDocuments(string personId)
+        public async Task<PartialViewResult> PersonDocuments(string personId)
         {
             BeforeLoadAction();
-            var vm = _vwbFcc.CreatePartialViewPersonDocuments(personId);
+            var vm = await _vwbFcc.CreatePartialViewPersonDocuments(personId);
             return PartialView("Person/_PersonDocuments", vm);
         }
 
-        public PartialViewResult PersonPhotoSection(string personId)
+        public async Task<PartialViewResult> PersonPhotoSection(string personId)
         {
             BeforeLoadAction();
-            KeyValuePair<string, IEnumerable<FileContent>> vm = _vwbFcc.CreatePartialViewPersonPhotos(personId);
+            KeyValuePair<string, IEnumerable<FileContent>> vm = await _vwbFcc.CreatePartialViewPersonPhotos(personId);
             return PartialView("Person/_PhotoSection", vm);
         }
 
         [HttpPost]
-        public PartialViewResult PersonRelations(string personId)
+        public async Task<PartialViewResult> PersonRelations(string personId)
         {
             BeforeLoadAction();
-            PersonRelationsViewModel vm = _vwbFcc.CreatePersonPartialViewRelationsModel(personId);
+            PersonRelationsViewModel vm = await _vwbFcc.CreatePersonPartialViewRelationsModel(personId);
             return PartialView("Person/_PersonRelations", vm);
         }
 
         [HttpPost]
-        public PartialViewResult PersonBiography(string personId)
+        public async Task<PartialViewResult> PersonBiography(string personId)
         {
             BeforeLoadAction();
-            var vm = _vwbFcc.CreatePartialViewPersonBiography(personId);
+            var vm = await _vwbFcc.CreatePartialViewPersonBiography(personId);
             return PartialView("Person/_PersonBiography", vm);
         }
 
         [HttpPost]
-        public void SavePersonActivity(string personId, string bioId, PersonActivity newact)
+        public async Task SavePersonActivity(string personId, string bioId, PersonActivity newact)
         {
-            _vwbFcc.SavePersonActivity(personId, bioId, newact);
+            await _vwbFcc.SavePersonActivity(personId, bioId, newact);
         }
 
         [HttpPost]
-        public PartialViewResult MarriagePartialView(string personId, string spouseId, string partnerId)
+        public async Task<PartialViewResult> MarriagePartialView(string personId, string spouseId, string partnerId)
         {
             BeforeLoadAction();
-            var vm = _vwbFcc.CreatePartialViewForMarriageOrLivePartner(personId, spouseId, partnerId);
+            var vm = await _vwbFcc.CreatePartialViewForMarriageOrLivePartner(personId, spouseId, partnerId);
             return PartialView("Person/_MarriageSection", vm);
         }
 
         [HttpPost]
-        public PartialViewResult NamesAndPatronymPartialView(string personId)
+        public async Task<PartialViewResult> NamesAndPatronymPartialView(string personId)
         {
             BeforeLoadAction();
-            IEnumerable<PersonName> vm = _vwbFcc.CreatePartialViewForNamesAndPatronymList(personId);
+            IEnumerable<PersonName> vm = await _vwbFcc.CreatePartialViewForNamesAndPatronymList(personId);
             return PartialView("Person/_PersonNames", vm);
         }
 
-        public ActionResult PersonRelationsUpdateStack(string personId = null, string selectedId = null)
+        public async Task<ActionResult> PersonRelationsUpdateStack(string personId = null, string selectedId = null)
         {
             BeforeLoadAction();
-            var vm = _vwbFcc.CreateUpdateRelationsStackViewModel(personId, selectedId);
+            var vm = await _vwbFcc.CreateUpdateRelationsStackViewModel(personId, selectedId);
             return View("_PersonRelationsUpdateStack", vm);
         }
 
-        public PartialViewResult PersonRelationsUpdateStackAsPartial(string personId = null, string selectedId = null)
+        public async Task<PartialViewResult> PersonRelationsUpdateStackAsPartial(string personId = null, string selectedId = null)
         {
             BeforeLoadAction();
-            var vm = _vwbFcc.CreateUpdateRelationsStackViewModel(personId, selectedId);
+            var vm = await _vwbFcc.CreateUpdateRelationsStackViewModel(personId, selectedId);
             return PartialView("RelationsUpdateStack/_PersonRelationsUpdateStack", vm);
         }
 
         [HttpPost]
-        public PartialViewResult LoadRelationsPartialForPersonRelationsUpdateStack(string personId, string selectedId)
+        public async Task<PartialViewResult> LoadRelationsPartialForPersonRelationsUpdateStack(string personId, string selectedId)
         {
-            var vm = _vwbFcc.CreateRelationsUpdateStackPartial(personId, selectedId);
+            var vm = await _vwbFcc.CreateRelationsUpdateStackPartial(personId, selectedId);
             return PartialView("RelationsUpdateStack/_RelationsStack", vm);
+        }
+
+        [HttpPost]
+        public async Task<PartialViewResult> PersonActivityEdit(string activityId)
+        {
+            BeforeLoadAction();
+            PersonActivity vm;
+
+            if (!string.IsNullOrWhiteSpace(activityId))
+                vm = await _vwbFcc.GetPersonActivity(activityId);
+            else
+                vm = new PersonActivity() { HasBegun = true, DateBegin = DateTime.Now };
+
+            return PartialView("Person/_PersonActivityEditBlock", vm);
         }
     }
 }

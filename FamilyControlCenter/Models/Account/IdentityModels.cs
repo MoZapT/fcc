@@ -36,7 +36,7 @@ namespace FamilyControlCenter.Models
 
     public class FccRoleProvider : RoleProvider
     {
-        IUserRepository _repo;
+        private readonly IUserRepository _repo;
 
         public FccRoleProvider()
         {
@@ -46,7 +46,6 @@ namespace FamilyControlCenter.Models
         public override string ApplicationName
         {
             get => "FCC";
-            //get => throw new System.NotImplementedException();
             set => throw new System.NotImplementedException();
         }
 
@@ -62,32 +61,32 @@ namespace FamilyControlCenter.Models
 
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
-            return _repo.DeleteRole(roleName, throwOnPopulatedRole);
+            return _repo.DeleteRole(roleName, throwOnPopulatedRole).Result;
         }
 
         public override string[] FindUsersInRole(string roleName, string usernameToMatch)
         {
-            return _repo.FindUsersInRole(roleName, usernameToMatch);
+            return _repo.FindUsersInRole(roleName, usernameToMatch).Result;
         }
 
         public override string[] GetAllRoles()
         {
-            return _repo.GetAllRoles();
+            return _repo.GetAllRoles().Result;
         }
 
         public override string[] GetRolesForUser(string username)
         {
-            return _repo.GetRolesForUser(username);
+            return _repo.GetRolesForUser(username).Result;
         }
 
         public override string[] GetUsersInRole(string roleName)
         {
-            return _repo.GetUsersInRole(roleName);
+            return _repo.GetUsersInRole(roleName).Result;
         }
 
         public override bool IsUserInRole(string username, string roleName)
         {
-            return _repo.IsUserInRole(username, roleName);
+            return _repo.IsUserInRole(username, roleName).Result;
         }
 
         public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
@@ -97,7 +96,7 @@ namespace FamilyControlCenter.Models
 
         public override bool RoleExists(string roleName)
         {
-            return _repo.RoleExists(roleName);
+            return _repo.RoleExists(roleName).Result;
         }
     }
 }

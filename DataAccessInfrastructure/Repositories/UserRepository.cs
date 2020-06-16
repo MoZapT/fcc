@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Shared.Interfaces.Repositories;
 
 namespace DataAccessInfrastructure.Repositories
@@ -12,7 +13,7 @@ namespace DataAccessInfrastructure.Repositories
 
         #region Roles
 
-        public bool AddUsersToRoles(string[] usernames, string[] roleNames)
+        public async Task<bool> AddUsersToRoles(string[] usernames, string[] roleNames)
         {
             string query = @"
                 DECLARE @Users table (Id nvarchar(128))
@@ -73,10 +74,10 @@ namespace DataAccessInfrastructure.Repositories
 
                 COMMIT TRAN";
 
-            return Execute(query, new { @Usernames = usernames, @RoleNames = roleNames }) > 0;
+            return await (Execute(query, new { @Usernames = usernames, @RoleNames = roleNames })) > 0;
         }
 
-        public string CreateRole(string roleName)
+        public async Task<string> CreateRole(string roleName)
         {
             throw new NotImplementedException();
 
@@ -85,7 +86,7 @@ namespace DataAccessInfrastructure.Repositories
             //return Query<Person>(query, new { @RoleName = roleName });
         }
 
-        public bool DeleteRole(string roleName, bool throwOnPopulatedRole)
+        public async Task<bool> DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
             throw new NotImplementedException();
 
@@ -94,7 +95,7 @@ namespace DataAccessInfrastructure.Repositories
             //return Query<Person>(query, new { @RoleName = roleName, @ThrowOnPopulatedRole = throwOnPopulatedRole });
         }
 
-        public string[] FindUsersInRole(string roleName, string usernameToMatch)
+        public async Task<string[]> FindUsersInRole(string roleName, string usernameToMatch)
         {
             throw new NotImplementedException();
 
@@ -103,16 +104,16 @@ namespace DataAccessInfrastructure.Repositories
             //return Query<Person>(query, new { @RoleName = roleName, @UsernameToMatch = usernameToMatch });
         }
 
-        public string[] GetAllRoles()
+        public async Task<string[]> GetAllRoles()
         {
             var query = @"
                 SELECT Name
                 FROM [AspNetRoles]";
 
-            return Query<string>(query).ToArray();
+            return (await Query<string>(query)).ToArray();
         }
 
-        public string[] GetRolesForUser(string username)
+        public async Task<string[]> GetRolesForUser(string username)
         {
             var query = @"
                 SELECT r.Name
@@ -120,10 +121,10 @@ namespace DataAccessInfrastructure.Repositories
                 JOIN [AspNetUsers] AS u ON u.Id = ur.UserId AND u.UserName = @Username
                 JOIN [AspNetRoles] AS r ON r.Id = ur.RoleId";
 
-            return Query<string>(query, new { @Username = username }).ToArray();
+            return (await Query<string>(query, new { @Username = username })).ToArray();
         }
 
-        public string[] GetUsersInRole(string roleName)
+        public async Task<string[]> GetUsersInRole(string roleName)
         {
             var query = @"
                 SELECT u.UserName
@@ -131,10 +132,10 @@ namespace DataAccessInfrastructure.Repositories
                 JOIN [AspNetUsers] AS u ON u.Id = ur.UserId
                 JOIN [AspNetRoles] AS r ON r.Id = ur.RoleId AND r.Name = @RoleName";
 
-            return Query<string>(query, new { @RoleName = roleName }).ToArray();
+            return (await Query<string>(query, new { @RoleName = roleName })).ToArray();
         }
 
-        public bool IsUserInRole(string username, string roleName)
+        public async Task<bool> IsUserInRole(string username, string roleName)
         {
             var query = @"
                 SELECT COUNT(ur.UserId)
@@ -142,10 +143,10 @@ namespace DataAccessInfrastructure.Repositories
                 JOIN [AspNetUsers] AS u ON u.Id = ur.UserId AND u.UserName = @Username
                 JOIN [AspNetRoles] AS r ON r.Id = ur.RoleId AND r.Name = @RoleName";
 
-            return QueryFoD<int>(query, new { @Username = username, @RoleName = roleName }) > 0;
+            return (await QueryFoD<int>(query, new { @Username = username, @RoleName = roleName })) > 0;
         }
 
-        public bool RemoveUsersFromRoles(string[] usernames, string[] roleNames)
+        public async Task<bool> RemoveUsersFromRoles(string[] usernames, string[] roleNames)
         {
             throw new NotImplementedException();
 
@@ -154,14 +155,14 @@ namespace DataAccessInfrastructure.Repositories
             //return Query<Person>(query, new { @Usernames = usernames, @RoleNames = roleNames });
         }
 
-        public bool RoleExists(string roleName)
+        public async Task<bool> RoleExists(string roleName)
         {
             var query = @"
                 SELECT COUNT(Id)
                 FROM [AspNetRoles]
                 WHERE Name = @RoleName";
 
-            return QueryFoD<int>(query, new { @RoleName = roleName }) > 0;
+            return (await QueryFoD<int>(query, new { @RoleName = roleName })) > 0;
         }
 
         #endregion

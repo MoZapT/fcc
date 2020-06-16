@@ -551,12 +551,30 @@
         $('button#SaveBiography').on('click', function (e) {
             savePersonBiography();
         });
+
+        $('button#AddActivity').on('click', function (e) {
+            editPersonActivity('');
+        });
+
+        $('button#EditActivity').on('click', function (e) {
+            editPersonActivity($(e.currentTarget).attr('activity'));
+        });
+
+        $('button#DestroyActivity').on('click', function (e) {
+            deletePersonActivity($(e.currentTarget).attr('activity'));
+        });
+    }
+
+    function InitAddOrEditActivityControls() {
+        Window.DatePicker.ReInitElement($('#NewActivityDateBegin'));
         $('button#SaveActivity').on('click', function (e) {
             savePersonActivity();
         });
-        //TODO delete
 
-        Window.DatePicker.ReInitElement($('#NewActivityDateBegin'));
+        $('button#CancelActivity').on('click', function (e) {
+            loadBiography();
+        });
+
         $('#NewHasBegun').on('change', function (e) {
             var field = $('#NewActivityDateBegin');
 
@@ -591,7 +609,7 @@
         Window.DatePicker.DestroyElement(field);
     }
 
-    function deletePersonActivity() {
+    function deletePersonActivity(id) {
         $.ajax({
             url: getApiRoute() + 'personactivity/delete/' + id,
             type: 'GET',
@@ -602,12 +620,33 @@
         });
     }
 
+    function editPersonActivity(id) {
+        $.ajax({
+            url: 'PersonActivityEdit',
+            data: JSON.stringify({
+                activityId: id
+            }),
+            type: 'POST',
+            //dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
+                $('#PersonActivityEditBlock').html(response.responseText);
+                InitAddOrEditActivityControls();
+            }
+        });
+    }
+
     function savePersonActivity() {
         var model = {
-            "Id": null,
-            "DateCreated": null,
-            "DateModified": null,
-            "IsActive": true,
+            "Id": $('#NewActivityId').val(),
+            "DateCreated": $('#NewDateCreated').val(),
+            "DateModified": $('#NewDateModified').val(),
+            "IsActive": $('#NewIsActive').val(),
             "BiographyId": $('#PersonBiography_Id').val(),
             "Activity": $('#NewActivityActivity').val(),
             "ActivityType": $('#NewActivityActivityType').val(),

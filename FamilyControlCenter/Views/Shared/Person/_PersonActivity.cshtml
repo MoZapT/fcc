@@ -1,8 +1,18 @@
 ﻿@model PersonActivity
 
 <div class="card">
-    <div class="card-header fullwidth">
-        @Resource.ResourceManager.GetLocalizedStringForEnumValue(Model.ActivityType)
+    <div class="card-header d-inline-flex fullwidth">
+        <div class="col-md-7">
+            @Resource.ResourceManager.GetLocalizedStringForEnumValue(Model.ActivityType)
+        </div>
+        <div class="col-md-5">
+            <button id="EditActivity" type="button" class="btn btn-info" activity="@Model.Id">
+                <span class="fas fa-edit"></span>
+            </button>
+            <button id="DestroyActivity" type="button" class="btn btn-danger" activity="@Model.Id">
+                <span class="fas fa-trash-alt"></span>
+            </button>
+        </div>
     </div>
     <div class="card-body">
         @Model.Activity

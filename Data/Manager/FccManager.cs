@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Shared.Models;
 using Shared.Enums;
 using System;
+using System.Threading.Tasks;
 using System.Linq;
 using Shared.Interfaces.Managers;
 using Shared.Interfaces.Repositories;
@@ -22,246 +23,245 @@ namespace Data.Manager
 
         #region Person
 
-        public string SetPerson(Person entity)
+        public async Task<string> SetPerson(Person entity)
         {
-            string result = null;
-
-            result = _repo.CreatePerson(entity);
-
-            return result;
+            return await _repo.CreatePerson(entity);
         }
 
-        public bool UpdatePerson(Person entity)
+        public async Task<bool> UpdatePerson(Person entity)
         {
-            return _repo.Transaction(new Task(() =>
+            return _repo.Transaction(new Task(async () =>
             {
-                _repo.UpdatePerson(entity);
+                await _repo.UpdatePerson(entity);
             }));
         }
 
-        public bool DeletePerson(string id)
+        public async Task<bool> DeletePerson(string id)
         {
-            return _repo.DeletePerson(id);
+            return await _repo.DeletePerson(id);
         }
 
-        public bool ExistPerson(string id)
+        public async Task<bool> ExistPerson(string id)
         {
-            return _repo.ReadPerson(id) != null;
+            return await _repo.ReadPerson(id) != null;
         }
 
-        public Person GetPerson(string userId)
+        public async Task<Person> GetPerson(string userId)
         {
-            Person person = _repo.ReadPerson(userId);
+            Person person = await _repo.ReadPerson(userId);
             if (person == null)
                 return person;
 
-            person.IsMarried = _repo.IsMarried(userId);
-            person.IsInPartnership = _repo.IsInRelationship(userId);
+            person.IsMarried = await _repo.IsMarried(userId);
+            person.IsInPartnership = await _repo.IsInRelationship(userId);
 
             return person;
         }
 
-        public IEnumerable<Person> GetPersonByRelationType(string personId, RelationType type)
+        public async Task<IEnumerable<Person>> GetPersonByRelationType(string personId, RelationType type)
         {
-            return _repo.ReadAllPersonByRelation(personId, type).ToList();
+            return await _repo.ReadAllPersonByRelation(personId, type);
         }
 
-        public IEnumerable<Person> GetListPerson()
+        public async Task<IEnumerable<Person>> GetListPerson()
         {
-            return _repo.ReadAllPerson()
-                .Select(e => 
+            var tasks =  (await _repo.ReadAllPerson())
+                .Select(async e => 
                 {
-                    e.IsMarried = _repo.IsMarried(e.Id);
-                    e.IsInPartnership = _repo.IsInRelationship(e.Id);
+                    e.IsMarried = await _repo.IsMarried(e.Id);
+                    e.IsInPartnership = await _repo.IsInRelationship(e.Id);
                     return e;
-                })
-                .ToList();
+                });
+
+            return await Task.WhenAll(tasks);
         }
 
-        public IEnumerable<KeyValuePair<string, string>> PersonTypeahead(string excludePersonId, string query)
+        public async Task<IEnumerable<KeyValuePair<string, string>>> PersonTypeahead(string excludePersonId, string query)
         {
-            return _repo.GetPersonSelectList(excludePersonId, query);
+            return await _repo.GetPersonSelectList(excludePersonId, query);
         }
 
-        public IEnumerable<KeyValuePair<string, string>> PersonTypeaheadWithPossibilities(string excludePersonId, string query)
+        public async Task<IEnumerable<KeyValuePair<string, string>>> PersonTypeaheadWithPossibilities(string excludePersonId, string query)
         {
-            return _repo.GetOnlyPossiblePersonSelectList(excludePersonId, query);
+            return await _repo.GetOnlyPossiblePersonSelectList(excludePersonId, query);
         }
 
-        public int PersonTypeaheadWithPossibilitiesCount(string excludePersonId)
+        public async Task<int> PersonTypeaheadWithPossibilitiesCount(string excludePersonId)
         {
-            return _repo.GetOnlyPossiblePersonCount(excludePersonId);
+            return await _repo.GetOnlyPossiblePersonCount(excludePersonId);
         }
 
-        public FileContent GetMainPhotoByPersonId(string id)
+        public async Task<FileContent> GetMainPhotoByPersonId(string id)
         {
-            return _repo.ReadFileContentByPersonId(id);
+            return await _repo.ReadFileContentByPersonId(id);
         }
-        public IEnumerable<FileContent> GetAllPhotosByPersonId(string id)
+        public async Task<IEnumerable<FileContent>> GetAllPhotosByPersonId(string id)
         {
-            return _repo.ReadAllFileContentByPersonId(id).ToList();
+            return await _repo.ReadAllFileContentByPersonId(id);
         }
-        public string SetPersonPhoto(string personId, FileContent entity)
+        public async Task<string> SetPersonPhoto(string personId, FileContent entity)
         {
             string result = "";
 
-            bool success = _repo.Transaction(new Task(() => 
+            bool success = _repo.Transaction(new Task(async () => 
             {
-                result = _repo.CreateFileContent(entity);
-                _repo.CreatePersonFileContent(personId, result);
+                result = await _repo.CreateFileContent(entity);
+                await _repo.CreatePersonFileContent(personId, result);
             }));
             if (!success)
                 return null;
 
             return result;
         }
-        public bool DeletePersonPhoto(string personId, string fileId)
+        public async Task<bool> DeletePersonPhoto(string personId, string fileId)
         {
-            var person = _repo.ReadPerson(personId);
+            var person = await _repo.ReadPerson(personId);
 
-            return _repo.Transaction(new Task(() => 
+            return _repo.Transaction(new Task(async () => 
             {
                 //if deleting main photo, try to set random avaible photo as main
                 if (person.FileContentId == fileId)
                 {
-                    var files = _repo.ReadAllFileContentByPersonId(personId)
+                    var files = (await _repo.ReadAllFileContentByPersonId(personId))
                         .Where(e => e.Id != fileId);
 
                     person.FileContentId = files.Any() ? files.FirstOrDefault().Id : null;
-                    _repo.UpdatePerson(person);
+                    await _repo.UpdatePerson(person);
                 }
                 //continue delete photo content
-                _repo.DeletePersonFileContent(personId, fileId);
-                _repo.DeleteFileContent(fileId);
+                await _repo.DeletePersonFileContent(personId, fileId);
+                await _repo.DeleteFileContent(fileId);
             }));
         }
-        public bool DeleteAllPersonPhotos(string personId)
+        public async Task<bool> DeleteAllPersonPhotos(string personId)
         {
-            return _repo.DeleteAllPersonFileContent(personId);
+            return await _repo.DeleteAllPersonFileContent(personId);
         }
 
-        public PersonDocument GetDocumentByPersonId(string id)
+        public async Task<PersonDocument> GetDocumentByPersonId(string id)
         {
-            return _repo.ReadDocumentByPersonId(id);
+            return await _repo.ReadDocumentByPersonId(id);
         }
-        public IEnumerable<PersonDocument> GetAllDocumentsByPersonId(string id)
+        public async Task<IEnumerable<PersonDocument>> GetAllDocumentsByPersonId(string id)
         {
-            return _repo.ReadAllDocumentByPersonId(id).ToList();
+            return await _repo.ReadAllDocumentByPersonId(id);
         }
-        public IEnumerable<PersonDocument> GetAllDocumentsByPersonIdAndCategory(string id, string category)
+        public async Task<IEnumerable<PersonDocument>> GetAllDocumentsByPersonIdAndCategory(string id, string category)
         {
-            return _repo.ReadAllDocumentByPersonIdAndCategory(id, category).ToList();
+            return await _repo.ReadAllDocumentByPersonIdAndCategory(id, category);
         }
-        public string SetPersonDocument(string personId, FileContent entity, string category, string activityId = null)
+        public async Task<string> SetPersonDocument(string personId, FileContent entity, string category, string activityId = null)
         {
             string result = "";
 
-            bool success = _repo.Transaction(new Task(() =>
+            bool success = _repo.Transaction(new Task(async () =>
             {
-                result = _repo.CreateFileContent(entity);
-                _repo.CreatePersonDocument(personId, result, category, activityId);
+                result = await _repo.CreateFileContent(entity);
+                await _repo.CreatePersonDocument(personId, result, category, activityId);
             }));
             if (!success)
                 return null;
 
             return result;
         }
-        public bool DeletePersonDocument(string personId, string fileId)
+        public async Task<bool> DeletePersonDocument(string personId, string fileId)
         {
-            return _repo.Transaction(new Task(() =>
+            return _repo.Transaction(new Task(async () =>
             {
-                _repo.DeletePersonDocument(personId, fileId);
-                _repo.DeleteFileContent(fileId);
+                await _repo.DeletePersonDocument(personId, fileId);
+                await _repo.DeleteFileContent(fileId);
             }));
         }
-        public bool DeleteAllPersonDocuments(string personId)
+        public async Task<bool> DeleteAllPersonDocuments(string personId)
         {
-            return _repo.DeleteAllPersonDocument(personId);
+            return await _repo.DeleteAllPersonDocument(personId);
         }
 
-        public IEnumerable<string> GetDocumentCategories(string query)
+        public async Task<IEnumerable<string>> GetDocumentCategories(string query)
         {
-            return _repo.ReadAllDocumentCategories(query).ToList();
+            return await _repo.ReadAllDocumentCategories(query);
         }
 
         #endregion
 
         #region PersonName
 
-        public string GetCurrentPersonName(string personId)
+        public async Task<string> GetCurrentPersonName(string personId)
         {
-            return _repo.ReadCurrentPersonName(personId);
+            return await _repo.ReadCurrentPersonName(personId);
         }
-        public string SetPersonName(PersonName entity)
+        public async Task<string> SetPersonName(PersonName entity)
         {
-            return _repo.CreatePersonName(entity);
-        }
-
-        public IEnumerable<PersonName> GetAllPersonName(string personId)
-        {
-            return _repo.ReadAllPersonNameByPersonId(personId).ToList();
+            return await _repo.CreatePersonName(entity);
         }
 
-        public bool DeletePersonName(string id)
+        public async Task<IEnumerable<PersonName>> GetAllPersonName(string personId)
         {
-            return _repo.DeletePersonName(id);
+            return await _repo.ReadAllPersonNameByPersonId(personId);
+        }
+
+        public async Task<bool> DeletePersonName(string id)
+        {
+            return await _repo.DeletePersonName(id);
         }
 
         #endregion
 
         #region PersonRelation
 
-        public IEnumerable<PersonRelation> GetAllPersonRelationsBetweenPersons(string inviter, string invited)
+        public async Task<IEnumerable<PersonRelation>> GetAllPersonRelationsBetweenPersons(string inviter, string invited)
         {
-            return _repo.ReadAllPersonRelationBetweenInviterAndInvited(inviter, invited)
-                .Select(e =>
+            var tasks = (await _repo.ReadAllPersonRelationBetweenInviterAndInvited(inviter, invited))
+                .Select(async e =>
                 {
-                    e.Inviter = _repo.ReadPerson(e.InviterId);
-                    e.Invited = _repo.ReadPerson(e.InvitedId);
+                    e.Inviter = await _repo.ReadPerson(e.InviterId);
+                    e.Invited = await _repo.ReadPerson(e.InvitedId);
                     return e;
-                })
-                .ToList();
+                });
+
+            return await Task.WhenAll(tasks);
         }
 
-        public IEnumerable<PersonRelation> GetAllPersonRelationsByInviterId(string personId)
+        public async Task<IEnumerable<PersonRelation>> GetAllPersonRelationsByInviterId(string personId)
         {
-            return _repo.ReadAllPersonRelationsByInviterId(personId)
-                .Select(e => 
+            var tasks =  (await _repo.ReadAllPersonRelationsByInviterId(personId))
+                .Select(async e => 
                 {
-                    e.Inviter = _repo.ReadPerson(e.InviterId);
-                    e.Invited = _repo.ReadPerson(e.InvitedId);
+                    e.Inviter = await _repo.ReadPerson(e.InviterId);
+                    e.Invited = await _repo.ReadPerson(e.InvitedId);
                     return e;
-                })
-                .ToList();
+                });
+
+            return await Task.WhenAll(tasks);
         }
 
-        public bool DeletePersonRelation(string inviter, string invited, RelationType type)
+        public async Task<bool> DeletePersonRelation(string inviter, string invited, RelationType type)
         {
             bool success = false;
 
             RelationType counterType = FccRelationTypeHelper.GetCounterRelationType(type);
 
-            success = _repo.Transaction(new Task(() => 
+            success = _repo.Transaction(new Task(async () => 
             {
-                _repo.DeletePersonRelation(inviter, invited, type);
-                _repo.DeletePersonRelation(invited, inviter, counterType);
+                await _repo.DeletePersonRelation(inviter, invited, type);
+                await _repo.DeletePersonRelation(invited, inviter, counterType);
             }));
 
             return success;
         }
 
-        public bool SetPersonRelation(string inviter, string invited, RelationType type)
+        public async Task<bool> SetPersonRelation(string inviter, string invited, RelationType type)
         {
-            return _repo.Transaction(new Task(() =>
+            return _repo.Transaction(new Task(async () =>
             {
-                foreach (var relation in GetUpdateRelationsStack(inviter, invited, type))
+                foreach (var relation in await GetUpdateRelationsStack(inviter, invited, type))
                 {
-                    _repo.CreatePersonRelation(relation);
+                    await _repo.CreatePersonRelation(relation);
                 }
             }));
         }
         
-        private IEnumerable<PersonRelation> GetUpdateRelationsStack(string inviter, string invited, RelationType type)
+        private async Task<IEnumerable<PersonRelation>> GetUpdateRelationsStack(string inviter, string invited, RelationType type)
         {
             return new List<PersonRelation>
             {
@@ -270,45 +270,41 @@ namespace Data.Manager
             };
         }
         
-        public IEnumerable<PersonRelation> CreateRelationsMesh(string personId, string invitedId)
+        public async Task<IEnumerable<PersonRelation>> CreateRelationsMesh(string personId, string invitedId)
         {
-            return _repo.ReadAllPersonRelationsThatArePossible(personId, invitedId)
-                .Select(e =>
+            var tasks = (await _repo.ReadAllPersonRelationsThatArePossible(personId, invitedId))
+                .Select(async e =>
                 {
-                    e.Inviter = _repo.ReadPerson(e.InviterId);
-                    e.Invited = _repo.ReadPerson(e.InvitedId);
+                    e.Inviter = await _repo.ReadPerson(e.InviterId);
+                    e.Invited = await _repo.ReadPerson(e.InvitedId);
                     return e;
-                })
-                .ToList();
+                });
+
+            return await Task.WhenAll(tasks);
         }
 
-        public IEnumerable<KeyValuePair<string, string>> GetPersonsThatHaveRelativesWithPossibleRelations()
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetPersonsThatHaveRelativesWithPossibleRelations()
         {
-            return _repo.GetPersonsThatHaveRelativesWithPossibleRelations().ToList();
+            return await _repo.GetPersonsThatHaveRelativesWithPossibleRelations();
         }
 
-        public bool CheckIfSameRelationsAvaible(string personId)
+        public async Task<bool> CheckIfSameRelationsAvaible(string personId)
         {
-            return _repo.CheckIfSameRelationsAvaible(personId);
+            return await _repo.CheckIfSameRelationsAvaible(personId);
         }
 
-        public IEnumerable<KeyValuePair<string, string>> GetPersonsKvpWithPossibleRelations(string personId)
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetPersonsKvpWithPossibleRelations(string personId)
         {
-            return _repo.GetPersonsKvpWithPossibleRelations(personId).ToList();
+            return await _repo.GetPersonsKvpWithPossibleRelations(personId);
         }
 
-        public IEnumerable<RelationType> GetPersonsRelationTypes(string personId)
+        public async Task<IEnumerable<RelationType>> GetPersonsRelationTypes(string personId)
         {
-            return _repo.GetPersonsRelationTypes(personId).ToList();
+            return await _repo.GetPersonsRelationTypes(personId);
         }
 
         private PersonRelation CreateRelation(string inviter, string invited, RelationType type)
         {
-            //if (type == RelationType.HusbandWife)
-            //{
-            //    type = RelationType.InLawSiblings;
-            //}
-
             return new PersonRelation
             {
                 Id = Guid.NewGuid().ToString(),
@@ -322,75 +318,85 @@ namespace Data.Manager
 
         #region PersonBiography
 
-        public string SetPersonBiography(PersonBiography entity)
+        public async Task<string> SetPersonBiography(PersonBiography entity)
         {
-            return _repo.CreatePersonBiography(entity);
+            return await _repo.CreatePersonBiography(entity);
         }
-        public bool UpdatePersonBiography(PersonBiography entity)
+        public async Task<bool> UpdatePersonBiography(PersonBiography entity)
         {
-            return _repo.UpdatePersonBiography(entity);
+            return await _repo.UpdatePersonBiography(entity);
         }
-        public PersonBiography GetPersonBiographyByPersonId(string person)
+        public async Task<PersonBiography> GetPersonBiographyByPersonId(string person)
         {
-            return _repo.ReadPersonBiographyByPersonId(person);
+            return await _repo.ReadPersonBiographyByPersonId(person);
         }
 
         #endregion
 
         #region PersonActivity
 
-        public PersonActivity GetPersonActivity(string id)
+        public async Task<PersonActivity> GetPersonActivity(string id)
         {
-            return _repo.ReadPersonActivity(id);
+            return await _repo.ReadPersonActivity(id);
         }
 
-        public IEnumerable<PersonActivity> GetAllPersonActivityByPerson(string id)
+        public async Task<IEnumerable<PersonActivity>> GetAllPersonActivityByPerson(string id)
         {
-            return _repo.ReadAllPersonActivityByPerson(id).ToList();
+            return await _repo.ReadAllPersonActivityByPerson(id);
         }
 
-        public IEnumerable<PersonActivity> GetAllPersonActivityByPerson(string id, ActivityType type)
+        public async Task<IEnumerable<PersonActivity>> GetAllPersonActivityByPerson(string id, ActivityType type)
         {
-            return _repo.ReadAllPersonActivityByPerson(id, type).ToList();
+            return await _repo.ReadAllPersonActivityByPerson(id, type);
         }
 
-        public string SetPersonActivity(PersonActivity entity)
+        public async Task<string> SetPersonActivity(PersonActivity entity)
         {
-            return _repo.CreatePersonActivity(entity);
+            return await _repo.CreatePersonActivity(entity);
         }
 
-        public bool UpdatePersonActivity(PersonActivity entity)
+        public async Task<bool> UpdatePersonActivity(PersonActivity entity)
         {
-            return _repo.UpdatePersonActivity(entity);
+            return await _repo.UpdatePersonActivity(entity);
         }
 
-        public bool DeletePersonActivity(string id)
+        public async Task<bool> DeletePersonActivity(string id)
         {
-            return _repo.DeletePersonActivity(id);
+            return await _repo.DeletePersonActivity(id);
         }
 
         #endregion
 
         #region FileContent
 
-        public FileContent GetFileContent(string id)
+        public async Task<FileContent> GetFileContent(string id)
         {
-            return _repo.ReadFileContent(id);
+            return await _repo.ReadFileContent(id);
         }
 
-        public string SetFileContent(FileContent entity)
+        public async Task<string> SetFileContent(FileContent entity)
         {
-            return _repo.CreateFileContent(entity);
+            return await _repo.CreateFileContent(entity);
         }
 
-        public bool UpdateFileContent(FileContent entity)
+        public async Task<bool> UpdateFileContent(FileContent entity)
         {
-            return _repo.UpdateFileContent(entity);
+            return await _repo.UpdateFileContent(entity);
         }
 
-        public bool DeleteFileContent(string id)
+        public async Task<bool> DeleteFileContent(string id)
         {
-            return _repo.DeleteFileContent(id);
+            return await _repo.DeleteFileContent(id);
+        }
+
+        public async Task<bool> RenameCategory(string personId, string oldCategory, string newCategory)
+        {
+            return await _repo.RenameCategory(personId, oldCategory, newCategory);
+        }
+
+        public async Task<bool> MoveContentToAnotherCategory(string personId, string contentId, string category)
+        {
+            return await _repo.MoveContentToAnotherCategory(personId, contentId, category);
         }
 
         #endregion

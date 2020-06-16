@@ -6,6 +6,7 @@ using System.Linq;
 using Shared.Viewmodels;
 using Shared.Interfaces.ViewBuilders;
 using Shared.Interfaces.Managers;
+using System.Threading.Tasks;
 
 namespace FamilyControlCenter.ViewBuilder
 {
@@ -20,30 +21,30 @@ namespace FamilyControlCenter.ViewBuilder
 
         #region PersonViewModel
 
-        public void HandleAction(PersonViewModel vm)
+        public async Task HandleAction(PersonViewModel vm)
         {
             vm.State = VmState.List;
-            HandleCommand(vm);
-            HandleState(vm);
+            await HandleCommand(vm);
+            await HandleState(vm);
         }
 
-        public PersonDocumentsViewModel CreatePartialViewPersonDocuments(string personId)
+        public async Task<PersonDocumentsViewModel> CreatePartialViewPersonDocuments(string personId)
         {
             var vm = new PersonDocumentsViewModel();
-            vm.Documents.Add(personId, _mgrFcc.GetAllDocumentsByPersonId(personId));
+            vm.Documents.Add(personId, await _mgrFcc.GetAllDocumentsByPersonId(personId));
             return vm;
         }
 
-        public KeyValuePair<string, IEnumerable<FileContent>> CreatePartialViewPersonPhotos(string personId)
+        public async Task<KeyValuePair<string, IEnumerable<FileContent>>> CreatePartialViewPersonPhotos(string personId)
         {
-            var person = _mgrFcc.GetPerson(personId);
-            return new KeyValuePair<string, IEnumerable<FileContent>>(person.FileContentId, _mgrFcc.GetAllPhotosByPersonId(personId));
+            var person = await _mgrFcc.GetPerson(personId);
+            return new KeyValuePair<string, IEnumerable<FileContent>>(person.FileContentId, await _mgrFcc.GetAllPhotosByPersonId(personId));
         }
 
-        public PersonBiographyViewModel CreatePartialViewPersonBiography(string personId)
+        public async Task<PersonBiographyViewModel> CreatePartialViewPersonBiography(string personId)
         {
             PersonBiographyViewModel biography = new PersonBiographyViewModel();
-            var bio = _mgrFcc.GetPersonBiographyByPersonId(personId);
+            var bio = await _mgrFcc.GetPersonBiographyByPersonId(personId);
 
             biography.PersonBiography = bio ??
                 new PersonBiography() { Id = Guid.NewGuid().ToString() };
@@ -55,18 +56,18 @@ namespace FamilyControlCenter.ViewBuilder
 
             foreach (var activity in biography.ActivityTypeLoadingList)
             {
-                biography.Activities.Add(activity, _mgrFcc.GetAllPersonActivityByPerson(personId, activity));
+                biography.Activities.Add(activity, await _mgrFcc.GetAllPersonActivityByPerson(personId, activity));
             }
 
             return biography;
         }
 
-        public bool SavePersonActivity(string personId, string bioId, PersonActivity newact)
+        public async Task<bool> SavePersonActivity(string personId, string bioId, PersonActivity newact)
         {
             var bio = _mgrFcc.GetPersonBiographyByPersonId(personId);
             if (bio == null)
             {
-                bioId = _mgrFcc.SetPersonBiography(new PersonBiography()
+                bioId = await _mgrFcc.SetPersonBiography(new PersonBiography()
                 {
                     Id = bioId,
                     PersonId = personId,
@@ -74,7 +75,7 @@ namespace FamilyControlCenter.ViewBuilder
                 });
             }
 
-            var dbRec = _mgrFcc.GetPersonActivity(newact.Id);
+            var dbRec = await _mgrFcc.GetPersonActivity(newact.Id);
             if (dbRec == null)
             {
                 newact.Id = Guid.NewGuid().ToString();
@@ -82,7 +83,7 @@ namespace FamilyControlCenter.ViewBuilder
                 newact.DateCreated = DateTime.Now;
                 newact.BiographyId = bioId;
                 newact.DateModified = DateTime.Now;
-                return !string.IsNullOrWhiteSpace(_mgrFcc.SetPersonActivity(newact));
+                return !string.IsNullOrWhiteSpace(await _mgrFcc.SetPersonActivity(newact));
             }
 
             dbRec.DateBegin = newact.DateBegin;
@@ -92,37 +93,37 @@ namespace FamilyControlCenter.ViewBuilder
             dbRec.Activity = newact.Activity;
             dbRec.ActivityType = newact.ActivityType;
             dbRec.DateModified = DateTime.Now;
-            return _mgrFcc.UpdatePersonActivity(dbRec);
+            return await _mgrFcc.UpdatePersonActivity(dbRec);
         }
 
-        public IEnumerable<PersonName> CreatePartialViewForNamesAndPatronymList(string personId)
+        public async Task<IEnumerable<PersonName>> CreatePartialViewForNamesAndPatronymList(string personId)
         {
-            return _mgrFcc.GetAllPersonName(personId);
+            return await _mgrFcc.GetAllPersonName(personId);
         }
 
-        public Tuple<Person, Person, Person> CreatePartialViewForMarriageOrLivePartner(string personId, string spouseId, string partnerId)
+        public async Task<Tuple<Person, Person, Person>> CreatePartialViewForMarriageOrLivePartner(string personId, string spouseId, string partnerId)
         {
             var tuple = new Tuple<Person, Person, Person>
-                (_mgrFcc.GetPerson(personId), _mgrFcc.GetPerson(spouseId), _mgrFcc.GetPerson(partnerId));
+                (await _mgrFcc.GetPerson(personId), await _mgrFcc.GetPerson(spouseId), await _mgrFcc.GetPerson(partnerId));
 
             return tuple;
         }
 
-        public PersonRelationsViewModel CreatePersonPartialViewRelationsModel(string personId)
+        public async Task<PersonRelationsViewModel> CreatePersonPartialViewRelationsModel(string personId)
         {
             var vm = new PersonRelationsViewModel();
-            vm.Person = _mgrFcc.GetPerson(personId);
-            vm.SameRelationsAvaible = _mgrFcc.CheckIfSameRelationsAvaible(personId);
+            vm.Person = await _mgrFcc.GetPerson(personId);
+            vm.SameRelationsAvaible = await _mgrFcc.CheckIfSameRelationsAvaible(personId);
 
-            foreach (var relationsType in _mgrFcc.GetPersonsRelationTypes(personId))
+            foreach (var relationsType in await _mgrFcc.GetPersonsRelationTypes(personId))
             {
-                vm.Relations.Add(relationsType, _mgrFcc.GetPersonByRelationType(personId, relationsType));
+                vm.Relations.Add(relationsType, await _mgrFcc.GetPersonByRelationType(personId, relationsType));
             }
 
             return vm;
         }
 
-        private void HandleCommand(PersonViewModel vm)
+        private async Task HandleCommand(PersonViewModel vm)
         {
             switch (vm.Command)
             {
@@ -133,12 +134,12 @@ namespace FamilyControlCenter.ViewBuilder
                     vm.State = VmState.Detail;
                     break;
                 case ActionCommand.Save:
-                    SavePerson(vm);
+                    await SavePerson(vm);
                     vm.State = VmState.Detail;
                     vm.Command = ActionCommand.Open;
                     break;
                 case ActionCommand.Delete:
-                    _mgrFcc.DeletePerson(vm.Model.Id);
+                    await _mgrFcc.DeletePerson(vm.Model.Id);
                     break;
                 case ActionCommand.Cancel:
                 default:
@@ -146,14 +147,14 @@ namespace FamilyControlCenter.ViewBuilder
             }
         }
 
-        private void HandleState(PersonViewModel vm)
+        private async Task HandleState(PersonViewModel vm)
         {
             switch (vm.State)
             {
                 case VmState.Detail:
                     if (vm.Command == ActionCommand.Open)
                     {
-                        GetEditPerson(vm);
+                        await GetEditPerson(vm);
                     }
                     else
                     {
@@ -163,15 +164,15 @@ namespace FamilyControlCenter.ViewBuilder
                     break;
                 case VmState.List:
                 default:
-                    PersonList(vm);
+                    await PersonList(vm);
                     break;
             }
         }
         
-        private void PersonList(PersonViewModel vm)
+        private async Task PersonList(PersonViewModel vm)
         {
             vm.Command = ActionCommand.Cancel;
-            vm.Models = _mgrFcc.GetListPerson();
+            vm.Models = await _mgrFcc.GetListPerson();
             int tcount = vm.Models.Count(); //TODO totalcount
             vm.Paging = new PagingViewModel(vm.Skip, vm.Take, tcount);
             vm.Models = vm.Models.Skip(vm.Skip).Take(vm.Take);
@@ -179,7 +180,7 @@ namespace FamilyControlCenter.ViewBuilder
 
             foreach (Person p in vm.Models)
             {
-                var file = _mgrFcc.GetMainPhotoByPersonId(p.Id);
+                var file = await _mgrFcc.GetMainPhotoByPersonId(p.Id);
                 if (file?.BinaryContent == null)
                     continue;
                 string img64 = Convert.ToBase64String(file.BinaryContent);
@@ -188,32 +189,33 @@ namespace FamilyControlCenter.ViewBuilder
             }
         }
 
-        private void SavePerson(PersonViewModel vm)
+        private async Task SavePerson(PersonViewModel vm)
         {
             try
             {
                 //save person as new
-                if (!_mgrFcc.ExistPerson(vm.Model.Id))
+                if (!await _mgrFcc.ExistPerson(vm.Model.Id))
                 {
-                    _mgrFcc.SetPerson(vm.Model);
+                    await _mgrFcc.SetPerson(vm.Model);
                 }
 
                 //update already existing person
-                _mgrFcc.UpdatePerson(vm.Model);
+                await _mgrFcc.UpdatePerson(vm.Model);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                //TODO logging
             }
         }
 
-        private void GetEditPerson(PersonViewModel vm)
+        private async Task GetEditPerson(PersonViewModel vm)
         {
             try
             {
-                vm.Model = _mgrFcc.GetPerson(vm.Model.Id);
-                vm.Photos = _mgrFcc.GetAllPhotosByPersonId(vm.Model.Id);
-                vm.MarriedOn = _mgrFcc.GetPersonByRelationType(vm.Model.Id, RelationType.HusbandWife).FirstOrDefault();
-                vm.PartnerOf = _mgrFcc.GetPersonByRelationType(vm.Model.Id, RelationType.LivePartner).FirstOrDefault();
+                vm.Model = await _mgrFcc.GetPerson(vm.Model.Id);
+                vm.Photos = await _mgrFcc.GetAllPhotosByPersonId(vm.Model.Id);
+                vm.MarriedOn = (await _mgrFcc.GetPersonByRelationType(vm.Model.Id, RelationType.HusbandWife)).FirstOrDefault();
+                vm.PartnerOf = (await _mgrFcc.GetPersonByRelationType(vm.Model.Id, RelationType.LivePartner)).FirstOrDefault();
                 vm.PersonNames = new List<PersonName>();
                 vm.PersonRelations = new List<PersonRelation>();
             }
@@ -234,23 +236,27 @@ namespace FamilyControlCenter.ViewBuilder
 
         #region RelationsUpdateStack
 
-        public RelationsUpdateStackViewModel CreateUpdateRelationsStackViewModel(string personId, string selectedId)
+        public async Task<RelationsUpdateStackViewModel> CreateUpdateRelationsStackViewModel(string personId, string selectedId)
         {
             var vm = new RelationsUpdateStackViewModel();
             vm.PersonId = personId;
-            vm.PersonList = _mgrFcc.GetPersonsThatHaveRelativesWithPossibleRelations();
-            vm.PersonsWithPossibleRelations = _mgrFcc.GetPersonsKvpWithPossibleRelations(personId);
-            vm.InitialRelations = CreateRelationsUpdateStackPartial(personId, vm.PersonsWithPossibleRelations.FirstOrDefault().Key);
+            vm.PersonList = await _mgrFcc.GetPersonsThatHaveRelativesWithPossibleRelations();
+            vm.PersonsWithPossibleRelations = await _mgrFcc.GetPersonsKvpWithPossibleRelations(personId);
+            vm.InitialRelations = await CreateRelationsUpdateStackPartial(personId, vm.PersonsWithPossibleRelations.FirstOrDefault().Key);
 
             return vm;
         }
 
-        public IEnumerable<PersonRelation> CreateRelationsUpdateStackPartial(string personId, string selectedId)
+        public async Task<IEnumerable<PersonRelation>> CreateRelationsUpdateStackPartial(string personId, string selectedId)
         {
-            return _mgrFcc.CreateRelationsMesh(personId, selectedId);
+            return await _mgrFcc.CreateRelationsMesh(personId, selectedId);
         }
 
         #endregion
 
+        public async Task<PersonActivity> GetPersonActivity(string activityId)
+        {
+            return await _mgrFcc.GetPersonActivity(activityId);
+        }
     }
 }

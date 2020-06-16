@@ -1,94 +1,93 @@
 ﻿using Shared.Enums;
 using Shared.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Shared.Interfaces.Repositories
 {
     public interface ISqlRepository : ISqlBaseRepository
     {
-        Person ReadPerson(string id);
-        IEnumerable<Person> ReadAllPerson();
-        IEnumerable<Person> ReadAllPersonByRelation(string personId, RelationType type);
-        string CreatePerson(Person entity);
-        bool UpdatePerson(Person entity);
-        bool DeletePerson(string id);
-        IEnumerable<KeyValuePair<string, string>> GetPersonSelectList();
-        IEnumerable<KeyValuePair<string, string>> GetPersonSelectList(string excludePersonId, string search);
-        IEnumerable<KeyValuePair<string, string>> GetOnlyPossiblePersonSelectList(string excludePersonId, string search);
-        int GetOnlyPossiblePersonCount(string excludePersonId);
+        Task<Person> ReadPerson(string id);
+        Task<IEnumerable<Person>> ReadAllPerson();
+        Task<IEnumerable<Person>> ReadAllPersonByRelation(string personId, RelationType type);
+        Task<string> CreatePerson(Person entity);
+        Task<bool> UpdatePerson(Person entity);
+        Task<bool> DeletePerson(string id);
+        Task<IEnumerable<KeyValuePair<string, string>>> GetPersonSelectList();
+        Task<IEnumerable<KeyValuePair<string, string>>> GetPersonSelectList(string excludePersonId, string search);
+        Task<IEnumerable<KeyValuePair<string, string>>> GetOnlyPossiblePersonSelectList(string excludePersonId, string search);
+        Task<int> GetOnlyPossiblePersonCount(string excludePersonId);
 
-        string ReadCurrentPersonName(string personId);
-        PersonName ReadLastPersonName(string id);
-        IEnumerable<PersonName> ReadAllPersonNameByPersonId(string id);
-        string CreatePersonName(PersonName entity);
-        bool UpdatePersonName(PersonName entity);
-        bool DeletePersonName(string id);
+        Task<string> ReadCurrentPersonName(string personId);
+        Task<PersonName> ReadLastPersonName(string id);
+        Task<IEnumerable<PersonName>> ReadAllPersonNameByPersonId(string id);
+        Task<string> CreatePersonName(PersonName entity);
+        Task<bool> UpdatePersonName(PersonName entity);
+        Task<bool> DeletePersonName(string id);
 
-        FileContent ReadFileContentByPersonId(string id);
-        IEnumerable<FileContent> ReadAllFileContentByPersonId(string id);
-        string CreatePersonFileContent(string personId, string fileId);
-        bool DeletePersonFileContent(string personId, string fileId);
-        bool DeleteAllPersonFileContent(string personId);
+        Task<FileContent> ReadFileContentByPersonId(string id);
+        Task<IEnumerable<FileContent>> ReadAllFileContentByPersonId(string id);
+        Task<string> CreatePersonFileContent(string personId, string fileId);
+        Task<bool> DeletePersonFileContent(string personId, string fileId);
+        Task<bool> DeleteAllPersonFileContent(string personId);
 
-        PersonDocument ReadDocumentByPersonId(string id);
-        IEnumerable<PersonDocument> ReadAllDocumentByPersonId(string id);
-        IEnumerable<PersonDocument> ReadAllDocumentByPersonIdAndCategory(string id, string category);
-        string CreatePersonDocument(string personId, string fileId, string category, string activityId = null);
-        bool DeletePersonDocument(string personId, string fileId);
-        bool DeleteAllPersonDocument(string personId);
+        Task<PersonDocument> ReadDocumentByPersonId(string id);
+        Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonId(string id);
+        Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonIdAndCategory(string id, string category);
+        Task<string> CreatePersonDocument(string personId, string fileId, string category, string activityId = null);
+        Task<bool> DeletePersonDocument(string personId, string fileId);
+        Task<bool> DeleteAllPersonDocument(string personId);
 
-        IEnumerable<string> ReadAllDocumentCategories(string search);
+        Task<IEnumerable<string>> ReadAllDocumentCategories(string search);
 
         #region PersonRelation
 
-        PersonRelation ReadPersonRelation(string inviter, string invited, RelationType type);
-        IEnumerable<PersonRelation> ReadAllPersonRelationBetweenInviterAndInvited(string inviter, string invited);
-        IEnumerable<PersonRelation> ReadAllPersonRelationsByInviterId(string id);
-        IEnumerable<PersonRelation> ReadAllPersonRelationsThatArePossible(string personId, string inviterId);
-        bool CheckIfSameRelationsAvaible(string personId);
-        IEnumerable<KeyValuePair<string, string>> GetPersonsThatHaveRelativesWithPossibleRelations();
-        IEnumerable<KeyValuePair<string, string>> GetPersonsKvpWithPossibleRelations(string personId);
-        string CreatePersonRelation(PersonRelation entity);
-        bool UpdatePersonRelation(PersonRelation entity);
-        bool DeletePersonRelation(string inviter, string invited);
-        bool DeletePersonRelation(string inviter, string invited, RelationType type);
-        bool IsMarried(string personId);
-        bool IsInRelationship(string personId);
-        IEnumerable<RelationType> GetPersonsRelationTypes(string personId);
+        Task<PersonRelation> ReadPersonRelation(string inviter, string invited, RelationType type);
+        Task<IEnumerable<PersonRelation>> ReadAllPersonRelationBetweenInviterAndInvited(string inviter, string invited);
+        Task<IEnumerable<PersonRelation>> ReadAllPersonRelationsByInviterId(string id);
+        Task<IEnumerable<PersonRelation>> ReadAllPersonRelationsThatArePossible(string personId, string inviterId);
+        Task<bool> CheckIfSameRelationsAvaible(string personId);
+        Task<IEnumerable<KeyValuePair<string, string>>> GetPersonsThatHaveRelativesWithPossibleRelations();
+        Task<IEnumerable<KeyValuePair<string, string>>> GetPersonsKvpWithPossibleRelations(string personId);
+        Task<string> CreatePersonRelation(PersonRelation entity);
+        Task<bool> UpdatePersonRelation(PersonRelation entity);
+        Task<bool> DeletePersonRelation(string inviter, string invited);
+        Task<bool> DeletePersonRelation(string inviter, string invited, RelationType type);
+        Task<bool> IsMarried(string personId);
+        Task<bool> IsInRelationship(string personId);
+        Task<IEnumerable<RelationType>> GetPersonsRelationTypes(string personId);
 
         #endregion
 
         #region PersonBiography
 
-        PersonBiography ReadPersonBiographyByPersonId(string personId);
-        PersonBiography ReadPersonBiography(string biographyId);
-        string CreatePersonBiography(PersonBiography entity);
-        bool UpdatePersonBiography(PersonBiography entity);
+        Task<PersonBiography> ReadPersonBiographyByPersonId(string personId);
+        Task<PersonBiography> ReadPersonBiography(string biographyId);
+        Task<string> CreatePersonBiography(PersonBiography entity);
+        Task<bool> UpdatePersonBiography(PersonBiography entity);
 
         #endregion
 
         #region PersonActivity
 
-        PersonActivity ReadPersonActivity(string id);
-        IEnumerable<PersonActivity> ReadAllPersonActivityByPerson(string id);
-        IEnumerable<PersonActivity> ReadAllPersonActivityByPerson(string id, ActivityType type);
-        string CreatePersonActivity(PersonActivity entity);
-        bool UpdatePersonActivity(PersonActivity entity);
-        bool DeletePersonActivity(string id);
-        bool DeleteAllPersonActivityByPersonId(string id);
+        Task<PersonActivity> ReadPersonActivity(string id);
+        Task<IEnumerable<PersonActivity>> ReadAllPersonActivityByPerson(string id);
+        Task<IEnumerable<PersonActivity>> ReadAllPersonActivityByPerson(string id, ActivityType type);
+        Task<string> CreatePersonActivity(PersonActivity entity);
+        Task<bool> UpdatePersonActivity(PersonActivity entity);
+        Task<bool> DeletePersonActivity(string id);
+        Task<bool> DeleteAllPersonActivityByPersonId(string id);
 
         #endregion
 
         #region FileContent
 
-        FileContent ReadFileContent(string id);
-        string CreateFileContent(FileContent entity);
-        bool UpdateFileContent(FileContent entity);
-        bool DeleteFileContent(string id);
+        Task<FileContent> ReadFileContent(string id);
+        Task<string> CreateFileContent(FileContent entity);
+        Task<bool> UpdateFileContent(FileContent entity);
+        Task<bool> DeleteFileContent(string id);
+        Task<bool> RenameCategory(string personId, string oldCategory, string newCategory);
+        Task<bool> MoveContentToAnotherCategory(string personId, string contentId, string category);
 
         #endregion
 

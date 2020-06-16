@@ -24,7 +24,7 @@ namespace DataAccessInfrastructure.Repositories
             _conSet = new Dictionary<int, SqlConnection>();
         }
 
-        public T QueryFoD<T>(string query)
+        public async Task<T> QueryFoD<T>(string query)
         {
 
             var tId = Convert.ToInt32(Task.CurrentId);
@@ -36,10 +36,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.QueryFirstOrDefaultAsync<T>(query).Result;
+            return await tCon.QueryFirstOrDefaultAsync<T>(query);
         }
 
-        public T QueryFoD<T>(string query, object parameters)
+        public async Task<T> QueryFoD<T>(string query, object parameters)
         {
             var tId = Convert.ToInt32(Task.CurrentId);
             var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
@@ -50,10 +50,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.QueryFirstOrDefaultAsync<T>(query, parameters).Result;
+            return await tCon.QueryFirstOrDefaultAsync<T>(query, parameters);
         }
 
-        public IEnumerable<T> Query<T>(string query)
+        public async Task<IEnumerable<T>> Query<T>(string query)
         {
             var tId = Convert.ToInt32(Task.CurrentId);
             var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
@@ -64,10 +64,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.QueryAsync<T>(query).Result;
+            return await tCon.QueryAsync<T>(query);
         }
 
-        public IEnumerable<T> Query<T>(string query, object parameters)
+        public async Task<IEnumerable<T>> Query<T>(string query, object parameters)
         {
             var tId = Convert.ToInt32(Task.CurrentId);
             var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
@@ -78,10 +78,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.QueryAsync<T>(query, parameters).Result;
+            return await tCon.QueryAsync<T>(query, parameters);
         }
 
-        public int Execute(string query, object parameters)
+        public async Task<int> Execute(string query, object parameters)
         {
             var tId = Convert.ToInt32(Task.CurrentId);
             var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
@@ -92,10 +92,10 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.ExecuteAsync(query, parameters).Result;
+            return await tCon.ExecuteAsync(query, parameters);
         }
 
-        public T ExecuteScalar<T>(string query, object parameters)
+        public async Task<T> ExecuteScalar<T>(string query, object parameters)
         {
             var tId = Convert.ToInt32(Task.CurrentId);
             var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
@@ -106,7 +106,7 @@ namespace DataAccessInfrastructure.Repositories
             }
 
             tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return tCon.ExecuteScalarAsync<T>(query, parameters).Result;
+            return await tCon.ExecuteScalarAsync<T>(query, parameters);
         }
 
         public bool Transaction(Task task)

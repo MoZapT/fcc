@@ -9,14 +9,13 @@ namespace WebApiFCC.App_Start
     using Ninject.Web.Common.WebHost;
     using System;
     using System.Web;
-    using System.Web.Mvc;
     using Ninject.Modules;
     using System.Collections.Generic;
     using WebApiFCC.DependencyResolver;
     using System.Web.Http;
     using Ninject.Web.WebApi;
 
-    public class NinjectWebCommon
+    public static class NinjectWebCommon
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
 
