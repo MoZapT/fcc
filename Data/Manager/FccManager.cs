@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Linq;
 using Shared.Interfaces.Managers;
 using Shared.Interfaces.Repositories;
-using System.Threading.Tasks;
 using Shared.Helpers;
 
 namespace Data.Manager
@@ -30,7 +29,7 @@ namespace Data.Manager
 
         public async Task<bool> UpdatePerson(Person entity)
         {
-            return _repo.Transaction(new Task(async () =>
+            return await _repo.Transaction(new Task(async () =>
             {
                 await _repo.UpdatePerson(entity);
             }));
@@ -103,7 +102,7 @@ namespace Data.Manager
         {
             string result = "";
 
-            bool success = _repo.Transaction(new Task(async () => 
+            bool success = await _repo.Transaction(new Task(async () => 
             {
                 result = await _repo.CreateFileContent(entity);
                 await _repo.CreatePersonFileContent(personId, result);
@@ -117,7 +116,7 @@ namespace Data.Manager
         {
             var person = await _repo.ReadPerson(personId);
 
-            return _repo.Transaction(new Task(async () => 
+            return await _repo.Transaction(new Task(async () => 
             {
                 //if deleting main photo, try to set random avaible photo as main
                 if (person.FileContentId == fileId)
@@ -154,7 +153,7 @@ namespace Data.Manager
         {
             string result = "";
 
-            bool success = _repo.Transaction(new Task(async () =>
+            bool success = await _repo.Transaction(new Task(async () =>
             {
                 result = await _repo.CreateFileContent(entity);
                 await _repo.CreatePersonDocument(personId, result, category, activityId);
@@ -166,7 +165,7 @@ namespace Data.Manager
         }
         public async Task<bool> DeletePersonDocument(string personId, string fileId)
         {
-            return _repo.Transaction(new Task(async () =>
+            return await _repo.Transaction(new Task(async () =>
             {
                 await _repo.DeletePersonDocument(personId, fileId);
                 await _repo.DeleteFileContent(fileId);
@@ -241,7 +240,7 @@ namespace Data.Manager
 
             RelationType counterType = FccRelationTypeHelper.GetCounterRelationType(type);
 
-            success = _repo.Transaction(new Task(async () => 
+            success = await _repo.Transaction(new Task(async () => 
             {
                 await _repo.DeletePersonRelation(inviter, invited, type);
                 await _repo.DeletePersonRelation(invited, inviter, counterType);
@@ -252,7 +251,7 @@ namespace Data.Manager
 
         public async Task<bool> SetPersonRelation(string inviter, string invited, RelationType type)
         {
-            return _repo.Transaction(new Task(async () =>
+            return await _repo.Transaction(new Task(async () =>
             {
                 foreach (var relation in await GetUpdateRelationsStack(inviter, invited, type))
                 {

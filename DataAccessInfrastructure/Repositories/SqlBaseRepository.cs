@@ -26,98 +26,43 @@ namespace DataAccessInfrastructure.Repositories
 
         public async Task<T> QueryFoD<T>(string query)
         {
-
-            var tId = Convert.ToInt32(Task.CurrentId);
-            var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-
-            if (tCon == null)
-            {
-                _conSet.Add(tId, new SqlConnection(_fccConStr));
-            }
-
-            tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return await tCon.QueryFirstOrDefaultAsync<T>(query);
+            return await (new SqlConnection(_fccConStr)).QueryFirstOrDefaultAsync<T>(query);
         }
 
         public async Task<T> QueryFoD<T>(string query, object parameters)
         {
-            var tId = Convert.ToInt32(Task.CurrentId);
-            var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-
-            if (tCon == null)
-            {
-                _conSet.Add(tId, new SqlConnection(_fccConStr));
-            }
-
-            tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return await tCon.QueryFirstOrDefaultAsync<T>(query, parameters);
+            return await (new SqlConnection(_fccConStr)).QueryFirstOrDefaultAsync<T>(query, parameters);
         }
 
         public async Task<IEnumerable<T>> Query<T>(string query)
         {
-            var tId = Convert.ToInt32(Task.CurrentId);
-            var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-
-            if (tCon == null)
-            {
-                _conSet.Add(tId, new SqlConnection(_fccConStr));
-            }
-
-            tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return await tCon.QueryAsync<T>(query);
+            return await (new SqlConnection(_fccConStr)).QueryAsync<T>(query);
         }
 
         public async Task<IEnumerable<T>> Query<T>(string query, object parameters)
         {
-            var tId = Convert.ToInt32(Task.CurrentId);
-            var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-
-            if (tCon == null)
-            {
-                _conSet.Add(tId, new SqlConnection(_fccConStr));
-            }
-
-            tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return await tCon.QueryAsync<T>(query, parameters);
+            return await (new SqlConnection(_fccConStr)).QueryAsync<T>(query, parameters);
         }
 
         public async Task<int> Execute(string query, object parameters)
         {
-            var tId = Convert.ToInt32(Task.CurrentId);
-            var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-
-            if (tCon == null)
-            {
-                _conSet.Add(tId, new SqlConnection(_fccConStr));
-            }
-
-            tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return await tCon.ExecuteAsync(query, parameters);
+            return await (new SqlConnection(_fccConStr)).ExecuteAsync(query, parameters);
         }
 
         public async Task<T> ExecuteScalar<T>(string query, object parameters)
         {
-            var tId = Convert.ToInt32(Task.CurrentId);
-            var tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-
-            if (tCon == null)
-            {
-                _conSet.Add(tId, new SqlConnection(_fccConStr));
-            }
-
-            tCon = _conSet.ContainsKey(tId) ? _conSet[tId] : null;
-            return await tCon.ExecuteScalarAsync<T>(query, parameters);
+            return await (new SqlConnection(_fccConStr)).ExecuteScalarAsync<T>(query, parameters);
         }
 
-        public bool Transaction(Task task)
+        public async Task<bool> Transaction(Task task)
         {
             var success = false;
 
-            using (var transactionScope = new TransactionScope())
+            using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 using (var con = new SqlConnection(_fccConStr))
                 {
-                    con.Open();
+                    await con.OpenAsync();
 
                     using (var tcn = con.BeginTransaction())
                     {
@@ -163,7 +108,7 @@ namespace DataAccessInfrastructure.Repositories
             return success;
         }
 
-        public bool Transaction(Task task, SqlConnection con)
+        public async Task<bool> Transaction(Task task, SqlConnection con)
         {
             var success = false;
             using (var transactionScope = new TransactionScope())

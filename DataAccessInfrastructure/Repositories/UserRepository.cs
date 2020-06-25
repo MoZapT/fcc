@@ -77,31 +77,19 @@ namespace DataAccessInfrastructure.Repositories
             return await (Execute(query, new { @Usernames = usernames, @RoleNames = roleNames })) > 0;
         }
 
-        public async Task<string> CreateRole(string roleName)
+        public Task<string> CreateRole(string roleName)
         {
             throw new NotImplementedException();
-
-            //var query = @"";
-
-            //return Query<Person>(query, new { @RoleName = roleName });
         }
 
-        public async Task<bool> DeleteRole(string roleName, bool throwOnPopulatedRole)
+        public Task<bool> DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
             throw new NotImplementedException();
-
-            //var query = @"";
-
-            //return Query<Person>(query, new { @RoleName = roleName, @ThrowOnPopulatedRole = throwOnPopulatedRole });
         }
 
-        public async Task<string[]> FindUsersInRole(string roleName, string usernameToMatch)
+        public Task<string[]> FindUsersInRole(string roleName, string usernameToMatch)
         {
             throw new NotImplementedException();
-
-            //var query = @"";
-
-            //return Query<Person>(query, new { @RoleName = roleName, @UsernameToMatch = usernameToMatch });
         }
 
         public async Task<string[]> GetAllRoles()
@@ -146,13 +134,9 @@ namespace DataAccessInfrastructure.Repositories
             return (await QueryFoD<int>(query, new { @Username = username, @RoleName = roleName })) > 0;
         }
 
-        public async Task<bool> RemoveUsersFromRoles(string[] usernames, string[] roleNames)
+        public Task<bool> RemoveUsersFromRoles(string[] usernames, string[] roleNames)
         {
             throw new NotImplementedException();
-
-            //var query = @"";
-
-            //return Query<Person>(query, new { @Usernames = usernames, @RoleNames = roleNames });
         }
 
         public async Task<bool> RoleExists(string roleName)
