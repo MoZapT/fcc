@@ -18,23 +18,54 @@ namespace DataAccessInfrastructure.Repositories
         public async Task<Person> ReadPerson(string id)
         {
             var query = @"
-                SELECT TOP 1 *
-                FROM [Person]
+                SELECT TOP 1 
+	                per.*
+	                ,IsMarried = (SELECT COUNT(Id)
+                                 FROM [PersonRelation]
+                                 WHERE 
+                                     InviterId = @Id
+                                 AND RelationType = @MarriedType)
+	                ,IsInPartnership = (SELECT COUNT(Id)
+					                   FROM [PersonRelation]
+					                   WHERE 
+						                   InviterId = @Id
+					                   AND RelationType = @InRelationType)
+                FROM [Person] AS per
                 WHERE 
 	                Id = @Id
 	                AND IsActive = 1";
 
-            return await QueryFoD<Person>(query, new { @Id = id });
+            return await QueryFoD<Person>(query, new 
+            { 
+                @Id = id, 
+                @MarriedType = RelationType.HusbandWife, 
+                @InRelationType = RelationType.LivePartner 
+            });
         }
         public async Task<IEnumerable<Person>> ReadAllPerson()
         {
             var query = @"
-                SELECT *
-                FROM [Person]
+                SELECT
+	                per.*
+	                ,IsMarried = (SELECT COUNT(Id)
+                                 FROM [PersonRelation]
+                                 WHERE 
+                                     InviterId = @Id
+                                 AND RelationType = @MarriedType)
+	                ,IsInPartnership = (SELECT COUNT(Id)
+					                   FROM [PersonRelation]
+					                   WHERE 
+						                   InviterId = @Id
+					                   AND RelationType = @InRelationType)
+                FROM [Person] AS per
                 WHERE 
 	                IsActive = 1";
 
-            return await Query<Person>(query);
+            return await Query<Person>(query, new
+            {
+                @MarriedType = RelationType.HusbandWife,
+                @InRelationType = RelationType.LivePartner
+            });
         }
         public async Task<IEnumerable<Person>> ReadAllPersonByRelation(string personId, RelationType type)
         {
@@ -259,9 +290,28 @@ namespace DataAccessInfrastructure.Repositories
 
             return await Query<FileContent>(query, new { @Id = id });
         }
-        public async Task<string> CreatePersonFileContent(string personId, string fileId)
+        public async Task<string> CreatePersonFileContent(string personId, FileContent entity)
         {
             var query = @"
+                SET @Id = NEWID()
+
+                INSERT INTO [FileContent]
+                    ([Id]
+                    ,[DateCreated]
+                    ,[DateModified]
+                    ,[IsActive]
+                    ,[BinaryContent]
+                    ,[FileType]
+                    ,[Name])
+                VALUES
+                    (@Id
+                    ,@DateCreated
+                    ,@DateModified
+                    ,@IsActive
+                    ,@BinaryContent
+                    ,@FileType
+                    ,@Name)
+
                 INSERT INTO [dbo].[PersonFileContent]
                     ([Id]
                     ,[PersonId]
@@ -269,16 +319,23 @@ namespace DataAccessInfrastructure.Repositories
                 OUTPUT INSERTED.Id
                 VALUES
                     (NEWID()
-                    ,@Id
-                    ,@FileContentId)";
+                    ,@PersonId
+                    ,@Id)";
 
-            return await QueryFoD<string>(query, new { @Id = personId, @FileContentId = fileId });
+            var parameters = new DynamicParameters(entity);
+            parameters.Add("@PersonId", personId);
+            return await QueryFoD<string>(query, parameters);
         }
         public async Task<bool> DeletePersonFileContent(string personId, string fileId)
         {
             var query = @"
                 DELETE FROM [PersonFileContent]
-                WHERE PersonId = @Id AND FileContentId = @FileContentId";
+                WHERE 
+	                PersonId = @Id 
+	                AND FileContentId = @FileContentId
+
+                DELETE FROM [FileContent]
+                WHERE Id = @FileContentId";
 
             return await Execute(query, new { @Id = personId, @FileContentId = fileId }) > 0;
         }
@@ -328,25 +385,46 @@ namespace DataAccessInfrastructure.Repositories
 
             return await Query<PersonDocument>(query, new { @Id = id, @Category = category });
         }       
-        public async Task<string> CreatePersonDocument(string personId, string fileId, string category, string activityId = null)
+        public async Task<string> CreatePersonDocument(FileContent content, string personId, string category, string activityId = null)
         {
             var query = @"
+                DECLARE @FileContentId nvarchar(128) = NEWID()
+                INSERT INTO [dbo].[FileContent]
+                           ([Id]
+                           ,[DateCreated]
+                           ,[DateModified]
+                           ,[IsActive]
+                           ,[BinaryContent]
+                           ,[FileType]
+                           ,[Name])
+                     VALUES
+                           (@FileContentId
+                           ,@DateCreated
+                           ,@DateModified
+                           ,@IsActive
+                           ,@BinaryContent
+                           ,@FileType
+                           ,@Name)
+
                 INSERT INTO [dbo].[PersonDocument]
                     ([Id]
                     ,[PersonId]
                     ,[FileContentId]
-					,[CategoryName]
-					,[PersonActivityId])
+	                ,[CategoryName]
+	                ,[PersonActivityId])
                 OUTPUT INSERTED.Id
                 VALUES
                     (NEWID()
-                    ,@Id
+                    ,@PersonId
                     ,@FileContentId
-					,@Category
-					,@ActivityId)";
+	                ,@Category
+	                ,@ActivityId)";
 
-            return await QueryFoD<string>(query, 
-                new { @Id = personId, @FileContentId = fileId, @Category = category, @ActivityId = activityId });
+            var parameters = new DynamicParameters(content);
+            parameters.Add("@PersonId", personId);
+            parameters.Add("@Category", category);
+            parameters.Add("@ActivityId", activityId);
+            return await QueryFoD<string>(query, parameters);
         }
         public async Task<bool> DeletePersonDocument(string personId, string fileId)
         {
@@ -694,17 +772,23 @@ namespace DataAccessInfrastructure.Repositories
                 new { @InviterId = inviter, @InvitedId = invited })
                 > 0;
         }
-        public async Task<bool> DeletePersonRelation(string inviter, string invited, RelationType type)
+        public async Task<bool> DeletePersonRelation(string inviter, string invited, RelationType type, RelationType ctrType)
         {
             string query = @"
                     DELETE FROM [PersonRelation]
                     WHERE 
                         InviterId = @InviterId 
                     AND InvitedId = @InvitedId
-                    AND RelationType = @RelationType";
+                    AND RelationType = @RelationType
+
+                    DELETE FROM [PersonRelation]
+                    WHERE 
+                        InviterId = @InvitedId 
+                    AND InvitedId = @InviterId
+                    AND RelationType = @CounterType";
 
             return await Execute(query,
-                new { @InviterId = inviter, @InvitedId = invited, @RelationType = type })
+                new { @InviterId = inviter, @InvitedId = invited, @RelationType = type, @CounterType = ctrType })
                 > 0;
         }
         public async Task<bool> IsMarried(string personId)

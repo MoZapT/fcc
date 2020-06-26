@@ -16,18 +16,3 @@
 
 
 GO
-
-
-CREATE TRIGGER [dbo].[Trigger_DeleteFileContent]
-    ON [dbo].[Person]
-    FOR DELETE
- 	AS DECLARE @Id nvarchar(128)
-
-	SELECT @Id = del.Id FROM DELETED AS del;
-
-    BEGIN
-        SET NoCount ON
-
-        DELETE FROM [dbo].[FileContent]
-        WHERE Id = @Id
-    END

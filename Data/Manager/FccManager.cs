@@ -29,10 +29,7 @@ namespace Data.Manager
 
         public async Task<bool> UpdatePerson(Person entity)
         {
-            return await _repo.Transaction(new Task(async () =>
-            {
-                await _repo.UpdatePerson(entity);
-            }));
+            return await _repo.UpdatePerson(entity);
         }
 
         public async Task<bool> DeletePerson(string id)
@@ -47,14 +44,7 @@ namespace Data.Manager
 
         public async Task<Person> GetPerson(string userId)
         {
-            Person person = await _repo.ReadPerson(userId);
-            if (person == null)
-                return person;
-
-            person.IsMarried = await _repo.IsMarried(userId);
-            person.IsInPartnership = await _repo.IsInRelationship(userId);
-
-            return person;
+            return await _repo.ReadPerson(userId);
         }
 
         public async Task<IEnumerable<Person>> GetPersonByRelationType(string personId, RelationType type)
@@ -64,15 +54,7 @@ namespace Data.Manager
 
         public async Task<IEnumerable<Person>> GetListPerson()
         {
-            var tasks =  (await _repo.ReadAllPerson())
-                .Select(async e => 
-                {
-                    e.IsMarried = await _repo.IsMarried(e.Id);
-                    e.IsInPartnership = await _repo.IsInRelationship(e.Id);
-                    return e;
-                });
-
-            return await Task.WhenAll(tasks);
+            return await _repo.ReadAllPerson();
         }
 
         public async Task<IEnumerable<KeyValuePair<string, string>>> PersonTypeahead(string excludePersonId, string query)
@@ -100,37 +82,11 @@ namespace Data.Manager
         }
         public async Task<string> SetPersonPhoto(string personId, FileContent entity)
         {
-            string result = "";
-
-            bool success = await _repo.Transaction(new Task(async () => 
-            {
-                result = await _repo.CreateFileContent(entity);
-                await _repo.CreatePersonFileContent(personId, result);
-            }));
-            if (!success)
-                return null;
-
-            return result;
+            return await _repo.CreatePersonFileContent(personId, entity);
         }
         public async Task<bool> DeletePersonPhoto(string personId, string fileId)
         {
-            var person = await _repo.ReadPerson(personId);
-
-            return await _repo.Transaction(new Task(async () => 
-            {
-                //if deleting main photo, try to set random avaible photo as main
-                if (person.FileContentId == fileId)
-                {
-                    var files = (await _repo.ReadAllFileContentByPersonId(personId))
-                        .Where(e => e.Id != fileId);
-
-                    person.FileContentId = files.Any() ? files.FirstOrDefault().Id : null;
-                    await _repo.UpdatePerson(person);
-                }
-                //continue delete photo content
-                await _repo.DeletePersonFileContent(personId, fileId);
-                await _repo.DeleteFileContent(fileId);
-            }));
+            return await _repo.DeletePersonFileContent(personId, fileId);
         }
         public async Task<bool> DeleteAllPersonPhotos(string personId)
         {
@@ -151,25 +107,11 @@ namespace Data.Manager
         }
         public async Task<string> SetPersonDocument(string personId, FileContent entity, string category, string activityId = null)
         {
-            string result = "";
-
-            bool success = await _repo.Transaction(new Task(async () =>
-            {
-                result = await _repo.CreateFileContent(entity);
-                await _repo.CreatePersonDocument(personId, result, category, activityId);
-            }));
-            if (!success)
-                return null;
-
-            return result;
+            return await _repo.CreatePersonDocument(entity, personId, category, activityId);
         }
-        public async Task<bool> DeletePersonDocument(string personId, string fileId)
+        public async Task<bool> DeletePersonDocument(string fileId)
         {
-            return await _repo.Transaction(new Task(async () =>
-            {
-                await _repo.DeletePersonDocument(personId, fileId);
-                await _repo.DeleteFileContent(fileId);
-            }));
+            return await _repo.DeleteFileContent(fileId);
         }
         public async Task<bool> DeleteAllPersonDocuments(string personId)
         {
@@ -236,28 +178,24 @@ namespace Data.Manager
 
         public async Task<bool> DeletePersonRelation(string inviter, string invited, RelationType type)
         {
-            bool success = false;
-
             RelationType counterType = FccRelationTypeHelper.GetCounterRelationType(type);
-
-            success = await _repo.Transaction(new Task(async () => 
-            {
-                await _repo.DeletePersonRelation(inviter, invited, type);
-                await _repo.DeletePersonRelation(invited, inviter, counterType);
-            }));
-
-            return success;
+            return await _repo.DeletePersonRelation(inviter, invited, type, counterType);
         }
 
         public async Task<bool> SetPersonRelation(string inviter, string invited, RelationType type)
         {
-            return await _repo.Transaction(new Task(async () =>
+            bool success = true;
+            foreach (var relation in await GetUpdateRelationsStack(inviter, invited, type))
             {
-                foreach (var relation in await GetUpdateRelationsStack(inviter, invited, type))
+                bool withoutErrors = !string.IsNullOrWhiteSpace(await _repo.CreatePersonRelation(relation));
+                if (!withoutErrors)
                 {
-                    await _repo.CreatePersonRelation(relation);
+                    success = false;
+                    //TODO error logging handling
                 }
-            }));
+            }
+
+            return success;
         }
         
         private async Task<IEnumerable<PersonRelation>> GetUpdateRelationsStack(string inviter, string invited, RelationType type)

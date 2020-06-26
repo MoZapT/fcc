@@ -30,7 +30,7 @@ namespace Shared.Interfaces.Managers
         Task<IEnumerable<PersonDocument>> GetAllDocumentsByPersonId(string id);
         Task<IEnumerable<PersonDocument>> GetAllDocumentsByPersonIdAndCategory(string id, string category);
         Task<string> SetPersonDocument(string personId, FileContent entity, string category, string activityId = null);
-        Task<bool> DeletePersonDocument(string personId, string fileId);
+        Task<bool> DeletePersonDocument(string fileId);
         Task<bool> DeleteAllPersonDocuments(string personId);
 
         Task<IEnumerable<string>> GetDocumentCategories(string query);

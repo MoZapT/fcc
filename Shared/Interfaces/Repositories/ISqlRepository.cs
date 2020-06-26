@@ -27,14 +27,14 @@ namespace Shared.Interfaces.Repositories
 
         Task<FileContent> ReadFileContentByPersonId(string id);
         Task<IEnumerable<FileContent>> ReadAllFileContentByPersonId(string id);
-        Task<string> CreatePersonFileContent(string personId, string fileId);
+        Task<string> CreatePersonFileContent(string personId, FileContent entity);
         Task<bool> DeletePersonFileContent(string personId, string fileId);
         Task<bool> DeleteAllPersonFileContent(string personId);
 
         Task<PersonDocument> ReadDocumentByPersonId(string id);
         Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonId(string id);
         Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonIdAndCategory(string id, string category);
-        Task<string> CreatePersonDocument(string personId, string fileId, string category, string activityId = null);
+        Task<string> CreatePersonDocument(FileContent content, string personId, string category, string activityId = null);
         Task<bool> DeletePersonDocument(string personId, string fileId);
         Task<bool> DeleteAllPersonDocument(string personId);
 
@@ -52,7 +52,7 @@ namespace Shared.Interfaces.Repositories
         Task<string> CreatePersonRelation(PersonRelation entity);
         Task<bool> UpdatePersonRelation(PersonRelation entity);
         Task<bool> DeletePersonRelation(string inviter, string invited);
-        Task<bool> DeletePersonRelation(string inviter, string invited, RelationType type);
+        Task<bool> DeletePersonRelation(string inviter, string invited, RelationType type, RelationType ctrType);
         Task<bool> IsMarried(string personId);
         Task<bool> IsInRelationship(string personId);
         Task<IEnumerable<RelationType>> GetPersonsRelationTypes(string personId);
