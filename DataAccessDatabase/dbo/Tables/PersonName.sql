@@ -9,6 +9,6 @@
     [Lastname]        NVARCHAR (255) NULL,
     [Patronym]        NVARCHAR (255) NULL,
     CONSTRAINT [PK_PersonName] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_PersonName_PersonName] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[Person] ([Id])
+    CONSTRAINT [FK_PersonName_PersonName] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[Person] ([Id]) ON DELETE CASCADE
 );
 

@@ -8,4 +8,3 @@
     [Name]          NVARCHAR (250)  NOT NULL,
     CONSTRAINT [PK_FileContent] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
-

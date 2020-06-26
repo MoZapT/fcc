@@ -27,9 +27,9 @@ namespace DataAccessInfrastructure.Repositories
             return await (new SqlConnection(_fccConStr)).QueryFirstOrDefaultAsync<T>(query);
         }
 
-        public async Task<T> QueryFoD<T>(string query, object parameters)
+        public async Task<T> QueryFoD<T>(string query, object parameters, System.Data.CommandType type = System.Data.CommandType.Text)
         {
-            return await (new SqlConnection(_fccConStr)).QueryFirstOrDefaultAsync<T>(query, parameters);
+            return await (new SqlConnection(_fccConStr)).QueryFirstOrDefaultAsync<T>(query, parameters, commandType: type);
         }
 
         public async Task<IEnumerable<T>> Query<T>(string query)
@@ -37,9 +37,9 @@ namespace DataAccessInfrastructure.Repositories
             return await (new SqlConnection(_fccConStr)).QueryAsync<T>(query);
         }
 
-        public async Task<IEnumerable<T>> Query<T>(string query, object parameters)
+        public async Task<IEnumerable<T>> Query<T>(string query, object parameters, System.Data.CommandType type = System.Data.CommandType.Text)
         {
-            return await (new SqlConnection(_fccConStr)).QueryAsync<T>(query, parameters);
+            return await (new SqlConnection(_fccConStr)).QueryAsync<T>(query, parameters, commandType: type);
         }
 
         public async Task<int> Execute(string query, object parameters)
@@ -47,9 +47,9 @@ namespace DataAccessInfrastructure.Repositories
             return await (new SqlConnection(_fccConStr)).ExecuteAsync(query, parameters);
         }
 
-        public async Task<T> ExecuteScalar<T>(string query, object parameters)
+        public async Task<T> ExecuteScalar<T>(string query, object parameters, System.Data.CommandType type = System.Data.CommandType.Text)
         {
-            return await (new SqlConnection(_fccConStr)).ExecuteScalarAsync<T>(query, parameters);
+            return await (new SqlConnection(_fccConStr)).ExecuteScalarAsync<T>(query, parameters, commandType: type);
         }
     }
 }

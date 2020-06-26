@@ -6,6 +6,6 @@
     [DateModified]  DATETIME2 (7)  NOT NULL,
     [IsActive]      BIT            NOT NULL,
     CONSTRAINT [PK_PersonBiography] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_PersonBiography_Person] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[Person] ([Id])
+    CONSTRAINT [FK_PersonBiography_Person] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[Person] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [IX_Person] UNIQUE ([PersonId])
 );
-

@@ -11,6 +11,6 @@
     [DateBegin]    DATETIME2 (7)  NULL,
     [DateEnd]      DATETIME2 (7)  NULL,
     CONSTRAINT [PK_PersonActivity] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_PersonActivity_PersonBiography] FOREIGN KEY ([BiographyId]) REFERENCES [dbo].[PersonBiography] ([Id])
+    CONSTRAINT [FK_PersonActivity_PersonBiography] FOREIGN KEY ([BiographyId]) REFERENCES [dbo].[PersonBiography] ([Id]) ON DELETE CASCADE
 );
 

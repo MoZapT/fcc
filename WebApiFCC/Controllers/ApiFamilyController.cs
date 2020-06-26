@@ -356,9 +356,9 @@ namespace WebApiFCC.Controllers
 
         [HttpGet]
         [Route("person/file/delete/{personId}/{fileId}")]
-        public async Task DeletePersonDocument(string personId, string fileId)
+        public async Task DeletePersonDocument(string fileId)
         {
-            await _mgrFcc.DeletePersonDocument(personId, fileId);
+            await _mgrFcc.DeletePersonDocument(fileId);
         }
 
         [HttpGet]

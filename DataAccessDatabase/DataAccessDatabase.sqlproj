@@ -120,6 +120,7 @@
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
     <Folder Include="Security\" />
+    <Folder Include="dbo\Functions\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\__MigrationHistory.sql">
@@ -179,5 +180,11 @@
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
     <Build Include="Security\Permissions.sql" />
+    <Build Include="dbo\Functions\ReadPerson.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Functions\ReadPersonRelation.sql" />
+    <Build Include="dbo\Functions\ReadFileContent.sql" />
   </ItemGroup>
 </Project>

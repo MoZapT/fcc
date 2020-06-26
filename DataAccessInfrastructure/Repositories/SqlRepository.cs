@@ -17,23 +17,7 @@ namespace DataAccessInfrastructure.Repositories
 
         public async Task<Person> ReadPerson(string id)
         {
-            var query = @"
-                SELECT TOP 1 
-	                per.*
-	                ,IsMarried = (SELECT COUNT(Id)
-                                 FROM [PersonRelation]
-                                 WHERE 
-                                     InviterId = @Id
-                                 AND RelationType = @MarriedType)
-	                ,IsInPartnership = (SELECT COUNT(Id)
-					                   FROM [PersonRelation]
-					                   WHERE 
-						                   InviterId = @Id
-					                   AND RelationType = @InRelationType)
-                FROM [Person] AS per
-                WHERE 
-	                Id = @Id
-	                AND IsActive = 1";
+            var query = @"SELECT * FROM [dbo].[ReadPerson](@Id, @MarriedType, @InRelationType, default)";
 
             return await QueryFoD<Person>(query, new 
             { 
@@ -44,22 +28,7 @@ namespace DataAccessInfrastructure.Repositories
         }
         public async Task<IEnumerable<Person>> ReadAllPerson()
         {
-            var query = @"
-                SELECT
-	                per.*
-	                ,IsMarried = (SELECT COUNT(Id)
-                                 FROM [PersonRelation]
-                                 WHERE 
-                                     InviterId = @Id
-                                 AND RelationType = @MarriedType)
-	                ,IsInPartnership = (SELECT COUNT(Id)
-					                   FROM [PersonRelation]
-					                   WHERE 
-						                   InviterId = @Id
-					                   AND RelationType = @InRelationType)
-                FROM [Person] AS per
-                WHERE 
-	                IsActive = 1";
+            var query = @"SELECT * FROM [dbo].[ReadPerson](default, @MarriedType, @InRelationType, default)";
 
             return await Query<Person>(query, new
             {
@@ -71,16 +40,17 @@ namespace DataAccessInfrastructure.Repositories
         {
             var query = @"
                 SELECT per.*
-                FROM [PersonRelation] AS rel
-                JOIN [Person] AS per
-	                ON per.Id = rel.InvitedId
-                WHERE 
-	                rel.InviterId = @Id
-                    AND rel.RelationType = @RelationType
-	                AND rel.IsActive = 1
-	                AND per.IsActive = 1";
+                FROM (SELECT * FROM [dbo].[ReadPersonRelation](@Id, default, @RelationType)) AS rel
+                JOIN (SELECT * FROM [dbo].[ReadPerson](default, @MarriedType, @InRelationType, default)) AS per
+	                ON per.Id = rel.InvitedId";
 
-            return await Query<Person>(query, new { @Id = personId, @RelationType = type});
+            return await Query<Person>(query, 
+                new { 
+                    @Id = personId, 
+                    @RelationType = type,
+                    @MarriedType = RelationType.HusbandWife,
+                    @InRelationType = RelationType.LivePartner
+                });
         }
         public async Task<string> CreatePerson(Person entity)
         {
@@ -170,36 +140,8 @@ namespace DataAccessInfrastructure.Repositories
         public async Task<bool> DeletePerson(string id)
         {
             var query = @"
-            DECLARE @biographies table (Id nvarchar(128))
-            DECLARE @files table (Id nvarchar(128))
-
-            BEGIN TRAN
-            DELETE FROM [PersonName]
-            WHERE PersonId = @Id
-
-            DELETE FROM [PersonRelation]
-            WHERE 
-                InviterId = @Id 
-                OR InvitedId = @Id 
-
-            DELETE FROM [PersonBiography]
-            OUTPUT deleted.Id INTO @biographies
-            WHERE PersonId = @Id
-
-            DELETE FROM [PersonActivity]
-            WHERE BiographyId IN (SELECT * FROM @biographies)
-
-            DELETE FROM [PersonFileContent]
-            OUTPUT deleted.FileContentId INTO @files
-            WHERE PersonId = @Id
-
-            DELETE FROM [FileContent]
-            WHERE Id IN (SELECT * FROM @files)
-
-            DELETE FROM [Person]
-            WHERE Id = @Id
-
-            COMMIT TRAN";
+                DELETE FROM [Person]
+                WHERE Id = @Id";
 
             return await Execute(query, new { @Id = id }) > 0;
         }
@@ -209,7 +151,7 @@ namespace DataAccessInfrastructure.Repositories
                 SELECT
 	                Id AS 'Key'
 	                ,FirstName + ' ' + LastName + ' ' + Patronym AS 'Value'
-                FROM [Person]";
+                FROM (SELECT * FROM [dbo].[ReadPerson](default, default, default, default))";
 
             return await Query<KeyValuePair<string, string>>(query);
         }
@@ -219,9 +161,7 @@ namespace DataAccessInfrastructure.Repositories
                 SELECT
 	                Id AS 'Key'
 	                ,FirstName + ' ' + LastName + ' ' + Patronym AS 'Value'
-                FROM [Person]
-                WHERE NOT Id = @ExcludeId
-	                AND (Firstname LIKE '%'+@Search+'%' OR LastName LIKE '%'+@Search+'%' OR Patronym LIKE '%'+@Search+'%')";
+                FROM (SELECT * FROM [dbo].[ReadPerson](@ExcludeId, default, default, @Search))";
 
             return await Query<KeyValuePair<string, string>>(query, new { @ExcludeId = excludePersonId, @Search = search });
         }
@@ -230,20 +170,15 @@ namespace DataAccessInfrastructure.Repositories
             var query = @"
                 DECLARE @list table(Id nvarchar(128))
                 INSERT INTO @list
-                SELECT InvitedId
-                FROM [PersonRelation]
-                WHERE InviterId = @ExcludeId
+                SELECT InvitedId [dbo].[ReadPersonRelation](@ExcludeId, default, default)
 
                 SELECT
-                Id AS 'Key'
-                ,ISNULL(FirstName, '') + ' ' + ISNULL(LastName, '') + ' ' + ISNULL(Patronym, '') AS 'Value'
-                FROM [Person]
+                    Id AS 'Key'
+                    ,ISNULL(FirstName, '') + ' ' + ISNULL(LastName, '') + ' ' + ISNULL(Patronym, '') AS 'Value'
+                FROM (SELECT * FROM [dbo].[ReadPerson](default, default, default, @Search))
                 WHERE 
                     NOT Id = @ExcludeId
-                    AND NOT Id IN(SELECT * FROM @list)
-                    AND (Firstname LIKE '%'+@Search+'%' 
-                    OR LastName LIKE '%'+@Search+'%'
-                    OR Patronym LIKE '%'+@Search+'%')";
+                    AND NOT Id IN(SELECT * FROM @list)";
 
             return await Query<KeyValuePair<string, string>>(query, new { @ExcludeId = excludePersonId, @Search = search });
         }
@@ -252,13 +187,11 @@ namespace DataAccessInfrastructure.Repositories
             var query = @"
                 DECLARE @list table(Id nvarchar(128))
                 INSERT INTO @list
-                SELECT InvitedId
-                FROM [PersonRelation]
-                WHERE InviterId = @ExcludeId
+                SELECT InvitedId [dbo].[ReadPersonRelation](@ExcludeId, default, default)
 
                 SELECT
 	                COUNT(Id)
-                FROM [Person]
+                FROM (SELECT * FROM [dbo].[ReadPerson](default, default, default, default))
                 WHERE 
                     NOT Id = @ExcludeId
                     AND NOT Id IN(SELECT * FROM @list)";
@@ -270,11 +203,9 @@ namespace DataAccessInfrastructure.Repositories
         {
             var query = @"
                 SELECT fc.*
-                FROM [FileContent] AS fc
-                JOIN [Person] AS p
-	                ON fc.Id = p.FileContentId
-                WHERE 
-	                p.Id = @Id";
+                FROM (SELECT * FROM [dbo].[ReadFileContent]()) AS fc
+                JOIN [dbo].[ReadPerson](@Id, default, default, default) AS p
+	                ON fc.Id = p.FileContentId";
 
             return await QueryFoD<FileContent>(query, new { @Id = id });
         }
@@ -282,7 +213,7 @@ namespace DataAccessInfrastructure.Repositories
         {
             var query = @"
                 SELECT fc.*
-                FROM [FileContent] AS fc
+                FROM (SELECT * FROM [dbo].[ReadFileContent]()) AS fc
                 JOIN [PersonFileContent] AS pfc
 	                ON fc.Id = pfc.FileContentId
                 WHERE 
@@ -353,10 +284,8 @@ namespace DataAccessInfrastructure.Repositories
             var query = @"
                 SELECT fc.*
                 FROM [PersonDocument] AS fc
-                JOIN [Person] AS p
-	                ON fc.Id = p.FileContentId
                 WHERE 
-	                p.Id = @Id";
+	                fc.PersonId = @Id";
 
             return await QueryFoD<PersonDocument>(query, new { @Id = id });
         }
@@ -364,7 +293,7 @@ namespace DataAccessInfrastructure.Repositories
         {
             var query = @"
                 SELECT fc.*, pfc.CategoryName
-                FROM [FileContent] AS fc
+                FROM (SELECT * FROM [dbo].[ReadFileContent]()) AS fc
                 JOIN [PersonDocument] AS pfc
 	                ON fc.Id = pfc.FileContentId
                 WHERE 
@@ -376,7 +305,7 @@ namespace DataAccessInfrastructure.Repositories
         {
             var query = @"
                 SELECT fc.*
-                FROM [FileContent] AS fc
+                FROM (SELECT * FROM [dbo].[ReadFileContent]()) AS fc
                 JOIN [PersonDocument] AS pfc
 	                ON fc.Id = pfc.FileContentId
                 WHERE 
@@ -463,9 +392,7 @@ namespace DataAccessInfrastructure.Repositories
         {
             var query = @"
                 SELECT Firstname + ' ' + Lastname + ' ' + Patronym AS 'Name'
-                FROM [Person]
-                WHERE 
-	                Id = @PersonId";
+                FROM (SELECT * FROM [dbo].[ReadPerson](@Id, default, default, default))";
 
             return await QueryFoD<string>(query, new { @PersonId = personId });
         }
@@ -474,7 +401,7 @@ namespace DataAccessInfrastructure.Repositories
             var query = @"
                 SELECT TOP 1 *
                 FROM [PersonName]
-                WHERE PersonId = @Id
+                WHERE PersonId = @Id AND IsActive = 1
                 ORDER BY
 	                DateCreated DESC";
 
