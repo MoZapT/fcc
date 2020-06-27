@@ -54,88 +54,11 @@ namespace DataAccessInfrastructure.Repositories
         }
         public async Task<string> CreatePerson(Person entity)
         {
-            var query = @"
-				INSERT INTO [Person]
-                           ([Id]
-                           ,[Sex]
-                           ,[BirthDate]
-                           ,[DeathDate]
-                           ,[IsActive]
-                           ,[DateCreated]
-                           ,[DateModified]
-                           ,[Firstname]
-                           ,[Lastname]
-                           ,[Patronym])
-	                 OUTPUT INSERTED.Id
-                     VALUES
-                           (@Id
-                           ,@Sex
-                           ,@BirthDate
-                           ,@DeathDate
-                           ,@IsActive
-                           ,@DateCreated
-                           ,@DateModified
-                           ,@Firstname
-                           ,@Lastname
-                           ,@Patronym)";
-
-            return await QueryFoD<string>(query, new DynamicParameters(entity));
+            return await QueryFoD<string>("Insert_Person", new DynamicParameters(entity), System.Data.CommandType.StoredProcedure);
         }
         public async Task<bool> UpdatePerson(Person entity)
         {
-            var query = @"
-                DECLARE @NameChanged bit = 
-                (SELECT
-                CASE WHEN NOT ([Firstname] = @Firstname 
-	                AND [Lastname] = @Lastname 
-	                AND [Patronym] = @Patronym) THEN 1
-                ELSE 0 END AS NameChanged
-                FROM [Person]
-                WHERE Id = @Id)
-
-                BEGIN TRAN
-
-                IF @NameChanged = 1
-                BEGIN
-                INSERT INTO [PersonName]
-                        ([Id]
-                        ,[PersonId]
-                        ,[DateNameChanged]
-                        ,[DateCreated]
-                        ,[DateModified]
-                        ,[IsActive]
-                        ,[Firstname]
-                        ,[Lastname]
-                        ,[Patronym])
-		                OUTPUT INSERTED.Id
-                    VALUES
-                        (NEWID()
-                        ,@Id
-                        ,GETDATE()
-                        ,GETDATE()
-                        ,GETDATE()
-                        ,1
-                        ,(SELECT Firstname FROM [Person] WHERE Id = @Id)
-                        ,(SELECT Lastname FROM [Person] WHERE Id = @Id)
-                        ,(SELECT Patronym FROM [Person] WHERE Id = @Id))
-                END
-
-                UPDATE [Person]
-                    SET [Sex] = @Sex
-                        ,[BirthDate] = @BirthDate
-                        ,[DeathDate] = @DeathDate
-                        ,[IsActive] = @IsActive
-                        ,[DateCreated] = @DateCreated
-                        ,[DateModified] = @DateModified
-                        ,[Firstname] = @Firstname
-                        ,[Lastname] = @Lastname
-                        ,[Patronym] = @Patronym
-                        ,[FileContentId] = @FileContentId
-                    WHERE Id = @Id
-
-                COMMIT TRAN";
-
-            return await Execute(query, new DynamicParameters(entity)) > 0;
+            return await Execute("Update_Person", new DynamicParameters(entity), System.Data.CommandType.StoredProcedure) > 0;
         }
         public async Task<bool> DeletePerson(string id)
         {
@@ -204,7 +127,7 @@ namespace DataAccessInfrastructure.Repositories
             var query = @"
                 SELECT fc.*
                 FROM (SELECT * FROM [dbo].[ReadFileContent]()) AS fc
-                JOIN [dbo].[ReadPerson](@Id, default, default, default) AS p
+                JOIN (SELECT * [dbo].[ReadPerson](@Id, default, default, default)) AS p
 	                ON fc.Id = p.FileContentId";
 
             return await QueryFoD<FileContent>(query, new { @Id = id });
@@ -223,52 +146,9 @@ namespace DataAccessInfrastructure.Repositories
         }
         public async Task<string> CreatePersonFileContent(string personId, FileContent entity)
         {
-            var query = @"
-                SET @Id = NEWID()
-
-                INSERT INTO [FileContent]
-                    ([Id]
-                    ,[DateCreated]
-                    ,[DateModified]
-                    ,[IsActive]
-                    ,[BinaryContent]
-                    ,[FileType]
-                    ,[Name])
-                VALUES
-                    (@Id
-                    ,@DateCreated
-                    ,@DateModified
-                    ,@IsActive
-                    ,@BinaryContent
-                    ,@FileType
-                    ,@Name)
-
-                INSERT INTO [dbo].[PersonFileContent]
-                    ([Id]
-                    ,[PersonId]
-                    ,[FileContentId])
-                OUTPUT INSERTED.Id
-                VALUES
-                    (NEWID()
-                    ,@PersonId
-                    ,@Id)";
-
             var parameters = new DynamicParameters(entity);
             parameters.Add("@PersonId", personId);
-            return await QueryFoD<string>(query, parameters);
-        }
-        public async Task<bool> DeletePersonFileContent(string personId, string fileId)
-        {
-            var query = @"
-                DELETE FROM [PersonFileContent]
-                WHERE 
-	                PersonId = @Id 
-	                AND FileContentId = @FileContentId
-
-                DELETE FROM [FileContent]
-                WHERE Id = @FileContentId";
-
-            return await Execute(query, new { @Id = personId, @FileContentId = fileId }) > 0;
+            return await QueryFoD<string>("Insert_PersonFileContent", parameters, System.Data.CommandType.StoredProcedure);
         }
         public async Task<bool> DeleteAllPersonFileContent(string personId)
         {
@@ -316,44 +196,11 @@ namespace DataAccessInfrastructure.Repositories
         }       
         public async Task<string> CreatePersonDocument(FileContent content, string personId, string category, string activityId = null)
         {
-            var query = @"
-                DECLARE @FileContentId nvarchar(128) = NEWID()
-                INSERT INTO [dbo].[FileContent]
-                           ([Id]
-                           ,[DateCreated]
-                           ,[DateModified]
-                           ,[IsActive]
-                           ,[BinaryContent]
-                           ,[FileType]
-                           ,[Name])
-                     VALUES
-                           (@FileContentId
-                           ,@DateCreated
-                           ,@DateModified
-                           ,@IsActive
-                           ,@BinaryContent
-                           ,@FileType
-                           ,@Name)
-
-                INSERT INTO [dbo].[PersonDocument]
-                    ([Id]
-                    ,[PersonId]
-                    ,[FileContentId]
-	                ,[CategoryName]
-	                ,[PersonActivityId])
-                OUTPUT INSERTED.Id
-                VALUES
-                    (NEWID()
-                    ,@PersonId
-                    ,@FileContentId
-	                ,@Category
-	                ,@ActivityId)";
-
             var parameters = new DynamicParameters(content);
             parameters.Add("@PersonId", personId);
             parameters.Add("@Category", category);
             parameters.Add("@ActivityId", activityId);
-            return await QueryFoD<string>(query, parameters);
+            return await QueryFoD<string>("Insert_PersonDocument", parameters, System.Data.CommandType.StoredProcedure);
         }
         public async Task<bool> DeletePersonDocument(string personId, string fileId)
         {
@@ -392,7 +239,7 @@ namespace DataAccessInfrastructure.Repositories
         {
             var query = @"
                 SELECT Firstname + ' ' + Lastname + ' ' + Patronym AS 'Name'
-                FROM (SELECT * FROM [dbo].[ReadPerson](@Id, default, default, default))";
+                FROM (SELECT * FROM [dbo].[ReadPerson](@PersonId, default, default, default))";
 
             return await QueryFoD<string>(query, new { @PersonId = personId });
         }
@@ -481,10 +328,14 @@ namespace DataAccessInfrastructure.Repositories
                     WHERE 
                         InviterId = @InviterId
                     AND InvitedId = @InvitedId
-                    AND RelationType = @RelationType";
+                    AND RelationType = @RelationType
+                    AND IsActive = 1";
 
-            return await QueryFoD<PersonRelation>(query, 
-                new { @InviterId = inviter, @InvitedId = invited, @RelationType = type });
+            var parameters = new DynamicParameters();
+            parameters.Add("@InviterId", inviter);
+            parameters.Add("@InvitedId", invited);
+            parameters.Add("@RelationType", type);
+            return await QueryFoD<PersonRelation>(query, parameters);
         }
         public async Task<IEnumerable<PersonRelation>> ReadAllPersonRelationBetweenInviterAndInvited(string inviter, string invited)
         {
@@ -493,10 +344,13 @@ namespace DataAccessInfrastructure.Repositories
                     FROM [PersonRelation]
                     WHERE 
                         InviterId = @InviterId
-                    AND InvitedId = @InvitedId";
+                    AND InvitedId = @InvitedId
+                    AND IsActive = 1";
 
-            return await Query<PersonRelation>(query,
-                new { @InviterId = inviter, @InvitedId = invited });
+            var parameters = new DynamicParameters();
+            parameters.Add("@InviterId", inviter);
+            parameters.Add("@InvitedId", invited);
+            return await Query<PersonRelation>(query, parameters);
         }
         public async Task<IEnumerable<PersonRelation>> ReadAllPersonRelationsByInviterId(string id)
         {
@@ -504,150 +358,37 @@ namespace DataAccessInfrastructure.Repositories
                     SELECT *
                     FROM [PersonRelation]
                     WHERE 
-                        InviterId = @PersonId";
+                        InviterId = @PersonId
+                        AND IsActive = 1";
 
             return await Query<PersonRelation>(query, new { @PersonId = id });
         }
 
         public async Task<IEnumerable<KeyValuePair<string, string>>> GetPersonsThatHaveRelativesWithPossibleRelations()
         {
-            string query = @"
-                DECLARE @PersonId nvarchar(36)
-                DECLARE @table table (Id nvarchar(36))
-                DECLARE @result table (Id nvarchar(36))
-
-                DECLARE db_cursor CURSOR FOR 
-                SELECT InviterId
-                FROM [PersonRelation]
-                GROUP BY InviterId
-
-                OPEN db_cursor
-                FETCH NEXT FROM db_cursor
-                INTO @PersonId
-
-                WHILE @@FETCH_STATUS = 0   
-                BEGIN
-	                DELETE FROM @table
-
-	                INSERT INTO @table
-	                SELECT InvitedId
-	                FROM [PersonRelation]
-	                WHERE InviterId = @PersonId
-
-	                INSERT INTO @result
-	                SELECT 
-		                @PersonId
-	                FROM [PersonRelation] AS pr
-	                JOIN [Person] AS pe
-		                ON pr.InviterId = pe.Id
-	                WHERE 
-		                pr.InviterId IN (SELECT * FROM @table)
-		                AND NOT pr.InvitedId = @PersonId
-		                AND NOT pr.InvitedId IN (SELECT * FROM @table)
-
-	                FETCH NEXT FROM db_cursor
-	                INTO @PersonId
-                END
-
-                CLOSE db_cursor
-                DEALLOCATE db_cursor
-
-                SELECT 
-	                re.Id AS 'Key'
-	                ,ISNULL(pe.Firstname, '') + ' ' + ISNULL(pe.Lastname, '') + ' ' + ISNULL(pe.Patronym, '') AS 'Value'
-                FROM @result AS re
-                JOIN [Person] AS pe
-	                ON re.Id = pe.Id
-                GROUP BY 
-	                re.Id
-	                ,pe.Firstname
-	                ,pe.Lastname
-	                ,pe.Patronym";
-
-            return await Query<KeyValuePair<string, string>>(query);
+            return await Query<KeyValuePair<string, string>>("SELECT * FROM [dbo].[GetPersonsThatHaveRelativesWithPossibleRelations]()");
         }
 
         public async Task<IEnumerable<PersonRelation>> ReadAllPersonRelationsThatArePossible(string personId, string inviterId)
         {
-            string query = @"
-                DECLARE @table table (Id nvarchar(36))
-
-                INSERT INTO @table
-                SELECT InvitedId
-                FROM [PersonRelation]
-                WHERE 
-	                InviterId = @PersonId
-	                AND NOT InvitedId = @InviterId
-
-                SELECT *
-                FROM [PersonRelation]
-                WHERE 
-	                InviterId = @InviterId
-	                AND NOT InvitedId IN (SELECT * FROM @table)
-                    AND NOT InvitedId = @PersonId";
-
-            return await Query<PersonRelation>(query, new { @PersonId = personId, @InviterId = inviterId });
+            var parameters = new DynamicParameters();
+            parameters.Add("@PersonId", personId);
+            parameters.Add("@InviterId", inviterId);
+            return await Query<PersonRelation>("SELECT * FROM [dbo].[ReadAllPersonRelationsThatArePossible](@PersonId, @InviterId)", parameters);
         }
 
         public async Task<bool> CheckIfSameRelationsAvaible(string personId)
         {
-            string query = @"
-                DECLARE @table table (Id nvarchar(36))
-                DECLARE @result table (Id nvarchar(36))
-
-                INSERT INTO @table
-                SELECT InvitedId
-                FROM [PersonRelation]
-                WHERE InviterId = @PersonId
-
-                INSERT INTO @result
-                SELECT 
-	                @PersonId
-                FROM [PersonRelation] AS pr
-                JOIN [Person] AS pe
-	                ON pr.InviterId = pe.Id
-                WHERE 
-	                pr.InviterId IN (SELECT * FROM @table)
-	                AND NOT pr.InvitedId = @PersonId
-	                AND NOT pr.InvitedId IN (SELECT * FROM @table)
-
-                SELECT 
-	                CASE 
-		                WHEN COUNT(Id) > 0 THEN 1
-		                ELSE 0
-	                END AS Avaible
-                FROM @result";
-
-            return await QueryFoD<bool>(query, new { @PersonId = personId });
+            var parameters = new DynamicParameters();
+            parameters.Add("@PersonId", personId);
+            return await QueryFoD<bool>("[dbo].[CheckIfSameRelationsAvaible](@PersonId)", parameters);
         }
 
         public async Task<IEnumerable<KeyValuePair<string, string>>> GetPersonsKvpWithPossibleRelations(string personId)
         {
-            string query = @"
-                DECLARE @table table (Id nvarchar(128))
-
-                INSERT INTO @table
-                SELECT InvitedId
-                FROM [PersonRelation]
-                WHERE InviterId = @PersonId
-
-                SELECT 
-	                pr.InviterId AS 'Key'
-	                ,ISNULL(pe.Firstname, '') + ' ' + ISNULL(pe.Lastname, '') + ' ' + ISNULL(pe.Patronym, '') AS 'Value'
-                FROM [PersonRelation] AS pr
-                JOIN [Person] AS pe
-	                ON pr.InviterId = pe.Id
-                WHERE 
-	                pr.InviterId IN (SELECT * FROM @table)
-	                AND NOT pr.InvitedId = @PersonId
-	                AND NOT pr.InvitedId IN (SELECT * FROM @table)
-                GROUP BY
-	                pr.InviterId
-	                ,pe.Firstname
-	                ,pe.Lastname
-	                ,pe.Patronym";
-
-            return await Query<KeyValuePair<string, string>>(query, new { @PersonId = personId });
+            var parameters = new DynamicParameters();
+            parameters.Add("@PersonId", personId);
+            return await Query<KeyValuePair<string, string>>("SELECT * FROM [dbo].[GetPersonsKvpWithPossibleRelations](@PersonId)", parameters);
         }
 
         public async Task<string> CreatePersonRelation(PersonRelation entity)
@@ -725,6 +466,7 @@ namespace DataAccessInfrastructure.Repositories
                    FROM [PersonRelation]
                    WHERE 
                        InviterId = @PersonId
+                   AND IsActive = 1
                    AND RelationType = @RelationType";
 
             return await QueryFoD<int>(query, new { @PersonId = personId, @RelationType = RelationType.HusbandWife })
@@ -738,6 +480,7 @@ namespace DataAccessInfrastructure.Repositories
                    FROM [PersonRelation]
                    WHERE 
                        InviterId = @PersonId
+                   AND IsActive = 1
                    AND RelationType = @RelationType";
 
             return await QueryFoD<int>(query, new { @PersonId = personId, @RelationType = RelationType.LivePartner })
@@ -775,7 +518,8 @@ namespace DataAccessInfrastructure.Repositories
                     SELECT *
                     FROM [PersonBiography]
                     WHERE 
-                        PersonId = @PersonId";
+                        PersonId = @PersonId
+                        AND IsActive = 1";
 
             return await QueryFoD<PersonBiography>(query, new { @PersonId = personId});
         }
@@ -786,7 +530,8 @@ namespace DataAccessInfrastructure.Repositories
                     SELECT *
                     FROM [PersonBiography]
                     WHERE 
-                        Id = @Id";
+                        Id = @Id
+                        AND IsActive = 1";
 
             return await QueryFoD<PersonBiography>(query, new { @Id = biographyId });
         }
@@ -836,7 +581,8 @@ namespace DataAccessInfrastructure.Repositories
             var query = @"
                 SELECT *
                 FROM [PersonActivity]
-                WHERE [Id] = @Id";
+                WHERE [Id] = @Id
+                AND IsActive = 1";
 
             return await QueryFoD<PersonActivity>(query, new { @Id = id });
         }
@@ -848,7 +594,9 @@ namespace DataAccessInfrastructure.Repositories
                 FROM [PersonActivity] AS pa
                 JOIN [PersonBiography] AS pb
 	                ON pa.BiographyId = pb.Id 
-	                AND pb.PersonId = @Id";
+	                AND pb.PersonId = @Id
+                    AND pa.IsActive = 1
+                    AND pb.IsActive = 1";
 
             return await Query<PersonActivity>(query, new { @Id = id });
         }
@@ -861,7 +609,9 @@ namespace DataAccessInfrastructure.Repositories
                 JOIN [PersonBiography] AS pb
 	                ON pa.BiographyId = pb.Id 
 	                AND pb.PersonId = @Id
-	                AND pa.ActivityType = @Type";
+	                AND pa.ActivityType = @Type
+                    AND pb.IsActive = 1
+                    AND pa.IsActive = 1";
 
             return await Query<PersonActivity>(query, new { @Id = id, @Type = type });
         }
@@ -945,7 +695,8 @@ namespace DataAccessInfrastructure.Repositories
                 SELECT *
                 FROM [FileContent]
                 WHERE 
-                    Id = @Id";
+                    Id = @Id
+                    AND IsActive = 1";
 
             return await QueryFoD<FileContent>(query, new { @Id = id });
         }

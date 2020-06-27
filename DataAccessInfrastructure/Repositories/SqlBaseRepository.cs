@@ -42,9 +42,9 @@ namespace DataAccessInfrastructure.Repositories
             return await (new SqlConnection(_fccConStr)).QueryAsync<T>(query, parameters, commandType: type);
         }
 
-        public async Task<int> Execute(string query, object parameters)
+        public async Task<int> Execute(string query, object parameters, System.Data.CommandType type = System.Data.CommandType.Text)
         {
-            return await (new SqlConnection(_fccConStr)).ExecuteAsync(query, parameters);
+            return await (new SqlConnection(_fccConStr)).ExecuteAsync(query, parameters, commandType: type);
         }
 
         public async Task<T> ExecuteScalar<T>(string query, object parameters, System.Data.CommandType type = System.Data.CommandType.Text)

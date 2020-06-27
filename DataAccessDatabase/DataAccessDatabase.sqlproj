@@ -121,6 +121,7 @@
     <Folder Include="dbo\Tables\" />
     <Folder Include="Security\" />
     <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\__MigrationHistory.sql">
@@ -186,5 +187,16 @@
     </Build>
     <Build Include="dbo\Functions\ReadPersonRelation.sql" />
     <Build Include="dbo\Functions\ReadFileContent.sql" />
+    <Build Include="dbo\Stored Procedures\Insert_Person.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
+    <Build Include="dbo\Stored Procedures\Update_Person.sql" />
+    <Build Include="dbo\Stored Procedures\Insert_PersonFileContent.sql" />
+    <Build Include="dbo\Stored Procedures\Insert_PersonDocument.sql" />
+    <Build Include="dbo\Functions\GetPersonsThatHaveRelativesWithPossibleRelations.sql" />
+    <Build Include="dbo\Functions\ReadAllPersonRelationsThatArePossible.sql" />
+    <Build Include="dbo\Functions\CheckIfSameRelationsAvaible.sql" />
+    <Build Include="dbo\Functions\GetPersonsKvpWithPossibleRelations.sql" />
   </ItemGroup>
 </Project>

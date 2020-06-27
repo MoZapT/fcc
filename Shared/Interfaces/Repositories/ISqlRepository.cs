@@ -28,7 +28,6 @@ namespace Shared.Interfaces.Repositories
         Task<FileContent> ReadFileContentByPersonId(string id);
         Task<IEnumerable<FileContent>> ReadAllFileContentByPersonId(string id);
         Task<string> CreatePersonFileContent(string personId, FileContent entity);
-        Task<bool> DeletePersonFileContent(string personId, string fileId);
         Task<bool> DeleteAllPersonFileContent(string personId);
 
         Task<PersonDocument> ReadDocumentByPersonId(string id);
