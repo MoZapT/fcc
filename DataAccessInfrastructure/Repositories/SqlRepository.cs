@@ -127,7 +127,7 @@ namespace DataAccessInfrastructure.Repositories
             var query = @"
                 SELECT fc.*
                 FROM (SELECT * FROM [dbo].[ReadFileContent]()) AS fc
-                JOIN (SELECT * [dbo].[ReadPerson](@Id, default, default, default)) AS p
+                JOIN (SELECT * FROM [dbo].[ReadPerson](@Id, default, default, default)) AS p
 	                ON fc.Id = p.FileContentId";
 
             return await QueryFoD<FileContent>(query, new { @Id = id });

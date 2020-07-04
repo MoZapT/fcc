@@ -1,11 +1,11 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Security;
-using DataAccessInfrastructure.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Shared.Interfaces.Repositories;
 
 namespace FamilyControlCenter.Models
 {
@@ -36,11 +36,11 @@ namespace FamilyControlCenter.Models
 
     public class FccRoleProvider : RoleProvider
     {
-        private readonly IUserRepository _repo;
+        private readonly ApplicationDbContext _context;
 
         public FccRoleProvider()
         {
-            _repo = new UserRepository();
+            _context = new ApplicationDbContext();
         }
 
         public override string ApplicationName
@@ -51,52 +51,61 @@ namespace FamilyControlCenter.Models
 
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
-            _repo.AddUsersToRoles(usernames, roleNames);
+            throw new NotImplementedException();
         }
 
         public override void CreateRole(string roleName)
         {
-            _repo.CreateRole(roleName);
+            throw new NotImplementedException();
         }
 
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
-            return _repo.DeleteRole(roleName, throwOnPopulatedRole).Result;
+            throw new NotImplementedException();
         }
 
         public override string[] FindUsersInRole(string roleName, string usernameToMatch)
         {
-            return _repo.FindUsersInRole(roleName, usernameToMatch).Result;
+            return _context.Users
+                .Where(u => u.Roles.FirstOrDefault(r => r.RoleId == roleName) != null)
+                .Select(u => u.UserName)
+                .ToArray();
         }
 
         public override string[] GetAllRoles()
         {
-            return _repo.GetAllRoles().Result;
+            return _context.Roles.Select(r => r.Name).ToArray();
         }
 
         public override string[] GetRolesForUser(string username)
         {
-            return _repo.GetRolesForUser(username).Result;
+            var user = _context.Users.SingleOrDefault(u => u.UserName == username);
+            var userRoles = _context.Roles.Select(r => r.Name);
+
+            if (user == null)
+                return new string[] { };
+            return user.Roles == null ? new string[] { } :
+                userRoles.ToArray();
         }
 
         public override string[] GetUsersInRole(string roleName)
         {
-            return _repo.GetUsersInRole(roleName).Result;
+            throw new NotImplementedException();
         }
 
         public override bool IsUserInRole(string username, string roleName)
         {
-            return _repo.IsUserInRole(username, roleName).Result;
+            return _context.Users.FirstOrDefault(u => u.Roles.FirstOrDefault(r => r.RoleId == roleName) != null) != null;
         }
 
         public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
         {
-            _repo.RemoveUsersFromRoles(usernames, roleNames);
+            throw new NotImplementedException();
         }
 
         public override bool RoleExists(string roleName)
         {
-            return _repo.RoleExists(roleName).Result;
+            return _context.Roles.FirstOrDefault(r => r.Name == roleName) != null;
         }
     }
 }

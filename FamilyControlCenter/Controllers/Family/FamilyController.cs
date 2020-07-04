@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FamilyControlCenter.Controllers
 {
-    //[Authorize(Roles = "User")]
+    [Authorize(Roles = "User")]
     [RoutePrefix("{lang}/family")]
     [Localization]
     public class FamilyController : BaseController
