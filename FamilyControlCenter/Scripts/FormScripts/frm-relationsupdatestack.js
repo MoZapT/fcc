@@ -3,6 +3,8 @@
 (function () {
     function initializeComponent() {
         $('button[index]').on('click', function (e) { saveRelation(e.currentTarget); });
+        loadPersonsWithRelations();
+        loadRelations();
 
         $('select#PersonId').on('change', function (e) {
             loadPersonsWithRelations();
@@ -81,7 +83,7 @@
 
     function saveRelation(btn) {
         var type = $('#Type_' + $(btn).attr('index')).val();
-        var inviter = $('#PersonId').val();
+        var inviter = $('select#PersonId option:selected').val();
         var invited = $(btn).attr('invited');
 
         $.ajax({

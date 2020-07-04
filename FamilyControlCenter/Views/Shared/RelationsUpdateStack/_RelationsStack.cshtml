@@ -1,8 +1,8 @@
-﻿@model List<PersonRelation>
+﻿@model IEnumerable<PersonRelation>
 
-@for (int i = 0; i < Model.Count; i++)
+@for (int i = 0; i < Model.Count(); i++)
 {
-    var sl = FccRelationTypeHelper.GetFamilySiblingsSelectGroup(Model[i].Invited.Sex)
+    var sl = FccRelationTypeHelper.GetFamilySiblingsSelectGroup(Model.ElementAt(i).Invited.Sex)
         .Select(e =>
         {
             var type = (RelationType)Enum.Parse(typeof(RelationType), e.Value);
@@ -16,13 +16,13 @@
 
     <div class="row">
         <div class="col-md-6">
-            @Html.TextBox("Name_"+i, Model[i].Invited.Name, new { @class = "form-control", @readonly = "readonly" })
+            @Html.TextBox("Name_"+i, Model.ElementAt(i).Invited.Name, new { @class = "form-control", @readonly = "readonly" })
         </div>
         <div class="col-md-4">
             @Html.DropDownList("Type_"+i, sl, new { @class = "form-control" })
         </div>
         <div class="col-md-2 d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-primary" index="@i" invited="@Model[i].Invited.Id">
+            <button type="button" class="btn btn-primary" index="@i" invited="@Model.ElementAt(i).Invited.Id">
                 <span class="fas fa-save"></span>
                 @Resource.Save
             </button>

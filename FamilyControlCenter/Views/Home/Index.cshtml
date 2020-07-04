@@ -9,19 +9,22 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>
-            <span class="fas fa-id-card"></span>
-            @Resource.PassportView
-        </h2>
-        <p>
-            @Resource.PassportViewDescription
-        </p>
-        <p>
-            <a class="btn btn-light" href="@Url.Action("Person", "Family")">
-                @Resource.Goto @*&raquo;*@
-                <span class="fas fa-angle-double-right"></span>
-            </a>
-        </p>
-    </div>
+    @if (User.IsInRole("User"))
+    {
+        <div class="col-md-4">
+            <h2>
+                <span class="fas fa-id-card"></span>
+                @Resource.PassportView
+            </h2>
+            <p>
+                @Resource.PassportViewDescription
+            </p>
+            <p>
+                <a class="btn btn-light" href="@Url.Action("Person", "Family")">
+                    @Resource.Goto @*&raquo;*@
+                    <span class="fas fa-angle-double-right"></span>
+                </a>
+            </p>
+        </div>
+    }
 </div>

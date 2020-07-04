@@ -27,23 +27,26 @@
                             @Resources.Resource.Homepage
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                            <span class="fas fa-address-book"></span>
-                            @Resources.Resource.FamilyManagement
-                            <span class="caret"></span>
-                        </a>
-                        <div class="dropdown-menu">
-                            <a href="@Url.Action("Person", "Family")" class="dropdown-item">
-                                <span class="fas fa-id-card"></span>
-                                @Resources.Resource.PassportView
+                    @if (User.IsInRole("User"))
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="fas fa-address-book"></span>
+                                @Resources.Resource.FamilyManagement
+                                <span class="caret"></span>
                             </a>
-                            <a href="@Url.Action("PersonRelationsUpdateStack", "Family")" class="dropdown-item">
-                                <span class="fas fa-users"></span>
-                                @Resources.Resource.RelationsMenuTitle
-                            </a>
-                        </div>
-                    </li>
+                            <div class="dropdown-menu">
+                                <a href="@Url.Action("Person", "Family")" class="dropdown-item">
+                                    <span class="fas fa-id-card"></span>
+                                    @Resources.Resource.PassportView
+                                </a>
+                                <a href="@Url.Action("PersonRelationsUpdateStack", "Family")" class="dropdown-item">
+                                    <span class="fas fa-users"></span>
+                                    @Resources.Resource.RelationsMenuTitle
+                                </a>
+                            </div>
+                        </li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

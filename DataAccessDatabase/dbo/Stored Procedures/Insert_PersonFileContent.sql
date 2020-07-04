@@ -6,11 +6,9 @@
     @IsActive BIT,
     @BinaryContent VARBINARY(MAX),
     @FileType NVARCHAR(250),
-    @Name NVARCHAR(250)
+    @Name NVARCHAR(250),
+    @RetVal nvarchar(128) OUTPUT
 AS
-
-SET @Id = NEWID()
-DECLARE @tmp table (Id nvarchar(128))
 
 BEGIN TRAN
 
@@ -31,16 +29,23 @@ VALUES
     ,@FileType
     ,@Name)
 
+SET @RetVal = NEWID()
+
 INSERT INTO [dbo].[PersonFileContent]
     ([Id]
     ,[PersonId]
     ,[FileContentId])
-OUTPUT INSERTED.Id INTO @tmp
+OUTPUT inserted.Id
 VALUES
-    (NEWID()
+    (@RetVal
     ,@PersonId
     ,@Id)
 
+UPDATE [dbo].[Person]
+SET FileContentId = @Id
+WHERE Id = @PersonId
+    AND FileContentId IS NULL
+
 COMMIT TRAN
 
-RETURN SELECT * FROM @tmp
+RETURN

@@ -151,7 +151,7 @@
         var personId = $('#Model_Id').val();
 
         $.ajax({
-            url: getApiRoute() + 'person/photo/delete/' + personId + '/' + id,
+            url: getApiRoute() + 'person/photo/delete/' + id,
             type: 'GET',
             dataType: 'json',
             success: function(response) {

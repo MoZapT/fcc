@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
 using Shared.Enums;
@@ -93,12 +94,12 @@ namespace DataAccessInfrastructure.Repositories
             var query = @"
                 DECLARE @list table(Id nvarchar(128))
                 INSERT INTO @list
-                SELECT InvitedId [dbo].[ReadPersonRelation](@ExcludeId, default, default)
+                SELECT InvitedId FROM [dbo].[ReadPersonRelation](@ExcludeId, default, default)
 
                 SELECT
                     Id AS 'Key'
                     ,ISNULL(FirstName, '') + ' ' + ISNULL(LastName, '') + ' ' + ISNULL(Patronym, '') AS 'Value'
-                FROM (SELECT * FROM [dbo].[ReadPerson](default, default, default, @Search))
+                FROM (SELECT * FROM [dbo].[ReadPerson](default, default, default, @Search)) AS tmp
                 WHERE 
                     NOT Id = @ExcludeId
                     AND NOT Id IN(SELECT * FROM @list)";
@@ -114,7 +115,7 @@ namespace DataAccessInfrastructure.Repositories
 
                 SELECT
 	                COUNT(Id)
-                FROM (SELECT * FROM [dbo].[ReadPerson](default, default, default, default))
+                FROM (SELECT * FROM [dbo].[ReadPerson](default, default, default, default)) AS tmp
                 WHERE 
                     NOT Id = @ExcludeId
                     AND NOT Id IN(SELECT * FROM @list)";
@@ -148,7 +149,10 @@ namespace DataAccessInfrastructure.Repositories
         {
             var parameters = new DynamicParameters(entity);
             parameters.Add("@PersonId", personId);
-            return await QueryFoD<string>("Insert_PersonFileContent", parameters, System.Data.CommandType.StoredProcedure);
+            parameters.Add("@RetVal", string.Empty, direction: System.Data.ParameterDirection.Output);
+            await Execute("Insert_PersonFileContent", parameters, System.Data.CommandType.StoredProcedure);
+
+            return parameters.Get<string>("@RetVal");
         }
         public async Task<bool> DeleteAllPersonFileContent(string personId)
         {
@@ -381,7 +385,7 @@ namespace DataAccessInfrastructure.Repositories
         {
             var parameters = new DynamicParameters();
             parameters.Add("@PersonId", personId);
-            return await QueryFoD<bool>("[dbo].[CheckIfSameRelationsAvaible](@PersonId)", parameters);
+            return await QueryFoD<bool>("SELECT [dbo].[CheckIfSameRelationsAvaible](@PersonId)", parameters);
         }
 
         public async Task<IEnumerable<KeyValuePair<string, string>>> GetPersonsKvpWithPossibleRelations(string personId)
