@@ -23,7 +23,7 @@ namespace Shared.Interfaces.Managers
         Task<FileContent> GetMainPhotoByPersonId(string id);
         Task<IEnumerable<FileContent>> GetAllPhotosByPersonId(string id);
         Task<string> SetPersonPhoto(string personId, FileContent entity);
-        Task<bool> DeletePersonPhoto(string personId, string fileId);
+        Task<bool> DeletePersonPhoto(string fileId);
         Task<bool> DeleteAllPersonPhotos(string personId);
 
         Task<PersonDocument> GetDocumentByPersonId(string id);

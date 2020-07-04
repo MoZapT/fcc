@@ -84,9 +84,9 @@ namespace Data.Manager
         {
             return await _repo.CreatePersonFileContent(personId, entity);
         }
-        public async Task<bool> DeletePersonPhoto(string personId, string fileId)
+        public async Task<bool> DeletePersonPhoto(string fileId)
         {
-            return await _repo.DeletePersonFileContent(personId, fileId);
+            return await _repo.DeleteFileContent(fileId);
         }
         public async Task<bool> DeleteAllPersonPhotos(string personId)
         {

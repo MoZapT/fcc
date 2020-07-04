@@ -263,10 +263,10 @@ namespace WebApiFCC.Controllers
         }
 
         [HttpGet]
-        [Route("person/photo/delete/{personId}/{fileId}")]
-        public async Task DeletePersonPhoto(string personId, string fileId)
+        [Route("person/photo/delete/{fileId}")]
+        public async Task DeletePersonPhoto(string fileId)
         {
-            await _mgrFcc.DeletePersonPhoto(personId, fileId);
+            await _mgrFcc.DeletePersonPhoto(fileId);
         }
 
         [HttpGet]
