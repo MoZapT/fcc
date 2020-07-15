@@ -127,6 +127,11 @@ namespace Data.Manager
             return await _repo.ReadAllDocumentCategories(query);
         }
 
+        public async Task<IEnumerable<ActivityType>> GetDocumentActivities(string personId)
+        {
+            return await _repo.ReadAllDocumentActivities(personId);
+        }
+
         #endregion
 
         #region PersonName

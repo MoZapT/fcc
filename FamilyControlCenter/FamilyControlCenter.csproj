@@ -1046,6 +1046,7 @@
     <Content Include="Views\Shared\RelationsUpdateStack\_PersonRelationsUpdateStack.cshtml" />
     <Content Include="Views\Shared\Person\_PersonActivityEditBlock.cshtml" />
     <Content Include="Views\Shared\Person\_PersonDocumentList.cshtml" />
+    <Content Include="Views\Shared\Person\_PersonDocumentsFooterControl.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

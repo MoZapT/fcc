@@ -31,10 +31,9 @@ namespace FamilyControlCenter.ViewBuilder
         public async Task<PersonDocumentsViewModel> CreatePartialViewPersonDocuments(string personId, bool loadCategories)
         {
             var vm = new PersonDocumentsViewModel();
-            vm.LoadCategories = loadCategories;
             var allDocs = await _mgrFcc.GetAllDocumentsByPersonId(personId);
 
-            if (vm.LoadCategories)
+            if (loadCategories)
                 GroupingPersonDocuments(
                     vm.Documents,
                     allDocs.Where(e => string.IsNullOrWhiteSpace(e.PersonActivityId)));

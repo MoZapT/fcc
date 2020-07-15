@@ -39,6 +39,7 @@ namespace Shared.Interfaces.Repositories
         Task<bool> DeleteAllPersonDocument(string personId);
 
         Task<IEnumerable<string>> ReadAllDocumentCategories(string search);
+        Task<IEnumerable<ActivityType>> ReadAllDocumentActivities(string personId);
 
         #region PersonRelation
 

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Resources;
 using System.Web.Mvc;
 
 namespace Shared.Helpers
@@ -13,7 +11,6 @@ namespace Shared.Helpers
     {
         public static IEnumerable<SelectListItem> GetTranslatedSelectListItemCollection<T>(Type type, bool isFemaleGender = false)
         {
-            var list = new List<SelectListItem>();
             return Enum.GetValues(type)
                 .Cast<T>()
                 .Select(e => new SelectListItem()
@@ -24,7 +21,7 @@ namespace Shared.Helpers
                 .ToList();
         }
 
-        public static string GetLocalizedStringForEnumValue(this ResourceManager source, Enum value, bool isFemaleGender = false)
+        public static string GetLocalizedStringForEnumValue(Enum value, bool isFemaleGender = false)
         {
             return GetGenderizedText(GetEnumDescription(value.GetType(), value.ToString()), isFemaleGender);
         }

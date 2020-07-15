@@ -1,0 +1,19 @@
+﻿<div id="CategoryControls">
+    <div class="col-md-12">
+        <span id="ErrorDocumentCategory" class="text-danger hide">
+            @Resource.ErrorDocumentCategoryEmpty
+        </span>
+    </div>
+    <div class="col-md-12">
+        <div class="input-group">
+            <span class="input-group-addon">@Resource.Category</span>
+            @Html.Hidden("DocumentCategory")
+            @Html.TextBox("DocumentCategoryTa", "", new { @class = "form-control typeahead", placeholder = "", taname = "DocumentCategoryTa", taurl = "document/categories/" })
+            <label for="UploadFile" class="btn btn-primary btn-edges input-group-addon">
+                <span class="fas fa-file-upload"></span>
+                <span class="toggle-text">@Resource.BtnUploadFile</span>
+            </label>
+            <input id="UploadFile" class="hide" type="file" name="files[]" data-multiple-caption="{count} notimplted" multiple="" aria-invalid="false">
+        </div>
+    </div>
+</div>

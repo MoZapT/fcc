@@ -256,6 +256,19 @@ namespace DataAccessInfrastructure.Repositories
             return await Query<string>(query, new { @Search = search });
         }
 
+        public async Task<IEnumerable<ActivityType>> ReadAllDocumentActivities(string personId)
+        {
+            var query = @"
+                SELECT pa.ActivityType
+                FROM [PersonActivity] AS pa
+                JOIN [PersonBiography] AS pb
+	                ON pb.Id = pa.BiographyId
+                WHERE
+	                pb.PersonId = @PersonId";
+
+            return await Query<ActivityType>(query, new { @PersonId = personId });
+        }
+
         #endregion
 
         #region PersonName

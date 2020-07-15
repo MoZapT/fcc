@@ -35,6 +35,7 @@ namespace Shared.Interfaces.Managers
         Task<bool> DeleteAllPersonDocuments(string personId);
 
         Task<IEnumerable<string>> GetDocumentCategories(string query);
+        Task<IEnumerable<ActivityType>> GetDocumentActivities(string personId);
 
         #endregion
 

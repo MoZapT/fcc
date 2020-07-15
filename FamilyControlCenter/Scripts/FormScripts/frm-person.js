@@ -729,10 +729,6 @@
             loadDocuments();
         });
 
-        initDynamicDocumentsTabContent();
-    }
-
-    function initDynamicDocumentsTabContent() {
         $('a#DeleteDocument').on('click', function (e) {
             deleteFile($(e.currentTarget).attr('fileid'));
         });
@@ -800,17 +796,9 @@
     }
 
     function loadDocuments() {
-        var personId = $('#Model_Id').val();
-        var loadCategories = true;
-
-        var checkbox = document.getElementById("LoadCategories");
-        if (checkbox !== null) {
-            loadCategories = checkbox.checked;
-        }
-
         $.ajax({
             url: 'PersonDocumentsList',
-            data: JSON.stringify({ personId: personId, loadCategories: loadCategories }),
+            data: JSON.stringify({ personId: $('#Model_Id').val() }),
             type: 'POST',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
@@ -821,7 +809,7 @@
                 }
 
                 $('#DocumentsBody').html(response.responseText);
-                initDynamicDocumentsTabContent();
+                initDocumentsTab();
             }
         });
     }

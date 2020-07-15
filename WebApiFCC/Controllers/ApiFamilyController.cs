@@ -370,6 +370,25 @@ namespace WebApiFCC.Controllers
         }
 
         [HttpGet]
+        [Route("document/activities/{personId}")]
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetDocumentActivities(string personId)
+        {
+            try
+            {
+                IEnumerable<ActivityType> activityTypes = await _mgrFcc.GetDocumentActivities(personId);
+                return activityTypes
+                    .Select(e => new KeyValuePair<string, string>(
+                            FccEnumHelper.GetLocalizedStringForEnumValue(e), 
+                            ((int)e).ToString()
+                        ));
+            }
+            catch (Exception)
+            {
+                return new List<KeyValuePair<string, string>>();
+            }
+        }
+
+        [HttpGet]
         [Route("document/move/{personId}/{contentId}/{category}")]
         public async Task<bool> MoveDocumentToAnotherCategory(string personId, string contentId, string category)
         {

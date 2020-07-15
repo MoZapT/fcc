@@ -5,7 +5,7 @@
     bool sex = (bool)ViewData["Sex"];
 }
 
-@Resource.ResourceManager.GetLocalizedStringForEnumValue(type, sex)
+@FccEnumHelper.GetLocalizedStringForEnumValue(type, sex)
 @switch (type)
 {
     case RelationType.FatherMother:
