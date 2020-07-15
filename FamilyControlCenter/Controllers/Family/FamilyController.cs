@@ -56,8 +56,15 @@ namespace FamilyControlCenter.Controllers
         public async Task<PartialViewResult> PersonDocuments(string personId)
         {
             BeforeLoadAction();
-            var vm = await _vwbFcc.CreatePartialViewPersonDocuments(personId);
+            var vm = await _vwbFcc.CreatePartialViewPersonDocuments(personId, true);
             return PartialView("Person/_PersonDocuments", vm);
+        }
+
+        public async Task<PartialViewResult> PersonDocumentsList(string personId, bool loadCategories)
+        {
+            BeforeLoadAction();
+            var vm = await _vwbFcc.CreatePartialViewPersonDocuments(personId, loadCategories);
+            return PartialView("Person/_PersonDocumentList", vm.Documents);
         }
 
         public async Task<PartialViewResult> PersonPhotoSection(string personId)

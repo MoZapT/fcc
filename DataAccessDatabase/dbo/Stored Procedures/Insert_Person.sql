@@ -16,9 +16,10 @@ CREATE PROCEDURE Insert_Person
     ,@IsMarried bit
     ,@IsInPartnership bit
     ,@FileContentId nvarchar(128)
+    ,@RetVal nvarchar(128) OUTPUT
 AS
 BEGIN
-    DECLARE @tmp table (Id nvarchar(128))
+    SET @RetVal = @Id
 
     INSERT INTO [Person]
                 ([Id]
@@ -31,7 +32,6 @@ BEGIN
                 ,[Firstname]
                 ,[Lastname]
                 ,[Patronym])
-	        OUTPUT INSERTED.Id INTO @tmp
             VALUES
                 (@Id
                 ,@Sex
@@ -45,4 +45,4 @@ BEGIN
                 ,@Patronym)
 END
 
-RETURN SELECT * FROM @tmp
+RETURN

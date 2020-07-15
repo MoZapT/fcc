@@ -8,7 +8,8 @@
     @Name NVARCHAR(250),
     @PersonId nvarchar(128),
     @Category nvarchar(500),
-    @ActivityId nvarchar(128)
+    @ActivityId nvarchar(128),
+    @RetVal nvarchar(128) OUTPUT
 AS
 
 DECLARE @FileContentId nvarchar(128) = NEWID()
@@ -33,6 +34,8 @@ INSERT INTO [dbo].[FileContent]
             ,@FileType
             ,@Name)
 
+SET @RetVal = NEWID()
+
 INSERT INTO [dbo].[PersonDocument]
     ([Id]
     ,[PersonId]
@@ -41,7 +44,7 @@ INSERT INTO [dbo].[PersonDocument]
 	,[PersonActivityId])
 OUTPUT INSERTED.Id INTO @tmp
 VALUES
-    (NEWID()
+    (@RetVal
     ,@PersonId
     ,@Id
 	,@Category
@@ -49,4 +52,4 @@ VALUES
 
 COMMIT TRAN
 
-RETURN SELECT * FROM @tmp
+RETURN

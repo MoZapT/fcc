@@ -6,6 +6,7 @@
     [CategoryName]     NVARCHAR (500) NOT NULL,
     CONSTRAINT [PK_PersonDocument] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_PersonDocument_FileContent] FOREIGN KEY ([FileContentId]) REFERENCES [dbo].[FileContent] ([Id]) ON DELETE CASCADE,
-    CONSTRAINT [FK_PersonDocument_Person] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[Person] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [FK_PersonDocument_Person] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[Person] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_PersonDocument_PersonActivity] FOREIGN KEY ([PersonActivityId]) REFERENCES [dbo].[PersonActivity] ([Id]) ON DELETE CASCADE
 );
 

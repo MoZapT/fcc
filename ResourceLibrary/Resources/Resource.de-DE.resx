@@ -474,4 +474,10 @@
   <data name="NoRelationAvaibleMsg" xml:space="preserve">
     <value>Keine Auswahlmöglichkeit vorhanden!</value>
   </data>
+  <data name="Activities" xml:space="preserve">
+    <value>Aktivitäten</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Kategorien</value>
+  </data>
 </root>

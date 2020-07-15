@@ -29,6 +29,7 @@ namespace Shared.Interfaces.Managers
         Task<PersonDocument> GetDocumentByPersonId(string id);
         Task<IEnumerable<PersonDocument>> GetAllDocumentsByPersonId(string id);
         Task<IEnumerable<PersonDocument>> GetAllDocumentsByPersonIdAndCategory(string id, string category);
+        Task<IEnumerable<PersonDocument>> GetAllDocumentsByPersonIdAndActivity(string id, string activity);
         Task<string> SetPersonDocument(string personId, FileContent entity, string category, string activityId = null);
         Task<bool> DeletePersonDocument(string fileId);
         Task<bool> DeleteAllPersonDocuments(string personId);

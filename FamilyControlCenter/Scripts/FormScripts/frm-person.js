@@ -42,7 +42,7 @@
                 return;
             }
 
-            loadDocuments();
+            loadInitDocuments();
             documentsLoaded = true;
         });
     }
@@ -725,6 +725,14 @@
             uploadFile();
         });
 
+        $('#LoadCategories').on('change', function (e) {
+            loadDocuments();
+        });
+
+        initDynamicDocumentsTabContent();
+    }
+
+    function initDynamicDocumentsTabContent() {
         $('a#DeleteDocument').on('click', function (e) {
             deleteFile($(e.currentTarget).attr('fileid'));
         });
@@ -772,7 +780,7 @@
         });
     }
 
-    function loadDocuments() {
+    function loadInitDocuments() {
         $.ajax({
             url: 'PersonDocuments',
             data: JSON.stringify({ personId: $('#Model_Id').val() }),
@@ -787,6 +795,33 @@
 
                 $('.tab-pane#documents').html(response.responseText);
                 initDocumentsTab();
+            }
+        });
+    }
+
+    function loadDocuments() {
+        var personId = $('#Model_Id').val();
+        var loadCategories = true;
+
+        var checkbox = document.getElementById("LoadCategories");
+        if (checkbox !== null) {
+            loadCategories = checkbox.checked;
+        }
+
+        $.ajax({
+            url: 'PersonDocumentsList',
+            data: JSON.stringify({ personId: personId, loadCategories: loadCategories }),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
+                $('#DocumentsBody').html(response.responseText);
+                initDynamicDocumentsTabContent();
             }
         });
     }

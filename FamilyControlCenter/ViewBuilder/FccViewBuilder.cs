@@ -28,11 +28,34 @@ namespace FamilyControlCenter.ViewBuilder
             await HandleState(vm);
         }
 
-        public async Task<PersonDocumentsViewModel> CreatePartialViewPersonDocuments(string personId)
+        public async Task<PersonDocumentsViewModel> CreatePartialViewPersonDocuments(string personId, bool loadCategories)
         {
             var vm = new PersonDocumentsViewModel();
-            vm.Documents.Add(personId, await _mgrFcc.GetAllDocumentsByPersonId(personId));
+            vm.LoadCategories = loadCategories;
+            var allDocs = await _mgrFcc.GetAllDocumentsByPersonId(personId);
+
+            if (vm.LoadCategories)
+                GroupingPersonDocuments(
+                    vm.Documents,
+                    allDocs.Where(e => string.IsNullOrWhiteSpace(e.PersonActivityId)));
+            else 
+                GroupingPersonDocuments(
+                    vm.Documents,
+                    allDocs.Where(e => !string.IsNullOrWhiteSpace(e.PersonActivityId)));
+
             return vm;
+        }
+
+        private void GroupingPersonDocuments(Dictionary<string, IEnumerable<PersonDocument>> dict, IEnumerable<PersonDocument> docs)
+        {
+            IEnumerable<string> items = docs
+                .Select(e => e.CategoryName)
+                .Distinct();
+
+            foreach (string item in items)
+            {
+                dict.Add(item, docs.Where(e => e.CategoryName == item));
+            }
         }
 
         public async Task<KeyValuePair<string, IEnumerable<FileContent>>> CreatePartialViewPersonPhotos(string personId)
@@ -64,7 +87,7 @@ namespace FamilyControlCenter.ViewBuilder
 
         public async Task<bool> SavePersonActivity(string personId, string bioId, PersonActivity newact)
         {
-            var bio = _mgrFcc.GetPersonBiographyByPersonId(personId);
+            var bio = await _mgrFcc.GetPersonBiographyByPersonId(personId);
             if (bio == null)
             {
                 bioId = await _mgrFcc.SetPersonBiography(new PersonBiography()

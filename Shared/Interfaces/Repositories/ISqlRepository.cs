@@ -33,6 +33,7 @@ namespace Shared.Interfaces.Repositories
         Task<PersonDocument> ReadDocumentByPersonId(string id);
         Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonId(string id);
         Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonIdAndCategory(string id, string category);
+        Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonIdAndActivity(string id, string activity);
         Task<string> CreatePersonDocument(FileContent content, string personId, string category, string activityId = null);
         Task<bool> DeletePersonDocument(string personId, string fileId);
         Task<bool> DeleteAllPersonDocument(string personId);

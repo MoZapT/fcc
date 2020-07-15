@@ -10,6 +10,7 @@ namespace Shared.Viewmodels
         #region PROPERTIES
 
         public Dictionary<string, IEnumerable<PersonDocument>> Documents { get; set; }
+        public bool LoadCategories { get; set; }
 
         #endregion
 
@@ -17,5 +18,6 @@ namespace Shared.Viewmodels
         {
             Documents = new Dictionary<string, IEnumerable<PersonDocument>>();
         }
+
     }
 }

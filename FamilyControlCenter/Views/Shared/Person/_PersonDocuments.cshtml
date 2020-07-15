@@ -1,14 +1,4 @@
 ﻿@model PersonDocumentsViewModel
-@{ 
-    IEnumerable<PersonDocument> files = new List<PersonDocument>();
-    foreach (var userFiles in Model.Documents.Values)
-    {
-        files = userFiles;
-        break;
-    }
-
-    List<string> categories = files.Select(e => e.CategoryName).Distinct().ToList();
-}
 
 <div class="card">
     <div class="card-header">
@@ -16,19 +6,29 @@
             <span class="fas fa-file-alt"></span>
             @Resource.Documents
         </h2>
+        <div class="row form-group">
+            <div class="col-md-12 form-inline">
+                <label class="padding-both-sides-15">@Resource.Activities</label>
+                <div class="custom-control custom-switch">
+                    @Html.CheckBoxFor(m => m.LoadCategories, new { @class = "custom-control-input" })
+                    <label class="custom-control-label" for="LoadCategories"></label>
+                </div>
+                <label class="padding-both-sides-15">@Resource.Categories</label>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-            @foreach (var category in categories)
+    <div id="DocumentsBody" class="card-body">
+            @foreach (var filesKvp in Model.Documents)
             {
-                var catFiles = files.Where(e => e.CategoryName == category);
+                var files = filesKvp.Value;
 
                 <div class="card">
                     <div class="card-header">
-                        @category
+                        @filesKvp.Key
                     </div>
                     <div class="card-body">
                         <div class="card-columns">
-                            @foreach (var file in catFiles)
+                            @foreach (var file in files)
                             {
                                 <div class="card">
                                     <div class="card-header fullwidth">

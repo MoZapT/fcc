@@ -55,7 +55,11 @@ namespace DataAccessInfrastructure.Repositories
         }
         public async Task<string> CreatePerson(Person entity)
         {
-            return await QueryFoD<string>("Insert_Person", new DynamicParameters(entity), System.Data.CommandType.StoredProcedure);
+            var parameters = new DynamicParameters(entity);
+            parameters.Add("@RetVal", string.Empty, direction: System.Data.ParameterDirection.Output);
+            await Execute("Insert_Person", parameters, System.Data.CommandType.StoredProcedure);
+
+            return parameters.Get<string>("@RetVal");
         }
         public async Task<bool> UpdatePerson(Person entity)
         {
@@ -176,7 +180,7 @@ namespace DataAccessInfrastructure.Repositories
         public async Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonId(string id)
         {
             var query = @"
-                SELECT fc.*, pfc.CategoryName
+                SELECT fc.*, pfc.CategoryName, pfc.PersonActivityId
                 FROM (SELECT * FROM [dbo].[ReadFileContent]()) AS fc
                 JOIN [PersonDocument] AS pfc
 	                ON fc.Id = pfc.FileContentId
@@ -188,7 +192,7 @@ namespace DataAccessInfrastructure.Repositories
         public async Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonIdAndCategory(string id, string category)
         {
             var query = @"
-                SELECT fc.*
+                SELECT fc.*, pfc.CategoryName, pfc.PersonActivityId
                 FROM (SELECT * FROM [dbo].[ReadFileContent]()) AS fc
                 JOIN [PersonDocument] AS pfc
 	                ON fc.Id = pfc.FileContentId
@@ -197,14 +201,31 @@ namespace DataAccessInfrastructure.Repositories
 	                AND pfc.CategoryName = @Category";
 
             return await Query<PersonDocument>(query, new { @Id = id, @Category = category });
-        }       
+        }
+        public async Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonIdAndActivity(string id, string activity)
+        {
+            var query = @"
+                SELECT fc.*, pfc.CategoryName, pfc.PersonActivityId
+                FROM (SELECT * FROM [dbo].[ReadFileContent]()) AS fc
+                JOIN [PersonDocument] AS pfc
+	                ON fc.Id = pfc.FileContentId
+                WHERE 
+	                pfc.PersonId = @Id
+	                AND pfc.PersonActivityId = @Activity";
+
+            return await Query<PersonDocument>(query, new { @Id = id, @Activity = activity });
+        }
         public async Task<string> CreatePersonDocument(FileContent content, string personId, string category, string activityId = null)
         {
             var parameters = new DynamicParameters(content);
             parameters.Add("@PersonId", personId);
             parameters.Add("@Category", category);
             parameters.Add("@ActivityId", activityId);
-            return await QueryFoD<string>("Insert_PersonDocument", parameters, System.Data.CommandType.StoredProcedure);
+            parameters.Add("@RetVal", string.Empty, direction: System.Data.ParameterDirection.Output);
+            await Execute("Insert_PersonDocument", parameters, System.Data.CommandType.StoredProcedure);
+
+            return parameters.Get<string>("@RetVal");
+
         }
         public async Task<bool> DeletePersonDocument(string personId, string fileId)
         {

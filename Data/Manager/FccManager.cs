@@ -105,6 +105,10 @@ namespace Data.Manager
         {
             return await _repo.ReadAllDocumentByPersonIdAndCategory(id, category);
         }
+        public async Task<IEnumerable<PersonDocument>> GetAllDocumentsByPersonIdAndActivity(string id, string activity)
+        {
+            return await _repo.ReadAllDocumentByPersonIdAndActivity(id, activity);
+        }
         public async Task<string> SetPersonDocument(string personId, FileContent entity, string category, string activityId = null)
         {
             return await _repo.CreatePersonDocument(entity, personId, category, activityId);
