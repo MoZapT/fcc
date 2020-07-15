@@ -732,6 +732,41 @@
         $('a#DeleteDocument').on('click', function (e) {
             deleteFile($(e.currentTarget).attr('fileid'));
         });
+
+        $('#CategoryName').on('change', function (e) {
+            var btn = $(e.currentTarget).parent('div.input-group').find('button[old-category]');
+
+            btn.removeClass('btn-outline-info');
+            btn.addClass('btn-info');
+        });
+
+        $('[old-category]').on('click', function (e) {
+            var txtBox = $(e.currentTarget).parent('div.input-group').find('#CategoryName');
+            var newCategoryText = txtBox.val();
+            var oldCateogryText = $(e.currentTarget).attr('old-category');
+
+            $.ajax({
+                url: getApiRoute() + 'person/file/upload/'
+                    + personId + '/'
+                    + category,// + '/'
+                type: 'POST',
+                data: fd,
+                enctype: 'multipart/form-data',
+                contentType: false,
+                processData: false,
+                complete: function (response) {
+                    if (response.status === 200) {
+                        $(e.currentTarget).attr('old-category', newCategoryText);
+                    }
+                    else {
+                        txtBox.val(oldCateogryText);
+                    }
+
+                    $(e.currentTarget).removeClass('btn-info');
+                    $(e.currentTarget).addClass('btn-outline-info');
+                }
+            });
+        });
     }
 
     function deleteFile(fileid) {

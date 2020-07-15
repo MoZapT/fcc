@@ -474,6 +474,9 @@
   <data name="NoRelationAvaibleMsg" xml:space="preserve">
     <value>No relations avaible!</value>
   </data>
+  <data name="Last" xml:space="preserve">
+    <value>Last</value>
+  </data>
   <data name="Activities" xml:space="preserve">
     <value>Activities</value>
   </data>

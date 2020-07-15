@@ -124,6 +124,7 @@ namespace Shared.Helpers
 
             switch (contentType)
             {
+                case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
                 case "application/msword":
                 case "application/pdf":
                 case "application/csv":

@@ -191,7 +191,6 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\Update_Person.sql" />
     <Build Include="dbo\Stored Procedures\Insert_PersonFileContent.sql" />
     <Build Include="dbo\Stored Procedures\Insert_PersonDocument.sql" />
     <Build Include="dbo\Functions\GetPersonsThatHaveRelativesWithPossibleRelations.sql" />

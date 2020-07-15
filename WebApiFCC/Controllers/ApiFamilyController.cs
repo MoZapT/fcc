@@ -330,13 +330,6 @@ namespace WebApiFCC.Controllers
                     {
                         throw new HttpResponseException(HttpStatusCode.InternalServerError);
                     }
-
-                    if (string.IsNullOrWhiteSpace(person.FileContentId))
-                    {
-                        person.FileContentId = result;
-                        person.DateModified = DateTime.Now;
-                        await _mgrFcc.UpdatePerson(person);
-                    }
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK);

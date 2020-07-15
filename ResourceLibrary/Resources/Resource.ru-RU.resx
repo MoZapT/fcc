@@ -474,6 +474,9 @@
   <data name="NoRelationAvaibleMsg" xml:space="preserve">
     <value>Нету доступного выбора!</value>
   </data>
+  <data name="Last" xml:space="preserve">
+    <value>Последняя</value>
+  </data>
   <data name="Activities" xml:space="preserve">
     <value>Активность</value>
   </data>

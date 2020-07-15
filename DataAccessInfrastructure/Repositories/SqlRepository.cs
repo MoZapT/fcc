@@ -63,7 +63,21 @@ namespace DataAccessInfrastructure.Repositories
         }
         public async Task<bool> UpdatePerson(Person entity)
         {
-            return await Execute("Update_Person", new DynamicParameters(entity), System.Data.CommandType.StoredProcedure) > 0;
+            string query = @"
+                UPDATE [Person]
+                    SET [Sex] = @Sex
+                        ,[BirthDate] = @BirthDate
+                        ,[DeathDate] = @DeathDate
+                        ,[IsActive] = @IsActive
+                        ,[DateCreated] = @DateCreated
+                        ,[DateModified] = @DateModified
+                        ,[Firstname] = @Firstname
+                        ,[Lastname] = @Lastname
+                        ,[Patronym] = @Patronym
+                        ,[FileContentId] = @FileContentId
+                    WHERE Id = @Id";
+
+            return await Execute(query, new DynamicParameters(entity)) > 0;
         }
         public async Task<bool> DeletePerson(string id)
         {
