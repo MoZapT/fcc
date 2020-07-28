@@ -25,10 +25,10 @@ namespace Shared.Interfaces.Repositories
         Task<bool> UpdatePersonName(PersonName entity);
         Task<bool> DeletePersonName(string id);
 
-        Task<FileContent> ReadFileContentByPersonId(string id);
-        Task<IEnumerable<FileContent>> ReadAllFileContentByPersonId(string id);
-        Task<string> CreatePersonFileContent(string personId, FileContent entity);
-        Task<bool> DeleteAllPersonFileContent(string personId);
+        Task<FileContent> ReadPhotoByPersonId(string id);
+        Task<IEnumerable<FileContent>> ReadAllPhotoByPersonId(string id);
+        Task<string> CreatePersonPhoto(string personId, FileContent entity);
+        Task<bool> DeleteAllPersonPhoto(string personId);
 
         Task<PersonDocument> ReadDocumentByPersonId(string id);
         Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonId(string id);

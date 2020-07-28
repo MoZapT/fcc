@@ -141,7 +141,7 @@ namespace DataAccessInfrastructure.Repositories
             return await QueryFoD<int>(query, new { @ExcludeId = excludePersonId });
         }
 
-        public async Task<FileContent> ReadFileContentByPersonId(string id)
+        public async Task<FileContent> ReadPhotoByPersonId(string id)
         {
             var query = @"
                 SELECT fc.*
@@ -151,19 +151,19 @@ namespace DataAccessInfrastructure.Repositories
 
             return await QueryFoD<FileContent>(query, new { @Id = id });
         }
-        public async Task<IEnumerable<FileContent>> ReadAllFileContentByPersonId(string id)
+        public async Task<IEnumerable<FileContent>> ReadAllPhotoByPersonId(string id)
         {
             var query = @"
                 SELECT fc.*
                 FROM (SELECT * FROM [dbo].[ReadFileContent]()) AS fc
-                JOIN [PersonFileContent] AS pfc
+                JOIN [PersonPhoto] AS pfc
 	                ON fc.Id = pfc.FileContentId
                 WHERE 
 	                pfc.PersonId = @Id";
 
             return await Query<FileContent>(query, new { @Id = id });
         }
-        public async Task<string> CreatePersonFileContent(string personId, FileContent entity)
+        public async Task<string> CreatePersonPhoto(string personId, FileContent entity)
         {
             var parameters = new DynamicParameters(entity);
             parameters.Add("@PersonId", personId);
@@ -172,10 +172,10 @@ namespace DataAccessInfrastructure.Repositories
 
             return parameters.Get<string>("@RetVal");
         }
-        public async Task<bool> DeleteAllPersonFileContent(string personId)
+        public async Task<bool> DeleteAllPersonPhoto(string personId)
         {
             var query = @"
-                DELETE FROM [PersonFileContent]
+                DELETE FROM [PersonPhoto]
                 WHERE PersonId = @Id";
 
             return await Execute(query, new { @Id = personId }) > 0;

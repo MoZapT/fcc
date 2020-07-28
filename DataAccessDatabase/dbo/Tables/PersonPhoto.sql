@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[PersonFileContent] (
+﻿CREATE TABLE [dbo].[PersonPhoto] (
     [Id]            NVARCHAR (128) NOT NULL,
     [PersonId]      NVARCHAR (128) NOT NULL,
     [FileContentId] NVARCHAR (128) NOT NULL,

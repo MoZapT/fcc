@@ -82,7 +82,7 @@ namespace Data.Manager
         }
         public async Task<string> SetPersonPhoto(string personId, FileContent entity)
         {
-            return await _repo.CreatePersonFileContent(personId, entity);
+            return await _repo.CreatePersonPhoto(personId, entity);
         }
         public async Task<bool> DeletePersonPhoto(string fileId)
         {
@@ -90,7 +90,7 @@ namespace Data.Manager
         }
         public async Task<bool> DeleteAllPersonPhotos(string personId)
         {
-            return await _repo.DeleteAllPersonFileContent(personId);
+            return await _repo.DeleteAllPersonPhoto(personId);
         }
 
         public async Task<PersonDocument> GetDocumentByPersonId(string id)
