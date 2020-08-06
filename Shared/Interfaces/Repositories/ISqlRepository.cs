@@ -34,11 +34,11 @@ namespace Shared.Interfaces.Repositories
         Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonId(string id);
         Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonIdAndCategory(string id, string category);
         Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonIdAndActivity(string id, string activity);
+        Task<IEnumerable<PersonDocument>> ReadAllDocumentByActivity(string activity);
         Task<string> CreatePersonDocument(FileContent content, string personId, string category, string activityId = null);
         Task<bool> DeletePersonDocument(string personId, string fileId);
         Task<bool> DeleteAllPersonDocument(string personId);
 
-        Task<IEnumerable<string>> ReadAllDocumentCategories(string search);
         Task<IEnumerable<ActivityType>> ReadAllDocumentActivities(string personId);
 
         #region PersonRelation
@@ -72,6 +72,7 @@ namespace Shared.Interfaces.Repositories
         #region PersonActivity
 
         Task<PersonActivity> ReadPersonActivity(string id);
+        Task<IEnumerable<PersonActivity>> ReadCategorizedPersonActivityByPerson(string id);
         Task<IEnumerable<PersonActivity>> ReadAllPersonActivityByPerson(string id);
         Task<IEnumerable<PersonActivity>> ReadAllPersonActivityByPerson(string id, ActivityType type);
         Task<string> CreatePersonActivity(PersonActivity entity);
@@ -87,9 +88,7 @@ namespace Shared.Interfaces.Repositories
         Task<string> CreateFileContent(FileContent entity);
         Task<bool> UpdateFileContent(FileContent entity);
         Task<bool> DeleteFileContent(string id);
-        Task<bool> RenameCategory(string personId, string oldCategory, string newCategory);
-        Task<bool> MoveContentToAnotherCategory(string personId, string contentId, string category);
-
+ 
         #endregion
 
     }

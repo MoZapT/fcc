@@ -348,21 +348,6 @@ namespace WebApiFCC.Controllers
         }
 
         [HttpGet]
-        [Route("document/categories/{query?}")]
-        public async Task<IEnumerable<KeyValuePair<string, string>>> GetDocumentCategories(string query = null)
-        {
-            try
-            {
-                return (await _mgrFcc.GetDocumentCategories(query))
-                    .Select(e => new KeyValuePair<string, string>(e, e));
-            }
-            catch (Exception)
-            {
-                return new List<KeyValuePair<string, string>>();
-            }
-        }
-
-        [HttpGet]
         [Route("document/activities/{personId}")]
         public async Task<IEnumerable<KeyValuePair<string, string>>> GetDocumentActivities(string personId)
         {
@@ -385,28 +370,16 @@ namespace WebApiFCC.Controllers
         [Route("document/move/{personId}/{contentId}/{category}")]
         public async Task<bool> MoveDocumentToAnotherCategory(string personId, string contentId, string category)
         {
-            try
-            {
-                return await _mgrFcc.MoveContentToAnotherCategory(personId, contentId, category);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
+            throw new NotImplementedException();
 
-        [HttpGet]
-        [Route("document/move/{personId}/{oldCategory}/{newCategory}")]
-        public async Task<bool> RenameCategory(string personId, string oldCategory, string newCategory)
-        {
-            try
-            {
-                return await _mgrFcc.RenameCategory(personId, oldCategory, newCategory);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            //try
+            //{
+            //    return await _mgrFcc.MoveContentToAnotherCategory(personId, contentId, category);
+            //}
+            //catch (Exception)
+            //{
+            //    return false;
+            //}
         }
 
         [HttpGet]

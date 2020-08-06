@@ -194,7 +194,7 @@ namespace DataAccessInfrastructure.Repositories
         public async Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonId(string id)
         {
             var query = @"
-                SELECT fc.*, pfc.CategoryName, pfc.PersonActivityId
+                SELECT fc.*, pfc.PersonActivityId
                 FROM (SELECT * FROM [dbo].[ReadFileContent]()) AS fc
                 JOIN [PersonDocument] AS pfc
 	                ON fc.Id = pfc.FileContentId
@@ -206,7 +206,7 @@ namespace DataAccessInfrastructure.Repositories
         public async Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonIdAndCategory(string id, string category)
         {
             var query = @"
-                SELECT fc.*, pfc.CategoryName, pfc.PersonActivityId
+                SELECT fc.*, pfc.PersonActivityId
                 FROM (SELECT * FROM [dbo].[ReadFileContent]()) AS fc
                 JOIN [PersonDocument] AS pfc
 	                ON fc.Id = pfc.FileContentId
@@ -216,10 +216,22 @@ namespace DataAccessInfrastructure.Repositories
 
             return await Query<PersonDocument>(query, new { @Id = id, @Category = category });
         }
+        public async Task<IEnumerable<PersonDocument>> ReadAllDocumentByActivity(string activity)
+        {
+            var query = @"
+                SELECT fc.*, pfc.PersonActivityId
+                FROM (SELECT * FROM [dbo].[ReadFileContent]()) AS fc
+                JOIN [PersonDocument] AS pfc
+	                ON fc.Id = pfc.FileContentId
+                WHERE 
+	                pfc.PersonActivityId = @Activity";
+
+            return await Query<PersonDocument>(query, new { @Activity = activity });
+        }
         public async Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonIdAndActivity(string id, string activity)
         {
             var query = @"
-                SELECT fc.*, pfc.CategoryName, pfc.PersonActivityId
+                SELECT fc.*, pfc.PersonActivityId
                 FROM (SELECT * FROM [dbo].[ReadFileContent]()) AS fc
                 JOIN [PersonDocument] AS pfc
 	                ON fc.Id = pfc.FileContentId
@@ -256,18 +268,6 @@ namespace DataAccessInfrastructure.Repositories
                 WHERE PersonId = @Id";
 
             return await Execute(query, new { @Id = personId }) > 0;
-        }
-
-        public async Task<IEnumerable<string>> ReadAllDocumentCategories(string search)
-        {
-            var query = @"
-                SELECT CategoryName
-                FROM [PersonDocument]
-                WHERE CategoryName LIKE '%'+@Search+'%' OR ISNULL(@Search, '') = ''
-                GROUP BY CategoryName
-                ORDER BY CategoryName DESC";
-
-            return await Query<string>(query, new { @Search = search });
         }
 
         public async Task<IEnumerable<ActivityType>> ReadAllDocumentActivities(string personId)
@@ -668,6 +668,37 @@ namespace DataAccessInfrastructure.Repositories
             return await Query<PersonActivity>(query, new { @Id = id, @Type = type });
         }
 
+        public async Task<IEnumerable<PersonActivity>> ReadCategorizedPersonActivityByPerson(string id)
+        {
+            var query = @"
+                SELECT 
+	                pa.*
+                FROM 
+	                [PersonActivity] AS pa
+                JOIN [PersonBiography] AS pb
+	                ON pa.BiographyId = pb.Id 
+	                AND pb.PersonId = @Id
+                    AND pa.IsActive = 1
+                    AND pb.IsActive = 1
+
+                UNION
+	
+                SELECT
+	                NULL
+	                ,NULL
+	                ,NULL
+	                ,NULL
+	                ,NULL
+	                ,NULL
+	                ,NULL
+	                ,NULL
+	                ,NULL
+	                ,NULL
+	                ,NULL";
+
+            return await Query<PersonActivity>(query, new { @Id = id });
+        }
+
         public async Task<string> CreatePersonActivity(PersonActivity entity)
         {
             var query = @"
@@ -800,28 +831,6 @@ namespace DataAccessInfrastructure.Repositories
                 WHERE Id = @Id";
 
             return await Execute(query, new { @Id = id }) > 0;
-        }
-
-        public async Task<bool> RenameCategory(string personId, string oldCategory, string newCategory)
-        {
-            var query = @"
-                UPDATE [PersonDocument]
-                SET [CategoryName] = @NewCategory
-                WHERE [CategoryName] = @OldCategory
-                AND PersonId = @PersonId";
-
-            return await Execute(query, new { @PersonId = personId, @OldCategory = oldCategory, @NewCategory = newCategory }) > 0;
-        }
-
-        public async Task<bool> MoveContentToAnotherCategory(string personId, string contentId, string category)
-        {
-            var query = @"
-                UPDATE [PersonDocument]
-                SET [CategoryName] = @Category
-                WHERE Id = @ContentId
-                AND PersonId = @PersonId";
-
-            return await Execute(query, new { @PersonId = personId, @ContentId = contentId, @Category = category }) > 0;
         }
 
         #endregion

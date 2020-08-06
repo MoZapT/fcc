@@ -566,6 +566,7 @@
     }
 
     function InitAddOrEditActivityControls() {
+        $('#AddActivity').addClass('hide');
         Window.DatePicker.ReInitElement($('#NewActivityDateBegin'));
         $('button#SaveActivity').on('click', function (e) {
             savePersonActivity();

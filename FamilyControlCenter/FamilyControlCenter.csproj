@@ -967,6 +967,11 @@
     <Content Include="Scripts\locales\bootstrap-datepicker.vi.min.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-CN.min.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="Scripts\Models\PersonBiography.js" />
+    <Content Include="Scripts\Models\PersonName.js" />
+    <Content Include="Scripts\Models\PersonRelation.js" />
+    <Content Include="Scripts\Models\PersonActivity.js" />
+    <Content Include="Scripts\Models\Person.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />

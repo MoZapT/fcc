@@ -1,16 +1,14 @@
-﻿@model Dictionary<string, IEnumerable<PersonDocument>>
+﻿@model IEnumerable<ActivityDocumentsViewModel>
 
-@foreach (var filesKvp in Model)
+@foreach (var vm in Model)
 {
-    var files = filesKvp.Value;
-
     <div class="card">
         <div class="card-header">
-            @filesKvp.Key
+            @(vm.Activity.Activity ?? Resources.Resource.Other)
         </div>
         <div class="card-body">
             <div class="card-columns">
-                @foreach (var file in files)
+                @foreach (var file in vm.Documents)
                 {
                     <div class="card">
                         <div class="card-header fullwidth">

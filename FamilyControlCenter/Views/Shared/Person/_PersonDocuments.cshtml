@@ -1,4 +1,4 @@
-﻿@model PersonDocumentsViewModel
+﻿@model IEnumerable<ActivityDocumentsViewModel>
 
 <div class="card">
     <div class="card-header">
@@ -8,7 +8,7 @@
         </h2>
     </div>
     <div id="DocumentsBody" class="card-body">
-        @Html.Partial("Person/_PersonDocumentList", Model.Documents)
+        @Html.Partial("Person/_PersonDocumentList", Model)
     </div>
     <div class="card-footer clearfix">
         @Html.Partial("Person/_PersonDocumentsFooterControl")

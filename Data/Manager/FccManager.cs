@@ -8,6 +8,7 @@ using System.Linq;
 using Shared.Interfaces.Managers;
 using Shared.Interfaces.Repositories;
 using Shared.Helpers;
+using Shared.Viewmodels;
 
 namespace Data.Manager
 {
@@ -74,11 +75,11 @@ namespace Data.Manager
 
         public async Task<FileContent> GetMainPhotoByPersonId(string id)
         {
-            return await _repo.ReadFileContentByPersonId(id);
+            return await _repo.ReadPhotoByPersonId(id);
         }
         public async Task<IEnumerable<FileContent>> GetAllPhotosByPersonId(string id)
         {
-            return await _repo.ReadAllFileContentByPersonId(id);
+            return await _repo.ReadAllPhotoByPersonId(id);
         }
         public async Task<string> SetPersonPhoto(string personId, FileContent entity)
         {
@@ -120,11 +121,6 @@ namespace Data.Manager
         public async Task<bool> DeleteAllPersonDocuments(string personId)
         {
             return await _repo.DeleteAllPersonDocument(personId);
-        }
-
-        public async Task<IEnumerable<string>> GetDocumentCategories(string query)
-        {
-            return await _repo.ReadAllDocumentCategories(query);
         }
 
         public async Task<IEnumerable<ActivityType>> GetDocumentActivities(string personId)
@@ -285,6 +281,11 @@ namespace Data.Manager
         {
             return await _repo.ReadPersonActivity(id);
         }
+        
+        public async Task<IEnumerable<PersonActivity>> GetCategorizedPersonActivityByPerson(string id)
+        {
+            return await _repo.ReadCategorizedPersonActivityByPerson(id);
+        }
 
         public async Task<IEnumerable<PersonActivity>> GetAllPersonActivityByPerson(string id)
         {
@@ -335,17 +336,23 @@ namespace Data.Manager
             return await _repo.DeleteFileContent(id);
         }
 
-        public async Task<bool> RenameCategory(string personId, string oldCategory, string newCategory)
-        {
-            return await _repo.RenameCategory(personId, oldCategory, newCategory);
-        }
-
-        public async Task<bool> MoveContentToAnotherCategory(string personId, string contentId, string category)
-        {
-            return await _repo.MoveContentToAnotherCategory(personId, contentId, category);
-        }
-
         #endregion
 
+        public async Task<IEnumerable<ActivityDocumentsViewModel>> GetPersonDocuments(string id)
+        {
+            var activities = await _repo.ReadCategorizedPersonActivityByPerson(id);
+            var activityDocs = activities.Select(async e => 
+            {
+                return new ActivityDocumentsViewModel()
+                {
+                    Activity = e,
+                    Documents = await _repo.ReadAllDocumentByActivity(e.Id),
+                };
+            });
+
+            IEnumerable<ActivityDocumentsViewModel> vms = await Task.WhenAll(activityDocs);
+
+            return vms;
+        }
     }
 }

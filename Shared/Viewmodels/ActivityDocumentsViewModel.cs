@@ -9,13 +9,14 @@ namespace Shared.Viewmodels
 
         #region PROPERTIES
 
-        public Dictionary<string, IEnumerable<PersonDocument>> Documents { get; set; }
+        public PersonActivity Activity { get; set; }
+        public IEnumerable<PersonDocument> Documents { get; set; }
 
         #endregion
 
         public ActivityDocumentsViewModel()
         {
-            Documents = new Dictionary<string, IEnumerable<PersonDocument>>();
+            Documents = new List<PersonDocument>();
         }
 
     }

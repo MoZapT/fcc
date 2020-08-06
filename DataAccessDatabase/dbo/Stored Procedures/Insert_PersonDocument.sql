@@ -38,16 +38,12 @@ SET @RetVal = NEWID()
 
 INSERT INTO [dbo].[PersonDocument]
     ([Id]
-    ,[PersonId]
     ,[FileContentId]
-	,[CategoryName]
 	,[PersonActivityId])
 OUTPUT INSERTED.Id INTO @tmp
 VALUES
     (@RetVal
-    ,@PersonId
     ,@Id
-	,@Category
 	,@ActivityId)
 
 COMMIT TRAN

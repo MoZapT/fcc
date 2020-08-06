@@ -9,7 +9,7 @@ namespace Shared.Interfaces.ViewBuilders
     public interface IFccViewBuilder
     {
         Task HandleAction(PersonViewModel vm);
-        Task<PersonDocumentsViewModel> CreatePartialViewPersonDocuments(string personId, bool loadCategories);
+        Task<IEnumerable<ActivityDocumentsViewModel>> CreatePartialViewPersonDocuments(string personId);
         Task<KeyValuePair<string, IEnumerable<FileContent>>> CreatePartialViewPersonPhotos(string personId);
         Task<PersonBiographyViewModel> CreatePartialViewPersonBiography(string personId);
         Task<bool> SavePersonActivity(string personId, string bioId, PersonActivity newact);
