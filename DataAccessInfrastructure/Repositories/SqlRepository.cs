@@ -281,6 +281,17 @@ namespace DataAccessInfrastructure.Repositories
 
             return await Query<ActivityType>(query, new { @PersonId = personId });
         }
+        public async Task<bool> MovePersonDocumentToAnotherCategory(string personId, string contentId, string activityId = null)
+        {
+            string query = @"
+                UPDATE [PersonDocument]
+                SET  [PersonActivityId] = @PersonActivityId
+                WHERE 
+                    [PersonId] = @PersonId
+                    AND [FileContentId] = @FileContentId";
+
+            return await Execute(query, new { @PersonId = personId, @FileContentId = contentId, @PersonActivityId = activityId }) > 0;
+        }
 
         #endregion
 

@@ -40,6 +40,7 @@ namespace Shared.Interfaces.Repositories
         Task<bool> DeleteAllPersonDocument(string personId);
 
         Task<IEnumerable<ActivityType>> ReadAllDocumentActivities(string personId);
+        Task<bool> MovePersonDocumentToAnotherCategory(string personId, string contentId, string activityId = null);
 
         #region PersonRelation
 

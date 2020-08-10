@@ -738,6 +738,49 @@
         });
     }
 
+    function moveFile(uploader, activityId) {
+        personId = $('#Model_Id').val();
+        var fd = new FormData();
+        var files = $(uploader)[0].files;
+        for (var i = 0; i < files.length; i++) {
+            fd.append("file_" + i, files[i], files[i].name);
+        }
+
+        $.ajax({
+            url: getApiRoute() + 'document/move/'
+                + personId + '/'
+                + fileId + '/'
+                + activityId,
+            type: 'POST',
+            data: fd,
+            enctype: 'multipart/form-data',
+            contentType: false,
+            processData: false,
+            complete: function (response) {
+                if (response.status === 200) {
+                    loadDocuments();
+                }
+            }
+        });
+
+        $.ajax({
+            url: 'PersonDocumentsList',
+            data: JSON.stringify({ personId: $('#Model_Id').val() }),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            traditional: true,
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
+                $('#DocumentsBody').html(response.responseText);
+                initDocumentsTab();
+            }
+        });
+    }
+
     function uploadFile(uploader, activityId) {
         personId = $('#Model_Id').val();
         var fd = new FormData();

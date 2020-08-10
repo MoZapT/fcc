@@ -367,19 +367,17 @@ namespace WebApiFCC.Controllers
         }
 
         [HttpGet]
-        [Route("document/move/{personId}/{contentId}/{category}")]
-        public async Task<bool> MoveDocumentToAnotherCategory(string personId, string contentId, string category)
+        [Route("document/move/{personId}/{contentId}/{activityId?}")]
+        public async Task<bool> MoveDocumentToAnotherCategory(string personId, string contentId, string activityId = null)
         {
-            throw new NotImplementedException();
-
-            //try
-            //{
-            //    return await _mgrFcc.MoveContentToAnotherCategory(personId, contentId, category);
-            //}
-            //catch (Exception)
-            //{
-            //    return false;
-            //}
+            try
+            {
+                return await _mgrFcc.MovePersonDocumentToAnotherCategory(personId, contentId, activityId);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         [HttpGet]
