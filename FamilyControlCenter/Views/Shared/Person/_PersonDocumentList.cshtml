@@ -25,7 +25,10 @@
                 {
                     <div class="card">
                         <div class="card-header fullwidth">
-                            <a href="#" id="DeleteDocument" fileid="@file.Id"><span class="text-danger fas fa-trash-alt"></span></a>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="@file.Id" activity-id="@vm.Activity.Id">
+                                <label class="custom-control-label" for="@file.Id"></label>
+                            </div>
                         </div>
                         <div class="card-body">
                             @if (ContentTypeHelper.IsDocument(file.FileType))

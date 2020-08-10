@@ -1,10 +1,18 @@
 ﻿Window.FormScripts = {};
 
+function Document(personId, personActivityId, fileContentId) {
+    this.PersonId = personId;
+    this.PersonActivityId = personActivityId;
+    this.FileContentId = fileContentId;
+}
+
 (function () {
     var relationsLoaded = false;
     var namesLoaded = false;
     var biographyLoaded = false;
     var documentsLoaded = false;
+
+    var selectedDocuments = [];
 
     //Switch tabs
     function initializeComponent() {
@@ -720,65 +728,66 @@
             loadDocuments();
         });
 
-        $('a#DeleteDocument').on('click', function (e) {
-            deleteFile($(e.currentTarget).attr('fileid'));
-        });
-    }
+        $('input[type="checkbox"]').on('change', function (e) {
+            var checked = e.currentTarget.checked;
 
-    function deleteFile(fileid) {
-        var personId = $('#Model_Id').val();
+            if (checked) {
+                var personId = $('#Model_Id').val();
+                var personActivityId = $(e.currentTarget).attr('activity-id');
+                var personActivityId = personActivityId === undefined ? null : personActivityId;
+                var fileContentId = e.currentTarget.id;
+                var doc = new Document(personId, personActivityId, fileContentId);
 
-        $.ajax({
-            url: getApiRoute() + 'person/file/delete/' + personId + '/' + fileid,
-            type: 'GET',
-            dataType: 'json',
-            success: function (response) {
-                loadDocuments();
+                selectedDocuments.push(doc);
             }
         });
     }
 
-    function moveFile(uploader, activityId) {
-        personId = $('#Model_Id').val();
-        var fd = new FormData();
-        var files = $(uploader)[0].files;
-        for (var i = 0; i < files.length; i++) {
-            fd.append("file_" + i, files[i], files[i].name);
-        }
+    function deleteFiles(fileid) {
+        //$.ajax({
+        //    url: getApiRoute() + 'person/file/delete/' + personId + '/' + fileid,
+        //    type: 'GET',
+        //    dataType: 'json',
+        //    success: function (response) {
+        //        loadDocuments();
+        //    }
+        //});
+    }
 
-        $.ajax({
-            url: getApiRoute() + 'document/move/'
-                + personId + '/'
-                + fileId + '/'
-                + activityId,
-            type: 'POST',
-            data: fd,
-            enctype: 'multipart/form-data',
-            contentType: false,
-            processData: false,
-            complete: function (response) {
-                if (response.status === 200) {
-                    loadDocuments();
-                }
-            }
-        });
+    function moveFiles(uploader, activityId) {
+        //$.ajax({
+        //    url: getApiRoute() + 'document/move/'
+        //        + personId + '/'
+        //        + fileId + '/'
+        //        + activityId,
+        //    type: 'POST',
+        //    data: fd,
+        //    enctype: 'multipart/form-data',
+        //    contentType: false,
+        //    processData: false,
+        //    complete: function (response) {
+        //        if (response.status === 200) {
+        //            loadDocuments();
+        //        }
+        //    }
+        //});
 
-        $.ajax({
-            url: 'PersonDocumentsList',
-            data: JSON.stringify({ personId: $('#Model_Id').val() }),
-            type: 'POST',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            traditional: true,
-            complete: function (response) {
-                if (response.status !== 200) {
-                    return;
-                }
+        //$.ajax({
+        //    url: 'PersonDocumentsList',
+        //    data: JSON.stringify({ personId: $('#Model_Id').val() }),
+        //    type: 'POST',
+        //    dataType: 'json',
+        //    contentType: 'application/json; charset=utf-8',
+        //    traditional: true,
+        //    complete: function (response) {
+        //        if (response.status !== 200) {
+        //            return;
+        //        }
 
-                $('#DocumentsBody').html(response.responseText);
-                initDocumentsTab();
-            }
-        });
+        //        $('#DocumentsBody').html(response.responseText);
+        //        initDocumentsTab();
+        //    }
+        //});
     }
 
     function uploadFile(uploader, activityId) {
