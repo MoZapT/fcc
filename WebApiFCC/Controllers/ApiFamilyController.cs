@@ -284,8 +284,8 @@ namespace WebApiFCC.Controllers
         }
 
         [HttpPost]
-        [Route("person/file/upload/{personId}/{category}/{activityId?}")]
-        public async Task<HttpResponseMessage> UploadPersonDocument(string personId, string category, string activityId = null)
+        [Route("person/file/upload/{personId}/{activityId?}")]
+        public async Task<HttpResponseMessage> UploadPersonDocument(string personId, string activityId = null)
         {
             Person person = await _mgrFcc.GetPerson(personId);
             if (person == null)
@@ -325,7 +325,7 @@ namespace WebApiFCC.Controllers
                         newFile.DateModified = DateTime.Now;
                     }
 
-                    string result = await _mgrFcc.SetPersonDocument(personId, newFile, category, activityId);
+                    string result = await _mgrFcc.SetPersonDocument(personId, newFile, activityId);
                     if (string.IsNullOrWhiteSpace(result))
                     {
                         throw new HttpResponseException(HttpStatusCode.InternalServerError);

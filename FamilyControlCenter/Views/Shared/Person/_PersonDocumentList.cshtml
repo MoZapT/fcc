@@ -1,12 +1,25 @@
 ﻿@model IEnumerable<ActivityDocumentsViewModel>
 
+@{ 
+    int i = 0;
+}
 @foreach (var vm in Model)
 {
+    i++;
+    string activityName = (vm.Activity.Activity ?? Resources.Resource.Other);
+
     <div class="card">
         <div class="card-header">
-            @(vm.Activity.Activity ?? Resources.Resource.Other)
+            @activityName
         </div>
         <div class="card-body">
+            <label for="UploadFile_@i" class="btn btn-primary btn-edges input-group-addon">
+                <span class="fas fa-file-upload"></span>
+                <span class="toggle-text">@Resource.BtnUploadFile</span>
+            </label>
+            <div id="ActivityId_@i" class="hide">@vm.Activity.Id</div>
+            <input id="UploadFile_@i" class="file-uploader hide" type="file" name="files[]" data-multiple-caption="{count} notimplted" multiple="" aria-invalid="false">
+
             <div class="card-columns">
                 @foreach (var file in vm.Documents)
                 {

@@ -102,17 +102,13 @@ namespace Data.Manager
         {
             return await _repo.ReadAllDocumentByPersonId(id);
         }
-        public async Task<IEnumerable<PersonDocument>> GetAllDocumentsByPersonIdAndCategory(string id, string category)
-        {
-            return await _repo.ReadAllDocumentByPersonIdAndCategory(id, category);
-        }
         public async Task<IEnumerable<PersonDocument>> GetAllDocumentsByPersonIdAndActivity(string id, string activity)
         {
             return await _repo.ReadAllDocumentByPersonIdAndActivity(id, activity);
         }
-        public async Task<string> SetPersonDocument(string personId, FileContent entity, string category, string activityId = null)
+        public async Task<string> SetPersonDocument(string personId, FileContent entity, string activityId = null)
         {
-            return await _repo.CreatePersonDocument(entity, personId, category, activityId);
+            return await _repo.CreatePersonDocument(entity, personId, activityId);
         }
         public async Task<bool> DeletePersonDocument(string fileId)
         {
@@ -340,13 +336,14 @@ namespace Data.Manager
 
         public async Task<IEnumerable<ActivityDocumentsViewModel>> GetPersonDocuments(string id)
         {
-            var activities = await _repo.ReadCategorizedPersonActivityByPerson(id);
+            var activities = (await _repo.ReadCategorizedPersonActivityByPerson(id)).ToList();
+            activities.Add(new PersonActivity());
             var activityDocs = activities.Select(async e => 
             {
                 return new ActivityDocumentsViewModel()
                 {
                     Activity = e,
-                    Documents = await _repo.ReadAllDocumentByActivity(e.Id),
+                    Documents = await _repo.ReadAllDocumentByPersonIdAndActivity(id, e.Id),
                 };
             });
 

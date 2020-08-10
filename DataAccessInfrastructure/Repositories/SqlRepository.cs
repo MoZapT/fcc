@@ -237,15 +237,14 @@ namespace DataAccessInfrastructure.Repositories
 	                ON fc.Id = pfc.FileContentId
                 WHERE 
 	                pfc.PersonId = @Id
-	                AND pfc.PersonActivityId = @Activity";
+	                AND ISNULL(pfc.PersonActivityId, '') = ISNULL(@Activity, '')";
 
             return await Query<PersonDocument>(query, new { @Id = id, @Activity = activity });
         }
-        public async Task<string> CreatePersonDocument(FileContent content, string personId, string category, string activityId = null)
+        public async Task<string> CreatePersonDocument(FileContent content, string personId, string activityId = null)
         {
             var parameters = new DynamicParameters(content);
             parameters.Add("@PersonId", personId);
-            parameters.Add("@Category", category);
             parameters.Add("@ActivityId", activityId);
             parameters.Add("@RetVal", string.Empty, direction: System.Data.ParameterDirection.Output);
             await Execute("Insert_PersonDocument", parameters, System.Data.CommandType.StoredProcedure);
@@ -679,22 +678,7 @@ namespace DataAccessInfrastructure.Repositories
 	                ON pa.BiographyId = pb.Id 
 	                AND pb.PersonId = @Id
                     AND pa.IsActive = 1
-                    AND pb.IsActive = 1
-
-                UNION
-	
-                SELECT
-	                NULL
-	                ,NULL
-	                ,NULL
-	                ,NULL
-	                ,NULL
-	                ,NULL
-	                ,NULL
-	                ,NULL
-	                ,NULL
-	                ,NULL
-	                ,NULL";
+                    AND pb.IsActive = 1";
 
             return await Query<PersonActivity>(query, new { @Id = id });
         }

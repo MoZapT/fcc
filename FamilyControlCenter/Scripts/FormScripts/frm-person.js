@@ -710,20 +710,10 @@
 
     //DocumentsTab
     function initDocumentsTab() {
-        Window.CustomizedTypeahead.InitElement($('#DocumentCategoryTa'));
-        $('#DocumentCategoryTa').off('typeahead:close');
-        $('#DocumentCategoryTa').on('change', function (e) {
-            $('#DocumentCategory').val(e.currentTarget.value);
-        });
+        $('input.file-uploader').on('change', function (e) {
+            var activityId = $(e.currentTarget).prev('div').text();
 
-        $('#UploadFile').on('change', function (e) {
-            if (!$('#DocumentCategory').val()) {
-                $('#ErrorDocumentCategory').removeClass('hide');
-                return;
-            }
-            $('#ErrorDocumentCategory').addClass('hide');
-
-            uploadFile();
+            uploadFile($(e.currentTarget), activityId);
         });
 
         $('#LoadCategories').on('change', function (e) {
@@ -732,41 +722,6 @@
 
         $('a#DeleteDocument').on('click', function (e) {
             deleteFile($(e.currentTarget).attr('fileid'));
-        });
-
-        $('#CategoryName').on('change', function (e) {
-            var btn = $(e.currentTarget).parent('div.input-group').find('button[old-category]');
-
-            btn.removeClass('btn-outline-info');
-            btn.addClass('btn-info');
-        });
-
-        $('[old-category]').on('click', function (e) {
-            var txtBox = $(e.currentTarget).parent('div.input-group').find('#CategoryName');
-            var newCategoryText = txtBox.val();
-            var oldCateogryText = $(e.currentTarget).attr('old-category');
-
-            $.ajax({
-                url: getApiRoute() + 'person/file/upload/'
-                    + personId + '/'
-                    + category,// + '/'
-                type: 'POST',
-                data: fd,
-                enctype: 'multipart/form-data',
-                contentType: false,
-                processData: false,
-                complete: function (response) {
-                    if (response.status === 200) {
-                        $(e.currentTarget).attr('old-category', newCategoryText);
-                    }
-                    else {
-                        txtBox.val(oldCateogryText);
-                    }
-
-                    $(e.currentTarget).removeClass('btn-info');
-                    $(e.currentTarget).addClass('btn-outline-info');
-                }
-            });
         });
     }
 
@@ -783,22 +738,18 @@
         });
     }
 
-    function uploadFile() {
+    function uploadFile(uploader, activityId) {
         personId = $('#Model_Id').val();
         var fd = new FormData();
-        var files = $('#UploadFile[type="file"]')[0].files;
+        var files = $(uploader)[0].files;
         for (var i = 0; i < files.length; i++) {
             fd.append("file_" + i, files[i], files[i].name);
         }
 
-        var category = $('#DocumentCategory').val();
-        //var activityId = '';
-
         $.ajax({
             url: getApiRoute() + 'person/file/upload/'
                 + personId + '/'
-                + category,// + '/'
-                //+ activityId,
+                + activityId,
             type: 'POST',
             data: fd,
             enctype: 'multipart/form-data',

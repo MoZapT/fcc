@@ -35,7 +35,7 @@ namespace Shared.Interfaces.Repositories
         Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonIdAndCategory(string id, string category);
         Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonIdAndActivity(string id, string activity);
         Task<IEnumerable<PersonDocument>> ReadAllDocumentByActivity(string activity);
-        Task<string> CreatePersonDocument(FileContent content, string personId, string category, string activityId = null);
+        Task<string> CreatePersonDocument(FileContent content, string personId, string activityId = null);
         Task<bool> DeletePersonDocument(string personId, string fileId);
         Task<bool> DeleteAllPersonDocument(string personId);
 
