@@ -281,16 +281,24 @@ namespace DataAccessInfrastructure.Repositories
 
             return await Query<ActivityType>(query, new { @PersonId = personId });
         }
-        public async Task<bool> MovePersonDocumentToAnotherCategory(string personId, string contentId, string activityId = null)
+        public async Task<bool> DeletePersonDocuments(IEnumerable<string> docs)
+        {
+            string query = @"
+                DELETE FROM [PersonDocument]
+                WHERE 
+                    [Id] IN (SELECT * FROM @Documents)";
+
+            return await Execute(query, new { @Documents = docs }) > 0;
+        }
+        public async Task<bool> MovePersonDocumentsToAnotherCategory(IEnumerable<string> docs, string activityId)
         {
             string query = @"
                 UPDATE [PersonDocument]
                 SET  [PersonActivityId] = @PersonActivityId
                 WHERE 
-                    [PersonId] = @PersonId
-                    AND [FileContentId] = @FileContentId";
+                    [Id] IN (SELECT * FROM @Documents)";
 
-            return await Execute(query, new { @PersonId = personId, @FileContentId = contentId, @PersonActivityId = activityId }) > 0;
+            return await Execute(query, new { @Documents = docs, @PersonActivityId = activityId }) > 0;
         }
 
         #endregion

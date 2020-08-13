@@ -728,19 +728,35 @@ function Document(personId, personActivityId, fileContentId) {
             loadDocuments();
         });
 
-        $('input[type="checkbox"]').on('change', function (e) {
+        $('input[type="checkbox"].person-documents').on('change', function (e) {
             var checked = e.currentTarget.checked;
 
-            if (checked) {
-                var personId = $('#Model_Id').val();
-                var personActivityId = $(e.currentTarget).attr('activity-id');
-                var personActivityId = personActivityId === undefined ? null : personActivityId;
-                var fileContentId = e.currentTarget.id;
-                var doc = new Document(personId, personActivityId, fileContentId);
+            var personId = $('#Model_Id').val();
+            var personActivityId = $(e.currentTarget).attr('activity-id');
+            var personActivityId = personActivityId === undefined ? null : personActivityId;
+            var fileContentId = e.currentTarget.id;
+            var doc = new Document(personId, personActivityId, fileContentId);
 
+            if (checked) {
                 selectedDocuments.push(doc);
             }
+            else {
+                selectedDocuments.splice(selectedDocuments.indexOf(doc));
+            }
+
+            togglePersonDocumentsToast();
         });
+    }
+
+    function togglePersonDocumentsToast() {
+        console.log(selectedDocuments.length);
+
+        if (selectedDocuments.length > 0) {
+            $('div.snackbar.person-documents').addClass('show');
+        }
+        else {
+            $('div.snackbar.person-documents').removeClass('show');
+        }
     }
 
     function deleteFiles(fileid) {

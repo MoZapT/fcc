@@ -367,20 +367,6 @@ namespace WebApiFCC.Controllers
         }
 
         [HttpGet]
-        [Route("document/move/{personId}/{contentId}/{activityId?}")]
-        public async Task<bool> MoveDocumentToAnotherCategory(string personId, string contentId, string activityId = null)
-        {
-            try
-            {
-                return await _mgrFcc.MovePersonDocumentToAnotherCategory(personId, contentId, activityId);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        [HttpGet]
         [Route("person/personwithpossibilities")]
         public async Task<IEnumerable<KeyValuePair<string, string>>> GetPersonsWithRelationsWithPossibleRelations()
         {

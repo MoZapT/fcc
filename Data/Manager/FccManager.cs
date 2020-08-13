@@ -352,9 +352,14 @@ namespace Data.Manager
             return vms;
         }
 
-        public async Task<bool> MovePersonDocumentToAnotherCategory(string personId, string contentId, string activityId = null)
+        public async Task<bool> DeletePersonDocuments(IEnumerable<string> docs) 
         {
-            return await _repo.MovePersonDocumentToAnotherCategory(personId, contentId, activityId);
+            return await _repo.DeletePersonDocuments(docs);
+        }
+
+        public async Task<bool> MovePersonDocumentsToAnotherCategory(IEnumerable<string> docs, string activity) 
+        {
+            return await _repo.MovePersonDocumentsToAnotherCategory(docs, activity);
         }
     }
 }

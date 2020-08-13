@@ -91,7 +91,8 @@ namespace Shared.Interfaces.Managers
         #endregion
 
         Task<IEnumerable<ActivityDocumentsViewModel>> GetPersonDocuments(string id);
-        Task<bool> MovePersonDocumentToAnotherCategory(string personId, string contentId, string activityId = null);
+        Task<bool> DeletePersonDocuments(IEnumerable<string> docs);
+        Task<bool> MovePersonDocumentsToAnotherCategory(IEnumerable<string> docs, string activity);
 
     }
 }
