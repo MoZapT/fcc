@@ -10,8 +10,16 @@
     <div id="DocumentsBody" class="card-body">
         @Html.Partial("Person/_PersonDocumentList", Model)
 
-        <div class="snackbar person-documents">
-            <button>deselect</button>
+        <div class="snackbar shownot person-documents">
+            <button id="MoveDocuments" type="button" class="btn-secondary">
+                <em class="fas fa-map-marker"></em>
+            </button>
+            <button id="DeleteDocuments" type="button" class="btn-secondary">
+                <em class="fas fa-trash-alt text-danger"></em>
+            </button>
+            <button id="DeselectDocuments" type="button" class="btn-secondary">
+                <em class="fas fa-clone"></em>
+            </button>
         </div>
     </div>
 </div>

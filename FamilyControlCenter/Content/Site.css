@@ -157,7 +157,6 @@ label.sideslide {
 
 /* The snackbar - position it at the bottom and in the middle of the screen */
 .snackbar {
-    visibility: hidden; /* Hidden by default. Visible on click */
     min-width: 250px; /* Set a default minimum width */
     margin-left: -125px; /* Divide value of min-width by 2 */
     background-color: white; /* Black background color */
@@ -172,62 +171,127 @@ label.sideslide {
     z-index: 1; /* Add a z-index if needed */
     left: 50%; /* Center the snackbar */
     bottom: 30px; /* 30px from the bottom */
+
 }
 
-/* Show the snackbar when clicking on a button (class added with JavaScript) */
 .snackbar.show {
-    visibility: visible; /* Show the snackbar */
-    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
-However, delay the fade out process for 2.5 seconds */
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    -webkit-animation: fadein 0.5s;
+    animation: fadein 0.5s;
 }
 
-/* Animations to fade the snackbar in and out */
-@-webkit-keyframes fadein {
-    from {
-        bottom: 0;
+.snackbar.shownot {
+    -webkit-animation: fadeout 0.5s 2.5s;
+    animation: fadeout 0.5s 2.5s;
+}
+
+@-moz-keyframes fadein {
+    0% {
         opacity: 0;
+        bottom: 0;
+        visibility: hidden;
     }
 
-    to {
-        bottom: 30px;
+    100% {
         opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+}
+
+@-webkit-keyframes fadein {
+    0% {
+        opacity: 0;
+        bottom: 0;
+        visibility: hidden;
+    }
+
+    100% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+}
+
+@-ms-keyframes fadein {
+    0% {
+        opacity: 0;
+        bottom: 0;
+        visibility: hidden;
+    }
+
+    100% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
     }
 }
 
 @keyframes fadein {
-    from {
-        bottom: 0;
+    0% {
         opacity: 0;
+        bottom: 0;
+        visibility: hidden;
     }
 
-    to {
-        bottom: 30px;
+    100% {
         opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+}
+
+@-moz-keyframes fadeout {
+    0% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 0;
+        bottom: 0px;
+        visibility: hidden;
     }
 }
 
 @-webkit-keyframes fadeout {
-    from {
-        bottom: 30px;
+    0% {
         opacity: 1;
+        bottom: 30px;
+        visibility: visible;
     }
 
-    to {
-        bottom: 0;
+    100% {
         opacity: 0;
+        bottom: 0px;
+        visibility: hidden;
+    }
+}
+
+@-ms-keyframes fadeout {
+    0% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 0;
+        bottom: 0px;
+        visibility: hidden;
     }
 }
 
 @keyframes fadeout {
-    from {
-        bottom: 30px;
+    0% {
         opacity: 1;
+        bottom: 30px;
+        visibility: visible;
     }
 
-    to {
-        bottom: 0;
+    100% {
         opacity: 0;
+        bottom: 0px;
+        visibility: hidden;
     }
 } 

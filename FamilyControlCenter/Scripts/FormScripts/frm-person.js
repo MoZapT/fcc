@@ -749,8 +749,6 @@ function Document(personId, personActivityId, fileContentId) {
     }
 
     function togglePersonDocumentsToast() {
-        console.log(selectedDocuments.length);
-
         if (selectedDocuments.length > 0) {
             $('div.snackbar.person-documents').addClass('show');
         }
