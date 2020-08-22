@@ -9,8 +9,11 @@
     string activityName = (vm.Activity.Activity ?? Resources.Resource.Other);
 
     <div class="card">
-        <div class="card-header">
+        <div class="card-header d-md-inline-block">
             @activityName
+            <button id="@vm.Activity.Id" type="button" class="hide btn-primary move-files-to-activity">
+                <em class="fas fa-map-marker"></em>
+            </button>
         </div>
         <div class="card-body">
             <label for="UploadFile_@i" class="btn btn-primary btn-edges input-group-addon">

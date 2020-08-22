@@ -93,6 +93,7 @@
     <Compile Include="Models\PersonDocument.cs" />
     <Compile Include="Models\FileContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Viewmodels\PersonDocumentViewModel.cs" />
     <Compile Include="Viewmodels\PagingViewModel.cs" />
     <Compile Include="Viewmodels\ActivityDocumentsViewModel.cs" />
     <Compile Include="Viewmodels\PersonDocumentsViewModel.cs" />

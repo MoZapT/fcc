@@ -171,17 +171,13 @@ label.sideslide {
     z-index: 1; /* Add a z-index if needed */
     left: 50%; /* Center the snackbar */
     bottom: 30px; /* 30px from the bottom */
-
+    -webkit-animation: fadeout 0.5s 2.5s;
+    animation: fadeout 0.5s 2.5s;
 }
 
 .snackbar.show {
     -webkit-animation: fadein 0.5s;
     animation: fadein 0.5s;
-}
-
-.snackbar.shownot {
-    -webkit-animation: fadeout 0.5s 2.5s;
-    animation: fadeout 0.5s 2.5s;
 }
 
 @-moz-keyframes fadein {

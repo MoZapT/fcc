@@ -746,14 +746,34 @@ function Document(personId, personActivityId, fileContentId) {
 
             togglePersonDocumentsToast();
         });
+
+        $('#DeselectDocuments').on('click', function (e) {
+            DeselectPersonDocuments();
+        });
+
+        $('button.move-files-to-activity').on('click', function (e) {
+            MoveFiles(e.currentTarget.id);
+        });
     }
 
     function togglePersonDocumentsToast() {
         if (selectedDocuments.length > 0) {
             $('div.snackbar.person-documents').addClass('show');
+            $('div.snackbar.person-documents').removeClass('hide');
+
+            $('button.move-files-to-activity').removeClass('hide');
         }
         else {
+            $('div.snackbar.person-documents').addClass('hide');
             $('div.snackbar.person-documents').removeClass('show');
+
+            $('button.move-files-to-activity').addClass('hide');
+        }
+    }
+
+    function DeselectPersonDocuments() {
+        for (var i = 0; i < selectedDocuments.length; i++){
+            $('#' + selectedDocuments[i].FileContentId).click();
         }
     }
 
@@ -768,40 +788,26 @@ function Document(personId, personActivityId, fileContentId) {
         //});
     }
 
-    function moveFiles(uploader, activityId) {
-        //$.ajax({
-        //    url: getApiRoute() + 'document/move/'
-        //        + personId + '/'
-        //        + fileId + '/'
-        //        + activityId,
-        //    type: 'POST',
-        //    data: fd,
-        //    enctype: 'multipart/form-data',
-        //    contentType: false,
-        //    processData: false,
-        //    complete: function (response) {
-        //        if (response.status === 200) {
-        //            loadDocuments();
-        //        }
-        //    }
-        //});
+    function MoveFiles(activityId) {
+        $.ajax({
+            url: 'person/document/move/{personId}/{docs}/{activity?}',
+            data: JSON.stringify({
+                personId: $('#Model_Id').val(),
+                docs: selectedDocuments,
+                activity: activityId
+            }),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
 
-        //$.ajax({
-        //    url: 'PersonDocumentsList',
-        //    data: JSON.stringify({ personId: $('#Model_Id').val() }),
-        //    type: 'POST',
-        //    dataType: 'json',
-        //    contentType: 'application/json; charset=utf-8',
-        //    traditional: true,
-        //    complete: function (response) {
-        //        if (response.status !== 200) {
-        //            return;
-        //        }
-
-        //        $('#DocumentsBody').html(response.responseText);
-        //        initDocumentsTab();
-        //    }
-        //});
+                $('#DocumentsBody').html(response.responseText);
+                initDocumentsTab();
+            }
+        });
     }
 
     function uploadFile(uploader, activityId) {

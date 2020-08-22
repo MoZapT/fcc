@@ -8,6 +8,7 @@ using FamilyControlCenter.Filters;
 using System;
 using System.Threading.Tasks;
 using Shared.Interfaces.Managers;
+using System.Linq;
 
 namespace FamilyControlCenter.Controllers
 {
@@ -152,9 +153,10 @@ namespace FamilyControlCenter.Controllers
         }
 
         [Route("person/document/move/{personId}/{docs}/{activity?}")]
-        public async Task<PartialViewResult> MovePersonDocumentsList(string personId, IEnumerable<string> docs, string activity = null)
+        [HttpPost]
+        public async Task<PartialViewResult> MovePersonDocumentsList(string personId, IEnumerable<PersonDocumentViewModel> docs, string activity = null)
         {
-            await _mgrFcc.MovePersonDocumentsToAnotherCategory(docs, activity);
+            await _mgrFcc.MovePersonDocumentsToAnotherCategory(docs.Select(e => e.FileContentId), activity);
 
             return await LoadPersonDocumentListPartialView(personId);
         }
