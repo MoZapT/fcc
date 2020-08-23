@@ -1,5 +1,6 @@
 ﻿using Shared.Enums;
 using Shared.Models;
+using Shared.Viewmodels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -28,13 +29,11 @@ namespace Shared.Interfaces.Managers
 
         Task<PersonDocument> GetDocumentByPersonId(string id);
         Task<IEnumerable<PersonDocument>> GetAllDocumentsByPersonId(string id);
-        Task<IEnumerable<PersonDocument>> GetAllDocumentsByPersonIdAndCategory(string id, string category);
         Task<IEnumerable<PersonDocument>> GetAllDocumentsByPersonIdAndActivity(string id, string activity);
-        Task<string> SetPersonDocument(string personId, FileContent entity, string category, string activityId = null);
+        Task<string> SetPersonDocument(string personId, FileContent entity, string activityId = null);
         Task<bool> DeletePersonDocument(string fileId);
         Task<bool> DeleteAllPersonDocuments(string personId);
 
-        Task<IEnumerable<string>> GetDocumentCategories(string query);
         Task<IEnumerable<ActivityType>> GetDocumentActivities(string personId);
 
         #endregion
@@ -73,6 +72,7 @@ namespace Shared.Interfaces.Managers
         #region PersonActivity
 
         Task<PersonActivity> GetPersonActivity(string id);
+        Task<IEnumerable<PersonActivity>> GetCategorizedPersonActivityByPerson(string id);
         Task<IEnumerable<PersonActivity>> GetAllPersonActivityByPerson(string id);
         Task<IEnumerable<PersonActivity>> GetAllPersonActivityByPerson(string id, ActivityType type);
         Task<string> SetPersonActivity(PersonActivity entity);
@@ -87,10 +87,12 @@ namespace Shared.Interfaces.Managers
         Task<string> SetFileContent(FileContent entity);
         Task<bool> UpdateFileContent(FileContent entity);
         Task<bool> DeleteFileContent(string id);
-        Task<bool> RenameCategory(string personId, string oldCategory, string newCategory);
-        Task<bool> MoveContentToAnotherCategory(string personId, string contentId, string category);
 
         #endregion
+
+        Task<IEnumerable<ActivityDocumentsViewModel>> GetPersonDocuments(string id);
+        Task<bool> DeletePersonDocuments(IEnumerable<string> docs);
+        Task<bool> MovePersonDocumentsToAnotherCategory(IEnumerable<string> docs, string activity);
 
     }
 }

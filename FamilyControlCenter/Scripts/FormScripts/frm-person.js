@@ -1,10 +1,18 @@
 ﻿Window.FormScripts = {};
 
+function Document(personId, personActivityId, fileContentId) {
+    this.PersonId = personId;
+    this.PersonActivityId = personActivityId;
+    this.FileContentId = fileContentId;
+}
+
 (function () {
     var relationsLoaded = false;
     var namesLoaded = false;
     var biographyLoaded = false;
     var documentsLoaded = false;
+
+    var selectedDocuments = [];
 
     //Switch tabs
     function initializeComponent() {
@@ -566,6 +574,7 @@
     }
 
     function InitAddOrEditActivityControls() {
+        $('#AddActivity').addClass('hide');
         Window.DatePicker.ReInitElement($('#NewActivityDateBegin'));
         $('button#SaveActivity').on('click', function (e) {
             savePersonActivity();
@@ -709,95 +718,120 @@
 
     //DocumentsTab
     function initDocumentsTab() {
-        Window.CustomizedTypeahead.InitElement($('#DocumentCategoryTa'));
-        $('#DocumentCategoryTa').off('typeahead:close');
-        $('#DocumentCategoryTa').on('change', function (e) {
-            $('#DocumentCategory').val(e.currentTarget.value);
+        $('input.file-uploader').on('change', function (e) {
+            var activityId = $(e.currentTarget).prev('div').text();
+
+            uploadFile($(e.currentTarget), activityId);
         });
 
-        $('#UploadFile').on('change', function (e) {
-            if (!$('#DocumentCategory').val()) {
-                $('#ErrorDocumentCategory').removeClass('hide');
-                return;
+        $('input[type="checkbox"].person-documents').on('change', function (e) {
+            var checked = e.currentTarget.checked;
+
+            var personId = $('#Model_Id').val();
+            var personActivityId = $(e.currentTarget).attr('activity-id');
+            var personActivityId = personActivityId === undefined ? null : personActivityId;
+            var fileContentId = e.currentTarget.id;
+            var doc = new Document(personId, personActivityId, fileContentId);
+
+            if (checked) {
+                selectedDocuments.push(doc);
             }
-            $('#ErrorDocumentCategory').addClass('hide');
+            else {
+                selectedDocuments.splice(selectedDocuments.indexOf(doc));
+            }
 
-            uploadFile();
+            togglePersonDocumentsToast();
         });
 
-        $('#LoadCategories').on('change', function (e) {
-            loadDocuments();
+        $('#DeselectDocuments').on('click', function (e) {
+            DeselectPersonDocuments();
         });
 
-        $('a#DeleteDocument').on('click', function (e) {
-            deleteFile($(e.currentTarget).attr('fileid'));
+        $('#DeleteDocuments').on('click', function (e) {
+            DeleteFiles();
         });
 
-        $('#CategoryName').on('change', function (e) {
-            var btn = $(e.currentTarget).parent('div.input-group').find('button[old-category]');
-
-            btn.removeClass('btn-outline-info');
-            btn.addClass('btn-info');
-        });
-
-        $('[old-category]').on('click', function (e) {
-            var txtBox = $(e.currentTarget).parent('div.input-group').find('#CategoryName');
-            var newCategoryText = txtBox.val();
-            var oldCateogryText = $(e.currentTarget).attr('old-category');
-
-            $.ajax({
-                url: getApiRoute() + 'person/file/upload/'
-                    + personId + '/'
-                    + category,// + '/'
-                type: 'POST',
-                data: fd,
-                enctype: 'multipart/form-data',
-                contentType: false,
-                processData: false,
-                complete: function (response) {
-                    if (response.status === 200) {
-                        $(e.currentTarget).attr('old-category', newCategoryText);
-                    }
-                    else {
-                        txtBox.val(oldCateogryText);
-                    }
-
-                    $(e.currentTarget).removeClass('btn-info');
-                    $(e.currentTarget).addClass('btn-outline-info');
-                }
-            });
+        $('button.move-files-to-activity').on('click', function (e) {
+            MoveFiles(e.currentTarget.id);
         });
     }
 
-    function deleteFile(fileid) {
-        var personId = $('#Model_Id').val();
+    function togglePersonDocumentsToast() {
+        if (selectedDocuments.length > 0) {
+            $('div.snackbar.person-documents').addClass('show');
+            $('div.snackbar.person-documents').removeClass('hide');
 
+            $('button.move-files-to-activity').removeClass('hide');
+        }
+        else {
+            $('div.snackbar.person-documents').addClass('hide');
+            $('div.snackbar.person-documents').removeClass('show');
+
+            $('button.move-files-to-activity').addClass('hide');
+        }
+    }
+
+    function DeselectPersonDocuments() {
+        for (var i = 0; i < selectedDocuments.length; i++){
+            $('#' + selectedDocuments[i].FileContentId).click();
+        }
+    }
+
+    function DeleteFiles() {
         $.ajax({
-            url: getApiRoute() + 'person/file/delete/' + personId + '/' + fileid,
-            type: 'GET',
+            url: getApiRoute() + 'person/document/delete/{personId}/{docs}',
+            data: JSON.stringify({
+                personId: $('#Model_Id').val(),
+                docs: JSON.stringify(selectedDocuments)
+            }),
+            type: 'POST',
             dataType: 'json',
-            success: function (response) {
-                loadDocuments();
+            contentType: 'application/json; charset=utf-8',
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
+                $('.tab-pane#documents').html(response.responseText);
+                initDocumentsTab();
             }
         });
     }
 
-    function uploadFile() {
+    function MoveFiles(activityId) {
+        $.ajax({
+            url: 'person/document/move/{personId}/{docs}/{activity?}',
+            data: JSON.stringify({
+                personId: $('#Model_Id').val(),
+                docs: JSON.stringify(selectedDocuments),
+                activity: activityId
+            }),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
+                $('.tab-pane#documents').html(response.responseText);
+                initDocumentsTab();
+            }
+        });
+    }
+
+    function uploadFile(uploader, activityId) {
         personId = $('#Model_Id').val();
         var fd = new FormData();
-        var files = $('#UploadFile[type="file"]')[0].files;
+        var files = $(uploader)[0].files;
         for (var i = 0; i < files.length; i++) {
             fd.append("file_" + i, files[i], files[i].name);
         }
 
-        var category = $('#DocumentCategory').val();
-        //var activityId = '';
-
         $.ajax({
             url: getApiRoute() + 'person/file/upload/'
                 + personId + '/'
-                + category,// + '/'
-                //+ activityId,
+                + activityId,
             type: 'POST',
             data: fd,
             enctype: 'multipart/form-data',
@@ -805,7 +839,7 @@
             processData: false,
             complete: function (response) {
                 if (response.status === 200) {
-                    loadDocuments();
+                    loadInitDocuments();
                 }
             }
         });

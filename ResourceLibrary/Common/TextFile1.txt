@@ -1,4 +1,16 @@
-﻿USE [master]
+﻿SELECT  TOP 10 
+			 [Totale Kosten]  = ROUND(avg_total_user_cost * avg_user_impact * (user_seeks + user_scans),0) 
+			 , avg_user_impact -- Abfrage Kosten würden sich durch diesen Wert im Durchschnitt verringern
+			 , Tabelle = statement
+			 , [Equality Cloumns] = equality_columns 
+			 , [Inequality Cloumns] = inequality_columns
+			 , [Include Cloumns] = included_columns
+FROM         sys.dm_db_missing_index_groups g 
+INNER JOIN   sys.dm_db_missing_index_group_stats s ON s.group_handle = g.index_group_handle 
+INNER JOIN   sys.dm_db_missing_index_details d ON d.index_handle = g.index_handle
+ORDER BY [Totale Kosten] DESC;
+
+USE [master]
 GO
 /****** Object:  Database [FCC]    Script Date: 13.12.2019 15:45:13 ******/
 CREATE DATABASE [FCC]

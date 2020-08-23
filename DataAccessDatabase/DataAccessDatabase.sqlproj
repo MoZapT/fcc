@@ -168,10 +168,6 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Tables\PersonFileContent.sql">
-      <AnsiNulls>On</AnsiNulls>
-      <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
     <Build Include="dbo\Tables\PersonName.sql">
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
@@ -191,11 +187,18 @@
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
     </Build>
-    <Build Include="dbo\Stored Procedures\Insert_PersonFileContent.sql" />
+    <Build Include="dbo\Stored Procedures\Insert_PersonFileContent.sql">
+      <AnsiNulls>Off</AnsiNulls>
+      <QuotedIdentifier>Off</QuotedIdentifier>
+    </Build>
     <Build Include="dbo\Stored Procedures\Insert_PersonDocument.sql" />
     <Build Include="dbo\Functions\GetPersonsThatHaveRelativesWithPossibleRelations.sql" />
     <Build Include="dbo\Functions\ReadAllPersonRelationsThatArePossible.sql" />
     <Build Include="dbo\Functions\CheckIfSameRelationsAvaible.sql" />
     <Build Include="dbo\Functions\GetPersonsKvpWithPossibleRelations.sql" />
+    <Build Include="dbo\Tables\PersonPhoto.sql">
+      <AnsiNulls>On</AnsiNulls>
+      <QuotedIdentifier>On</QuotedIdentifier>
+    </Build>
   </ItemGroup>
 </Project>

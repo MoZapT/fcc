@@ -1,20 +1,37 @@
-﻿@model Dictionary<string, IEnumerable<PersonDocument>>
+﻿@model IEnumerable<ActivityDocumentsViewModel>
 
-@foreach (var filesKvp in Model)
+@{ 
+    int i = 0;
+}
+@foreach (var vm in Model)
 {
-    var files = filesKvp.Value;
+    i++;
+    string activityName = (vm.Activity.Activity ?? Resources.Resource.Other);
 
     <div class="card">
-        <div class="card-header">
-            @filesKvp.Key
+        <div class="card-header d-md-inline-block">
+            @activityName
+            <button id="@vm.Activity.Id" type="button" class="btn btn-edges hide btn-primary move-files-to-activity">
+                <em class="fas fa-map-marker"></em>
+            </button>
         </div>
         <div class="card-body">
+            <label for="UploadFile_@i" class="btn btn-primary btn-edges input-group-addon">
+                <span class="fas fa-file-upload"></span>
+                <span class="toggle-text">@Resource.BtnUploadFile</span>
+            </label>
+            <div id="ActivityId_@i" class="hide">@vm.Activity.Id</div>
+            <input id="UploadFile_@i" class="file-uploader hide" type="file" name="files[]" data-multiple-caption="{count} notimplted" multiple="" aria-invalid="false">
+
             <div class="card-columns">
-                @foreach (var file in files)
+                @foreach (var file in vm.Documents)
                 {
                     <div class="card">
                         <div class="card-header fullwidth">
-                            <a href="#" id="DeleteDocument" fileid="@file.Id"><span class="text-danger fas fa-trash-alt"></span></a>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input person-documents" id="@file.Id" activity-id="@vm.Activity.Id">
+                                <label class="custom-control-label" for="@file.Id"></label>
+                            </div>
                         </div>
                         <div class="card-body">
                             @if (ContentTypeHelper.IsDocument(file.FileType))

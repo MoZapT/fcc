@@ -7,7 +7,6 @@
     @FileType NVARCHAR(250),
     @Name NVARCHAR(250),
     @PersonId nvarchar(128),
-    @Category nvarchar(500),
     @ActivityId nvarchar(128),
     @RetVal nvarchar(128) OUTPUT
 AS
@@ -26,7 +25,7 @@ INSERT INTO [dbo].[FileContent]
             ,[FileType]
             ,[Name])
         VALUES
-            (@Id
+            (@FileContentId
             ,@DateCreated
             ,@DateModified
             ,@IsActive
@@ -40,14 +39,12 @@ INSERT INTO [dbo].[PersonDocument]
     ([Id]
     ,[PersonId]
     ,[FileContentId]
-	,[CategoryName]
 	,[PersonActivityId])
 OUTPUT INSERTED.Id INTO @tmp
 VALUES
     (@RetVal
     ,@PersonId
-    ,@Id
-	,@Category
+    ,@FileContentId
 	,@ActivityId)
 
 COMMIT TRAN

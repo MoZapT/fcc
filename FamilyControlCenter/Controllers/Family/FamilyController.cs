@@ -7,25 +7,32 @@ using System.Collections.Generic;
 using FamilyControlCenter.Filters;
 using System;
 using System.Threading.Tasks;
+using Shared.Interfaces.Managers;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace FamilyControlCenter.Controllers
 {
     [Authorize(Roles = "User")]
     [RoutePrefix("{lang}/family")]
     [Localization]
+    [PreLoadAction]
     public class FamilyController : BaseController
     {
         private readonly IFccViewBuilder _vwbFcc;
+        private readonly IFccManager _mgrFcc;
 
-        public FamilyController(IFccViewBuilder vwbFcc)
+        public FamilyController(IFccViewBuilder vwbFcc, IFccManager mgrFcc)
         {
+            _mgrFcc = mgrFcc;
             _vwbFcc = vwbFcc;
         }
+
+        #region Unsorted
 
         public async Task<ActionResult> PersonDetail(string personId)
         {
             PersonViewModel vm = new PersonViewModel();
-            BeforeLoadAction(vm);
             vm.Model = new Person();
             vm.Model.Id = personId;
             vm.Command = ActionCommand.Open;
@@ -37,7 +44,6 @@ namespace FamilyControlCenter.Controllers
         public async Task<ActionResult> Person(int page = 1, int take = 10)
         {
             var vm = new PersonViewModel();
-            BeforeLoadAction(vm);
             vm.Page = page;
             vm.Take = take;
             await _vwbFcc.HandleAction(vm);
@@ -48,28 +54,12 @@ namespace FamilyControlCenter.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Person(PersonViewModel vm)
         {
-            BeforeLoadAction(vm);
             await _vwbFcc.HandleAction(vm);
             return View(vm);
         }
 
-        public async Task<PartialViewResult> PersonDocuments(string personId)
-        {
-            BeforeLoadAction();
-            var vm = await _vwbFcc.CreatePartialViewPersonDocuments(personId, true);
-            return PartialView("Person/_PersonDocuments", vm);
-        }
-
-        public async Task<PartialViewResult> PersonDocumentsList(string personId)
-        {
-            BeforeLoadAction();
-            var vm = await _vwbFcc.CreatePartialViewPersonDocuments(personId, true);
-            return PartialView("Person/_PersonDocumentList", vm.Documents);
-        }
-
         public async Task<PartialViewResult> PersonPhotoSection(string personId)
         {
-            BeforeLoadAction();
             KeyValuePair<string, IEnumerable<FileContent>> vm = await _vwbFcc.CreatePartialViewPersonPhotos(personId);
             return PartialView("Person/_PhotoSection", vm);
         }
@@ -77,7 +67,6 @@ namespace FamilyControlCenter.Controllers
         [HttpPost]
         public async Task<PartialViewResult> PersonRelations(string personId)
         {
-            BeforeLoadAction();
             PersonRelationsViewModel vm = await _vwbFcc.CreatePersonPartialViewRelationsModel(personId);
             return PartialView("Person/_PersonRelations", vm);
         }
@@ -85,7 +74,6 @@ namespace FamilyControlCenter.Controllers
         [HttpPost]
         public async Task<PartialViewResult> PersonBiography(string personId)
         {
-            BeforeLoadAction();
             var vm = await _vwbFcc.CreatePartialViewPersonBiography(personId);
             return PartialView("Person/_PersonBiography", vm);
         }
@@ -99,7 +87,6 @@ namespace FamilyControlCenter.Controllers
         [HttpPost]
         public async Task<PartialViewResult> MarriagePartialView(string personId, string spouseId, string partnerId)
         {
-            BeforeLoadAction();
             var vm = await _vwbFcc.CreatePartialViewForMarriageOrLivePartner(personId, spouseId, partnerId);
             return PartialView("Person/_MarriageSection", vm);
         }
@@ -107,21 +94,18 @@ namespace FamilyControlCenter.Controllers
         [HttpPost]
         public async Task<PartialViewResult> NamesAndPatronymPartialView(string personId)
         {
-            BeforeLoadAction();
             IEnumerable<PersonName> vm = await _vwbFcc.CreatePartialViewForNamesAndPatronymList(personId);
             return PartialView("Person/_PersonNames", vm);
         }
 
         public async Task<ActionResult> PersonRelationsUpdateStack(string personId = null, string selectedId = null)
         {
-            BeforeLoadAction();
             var vm = await _vwbFcc.CreateUpdateRelationsStackViewModel(personId, selectedId);
             return View("_PersonRelationsUpdateStack", vm);
         }
 
         public async Task<PartialViewResult> PersonRelationsUpdateStackAsPartial(string personId = null, string selectedId = null)
         {
-            BeforeLoadAction();
             var vm = await _vwbFcc.CreateUpdateRelationsStackViewModel(personId, selectedId);
             return PartialView("RelationsUpdateStack/_PersonRelationsUpdateStack", vm);
         }
@@ -136,7 +120,6 @@ namespace FamilyControlCenter.Controllers
         [HttpPost]
         public async Task<PartialViewResult> PersonActivityEdit(string activityId)
         {
-            BeforeLoadAction();
             PersonActivity vm;
 
             if (!string.IsNullOrWhiteSpace(activityId))
@@ -146,5 +129,54 @@ namespace FamilyControlCenter.Controllers
 
             return PartialView("Person/_PersonActivityEditBlock", vm);
         }
+
+        #endregion
+
+        #region Documents
+
+        public async Task<PartialViewResult> PersonDocuments(string personId)
+        {
+            var vm = await _vwbFcc.CreatePartialViewPersonDocuments(personId);
+            return PartialView("Person/_PersonDocuments", vm);
+        }
+
+        public async Task<PartialViewResult> PersonDocumentsList(string personId)
+        {
+            return await LoadPersonDocumentListPartialView(personId);
+        }
+
+        [Route("person/document/delete/{personId}/{docs}")]
+        public async Task<PartialViewResult> DeletePersonDocumentsList(string personId, string docs)
+        {
+            IEnumerable<PersonDocumentViewModel> documents = JsonConvert.DeserializeObject<IEnumerable<PersonDocumentViewModel>>(docs);
+            await _mgrFcc.DeletePersonDocuments(documents.Select(e => e.FileContentId));
+
+            return await LoadPersonDocumentsPartialView(personId);
+        }
+
+        [Route("person/document/move/{personId}/{docs}/{activity?}")]
+        [HttpPost]
+        public async Task<PartialViewResult> MovePersonDocumentsList(string personId, string docs, string activity = null)
+        {
+            IEnumerable<PersonDocumentViewModel> documents = JsonConvert.DeserializeObject<IEnumerable<PersonDocumentViewModel>>(docs);
+            await _mgrFcc.MovePersonDocumentsToAnotherCategory(documents.Select(e => e.FileContentId), activity);
+
+            return await LoadPersonDocumentsPartialView(personId);
+        }
+
+        private async Task<PartialViewResult> LoadPersonDocumentsPartialView(string personId)
+        {
+            var vm = await _vwbFcc.CreatePartialViewPersonDocuments(personId);
+            return PartialView("Person/_PersonDocuments", vm);
+        }
+
+        private async Task<PartialViewResult> LoadPersonDocumentListPartialView(string personId)
+        {
+            var vm = await _vwbFcc.CreatePartialViewPersonDocuments(personId);
+            return PartialView("Person/_PersonDocumentList", vm);
+        }
+
+        #endregion
+
     }
 }

@@ -25,21 +25,23 @@ namespace Shared.Interfaces.Repositories
         Task<bool> UpdatePersonName(PersonName entity);
         Task<bool> DeletePersonName(string id);
 
-        Task<FileContent> ReadFileContentByPersonId(string id);
-        Task<IEnumerable<FileContent>> ReadAllFileContentByPersonId(string id);
-        Task<string> CreatePersonFileContent(string personId, FileContent entity);
-        Task<bool> DeleteAllPersonFileContent(string personId);
+        Task<FileContent> ReadPhotoByPersonId(string id);
+        Task<IEnumerable<FileContent>> ReadAllPhotoByPersonId(string id);
+        Task<string> CreatePersonPhoto(string personId, FileContent entity);
+        Task<bool> DeleteAllPersonPhoto(string personId);
 
         Task<PersonDocument> ReadDocumentByPersonId(string id);
         Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonId(string id);
         Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonIdAndCategory(string id, string category);
         Task<IEnumerable<PersonDocument>> ReadAllDocumentByPersonIdAndActivity(string id, string activity);
-        Task<string> CreatePersonDocument(FileContent content, string personId, string category, string activityId = null);
+        Task<IEnumerable<PersonDocument>> ReadAllDocumentByActivity(string activity);
+        Task<string> CreatePersonDocument(FileContent content, string personId, string activityId = null);
         Task<bool> DeletePersonDocument(string personId, string fileId);
         Task<bool> DeleteAllPersonDocument(string personId);
 
-        Task<IEnumerable<string>> ReadAllDocumentCategories(string search);
         Task<IEnumerable<ActivityType>> ReadAllDocumentActivities(string personId);
+        Task<bool> DeletePersonDocuments(IEnumerable<string> docs);
+        Task<bool> MovePersonDocumentsToAnotherCategory(IEnumerable<string> docs, string activityId);
 
         #region PersonRelation
 
@@ -72,6 +74,7 @@ namespace Shared.Interfaces.Repositories
         #region PersonActivity
 
         Task<PersonActivity> ReadPersonActivity(string id);
+        Task<IEnumerable<PersonActivity>> ReadCategorizedPersonActivityByPerson(string id);
         Task<IEnumerable<PersonActivity>> ReadAllPersonActivityByPerson(string id);
         Task<IEnumerable<PersonActivity>> ReadAllPersonActivityByPerson(string id, ActivityType type);
         Task<string> CreatePersonActivity(PersonActivity entity);
@@ -87,9 +90,7 @@ namespace Shared.Interfaces.Repositories
         Task<string> CreateFileContent(FileContent entity);
         Task<bool> UpdateFileContent(FileContent entity);
         Task<bool> DeleteFileContent(string id);
-        Task<bool> RenameCategory(string personId, string oldCategory, string newCategory);
-        Task<bool> MoveContentToAnotherCategory(string personId, string contentId, string category);
-
+ 
         #endregion
 
     }

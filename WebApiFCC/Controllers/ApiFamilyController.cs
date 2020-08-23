@@ -284,8 +284,8 @@ namespace WebApiFCC.Controllers
         }
 
         [HttpPost]
-        [Route("person/file/upload/{personId}/{category}/{activityId?}")]
-        public async Task<HttpResponseMessage> UploadPersonDocument(string personId, string category, string activityId = null)
+        [Route("person/file/upload/{personId}/{activityId?}")]
+        public async Task<HttpResponseMessage> UploadPersonDocument(string personId, string activityId = null)
         {
             Person person = await _mgrFcc.GetPerson(personId);
             if (person == null)
@@ -325,7 +325,7 @@ namespace WebApiFCC.Controllers
                         newFile.DateModified = DateTime.Now;
                     }
 
-                    string result = await _mgrFcc.SetPersonDocument(personId, newFile, category, activityId);
+                    string result = await _mgrFcc.SetPersonDocument(personId, newFile, activityId);
                     if (string.IsNullOrWhiteSpace(result))
                     {
                         throw new HttpResponseException(HttpStatusCode.InternalServerError);
@@ -348,21 +348,6 @@ namespace WebApiFCC.Controllers
         }
 
         [HttpGet]
-        [Route("document/categories/{query?}")]
-        public async Task<IEnumerable<KeyValuePair<string, string>>> GetDocumentCategories(string query = null)
-        {
-            try
-            {
-                return (await _mgrFcc.GetDocumentCategories(query))
-                    .Select(e => new KeyValuePair<string, string>(e, e));
-            }
-            catch (Exception)
-            {
-                return new List<KeyValuePair<string, string>>();
-            }
-        }
-
-        [HttpGet]
         [Route("document/activities/{personId}")]
         public async Task<IEnumerable<KeyValuePair<string, string>>> GetDocumentActivities(string personId)
         {
@@ -378,34 +363,6 @@ namespace WebApiFCC.Controllers
             catch (Exception)
             {
                 return new List<KeyValuePair<string, string>>();
-            }
-        }
-
-        [HttpGet]
-        [Route("document/move/{personId}/{contentId}/{category}")]
-        public async Task<bool> MoveDocumentToAnotherCategory(string personId, string contentId, string category)
-        {
-            try
-            {
-                return await _mgrFcc.MoveContentToAnotherCategory(personId, contentId, category);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        [HttpGet]
-        [Route("document/move/{personId}/{oldCategory}/{newCategory}")]
-        public async Task<bool> RenameCategory(string personId, string oldCategory, string newCategory)
-        {
-            try
-            {
-                return await _mgrFcc.RenameCategory(personId, oldCategory, newCategory);
-            }
-            catch (Exception)
-            {
-                return false;
             }
         }
 

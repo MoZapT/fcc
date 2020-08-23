@@ -28,33 +28,9 @@ namespace FamilyControlCenter.ViewBuilder
             await HandleState(vm);
         }
 
-        public async Task<PersonDocumentsViewModel> CreatePartialViewPersonDocuments(string personId, bool loadCategories)
+        public async Task<IEnumerable<ActivityDocumentsViewModel>> CreatePartialViewPersonDocuments(string personId)
         {
-            var vm = new PersonDocumentsViewModel();
-            var allDocs = await _mgrFcc.GetAllDocumentsByPersonId(personId);
-
-            if (loadCategories)
-                GroupingPersonDocuments(
-                    vm.Documents,
-                    allDocs.Where(e => string.IsNullOrWhiteSpace(e.PersonActivityId)));
-            else 
-                GroupingPersonDocuments(
-                    vm.Documents,
-                    allDocs.Where(e => !string.IsNullOrWhiteSpace(e.PersonActivityId)));
-
-            return vm;
-        }
-
-        private void GroupingPersonDocuments(Dictionary<string, IEnumerable<PersonDocument>> dict, IEnumerable<PersonDocument> docs)
-        {
-            IEnumerable<string> items = docs
-                .Select(e => e.CategoryName)
-                .Distinct();
-
-            foreach (string item in items)
-            {
-                dict.Add(item, docs.Where(e => e.CategoryName == item));
-            }
+            return await _mgrFcc.GetPersonDocuments(personId);
         }
 
         public async Task<KeyValuePair<string, IEnumerable<FileContent>>> CreatePartialViewPersonPhotos(string personId)

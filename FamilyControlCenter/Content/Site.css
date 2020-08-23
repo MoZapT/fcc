@@ -154,3 +154,140 @@ label.sideslide {
     width: 50%;
     opacity: 0.5;
 }
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+.snackbar {
+    min-width: 250px; /* Set a default minimum width */
+    margin-left: -125px; /* Divide value of min-width by 2 */
+    background-color: white; /* Black background color */
+    color: #fff; /* White text color */
+    text-align: center; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    border-color: rgba(0, 0, 0, 0.20);
+    border-style: solid;
+    border-width: 1px;
+    padding: 16px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 50%; /* Center the snackbar */
+    bottom: 30px; /* 30px from the bottom */
+    -webkit-animation: fadeout 0.5s 2.5s;
+    animation: fadeout 0.5s 2.5s;
+}
+
+.snackbar.show {
+    -webkit-animation: fadein 0.5s;
+    animation: fadein 0.5s;
+}
+
+@-moz-keyframes fadein {
+    0% {
+        opacity: 0;
+        bottom: 0;
+        visibility: hidden;
+    }
+
+    100% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+}
+
+@-webkit-keyframes fadein {
+    0% {
+        opacity: 0;
+        bottom: 0;
+        visibility: hidden;
+    }
+
+    100% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+}
+
+@-ms-keyframes fadein {
+    0% {
+        opacity: 0;
+        bottom: 0;
+        visibility: hidden;
+    }
+
+    100% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+        bottom: 0;
+        visibility: hidden;
+    }
+
+    100% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+}
+
+@-moz-keyframes fadeout {
+    0% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 0;
+        bottom: 0px;
+        visibility: hidden;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    0% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 0;
+        bottom: 0px;
+        visibility: hidden;
+    }
+}
+
+@-ms-keyframes fadeout {
+    0% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 0;
+        bottom: 0px;
+        visibility: hidden;
+    }
+}
+
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 0;
+        bottom: 0px;
+        visibility: hidden;
+    }
+} 
