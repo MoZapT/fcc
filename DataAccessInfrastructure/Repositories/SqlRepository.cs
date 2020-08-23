@@ -286,7 +286,7 @@ namespace DataAccessInfrastructure.Repositories
             string query = @"
                 DELETE FROM [PersonDocument]
                 WHERE 
-                    [Id] IN (SELECT * FROM @Documents)";
+                    [FileContentId] IN (SELECT * FROM @Documents)";
 
             return await Execute(query, new { @Documents = docs }) > 0;
         }
@@ -296,7 +296,7 @@ namespace DataAccessInfrastructure.Repositories
                 UPDATE [PersonDocument]
                 SET  [PersonActivityId] = @PersonActivityId
                 WHERE 
-                    [Id] IN (SELECT * FROM @Documents)";
+                    [FileContentId] IN @Documents";
 
             return await Execute(query, new { @Documents = docs, @PersonActivityId = activityId }) > 0;
         }

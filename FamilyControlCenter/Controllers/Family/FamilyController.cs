@@ -9,6 +9,7 @@ using System;
 using System.Threading.Tasks;
 using Shared.Interfaces.Managers;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace FamilyControlCenter.Controllers
 {
@@ -145,20 +146,28 @@ namespace FamilyControlCenter.Controllers
         }
 
         [Route("person/document/delete/{personId}/{docs}")]
-        public async Task<PartialViewResult> DeletePersonDocumentsList(string personId, IEnumerable<string> docs)
+        public async Task<PartialViewResult> DeletePersonDocumentsList(string personId, string docs)
         {
-            await _mgrFcc.DeletePersonDocuments(docs);
+            IEnumerable<PersonDocumentViewModel> documents = JsonConvert.DeserializeObject<IEnumerable<PersonDocumentViewModel>>(docs);
+            await _mgrFcc.DeletePersonDocuments(documents.Select(e => e.FileContentId));
 
-            return await LoadPersonDocumentListPartialView(personId);
+            return await LoadPersonDocumentsPartialView(personId);
         }
 
         [Route("person/document/move/{personId}/{docs}/{activity?}")]
         [HttpPost]
-        public async Task<PartialViewResult> MovePersonDocumentsList(string personId, IEnumerable<PersonDocumentViewModel> docs, string activity = null)
+        public async Task<PartialViewResult> MovePersonDocumentsList(string personId, string docs, string activity = null)
         {
-            await _mgrFcc.MovePersonDocumentsToAnotherCategory(docs.Select(e => e.FileContentId), activity);
+            IEnumerable<PersonDocumentViewModel> documents = JsonConvert.DeserializeObject<IEnumerable<PersonDocumentViewModel>>(docs);
+            await _mgrFcc.MovePersonDocumentsToAnotherCategory(documents.Select(e => e.FileContentId), activity);
 
-            return await LoadPersonDocumentListPartialView(personId);
+            return await LoadPersonDocumentsPartialView(personId);
+        }
+
+        private async Task<PartialViewResult> LoadPersonDocumentsPartialView(string personId)
+        {
+            var vm = await _vwbFcc.CreatePartialViewPersonDocuments(personId);
+            return PartialView("Person/_PersonDocuments", vm);
         }
 
         private async Task<PartialViewResult> LoadPersonDocumentListPartialView(string personId)

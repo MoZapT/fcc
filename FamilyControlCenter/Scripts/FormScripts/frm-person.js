@@ -724,10 +724,6 @@ function Document(personId, personActivityId, fileContentId) {
             uploadFile($(e.currentTarget), activityId);
         });
 
-        $('#LoadCategories').on('change', function (e) {
-            loadDocuments();
-        });
-
         $('input[type="checkbox"].person-documents').on('change', function (e) {
             var checked = e.currentTarget.checked;
 
@@ -749,6 +745,10 @@ function Document(personId, personActivityId, fileContentId) {
 
         $('#DeselectDocuments').on('click', function (e) {
             DeselectPersonDocuments();
+        });
+
+        $('#DeleteDocuments').on('click', function (e) {
+            DeleteFiles();
         });
 
         $('button.move-files-to-activity').on('click', function (e) {
@@ -777,15 +777,25 @@ function Document(personId, personActivityId, fileContentId) {
         }
     }
 
-    function deleteFiles(fileid) {
-        //$.ajax({
-        //    url: getApiRoute() + 'person/file/delete/' + personId + '/' + fileid,
-        //    type: 'GET',
-        //    dataType: 'json',
-        //    success: function (response) {
-        //        loadDocuments();
-        //    }
-        //});
+    function DeleteFiles() {
+        $.ajax({
+            url: getApiRoute() + 'person/document/delete/{personId}/{docs}',
+            data: JSON.stringify({
+                personId: $('#Model_Id').val(),
+                docs: JSON.stringify(selectedDocuments)
+            }),
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            complete: function (response) {
+                if (response.status !== 200) {
+                    return;
+                }
+
+                $('.tab-pane#documents').html(response.responseText);
+                initDocumentsTab();
+            }
+        });
     }
 
     function MoveFiles(activityId) {
@@ -793,7 +803,7 @@ function Document(personId, personActivityId, fileContentId) {
             url: 'person/document/move/{personId}/{docs}/{activity?}',
             data: JSON.stringify({
                 personId: $('#Model_Id').val(),
-                docs: selectedDocuments,
+                docs: JSON.stringify(selectedDocuments),
                 activity: activityId
             }),
             type: 'POST',
@@ -804,7 +814,7 @@ function Document(personId, personActivityId, fileContentId) {
                     return;
                 }
 
-                $('#DocumentsBody').html(response.responseText);
+                $('.tab-pane#documents').html(response.responseText);
                 initDocumentsTab();
             }
         });
@@ -829,7 +839,7 @@ function Document(personId, personActivityId, fileContentId) {
             processData: false,
             complete: function (response) {
                 if (response.status === 200) {
-                    loadDocuments();
+                    loadInitDocuments();
                 }
             }
         });

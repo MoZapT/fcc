@@ -1,5 +1,9 @@
-﻿using Microsoft.Owin;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Owin;
 using Owin;
+using System.Web.Services.Description;
+
+
 
 [assembly: OwinStartupAttribute(typeof(FamilyControlCenter.Startup))]
 namespace FamilyControlCenter
