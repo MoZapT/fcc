@@ -1051,9 +1051,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataAccessInfrastructure\DataAccessInfrastructure.csproj">
+    <ProjectReference Include="..\DataAccessInfrastructure\Repository.csproj">
       <Project>{881d39a4-eed2-41f4-bb1f-310b7032bf86}</Project>
-      <Name>DataAccessInfrastructure</Name>
+      <Name>Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{3f8142d1-318a-48bc-890b-f0eaf2818dd3}</Project>

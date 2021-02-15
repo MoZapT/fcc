@@ -70,9 +70,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataAccessInfrastructure\DataAccessInfrastructure.csproj">
+    <ProjectReference Include="..\DataAccessInfrastructure\Repository.csproj">
       <Project>{881d39a4-eed2-41f4-bb1f-310b7032bf86}</Project>
-      <Name>DataAccessInfrastructure</Name>
+      <Name>Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\ResourceLibrary\ResourceLibrary.csproj">
       <Project>{9c1c8be9-451e-4244-a0b9-ad34c9ce921e}</Project>
