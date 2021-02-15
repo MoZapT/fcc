@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebAppFcc.Repository\WebAppFcc.Repository.csproj" />
-    <ProjectReference Include="..\WebAppFcc\Shared\WebAppFcc.Shared.csproj" />
+    <ProjectReference Include="..\Repository\WebAppFcc.Repository.csproj" />
+    <ProjectReference Include="..\Shared\WebAppFcc.Shared.csproj" />
   </ItemGroup>
 
 </Project>
