@@ -1,0 +1,486 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="AddRelation" xml:space="preserve">
+    <value>Добавить связь</value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>Биография</value>
+  </data>
+  <data name="BornTimeKnown" xml:space="preserve">
+    <value>День рождения известен</value>
+  </data>
+  <data name="BornTimeNotKnown" xml:space="preserve">
+    <value>Д/Р неизвестна</value>
+  </data>
+  <data name="Brother" xml:space="preserve">
+    <value>Брат</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="Daughter" xml:space="preserve">
+    <value>Дочь</value>
+  </data>
+  <data name="DeadTimeKnown" xml:space="preserve">
+    <value>День смерти известен</value>
+  </data>
+  <data name="DeadTimeNotKnown" xml:space="preserve">
+    <value>Д/С неизвестна</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="DivorcedFemale" xml:space="preserve">
+    <value>Разведена</value>
+  </data>
+  <data name="DivorcedMale" xml:space="preserve">
+    <value>Разведён</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="EmptyDatePlaceholder" xml:space="preserve">
+    <value>DD.MM.YYYY</value>
+  </data>
+  <data name="Father" xml:space="preserve">
+    <value>Отец</value>
+  </data>
+  <data name="FatherInLaw" xml:space="preserve">
+    <value>Тесть</value>
+  </data>
+  <data name="FCCApplicationNameShort" xml:space="preserve">
+    <value>FCC</value>
+  </data>
+  <data name="FCCIndexWelcomeMessage" xml:space="preserve">
+    <value>Добро пожаловать в FCC - Семейный контрольный центр!</value>
+  </data>
+  <data name="Female" xml:space="preserve">
+    <value>Женщина</value>
+  </data>
+  <data name="Foto" xml:space="preserve">
+    <value>Фото</value>
+  </data>
+  <data name="Goto" xml:space="preserve">
+    <value>Перейти</value>
+  </data>
+  <data name="Husband" xml:space="preserve">
+    <value>Муж</value>
+  </data>
+  <data name="Lastname" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>Мужчина</value>
+  </data>
+  <data name="MarriedFemale" xml:space="preserve">
+    <value>Замужем за</value>
+  </data>
+  <data name="MarriedMale" xml:space="preserve">
+    <value>Женат на</value>
+  </data>
+  <data name="Mother" xml:space="preserve">
+    <value>Мать</value>
+  </data>
+  <data name="MotherInLaw" xml:space="preserve">
+    <value>Тёща</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="NotMarriedFemale" xml:space="preserve">
+    <value>Не замужем</value>
+  </data>
+  <data name="NotMarriedMale" xml:space="preserve">
+    <value>Не женат</value>
+  </data>
+  <data name="PassportView" xml:space="preserve">
+    <value>Личное дело</value>
+  </data>
+  <data name="PassportViewDescription" xml:space="preserve">
+    <value>Здесь вы можете завести нового члена семьи или редактировать его информацию.</value>
+  </data>
+  <data name="Patronym" xml:space="preserve">
+    <value>Отчество</value>
+  </data>
+  <data name="PersonRelations" xml:space="preserve">
+    <value>Родственники</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="Sister" xml:space="preserve">
+    <value>Сестра</value>
+  </data>
+  <data name="Son" xml:space="preserve">
+    <value>Сын</value>
+  </data>
+  <data name="WidowFemale" xml:space="preserve">
+    <value>Вдова</value>
+  </data>
+  <data name="WidowMale" xml:space="preserve">
+    <value>Вдовец</value>
+  </data>
+  <data name="Wife" xml:space="preserve">
+    <value>Жена</value>
+  </data>
+  <data name="IndexPageTitle" xml:space="preserve">
+    <value>Домашняя страница</value>
+  </data>
+  <data name="FamilyManagement" xml:space="preserve">
+    <value>Семейное управление</value>
+  </data>
+  <data name="Homepage" xml:space="preserve">
+    <value>Домашняя страница</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Привет</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="AddPreviousNameAndPatronym" xml:space="preserve">
+    <value>Добавить предыдущие ФИО</value>
+  </data>
+  <data name="ShowPreviousNamesAndPatronyms" xml:space="preserve">
+    <value>Показать предыдущие ФИО</value>
+  </data>
+  <data name="PersonNameWasActiveFrom" xml:space="preserve">
+    <value>Было актуально до</value>
+  </data>
+  <data name="PersonNameCouldNotBeAdded" xml:space="preserve">
+    <value>Ошибка! Не получилось добавить имя! Проверьте ваше соединение или введённые данные!</value>
+  </data>
+  <data name="PreviousNames" xml:space="preserve">
+    <value>Предыдущие ФИО</value>
+  </data>
+  <data name="MarriageSectionWarning" xml:space="preserve">
+    <value>&lt;b&gt;Внимание!&lt;/b&gt; Данное изменение сохраняется назвисимо от основного формуляра!</value>
+  </data>
+  <data name="Changed" xml:space="preserve">
+    <value>Измененно</value>
+  </data>
+  <data name="Edited" xml:space="preserve">
+    <value>Редактированно</value>
+  </data>
+  <data name="GoToHome" xml:space="preserve">
+    <value>Домой</value>
+  </data>
+  <data name="BtnLoadPhoto" xml:space="preserve">
+    <value>Загрузить фото</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Вперёд</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="BtnSetPrimary" xml:space="preserve">
+    <value>Сделать главной</value>
+  </data>
+  <data name="Documents" xml:space="preserve">
+    <value>Документы</value>
+  </data>
+  <data name="Photos" xml:space="preserve">
+    <value>Фотографии</value>
+  </data>
+  <data name="PhotosAndVideos" xml:space="preserve">
+    <value>Фото и видео</value>
+  </data>
+  <data name="BtnUploadFile" xml:space="preserve">
+    <value>Загрузить файл</value>
+  </data>
+  <data name="College" xml:space="preserve">
+    <value>Колледж</value>
+  </data>
+  <data name="ElementarySchool" xml:space="preserve">
+    <value>Начальная школа</value>
+  </data>
+  <data name="Enterpreneur" xml:space="preserve">
+    <value>Предприниматель</value>
+  </data>
+  <data name="Highschool" xml:space="preserve">
+    <value>Высшая школа</value>
+  </data>
+  <data name="Kindergarden" xml:space="preserve">
+    <value>Детский сад</value>
+  </data>
+  <data name="MiddleSchool" xml:space="preserve">
+    <value>Средняя школа</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Другое</value>
+  </data>
+  <data name="Practice" xml:space="preserve">
+    <value>Практика</value>
+  </data>
+  <data name="TechnicalCollege" xml:space="preserve">
+    <value>Технический колледж</value>
+  </data>
+  <data name="Trainee" xml:space="preserve">
+    <value>Стажер</value>
+  </data>
+  <data name="Unemployed" xml:space="preserve">
+    <value>Безработный</value>
+  </data>
+  <data name="University" xml:space="preserve">
+    <value>Университет</value>
+  </data>
+  <data name="Working" xml:space="preserve">
+    <value>Работа</value>
+  </data>
+  <data name="InLivePartnershipWith" xml:space="preserve">
+    <value>В отношениях с</value>
+  </data>
+  <data name="NotInLivePartnership" xml:space="preserve">
+    <value>Не в отношениях</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Категория</value>
+  </data>
+  <data name="ErrorDocumentCategoryEmpty" xml:space="preserve">
+    <value>Категория документа не должна быть пустой!</value>
+  </data>
+  <data name="Aunt" xml:space="preserve">
+    <value>Тётя</value>
+  </data>
+  <data name="CousinFemale" xml:space="preserve">
+    <value>Кузина</value>
+  </data>
+  <data name="CousinMale" xml:space="preserve">
+    <value>Кузен</value>
+  </data>
+  <data name="Granddaughter" xml:space="preserve">
+    <value>Внучка</value>
+  </data>
+  <data name="Grandfather" xml:space="preserve">
+    <value>Дедушка</value>
+  </data>
+  <data name="Grandmother" xml:space="preserve">
+    <value>Бабушка</value>
+  </data>
+  <data name="Grandson" xml:space="preserve">
+    <value>Внук</value>
+  </data>
+  <data name="InLawBrother" xml:space="preserve">
+    <value>Шурин/Свояк</value>
+  </data>
+  <data name="InLawDaughter" xml:space="preserve">
+    <value>Невестка</value>
+  </data>
+  <data name="InLawFather" xml:space="preserve">
+    <value>Тесть/Свекор</value>
+  </data>
+  <data name="InLawMother" xml:space="preserve">
+    <value>Тёща/Свекровь</value>
+  </data>
+  <data name="InLawSiblingFemale" xml:space="preserve">
+    <value>Родственница через брак</value>
+  </data>
+  <data name="InLawSiblingMale" xml:space="preserve">
+    <value>Родственник через брак</value>
+  </data>
+  <data name="InLawSister" xml:space="preserve">
+    <value>Невестка/Свояченица</value>
+  </data>
+  <data name="InLawSon" xml:space="preserve">
+    <value>Зять</value>
+  </data>
+  <data name="Nephew" xml:space="preserve">
+    <value>Племянник</value>
+  </data>
+  <data name="Niece" xml:space="preserve">
+    <value>Племянница</value>
+  </data>
+  <data name="SiblingFemale" xml:space="preserve">
+    <value>Родственница по крови</value>
+  </data>
+  <data name="SiblingMale" xml:space="preserve">
+    <value>Родственник по крови</value>
+  </data>
+  <data name="StepBrother" xml:space="preserve">
+    <value>Сводный брат</value>
+  </data>
+  <data name="StepDaughter" xml:space="preserve">
+    <value>Падчерица</value>
+  </data>
+  <data name="StepFather" xml:space="preserve">
+    <value>Отчим</value>
+  </data>
+  <data name="StepMother" xml:space="preserve">
+    <value>Мачеха</value>
+  </data>
+  <data name="StepSister" xml:space="preserve">
+    <value>Сводная сестра</value>
+  </data>
+  <data name="StepSon" xml:space="preserve">
+    <value>Пасынок</value>
+  </data>
+  <data name="Uncle" xml:space="preserve">
+    <value>Дядя</value>
+  </data>
+  <data name="MaybeRelativesOfMsg" xml:space="preserve">
+    <value>Возможные общие родственники</value>
+  </data>
+  <data name="LastUpdatedOn" xml:space="preserve">
+    <value>Обновлено</value>
+  </data>
+  <data name="SameRelationsExistsHeader" xml:space="preserve">
+    <value>Общие родственники</value>
+  </data>
+  <data name="SameRelationsExistsMsg" xml:space="preserve">
+    <value>У вас есть общие родственники, нажмите на "Перейти" чтобы перейти в меню связей.</value>
+  </data>
+  <data name="RelationsMenuTitle" xml:space="preserve">
+    <value>Меню связей</value>
+  </data>
+  <data name="Beginning" xml:space="preserve">
+    <value>Начало</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>Конец</value>
+  </data>
+  <data name="NoRelationAvaibleMsg" xml:space="preserve">
+    <value>No relations avaible!</value>
+  </data>
+  <data name="Last" xml:space="preserve">
+    <value>Last</value>
+  </data>
+  <data name="Activities" xml:space="preserve">
+    <value>Activities</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+</root>
