@@ -66,6 +66,15 @@
 
                                 <input name="isActive" type="hidden" value="false" />*@
 
+                                <EditForm Model="@exampleModel" OnValidSubmit="@HandleValidSubmit">
+                                    <DataAnnotationsValidator />
+                                    <ValidationSummary />
+
+                                    <InputText id="name" @bind-Value="exampleModel.Name" />
+
+                                    <button type="submit">Submit</button>
+                                </EditForm>
+
                                 <CascadingValue Value="this">
                                     <InputCheckbox Value="Person.Sex" class="custom-control-input sexswitcher"></InputCheckbox>
                                 </CascadingValue>
