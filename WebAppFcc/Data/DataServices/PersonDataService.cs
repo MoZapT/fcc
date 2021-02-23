@@ -6,11 +6,13 @@ using System.Net.Http.Json;
 using WebAppFcc.Shared.Interfaces.DataServices;
 using WebAppFcc.Shared.Enums;
 using System.Net.Http;
+using System;
 
 namespace WebAppFcc.Data.DataServices
 {
     public class PersonDataService : IPersonDataService
     {
+        public event Action OnChange;
         public HttpClient Http { get; }
 
         public VmState ViewState { get; set; }
@@ -24,6 +26,8 @@ namespace WebAppFcc.Data.DataServices
         {
             Http = http;
         }
+
+        private void NotifyStateChanged() => OnChange?.Invoke();
 
         public async Task LoadPersonList()
         {
@@ -62,11 +66,26 @@ namespace WebAppFcc.Data.DataServices
             ViewState = VmState.Detail;
         }
 
-        public async Task CreatePerson(Person person)
+        public async Task AddPerson(Person person)
         {
-            var response = await Http.PutAsJsonAsync($"family/person/add/", person);
+            var response = await Http.PostAsJsonAsync($"family/person/add/", person);
             await response.Content.ReadFromJsonAsync<Person>();
             ViewState = VmState.Detail;
+        }
+
+        public async Task UpdatePerson(Person person)
+        {
+            var response = await Http.PutAsJsonAsync($"family/person/update/", person);
+            await response.Content.ReadFromJsonAsync<Person>();
+            ViewState = VmState.Detail;
+        }
+
+        public void CreatePerson()
+        {
+            Person = new Person();
+            ViewState = VmState.Detail;
+
+            NotifyStateChanged();
         }
     }
 }

@@ -66,7 +66,9 @@
 
                                 <input name="isActive" type="hidden" value="false" />*@
 
-                                <InputCheckbox Value="Person.Sex" class="custom-control-input sexswitcher"></InputCheckbox>
+                                <CascadingValue Value="this">
+                                    <InputCheckbox Value="Person.Sex" class="custom-control-input sexswitcher"></InputCheckbox>
+                                </CascadingValue>
                                 <label class="custom-control-label" for="Model_Sex"></label>
                             </div>
                             <span class="text-female fas fa-venus padding-both-sides-15"></span>
@@ -79,7 +81,9 @@
                         <div class="row form-group">
                             <div class="col-md-12 form-inline">
                                 <div class="custom-control custom-checkbox">
-                                    <InputCheckbox Value="Person.HasBirthDate" class="custom-control-input"></InputCheckbox>
+                                    <CascadingValue Value="this">
+                                        <InputCheckbox Value="Person.HasBirthDate" class="custom-control-input"></InputCheckbox>
+                                    </CascadingValue>
                                     <label class="custom-control-label" for="@Person.HasBirthDate">@Resources.Resource.BornTimeKnown</label>
                                 </div>
                             </div>
@@ -103,7 +107,9 @@
                         <div class="row form-group">
                             <div class="col-md-12 form-inline">
                                 <div class="custom-control custom-checkbox">
-                                    <InputCheckbox Value="Person.HasDeathDate" class="custom-control-input"></InputCheckbox>
+                                    <CascadingValue Value="this">
+                                        <InputCheckbox Value="Person.HasDeathDate" class="custom-control-input"></InputCheckbox>
+                                    </CascadingValue>
                                     <label class="custom-control-label" for="@Person.HasDeathDate">@Resources.Resource.DeadTimeKnown</label>
                                 </div>
                             </div>

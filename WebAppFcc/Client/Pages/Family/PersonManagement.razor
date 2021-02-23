@@ -5,6 +5,7 @@
 @using WebAppFcc.Shared.Models
 @using WebAppFcc.Client.Shared.Family
 @attribute [Authorize(Roles = "User")]
+@implements IDisposable
 @inject HttpClient Http
 @inject IPersonDataService PersonDataService
 
@@ -113,5 +114,12 @@ else
         PersonDataService.Take = 10;
         PersonDataService.Person = null;
         await PersonDataService.LoadPersonList();
+
+        PersonDataService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        PersonDataService.OnChange -= StateHasChanged;
     }
 }

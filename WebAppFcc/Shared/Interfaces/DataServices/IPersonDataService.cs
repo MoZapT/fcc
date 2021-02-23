@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WebAppFcc.Shared.Enums;
@@ -6,8 +7,9 @@ using WebAppFcc.Shared.Models;
 
 namespace WebAppFcc.Shared.Interfaces.DataServices
 {
-    public interface IPersonDataService
+    public interface IPersonDataService 
     {
+        event Action OnChange;
         HttpClient Http { get; }
 
         VmState ViewState { get; set; }
@@ -19,7 +21,11 @@ namespace WebAppFcc.Shared.Interfaces.DataServices
 
         Task LoadPersonList();
         Task LoadPersonDetails(string id);
+
         Task DeletePerson(string id);
-        Task CreatePerson(Person person);
+        Task AddPerson(Person person);
+        Task UpdatePerson(Person person);
+
+        void CreatePerson();
     }
 }
