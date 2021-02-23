@@ -1,0 +1,147 @@
+﻿@using WebAppFcc.Shared.Enums
+@using WebAppFcc.Shared.Models
+@namespace WebAppFcc.Client.Shared.Family
+@inject IPersonDataService PersonDataService
+
+<div class="card">
+    <div class="card-header">
+        <h2>
+            <span class="fas fa-id-card"></span>
+            @Resources.Resource.PassportView
+        </h2>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            @if (!Person.IsNewOrEmpty)
+            {
+                <div class="col-md-3">
+                    <div class="row form-group">
+                        <div class="col-md-12" id="PhotoSection">
+                            @*@{
+                                var photoVm = new KeyValuePair<string, IEnumerable<FileContent>>(PersonDataService.Person.FileContentId, Model.Photos);
+                            }*@
+                            @*@Html.Partial("Person/_PhotoSection", photoVm)*@
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="col-md-@(!Person.IsNewOrEmpty ? 9 : 12)">
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label for="@Person.Firstname">@Resources.Resource.Name</label>
+                        <input class="form-control" type="text" @bind="Person.Firstname" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label for="@Person.Lastname">@Resources.Resource.Lastname</label>
+                        <input class="form-control" type="text" @bind="Person.Lastname" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <label for="@Person.Patronym">@Resources.Resource.Patronym</label>
+                        <input class="form-control" type="text" @bind="Person.Patronym" />
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <div class="form-inline">
+                            <label for="Sex_Checkbox_Male_Text">@Resources.Resource.Male</label>
+                            <span class="text-male fas fa-mars padding-both-sides-15"></span>
+                            <div class="custom-control custom-switch">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Default checkbox
+                                    </label>
+                                </div>
+
+                                @*<input data-val="true"
+                                       data-val-required="The isActive field is required."
+                                       id="isActive"
+                                       name="isActive"
+                                       type="checkbox"
+                                       value="true" />
+
+                                <input name="isActive" type="hidden" value="false" />*@
+
+                                <InputCheckbox Value="Person.Sex" class="custom-control-input sexswitcher"></InputCheckbox>
+                                <label class="custom-control-label" for="Model_Sex"></label>
+                            </div>
+                            <span class="text-female fas fa-venus padding-both-sides-15"></span>
+                            <label for="Sex_Checkbox_Female_Text">@Resources.Resource.Female</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <div class="row form-group">
+                            <div class="col-md-12 form-inline">
+                                <div class="custom-control custom-checkbox">
+                                    <InputCheckbox Value="Person.HasBirthDate" class="custom-control-input"></InputCheckbox>
+                                    <label class="custom-control-label" for="@Person.HasBirthDate">@Resources.Resource.BornTimeKnown</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                @*@Html.HiddenFor(m => m.Model.BirthDate)*@
+                                @if (Person.HasBirthDate)
+                                {
+                                    <input class="form-control" type="text" @bind="Person.BirthDate" />
+                                    @*@Html.TextBox("DpBornTime", PersonDataService.Person.BirthDate, "{0:dd.MM.yyyy}", new { placeholder = Resources.Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })*@
+                                }
+                                else
+                                {
+                                    <input class="form-control" type="text" @bind="Person.BirthDate" />
+                                    @*@Html.TextBox("DpBornTime", PersonDataService.Person.BirthDate, "{0:dd.MM.yyyy}", new { placeholder = Resources.Resource.EmptyDatePlaceholder, @class = "datepicker form-control", @readonly = "readonly" })*@
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row form-group">
+                            <div class="col-md-12 form-inline">
+                                <div class="custom-control custom-checkbox">
+                                    <InputCheckbox Value="Person.HasDeathDate" class="custom-control-input"></InputCheckbox>
+                                    <label class="custom-control-label" for="@Person.HasDeathDate">@Resources.Resource.DeadTimeKnown</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                @*@Html.HiddenFor(m => m.Model.DeathDate)*@
+                                @if (Person.HasDeathDate)
+                                {
+                                    <input class="form-control" type="text" @bind="Person.DeathDate" />
+                                    @*@Html.TextBox("DpDeadTime", PersonDataService.Person.DeathDate, "{0:dd.MM.yyyy}", new { placeholder = Resources.Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })*@
+                                }
+                                else
+                                {
+                                    <input class="form-control" type="text" @bind="Person.DeathDate" />
+                                    @*@Html.TextBox("DpDeadTime", PersonDataService.Person.DeathDate, "{0:dd.MM.yyyy}", new { placeholder = Resources.Resource.EmptyDatePlaceholder, @class = "datepicker form-control", @readonly = "readonly" })*@
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="MarriageStatus">
+                    @*@if (Model.Command == Shared.Enums.ActionCommand.Open)
+                    {
+                        @Html.Partial("Person/_MarriageSection",
+                             new Tuple<Person, Person, Person>(Model.Model, Model.MarriedOn, Model.PartnerOf))
+                    }*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer clearfix">
+        <button class="btn crud btn-primary" type="button" args="@((int)ActionCommand.Save)" obj="@Person.Id">
+            <span class="glyphicon glyphicon-floppy-disk"></span>
+            @Resources.Resource.Save
+        </button>
+    </div>
+</div>
+
+@code { 
+    public Person Person { get { return PersonDataService.Person; } }
+}

@@ -9,47 +9,39 @@
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="fas fa-home" aria-hidden="true"></span> @Resources.Resource.Homepage
+                <span class="fas fa-home" aria-hidden="true"></span>
+                &nbsp;
+                @Resources.Resource.Homepage
             </NavLink>
         </li>
         <AuthorizeView Roles="User">
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="family">
-                    <span class="fas fa-address-book" aria-hidden="true"></span> @Resources.Resource.FamilyManagement
-                </NavLink>
-            </li>
+            <Authorized>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="person">
+                        <span class="fas fa-address-book"></span>
+                        &nbsp;
+                        @Resources.Resource.FamilyManagement
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="relations-update">
+                        <span class="fas fa-users"></span>
+                        &nbsp;
+                        @Resources.Resource.RelationsMenuTitle
+                    </NavLink>
+                </li>
+            </Authorized>
         </AuthorizeView>
     </ul>
-
-    @*<ul class="navbar-nav mr-auto">
-            @if (User.IsInRole("User"))
-            {
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="fas fa-address-book"></span>
-
-                        <span class="caret"></span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a href="@Url.Action("Person", "Family")" class="dropdown-item">
-                            <span class="fas fa-id-card"></span>
-                            @Resources.Resource.PassportView
-                        </a>
-                        <a href="@Url.Action("PersonRelationsUpdateStack", "Family")" class="dropdown-item">
-                            <span class="fas fa-users"></span>
-                            @Resources.Resource.RelationsMenuTitle
-                        </a>
-                    </div>
-                </li>
-            }
-        </ul>*@
 </div>
 
-@code { private bool collapseNavMenu = true;
+@code { 
+    private bool collapseNavMenu = true;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
-    } }
+    } 
+}

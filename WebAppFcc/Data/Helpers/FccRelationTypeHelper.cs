@@ -35,12 +35,12 @@ namespace WebAppFcc.Shared.Helpers
             }
         }
 
-        public static IEnumerable<System.Web.Mvc.SelectListItem> GetFamilySiblingsSelectGroup(bool isFemale = false)
-        {
-            return FccEnumHelper.GetTranslatedSelectListItemCollection<RelationType>
-                (typeof(RelationType), isFemale)
-                .Where(e => e.Value != RelationType.HusbandWife.ToString())
-                .Where(e => e.Value != RelationType.LivePartner.ToString());
-        }
+        //public static IEnumerable<System.Web.Mvc.SelectListItem> GetFamilySiblingsSelectGroup(bool isFemale = false)
+        //{
+        //    return FccEnumHelper.GetTranslatedSelectListItemCollection<RelationType>
+        //        (typeof(RelationType), isFemale)
+        //        .Where(e => e.Value != RelationType.HusbandWife.ToString())
+        //        .Where(e => e.Value != RelationType.LivePartner.ToString());
+        //}
     }
 }

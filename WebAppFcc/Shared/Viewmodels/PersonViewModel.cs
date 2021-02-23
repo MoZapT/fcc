@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WebAppFcc.Shared.Common;
 using WebAppFcc.Shared.Enums;
 using WebAppFcc.Shared.Models;
@@ -8,28 +9,27 @@ namespace WebAppFcc.Shared.Viewmodels
 {
     public class PersonViewModel : BaseViewModel
     {
+        private VmState _viewState;
 
-        #region PROPERTIES
+        public Person Person { get; set; }
+        public IEnumerable<Person> Persons { get; set; }
 
-        public IEnumerable<FileContent> Photos { get; set; }
-        public IEnumerable<PersonRelation> PersonRelations { get; set; }
-        public IEnumerable<PersonName> PersonNames { get; set; }
-
-        public Person Model { get; set; }
-        public Person MarriedOn { get; set; }
-        public Person PartnerOf { get; set; }
-        public IEnumerable<Person> Models { get; set; }
-        public Dictionary<string, string> PersonIcons { get; set; }
-
-        #endregion
-
-        public PersonViewModel()
+        public async Task Init()
         {
-            if (Take <= 0)
-            {
-                Take = 10;
-            }
-            Paging = new PagingViewModel(Take);
+            _viewState = VmState.List;
+            Skip = 0;
+            Take = 10;
+            Person = null;
+        }
+
+        public void CreatePerson()
+        {
+
+        }
+
+        public void EditPerson()
+        {
+
         }
     }
 }

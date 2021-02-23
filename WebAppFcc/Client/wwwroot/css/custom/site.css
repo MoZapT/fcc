@@ -1,0 +1,293 @@
+﻿.hide {
+    display: none;
+}
+
+.fullwidth {
+    width: 100%;
+}
+
+.group-border {
+    border-top: 2px dashed;
+    border-left: 2px solid;
+    border-right: 2px solid;
+    border-bottom: 2px dashed;
+    border-radius: 6px;
+    padding: 5px 5px 5px 5px;
+    border-color: #a1a1a1;
+}
+
+    .group-border + .group-border {
+        margin-top: 10px;
+    }
+
+.invisible {
+    visibility: hidden;
+}
+
+.crud {
+}
+
+.item {
+}
+
+.row.item {
+    min-height: 50px;
+    margin-bottom: 1px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+    .row.item + .row.item {
+        border-top: 1px solid rgb(152, 152, 152);
+    }
+
+    .row.item:hover, .row-item:nth-of-type(even):hover {
+        color: white;
+        background-color: rgba(89, 78, 69, 0.80);
+        -webkit-transition: background-color 0.2s, color 0.5s;
+        transition: background-color 0.2s, color 0.5s;
+        cursor: pointer;
+    }
+
+.nopadding {
+    padding: 0 0 0 0;
+}
+
+.padding-both-sides-15 {
+    padding: 0 1em 0 1em;
+}
+
+.flag-icon {
+    vertical-align: middle;
+}
+
+.flag-selected {
+    box-shadow: 0 0 2px 2px red;
+}
+
+/*Photo frame*/
+.carousel {
+    border: 1px solid #ced4da;
+}
+
+.item > img.photo,
+img.photo {
+    position: relative;
+    display: block;
+    min-width: 100%;
+    min-height: 250px;
+    max-width: 100%;
+    max-height: 250px;
+    object-fit: contain;
+}
+
+.icon {
+    max-height: 30px;
+    max-width: 30px;
+}
+
+.thumbnail {
+    border: 1px solid #ddd; /* Gray border */
+    border-radius: 4px; /* Rounded border */
+    padding: 5px; /* Some padding */
+    width: 100%; /* Set a small width */
+    margin: 5px;
+    overflow: hidden;
+    text-wrap: none;
+    white-space: nowrap;
+}
+
+    .thumbnail:hover {
+        box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+    }
+
+/* custom sex swticher override */
+.custom-control-input.sexswitcher:checked ~ .custom-control-label::before {
+    background-color: #f241b3;
+    border: #adb5bd solid 1px;
+}
+
+.custom-control-input.sexswitcher ~ .custom-control-label::before {
+    background-color: #2196F3;
+    border: #ddd solid 1px;
+}
+
+/* custom sex swticher override */
+.custom-control-input.sexswitcher ~ .custom-control-label::after {
+    background-color: #fff;
+}
+
+.text-male {
+    color: #2196F3;
+}
+
+.text-female {
+    color: #f241b3;
+}
+
+/*Carousel Person*/
+.btn.btn-edges {
+    border-radius: 0px;
+}
+
+.row.item .btn {
+    opacity: 0;
+    position: relative;
+    transition: opacity 0.5s;
+}
+
+.row.item:hover .btn {
+    opacity: 1;
+    position: relative;
+    transition: opacity 0.5s;
+}
+
+label.sideslide {
+    margin-bottom: 0rem;
+}
+
+.sideslide {
+    width: 100%;
+}
+
+.custom-carousel-control {
+    width: 50%;
+    opacity: 0.5;
+}
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+.snackbar {
+    min-width: 250px; /* Set a default minimum width */
+    margin-left: -125px; /* Divide value of min-width by 2 */
+    background-color: white; /* Black background color */
+    color: #fff; /* White text color */
+    text-align: center; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    border-color: rgba(0, 0, 0, 0.20);
+    border-style: solid;
+    border-width: 1px;
+    padding: 16px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 50%; /* Center the snackbar */
+    bottom: 30px; /* 30px from the bottom */
+    -webkit-animation: fadeout 0.5s 2.5s;
+    animation: fadeout 0.5s 2.5s;
+}
+
+.snackbar.show {
+    -webkit-animation: fadein 0.5s;
+    animation: fadein 0.5s;
+}
+
+@-moz-keyframes fadein {
+    0% {
+        opacity: 0;
+        bottom: 0;
+        visibility: hidden;
+    }
+
+    100% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+}
+
+@-webkit-keyframes fadein {
+    0% {
+        opacity: 0;
+        bottom: 0;
+        visibility: hidden;
+    }
+
+    100% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+}
+
+@-ms-keyframes fadein {
+    0% {
+        opacity: 0;
+        bottom: 0;
+        visibility: hidden;
+    }
+
+    100% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+        bottom: 0;
+        visibility: hidden;
+    }
+
+    100% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+}
+
+@-moz-keyframes fadeout {
+    0% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 0;
+        bottom: 0px;
+        visibility: hidden;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    0% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 0;
+        bottom: 0px;
+        visibility: hidden;
+    }
+}
+
+@-ms-keyframes fadeout {
+    0% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 0;
+        bottom: 0px;
+        visibility: hidden;
+    }
+}
+
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+        bottom: 30px;
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 0;
+        bottom: 0px;
+        visibility: hidden;
+    }
+} 

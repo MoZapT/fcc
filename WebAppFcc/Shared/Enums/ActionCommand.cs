@@ -3,6 +3,8 @@
     public enum ActionCommand
     {
         //[Description("")]
+        None,
+        //[Description("")]
         Cancel,
         //[Description("")]
         Save,

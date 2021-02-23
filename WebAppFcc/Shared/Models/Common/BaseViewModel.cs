@@ -11,10 +11,7 @@ namespace WebAppFcc.Shared.Common
 
         public List<string> NavigationLog { get; set; }
 
-        public PagingViewModel Paging { get; set; }
-
-        public int Page { get; set; }
-        public int Skip { get { return (Page - 1) * Take; } }
+        public int Skip { get; set; }
         public int Take { get; set; }
     }
 }

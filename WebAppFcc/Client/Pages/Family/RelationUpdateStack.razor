@@ -1,8 +1,8 @@
-@page "/family"
+@page "/relations-update"
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using WebAppFcc.Shared
-@attribute [Authorize]
+@attribute [Authorize(Roles="User")]
 @inject HttpClient Http
 
 <h1>Weather forecast</h1>

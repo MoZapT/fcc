@@ -1,15 +1,11 @@
-﻿using WebAppFcc.Shared.Common;
-using WebAppFcc.Shared.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAppFcc.Shared.Models
 {
-    public class PersonRelation : BaseModel
+    public class PersonRelation
     {
-        public Person Inviter { get; set; }
-        public Person Invited { get; set; }
-
-        public RelationType RelationType { get; set; }
-        public string InviterId { get; set; }
-        public string InvitedId { get; set; }
+        public string RelationId { get; set; }
+        public string PersonId { get; set; }
     }
 }

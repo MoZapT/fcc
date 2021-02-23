@@ -1,0 +1,77 @@
+﻿@namespace WebAppFcc.Client.Shared.Family
+
+@if (CanBeShown)
+{
+    <ul class="pagination">
+        @if (CurrentPage > 1)
+        {
+            <li class="previous page-item"><a class="page-link" href="?page=@(CurrentPage-1)"><em class="fas fa-angle-double-left"></em> @Resources.Resource.Previous</a></li>
+        }
+
+        @for (int i = BeginPage; i <= Pages; i++)
+        {
+            if (i == CurrentPage)
+            {
+                <li class="active page-item"><a class="page-link" href="?page=@i">@i</a></li>
+            }
+            else
+            {
+                <li class="page-item"><a class="page-link" href="?page=@i">@i</a></li>
+            }
+
+            if (i > MaximumPageBtns)
+            {
+                break;
+            }
+        }
+
+        @if (Pages > MaximumPageBtns)
+        {
+            <li class="next page-item"><a class="page-link" href="?page=@Pages">@Resources.Resource.Last</a></li>
+        }
+
+        @if (CurrentPage < Pages)
+        {
+            <li class="next page-item"><a class="page-link" href="?page=@(CurrentPage+1)">@Resources.Resource.Next <em class="fas fa-angle-double-right"></em></a></li>
+        }
+    </ul>
+}
+
+@code {
+    private readonly int _maximumPages = 10;
+    private readonly int _offsetLeft = 2;
+
+    public int CurrentPage { get { return (Skip / Take) + 1; } }
+    public int Pages { get { return (Amount / Take) + ((Amount % Take) > 0 ? 1 : 0); } }
+    public int MaximumPageBtns { get { return CurrentPage + _maximumPages; } }
+    public int BeginPage
+    {
+        get
+        {
+            int page = (CurrentPage - _offsetLeft);
+
+            if (page <= 0)
+            {
+                return 1;
+            }
+
+            return page;
+        }
+    }
+    public bool CanBeShown
+    {
+        get {
+            if (Pages > 1)
+                return true;
+
+            return false;
+        }
+    }
+
+    [Parameter]
+    public int Amount { get; set; }
+    [Parameter]
+    public int Skip { get; set; }
+    [Parameter]
+    public int Take { get; set; }
+}
