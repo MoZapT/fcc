@@ -48,6 +48,18 @@ namespace WebAppFcc.Data.Manager
             }
         }
 
+        public async Task<Person> CreatePerson(Person entity)
+        {
+            var result = _repo.Person.AddAsync(entity);
+
+            await _repo.SaveChangesAsync();
+
+            if (result.IsCompletedSuccessfully)
+                return result.Result.Entity;
+            else
+                return null;
+        }
+
         public async Task<Person> UpdatePerson(Person entity)
         {
             var result = _repo.Person.Update(entity);

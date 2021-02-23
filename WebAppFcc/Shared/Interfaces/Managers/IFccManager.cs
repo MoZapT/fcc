@@ -9,6 +9,7 @@ namespace WebAppFcc.Shared.Interfaces.Managers
     public interface IFccManager
     {
         Task<Person> GetPerson(string id);
+        Task<Person> CreatePerson(Person entity);
         Task<Person> UpdatePerson(Person entity);
         Task<Person> DeletePerson(string id);
         Task<IEnumerable<Person>> GetPersonList();

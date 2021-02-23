@@ -27,6 +27,12 @@ namespace WebAppFcc.Server.Controllers
             _mgrFcc = mgrFcc;
         }
 
+        [HttpPut("person/add/{id}")]
+        public async Task<IActionResult> AddPerson(Person person)
+        {
+            return Ok(await _mgrFcc.CreatePerson(person));
+        }
+
         [HttpGet("person/get/{id}")]
         public async Task<IActionResult> GetPerson(string id)
         {

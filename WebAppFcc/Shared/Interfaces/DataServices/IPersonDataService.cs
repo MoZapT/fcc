@@ -20,6 +20,6 @@ namespace WebAppFcc.Shared.Interfaces.DataServices
         Task LoadPersonList();
         Task LoadPersonDetails(string id);
         Task DeletePerson(string id);
-        void CreatePerson();
+        Task CreatePerson(Person person);
     }
 }

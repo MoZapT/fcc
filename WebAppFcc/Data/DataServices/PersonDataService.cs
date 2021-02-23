@@ -6,7 +6,6 @@ using System.Net.Http.Json;
 using WebAppFcc.Shared.Interfaces.DataServices;
 using WebAppFcc.Shared.Enums;
 using System.Net.Http;
-using System;
 
 namespace WebAppFcc.Data.DataServices
 {
@@ -39,10 +38,6 @@ namespace WebAppFcc.Data.DataServices
                 ex.Redirect();
                 Persons = new List<Person>();
             }
-            //catch (Exception ex)
-            //{
-            //    ex.Redirect();
-            //}
         }
 
         public async Task LoadPersonDetails(string id)
@@ -58,27 +53,19 @@ namespace WebAppFcc.Data.DataServices
                 ex.Redirect();
                 Person = null;
             }
-            //catch (Exception ex)
-            //{
-            //    ex.Redirect();
-            //}
         }
 
         public async Task DeletePerson(string id)
         {
-            try
-            {
-                var response = await Http.DeleteAsync($"family/person/delete/{id}");
-                await response.Content.ReadFromJsonAsync<bool>();
-                ViewState = VmState.Detail;
-            }
-            catch (Exception)
-            {
-            }
+            var response = await Http.DeleteAsync($"family/person/delete/{id}");
+            await response.Content.ReadFromJsonAsync<bool>();
+            ViewState = VmState.Detail;
         }
 
-        public void CreatePerson()
+        public async Task CreatePerson(Person person)
         {
+            var response = await Http.PutAsJsonAsync($"family/person/add/", person);
+            await response.Content.ReadFromJsonAsync<Person>();
             ViewState = VmState.Detail;
         }
     }
