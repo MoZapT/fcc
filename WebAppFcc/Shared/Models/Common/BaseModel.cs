@@ -7,11 +7,11 @@ namespace WebAppFcc.Shared.Common
     public class BaseModel : IBaseModel
     {
         [Key]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
         public bool IsActive { get; set; }
-        public bool IsNewOrEmpty { get { return string.IsNullOrWhiteSpace(Id); } }
+        public bool IsNewOrEmpty { get { return string.IsNullOrWhiteSpace(Id.ToString()); } }
 
         public BaseModel()
         {

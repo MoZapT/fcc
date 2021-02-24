@@ -3,15 +3,16 @@ using WebAppFcc.Shared.Models;
 using WebAppFcc.Shared.Viewmodels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 namespace WebAppFcc.Shared.Interfaces.Managers
 {
     public interface IFccManager
     {
-        Task<Person> GetPerson(string id);
+        Task<Person> GetPerson(Guid id);
         Task<Person> CreatePerson(Person entity);
         Task<Person> UpdatePerson(Person entity);
-        Task<Person> DeletePerson(string id);
+        Task<Person> DeletePerson(Guid id);
         Task<IEnumerable<Person>> GetPersonList();
     }
 }

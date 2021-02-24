@@ -19,16 +19,17 @@ namespace WebAppFcc.Data.Manager
             _repo = repo;
         }
 
-        public async Task<Person> GetPerson(string id)
+        public async Task<Person> GetPerson(Guid id)
         {
             try
             {
                 return await _repo.Person
                     .Where(e => e.Id == id)
                     .Include(e => e.Relations)
+                    .ThenInclude(e => e.Invited)
                     .FirstOrDefaultAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -40,9 +41,10 @@ namespace WebAppFcc.Data.Manager
             {
                 return await _repo.Person
                     .Include(e => e.Relations)
+                    .ThenInclude(e => e.Invited)
                     .ToArrayAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new List<Person>();
             }
@@ -69,7 +71,7 @@ namespace WebAppFcc.Data.Manager
             return result.Entity;
         }
 
-        public async Task<Person> DeletePerson(string id)
+        public async Task<Person> DeletePerson(Guid id)
         {
             Person deleted = await GetPerson(id);
             var result = _repo.Person

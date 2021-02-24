@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="col-md-1">
-                    @if (!string.IsNullOrWhiteSpace(person.FileContentId))
+                    @if (!string.IsNullOrWhiteSpace(person.FileContentId.ToString()))
                     {
                         <img class="icon" src="@person.Base64Icon" alt="" />
                     }

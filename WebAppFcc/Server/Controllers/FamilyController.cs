@@ -40,7 +40,7 @@ namespace WebAppFcc.Server.Controllers
         }
 
         [HttpGet("person/get/{id}")]
-        public async Task<IActionResult> GetPerson(string id)
+        public async Task<IActionResult> GetPerson(Guid id)
         {
             return Ok(await _mgrFcc.GetPerson(id));
         }
@@ -52,7 +52,7 @@ namespace WebAppFcc.Server.Controllers
         }
 
         [HttpDelete("person/delete/{id}")]
-        public async Task<IActionResult> DeletePerson(string id)
+        public async Task<IActionResult> DeletePerson(Guid id)
         {
             return Ok(await _mgrFcc.DeletePerson(id));
         }

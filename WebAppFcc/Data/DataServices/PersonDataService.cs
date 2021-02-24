@@ -44,7 +44,7 @@ namespace WebAppFcc.Data.DataServices
             }
         }
 
-        public async Task LoadPersonDetails(string id)
+        public async Task LoadPersonDetails(Guid id)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace WebAppFcc.Data.DataServices
             }
         }
 
-        public async Task DeletePerson(string id)
+        public async Task DeletePerson(Guid id)
         {
             var response = await Http.DeleteAsync($"family/person/delete/{id}");
             await response.Content.ReadFromJsonAsync<bool>();

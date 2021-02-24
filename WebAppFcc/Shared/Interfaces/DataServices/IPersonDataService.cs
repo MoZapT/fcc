@@ -20,9 +20,9 @@ namespace WebAppFcc.Shared.Interfaces.DataServices
         IEnumerable<Person> Persons { get; set; }
 
         Task LoadPersonList();
-        Task LoadPersonDetails(string id);
+        Task LoadPersonDetails(Guid id);
 
-        Task DeletePerson(string id);
+        Task DeletePerson(Guid id);
         Task AddPerson(Person person);
         Task UpdatePerson(Person person);
 
