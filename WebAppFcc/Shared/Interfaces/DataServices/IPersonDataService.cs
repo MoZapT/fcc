@@ -7,19 +7,14 @@ using WebAppFcc.Shared.Models;
 
 namespace WebAppFcc.Shared.Interfaces.DataServices
 {
-    public interface IPersonDataService 
+    public interface IPersonDataService : IBaseDataService
     {
-        event Action OnChange;
-        HttpClient Http { get; }
-
         VmState ViewState { get; set; }
         int Skip { get; set; }
         int Take { get; set; }
 
         Person Person { get; set; }
         IEnumerable<Person> Persons { get; set; }
-
-        void Init(Action action);
 
         Task LoadPersonList();
         Task LoadPersonDetails(Guid id);

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using System.Linq;
 using WebAppFcc.Data.Manager;
 using WebAppFcc.Repository;
@@ -30,6 +31,10 @@ namespace WebAppFcc.Server
         {
             AddDependencies(services);
 
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            );
+
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -46,7 +51,6 @@ namespace WebAppFcc.Server
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
-
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -58,7 +62,6 @@ namespace WebAppFcc.Server
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseMigrationsEndPoint();
                 app.UseWebAssemblyDebugging();
             }
             else

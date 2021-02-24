@@ -11,11 +11,8 @@ using Newtonsoft.Json;
 
 namespace WebAppFcc.Data.DataServices
 {
-    public class PersonDataService : IPersonDataService
+    public class PersonDataService : BaseDataService, IPersonDataService
     {
-        public event Action OnChange;
-        public HttpClient Http { get; }
-
         public VmState ViewState { get; set; }
         public int Skip { get; set; }
         public int Take { get; set; }
@@ -23,14 +20,11 @@ namespace WebAppFcc.Data.DataServices
         public Person Person { get; set; }
         public IEnumerable<Person> Persons { get; set; }
 
-        public PersonDataService(HttpClient http)
+        public PersonDataService(HttpClient http) : base(http)
         {
-            Http = http;
         }
 
-        private void NotifyStateChanged() => OnChange?.Invoke();
-
-        public void Init(Action action)
+        public override void Init(Action action)
         {
             ViewState = VmState.List;
             Skip = 0;
@@ -38,116 +32,68 @@ namespace WebAppFcc.Data.DataServices
             Person = null;
             Persons = new List<Person>();
 
-            OnChange += action;
+            base.Init(action);
         }
 
         public async Task LoadPersonList()
         {
-            try
-            {
+            Func<Task> tryExecute = new Func<Task>(async () => {
                 var response = await Http.GetAsync("family/person/get-list");
                 Persons = await response.Content.ReadFromJsonAsync<IEnumerable<Person>>();
                 ViewState = VmState.List;
-            }
-            catch (AccessTokenNotAvailableException ex)
-            {
-                ex.Redirect();
+            });
+            Action<Exception> onError = new Action<Exception>((Exception ex) => {
                 Persons = new List<Person>();
-            }
-            catch (Exception)
-            {
-                Persons = new List<Person>();
-            }
-            finally
-            {
-                NotifyStateChanged();
-            }
+            });
+
+            await DefaultApiRequest(tryExecute, onError);
         }
 
         public async Task LoadPersonDetails(Guid id)
         {
-            try
-            {
+            Func<Task> tryExecute = new Func<Task>(async () => {
                 var response = await Http.GetAsync($"family/person/get/{id}");
                 Person = await response.Content.ReadFromJsonAsync<Person>();
                 ViewState = VmState.Detail;
-            }
-            catch (AccessTokenNotAvailableException ex)
-            {
-                ex.Redirect();
+            });
+            Action<Exception> onError = new Action<Exception>((Exception ex) => {
                 Person = null;
-            }
-            catch (Exception)
-            {
-                Person = null;
-            }
-            finally
-            {
-                NotifyStateChanged();
-            }
+            });
+
+            await DefaultApiRequest(tryExecute, onError);
         }
 
         public async Task DeletePerson(Guid id)
         {
-            try
-            {
+            Func<Task> tryExecute = new Func<Task>(async () => {
                 var response = await Http.DeleteAsync($"family/person/delete/{id}");
                 await response.Content.ReadFromJsonAsync<bool>();
                 ViewState = VmState.Detail;
-            }
-            catch (AccessTokenNotAvailableException ex)
-            {
-                ex.Redirect();
-            }
-            catch (Exception)
-            {
-            }
-            finally
-            {
-                NotifyStateChanged();
-            }
+            });
+
+            await DefaultApiRequest(tryExecute);
         }
 
         public async Task AddPerson(Person person)
         {
-            try
-            {
+            Func<Task> tryExecute = new Func<Task>(async () => {
                 var response = await Http.PostAsJsonAsync($"family/person/add/{person}", person);
                 await response.Content.ReadFromJsonAsync<Person>();
                 ViewState = VmState.Detail;
-            }
-            catch (AccessTokenNotAvailableException ex)
-            {
-                ex.Redirect();
-            }
-            catch (Exception)
-            {
-            }
-            finally
-            {
-                NotifyStateChanged();
-            }
+            });
+
+            await DefaultApiRequest(tryExecute);
         }
 
         public async Task UpdatePerson(Person person)
         {
-            try
-            {
+            Func<Task> tryExecute = new Func<Task>(async () => {
                 var response = await Http.PutAsJsonAsync($"family/person/update/{person}", person);
                 await response.Content.ReadFromJsonAsync<Person>();
                 ViewState = VmState.Detail;
-            }
-            catch (AccessTokenNotAvailableException ex)
-            {
-                ex.Redirect();
-            }
-            catch (Exception)
-            {
-            }
-            finally
-            {
-                NotifyStateChanged();
-            }
+            });
+
+            await DefaultApiRequest(tryExecute);
         }
 
         public void CreatePerson()

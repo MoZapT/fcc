@@ -70,7 +70,6 @@
                                 </div>
 
                                 <div class="col-md-12">
-                                    @*@Html.HiddenFor(m => m.Model.BirthDate)*@
                                     @if (ShowBirthDateField)
                                     {
                                         <InputDate @bind-Value="@Person.BirthDate" class="form-control"></InputDate>

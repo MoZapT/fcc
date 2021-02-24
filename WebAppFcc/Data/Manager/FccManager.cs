@@ -21,33 +21,19 @@ namespace WebAppFcc.Data.Manager
 
         public async Task<Person> GetPerson(Guid id)
         {
-            try
-            {
-                return await _repo.Person
-                    .Where(e => e.Id == id)
-                    .Include(e => e.Relations)
-                    .ThenInclude(e => e.Invited)
-                    .FirstOrDefaultAsync();
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            return await _repo.Person
+                .Where(e => e.Id == id)
+                .Include(e => e.Relations)
+                .ThenInclude(e => e.Invited)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Person>> GetPersonList()
         {
-            try
-            {
-                return await _repo.Person
-                    .Include(e => e.Relations)
-                    .ThenInclude(e => e.Invited)
-                    .ToArrayAsync();
-            }
-            catch (Exception)
-            {
-                return new List<Person>();
-            }
+            return await _repo.Person
+                .Include(e => e.Relations)
+                .ThenInclude(e => e.Invited)
+                .ToArrayAsync();
         }
 
         public async Task<Person> CreatePerson(Person entity)
