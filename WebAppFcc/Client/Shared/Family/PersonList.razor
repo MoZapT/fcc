@@ -33,7 +33,7 @@
                     }
                     else
                     {
-                        <img class="icon" src="~/Content/no-image-available.jpg" alt="No image avaible" />
+                        <img class="icon" src="no-image-available.jpg" alt="No image avaible" />
                     }
                 </div>
                 <div class="col-md-1">
@@ -80,10 +80,10 @@
     </div>
     <div class="card-footer clearfix">
         <div class="btn-group pull-right">
-            <a class="btn btn-primary crud" @onclick="@(async () => PersonDataService.CreatePerson())">
+            <button class="btn btn-primary crud" @onclick="@(async () => PersonDataService.CreatePerson())">
                 <span class="glyphicon glyphicon-plus-sign"></span>
                 @Resources.Resource.Add
-            </a>
+            </button>
         </div>
     </div>
 </div>
@@ -91,5 +91,10 @@
 @code {
     public int Skip { get { return PersonDataService.Skip; } }
     public int Take { get { return PersonDataService.Take; } }
-    public IEnumerable<Person> Persons { get { return PersonDataService.Persons ?? new List<Person>(); } }
+    public IEnumerable<Person> Persons { get { return PersonDataService.Persons; } }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await PersonDataService.LoadPersonList();
+    }
 }

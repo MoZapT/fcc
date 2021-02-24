@@ -26,131 +26,97 @@
                 </div>
             }
             <div class="col-md-@(!Person.IsNewOrEmpty ? 9 : 12)">
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <label for="@Person.Firstname">@Resources.Resource.Name</label>
-                        <input class="form-control" type="text" @bind="Person.Firstname" />
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <label for="@Person.Lastname">@Resources.Resource.Lastname</label>
-                        <input class="form-control" type="text" @bind="Person.Lastname" />
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <label for="@Person.Patronym">@Resources.Resource.Patronym</label>
-                        <input class="form-control" type="text" @bind="Person.Patronym" />
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <div class="form-inline">
-                            <label for="Sex_Checkbox_Male_Text">@Resources.Resource.Male</label>
-                            <span class="text-male fas fa-mars padding-both-sides-15"></span>
-                            <div class="custom-control custom-switch">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        Default checkbox
-                                    </label>
-                                </div>
-
-                                @*<input data-val="true"
-                                       data-val-required="The isActive field is required."
-                                       id="isActive"
-                                       name="isActive"
-                                       type="checkbox"
-                                       value="true" />
-
-                                <input name="isActive" type="hidden" value="false" />*@
-
-                                @*<EditForm Model="@exampleModel" OnValidSubmit="@HandleValidSubmit">
-                                    <DataAnnotationsValidator />
-                                    <ValidationSummary />
-
-                                    <InputText id="name" @bind-Value="exampleModel.Name" />
-
-                                    <button type="submit">Submit</button>
-                                </EditForm>*@
-
-                                <CascadingValue Value="this">
-                                    <InputCheckbox Value="Person.Sex" class="custom-control-input sexswitcher"></InputCheckbox>
-                                </CascadingValue>
-                                <label class="custom-control-label" for="Model_Sex"></label>
-                            </div>
-                            <span class="text-female fas fa-venus padding-both-sides-15"></span>
-                            <label for="Sex_Checkbox_Female_Text">@Resources.Resource.Female</label>
+                <EditForm Model="Person">
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label for="@Person.Firstname">@Resources.Resource.Name</label>
+                            <InputText @bind-Value="@Person.Firstname" class="form-control"></InputText>
                         </div>
                     </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-6">
-                        <div class="row form-group">
-                            <div class="col-md-12 form-inline">
-                                <div class="custom-control custom-checkbox">
-                                    <CascadingValue Value="this">
-                                        <InputCheckbox Value="Person.HasBirthDate" class="custom-control-input"></InputCheckbox>
-                                    </CascadingValue>
-                                    <label class="custom-control-label" for="@Person.HasBirthDate">@Resources.Resource.BornTimeKnown</label>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label for="@Person.Lastname">@Resources.Resource.Lastname</label>
+                            <InputText @bind-Value="@Person.Lastname" class="form-control"></InputText>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label for="@Person.Patronym">@Resources.Resource.Patronym</label>
+                            <InputText @bind-Value="@Person.Patronym" class="form-control"></InputText>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <div class="form-inline">
+                                <label for="Sex_Checkbox_Male_Text">@Resources.Resource.Male</label>
+                                <span class="text-male fas fa-mars padding-both-sides-15"></span>
+                                <div class="custom-control custom-switch" @onclick="() => { PersonDataService.Person.Sex = !Person.Sex; }">
+                                    <input type="checkbox" class="custom-control-input sexswitcher" @bind="@Person.Sex" />
+                                    <label class="custom-control-label" for="Person_Sex"></label>
                                 </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                @*@Html.HiddenFor(m => m.Model.BirthDate)*@
-                                @if (Person.HasBirthDate)
-                                {
-                                    <input class="form-control" type="text" @bind="Person.BirthDate" />
-                                    @*@Html.TextBox("DpBornTime", PersonDataService.Person.BirthDate, "{0:dd.MM.yyyy}", new { placeholder = Resources.Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })*@
-                                }
-                                else
-                                {
-                                    <input class="form-control" type="text" @bind="Person.BirthDate" />
-                                    @*@Html.TextBox("DpBornTime", PersonDataService.Person.BirthDate, "{0:dd.MM.yyyy}", new { placeholder = Resources.Resource.EmptyDatePlaceholder, @class = "datepicker form-control", @readonly = "readonly" })*@
-                                }
+                                <span class="text-female fas fa-venus padding-both-sides-15"></span>
+                                <label for="Sex_Checkbox_Female_Text">@Resources.Resource.Female</label>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="row form-group">
-                            <div class="col-md-12 form-inline">
-                                <div class="custom-control custom-checkbox">
-                                    <CascadingValue Value="this">
-                                        <InputCheckbox Value="Person.HasDeathDate" class="custom-control-input"></InputCheckbox>
-                                    </CascadingValue>
-                                    <label class="custom-control-label" for="@Person.HasDeathDate">@Resources.Resource.DeadTimeKnown</label>
+                    <div class="row form-group">
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col-md-12 form-inline">
+                                    <div class="custom-control custom-checkbox" @onclick="() => ToggleBirthDateField()">
+                                        <input type="checkbox" class="custom-control-input" @bind="@ShowBirthDateField">
+                                        <label class="custom-control-label" for="@Person.HasBirthDate">@Resources.Resource.BornTimeKnown</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    @*@Html.HiddenFor(m => m.Model.BirthDate)*@
+                                    @if (ShowBirthDateField)
+                                    {
+                                        <InputDate @bind-Value="@Person.BirthDate" class="form-control"></InputDate>
+                                    }
+                                    else
+                                    {
+                                        <InputDate @bind-Value="@Person.BirthDate" class="form-control" readonly="readonly"></InputDate>
+                                    }
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col-md-12 form-inline">
+                                    <div class="custom-control custom-checkbox" @onclick="() => ToggleDeathDateField()">
+                                        <input type="checkbox" class="custom-control-input" @bind="@ShowDeathDateField">
+                                        <label class="custom-control-label" for="@Person.HasDeathDate">@Resources.Resource.DeadTimeKnown</label>
+                                    </div>
+                                </div>
 
-                            <div class="col-md-12">
-                                @*@Html.HiddenFor(m => m.Model.DeathDate)*@
-                                @if (Person.HasDeathDate)
-                                {
-                                    <input class="form-control" type="text" @bind="Person.DeathDate" />
-                                    @*@Html.TextBox("DpDeadTime", PersonDataService.Person.DeathDate, "{0:dd.MM.yyyy}", new { placeholder = Resources.Resource.EmptyDatePlaceholder, @class = "datepicker form-control" })*@
-                                }
-                                else
-                                {
-                                    <input class="form-control" type="text" @bind="Person.DeathDate" />
-                                    @*@Html.TextBox("DpDeadTime", PersonDataService.Person.DeathDate, "{0:dd.MM.yyyy}", new { placeholder = Resources.Resource.EmptyDatePlaceholder, @class = "datepicker form-control", @readonly = "readonly" })*@
-                                }
+                                <div class="col-md-12">
+                                    @if (ShowDeathDateField)
+                                    {
+                                        <InputDate @bind-Value="@Person.DeathDate" class="form-control"></InputDate>
+                                    }
+                                    else
+                                    {
+                                        <InputDate @bind-Value="@Person.DeathDate" class="form-control" readonly="readonly"></InputDate>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div id="MarriageStatus">
-                    @*@if (Model.Command == Shared.Enums.ActionCommand.Open)
-                    {
-                        @Html.Partial("Person/_MarriageSection",
-                             new Tuple<Person, Person, Person>(Model.Model, Model.MarriedOn, Model.PartnerOf))
-                    }*@
-                </div>
+                    <div id="MarriageStatus">
+                        @*@if (Model.Command == Shared.Enums.ActionCommand.Open)
+                        {
+                            @Html.Partial("Person/_MarriageSection",
+                                 new Tuple<Person, Person, Person>(Model.Model, Model.MarriedOn, Model.PartnerOf))
+                        }*@
+                    </div>
+                </EditForm>
             </div>
         </div>
     </div>
     <div class="card-footer clearfix">
-        <button class="btn crud btn-primary" type="button" args="@((int)ActionCommand.Save)" obj="@Person.Id">
+        <button class="btn crud btn-primary" type="button" @onclick="async () => await SavePerson()">
             <span class="glyphicon glyphicon-floppy-disk"></span>
             @Resources.Resource.Save
         </button>
@@ -159,4 +125,50 @@
 
 @code { 
     public Person Person { get { return PersonDataService.Person; } }
+    public bool ShowBirthDateField { get; set; }
+    public bool ShowDeathDateField { get; set; }
+
+    private async Task SavePerson()
+    {
+        if (Person.IsNewOrEmpty)
+        {
+            await PersonDataService.AddPerson(Person);
+        }
+        else
+        {
+            await PersonDataService.UpdatePerson(Person);
+        }
+    }
+
+    private void ToggleBirthDateField()
+    {
+        ShowBirthDateField = !ShowBirthDateField;
+        if (!ShowBirthDateField)
+        {
+            PersonDataService.Person.BirthDate = null;
+        }
+        else
+        {
+            if (!PersonDataService.Person.BirthDate.HasValue)
+                PersonDataService.Person.BirthDate = DateTime.Now;
+        }
+
+        StateHasChanged();
+    }
+
+    private void ToggleDeathDateField()
+    {
+        ShowDeathDateField = !ShowDeathDateField;
+        if (!ShowDeathDateField)
+        {
+            PersonDataService.Person.DeathDate = null;
+        }
+        else
+        {
+            if (!PersonDataService.Person.DeathDate.HasValue)
+                PersonDataService.Person.DeathDate = DateTime.Now;
+        }
+
+        StateHasChanged();
+    }
 }

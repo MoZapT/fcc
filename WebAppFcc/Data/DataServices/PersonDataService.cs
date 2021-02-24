@@ -7,6 +7,7 @@ using WebAppFcc.Shared.Interfaces.DataServices;
 using WebAppFcc.Shared.Enums;
 using System.Net.Http;
 using System;
+using Newtonsoft.Json;
 
 namespace WebAppFcc.Data.DataServices
 {
@@ -29,6 +30,17 @@ namespace WebAppFcc.Data.DataServices
 
         private void NotifyStateChanged() => OnChange?.Invoke();
 
+        public void Init(Action action)
+        {
+            ViewState = VmState.List;
+            Skip = 0;
+            Take = 10;
+            Person = null;
+            Persons = new List<Person>();
+
+            OnChange += action;
+        }
+
         public async Task LoadPersonList()
         {
             try
@@ -42,13 +54,21 @@ namespace WebAppFcc.Data.DataServices
                 ex.Redirect();
                 Persons = new List<Person>();
             }
+            catch (Exception)
+            {
+                Persons = new List<Person>();
+            }
+            finally
+            {
+                NotifyStateChanged();
+            }
         }
 
         public async Task LoadPersonDetails(Guid id)
         {
             try
             {
-                var response = await Http.GetAsync($"family/person/{id}");
+                var response = await Http.GetAsync($"family/person/get/{id}");
                 Person = await response.Content.ReadFromJsonAsync<Person>();
                 ViewState = VmState.Detail;
             }
@@ -57,27 +77,77 @@ namespace WebAppFcc.Data.DataServices
                 ex.Redirect();
                 Person = null;
             }
+            catch (Exception)
+            {
+                Person = null;
+            }
+            finally
+            {
+                NotifyStateChanged();
+            }
         }
 
         public async Task DeletePerson(Guid id)
         {
-            var response = await Http.DeleteAsync($"family/person/delete/{id}");
-            await response.Content.ReadFromJsonAsync<bool>();
-            ViewState = VmState.Detail;
+            try
+            {
+                var response = await Http.DeleteAsync($"family/person/delete/{id}");
+                await response.Content.ReadFromJsonAsync<bool>();
+                ViewState = VmState.Detail;
+            }
+            catch (AccessTokenNotAvailableException ex)
+            {
+                ex.Redirect();
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                NotifyStateChanged();
+            }
         }
 
         public async Task AddPerson(Person person)
         {
-            var response = await Http.PostAsJsonAsync($"family/person/add/", person);
-            await response.Content.ReadFromJsonAsync<Person>();
-            ViewState = VmState.Detail;
+            try
+            {
+                var response = await Http.PostAsJsonAsync($"family/person/add/{person}", person);
+                await response.Content.ReadFromJsonAsync<Person>();
+                ViewState = VmState.Detail;
+            }
+            catch (AccessTokenNotAvailableException ex)
+            {
+                ex.Redirect();
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                NotifyStateChanged();
+            }
         }
 
         public async Task UpdatePerson(Person person)
         {
-            var response = await Http.PutAsJsonAsync($"family/person/update/", person);
-            await response.Content.ReadFromJsonAsync<Person>();
-            ViewState = VmState.Detail;
+            try
+            {
+                var response = await Http.PutAsJsonAsync($"family/person/update/{person}", person);
+                await response.Content.ReadFromJsonAsync<Person>();
+                ViewState = VmState.Detail;
+            }
+            catch (AccessTokenNotAvailableException ex)
+            {
+                ex.Redirect();
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                NotifyStateChanged();
+            }
         }
 
         public void CreatePerson()

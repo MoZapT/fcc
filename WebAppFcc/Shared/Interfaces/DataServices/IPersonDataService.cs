@@ -19,6 +19,8 @@ namespace WebAppFcc.Shared.Interfaces.DataServices
         Person Person { get; set; }
         IEnumerable<Person> Persons { get; set; }
 
+        void Init(Action action);
+
         Task LoadPersonList();
         Task LoadPersonDetails(Guid id);
 
