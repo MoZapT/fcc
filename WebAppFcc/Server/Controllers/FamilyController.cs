@@ -45,10 +45,16 @@ namespace WebAppFcc.Server.Controllers
             return Ok(await _mgrFcc.GetPerson(id));
         }
 
-        [HttpGet("person/get-list")]
-        public async Task<IActionResult> GetPersonList()
+        [HttpGet("person/get-list/{skip?}/{take?}")]
+        public async Task<IActionResult> GetPersonList(int skip = 0, int take = 10)
         {
-            return Ok(await _mgrFcc.GetPersonList());
+            return Ok(await _mgrFcc.GetPersonList(skip, take));
+        }
+
+        [HttpGet("person/get-count")]
+        public async Task<IActionResult> GetPersonCount()
+        {
+            return Ok(await _mgrFcc.PersonCount());
         }
 
         [HttpDelete("person/delete/{id}")]

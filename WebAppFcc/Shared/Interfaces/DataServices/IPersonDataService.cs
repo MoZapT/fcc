@@ -12,6 +12,7 @@ namespace WebAppFcc.Shared.Interfaces.DataServices
         VmState ViewState { get; set; }
         int Skip { get; set; }
         int Take { get; set; }
+        int PersonCount { get; set; }
 
         Person Person { get; set; }
         IEnumerable<Person> Persons { get; set; }

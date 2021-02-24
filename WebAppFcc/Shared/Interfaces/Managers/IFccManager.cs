@@ -13,6 +13,7 @@ namespace WebAppFcc.Shared.Interfaces.Managers
         Task<Person> CreatePerson(Person entity);
         Task<Person> UpdatePerson(Person entity);
         Task<Person> DeletePerson(Guid id);
-        Task<IEnumerable<Person>> GetPersonList();
+        Task<IEnumerable<Person>> GetPersonList(int skip, int take);
+        Task<int> PersonCount();
     }
 }

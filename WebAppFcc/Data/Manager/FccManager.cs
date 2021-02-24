@@ -28,9 +28,19 @@ namespace WebAppFcc.Data.Manager
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Person>> GetPersonList()
+        public async Task<int> PersonCount()
         {
-            return await _repo.Person
+            return await _repo.Person.CountAsync();
+        }
+
+        public async Task<IEnumerable<Person>> GetPersonList(int skip, int take)
+        {
+            var dbset = _repo.Person
+                .Skip(skip);
+            if (take > 0)
+                dbset = dbset.Take(take);
+
+            return await dbset
                 .Include(e => e.Relations)
                 .ThenInclude(e => e.Invited)
                 .ToArrayAsync();

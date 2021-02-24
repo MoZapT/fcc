@@ -16,6 +16,7 @@ namespace WebAppFcc.Data.DataServices
         public VmState ViewState { get; set; }
         public int Skip { get; set; }
         public int Take { get; set; }
+        public int PersonCount { get; set; }
 
         public Person Person { get; set; }
         public IEnumerable<Person> Persons { get; set; }
@@ -29,6 +30,7 @@ namespace WebAppFcc.Data.DataServices
             ViewState = VmState.List;
             Skip = 0;
             Take = 10;
+            PersonCount = 0;
             Person = null;
             Persons = new List<Person>();
 
@@ -37,8 +39,8 @@ namespace WebAppFcc.Data.DataServices
 
         public async Task LoadPersonList()
         {
-            Func<Task> tryExecute = new Func<Task>(async () => {
-                var response = await Http.GetAsync("family/person/get-list");
+            Func<Task> executeGetList = new Func<Task>(async () => {
+                var response = await Http.GetAsync($"family/person/get-list/{Skip}/{Take}");
                 Persons = await response.Content.ReadFromJsonAsync<IEnumerable<Person>>();
                 ViewState = VmState.List;
             });
@@ -46,7 +48,14 @@ namespace WebAppFcc.Data.DataServices
                 Persons = new List<Person>();
             });
 
-            await DefaultApiRequest(tryExecute, onError);
+            await DefaultApiRequest(executeGetList, onError);
+
+            Func<Task> executeCount = new Func<Task>(async () => {
+                var response = await Http.GetAsync($"family/person/get-count");
+                PersonCount = await response.Content.ReadFromJsonAsync<int>();
+            });
+
+            await DefaultApiRequest(executeCount);
         }
 
         public async Task LoadPersonDetails(Guid id)
@@ -67,8 +76,8 @@ namespace WebAppFcc.Data.DataServices
         {
             Func<Task> tryExecute = new Func<Task>(async () => {
                 var response = await Http.DeleteAsync($"family/person/delete/{id}");
-                await response.Content.ReadFromJsonAsync<bool>();
-                ViewState = VmState.Detail;
+                await response.Content.ReadFromJsonAsync<Person>();
+                await LoadPersonList();
             });
 
             await DefaultApiRequest(tryExecute);
@@ -79,7 +88,7 @@ namespace WebAppFcc.Data.DataServices
             Func<Task> tryExecute = new Func<Task>(async () => {
                 var response = await Http.PostAsJsonAsync($"family/person/add/{person}", person);
                 await response.Content.ReadFromJsonAsync<Person>();
-                ViewState = VmState.Detail;
+                await LoadPersonList();
             });
 
             await DefaultApiRequest(tryExecute);
@@ -90,7 +99,7 @@ namespace WebAppFcc.Data.DataServices
             Func<Task> tryExecute = new Func<Task>(async () => {
                 var response = await Http.PutAsJsonAsync($"family/person/update/{person}", person);
                 await response.Content.ReadFromJsonAsync<Person>();
-                ViewState = VmState.Detail;
+                await LoadPersonList();
             });
 
             await DefaultApiRequest(tryExecute);
