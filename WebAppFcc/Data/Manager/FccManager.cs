@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Linq;
 using WebAppFcc.Shared.Interfaces.Managers;
 using WebAppFcc.Repository;
-using WebAppFcc.Shared.Enums;
 using System;
 
 namespace WebAppFcc.Data.Manager
@@ -23,7 +22,7 @@ namespace WebAppFcc.Data.Manager
         {
             return await _repo.Person
                 .Where(e => e.Id == id)
-                .Include(e => e.Relations)
+                .Include(e => e.Relations) 
                 .ThenInclude(e => e.Invited)
                 .FirstOrDefaultAsync();
         }

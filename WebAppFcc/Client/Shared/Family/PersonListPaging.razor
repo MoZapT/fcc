@@ -60,6 +60,9 @@
     private readonly int _maximumPages = 10;
     private readonly int _offsetLeft = 2;
 
+    public int Amount { get { return PersonDataService.PersonCount; } }
+    public int Skip { get { return PersonDataService.Skip; } }
+    public int Take { get { return PersonDataService.Take; } }
     public int CurrentPage { get { return (Skip / Take) + 1; } }
     public int Pages { get { return (Amount / Take) + ((Amount % Take) > 0 ? 1 : 0); } }
     public int MaximumPageBtns { get { return CurrentPage + _maximumPages; } }
@@ -86,13 +89,8 @@
             return false;
         }
     }
-
     [Parameter]
-    public int Amount { get; set; }
-    [Parameter]
-    public int Skip { get; set; }
-    [Parameter]
-    public int Take { get; set; }
+    public EventCallbackt OnChange { get; set; }
 
     private async Task PageSelected(int page)
     {
@@ -103,5 +101,6 @@
 
         PersonDataService.Skip = (page - 1) * Take;
         await PersonDataService.LoadPersonList();
+        await OnChange.InvokeAsync("page selected");
     }
 }

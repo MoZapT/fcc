@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using WebAppFcc.Shared.Models
+﻿@using WebAppFcc.Shared.Models
 @namespace WebAppFcc.Client.Shared.Family
 @inject HttpClient Http
 @inject IPersonDataService PersonDataService
@@ -11,7 +10,7 @@
             @Resources.Resource.PassportView
         </h2>
 
-        <PersonListPaging Skip="Skip" Take="Take" Amount="PersonCount" />
+        <PersonListPaging OnChange="() => StateHasChanged()" />
     </div>
     <div class="card-body">
         @foreach (Person person in Persons)
@@ -95,7 +94,7 @@
     public IEnumerable<Person> Persons { get { return PersonDataService.Persons; } }
 
     protected override async Task OnInitializedAsync()
-    {
+    {        
         await PersonDataService.LoadPersonList();
     }
 }
