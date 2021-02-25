@@ -12,8 +12,9 @@ namespace WebAppFcc.Repository
         public DbSet<Person> Person { get; set; }
         public DbSet<Relation> Relation { get; set; }
         public DbSet<FileContent> FileContent { get; set; }
+        public DbSet<PersonPhoto> PersonPhoto { get; set; }
+        public DbSet<PersonDocument> PersonDocument { get; set; }
         //public DbSet<PersonName> PersonName { get; set; }
-        //public DbSet<PersonDocument> PersonDocument { get; set; }
         //public DbSet<PersonActivity> PersonActivity { get; set; }
         //public DbSet<PersonBiography> PersonBiography { get; set; }
 
@@ -22,16 +23,6 @@ namespace WebAppFcc.Repository
             base.OnModelCreating(modelBuilder);
 
             AddPersonDependencies(modelBuilder);
-
-            //modelBuilder.Entity<Relation>()
-            //    .HasOne(e => e.Inviter)
-            //    .WithOne()
-            //    .HasForeignKey<Relation>(e => e.InviterId);
-
-            //modelBuilder.Entity<Relation>()
-            //    .HasOne(e => e.Invited)
-            //    .WithOne()
-            //    .HasForeignKey<Relation>(e => e.InvitedId);
         }
 
         private void AddPersonDependencies(ModelBuilder modelBuilder)
@@ -47,19 +38,29 @@ namespace WebAppFcc.Repository
                 .HasForeignKey(e => e.InvitedId);
 
             modelBuilder.Entity<Person>()
+                .HasMany(e => e.Photos)
+                .WithOne()
+                .HasForeignKey(e => e.PersonId);
+
+            modelBuilder.Entity<Person>()
                 .HasMany(e => e.Files)
                 .WithOne()
                 .HasForeignKey(e => e.PersonId);
 
-            //modelBuilder.Entity<Person>()
-            //    .HasMany(e => e.Photos)
-            //    .WithOne()
-            //    .HasForeignKey(e => e.PersonId);
+            modelBuilder.Entity<Person>()
+                .HasOne(e => e.MainPhoto)
+                .WithOne()
+                .HasForeignKey<Person>(e => e.MainPhotoId);
 
-            //modelBuilder.Entity<Person>()
-            //    .HasOne(e => e.MainPhoto)
+            //modelBuilder.Entity<PersonDocument>()
+            //    .HasOne(e => e.FileContent)
             //    .WithOne()
-            //    .HasForeignKey<PersonFileContent>(e => e.PersonId);
+            //    .HasForeignKey<PersonDocument>(e => e.PersonId);
+
+            //modelBuilder.Entity<PersonPhoto>()
+            //    .HasOne(e => e.FileContent)
+            //    .WithOne()
+            //    .HasForeignKey<PersonPhoto>(e => e.FileContentId);
         }
     }
 }

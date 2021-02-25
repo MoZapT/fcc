@@ -27,7 +27,11 @@ namespace WebAppFcc.Shared.Models
         public bool HasDeathDate { get { return DeathDate != null; } }
         public bool Sex { get; set; }
 
-        public ICollection<PersonFileContent> Files { get; set; }
+        public Guid? MainPhotoId { get; set; }
+        public PersonPhoto MainPhoto { get; set; }
+        public ICollection<PersonPhoto> Photos { get; set; }
+        public ICollection<PersonDocument> Files { get; set; }
+
         public ICollection<Relation> InviterRelations { get; set; }
         public ICollection<Relation> InvitedRelations { get; set; }
 

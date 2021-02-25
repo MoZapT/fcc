@@ -22,7 +22,13 @@ namespace WebAppFcc.Data.Manager
         {
             return await _repo.Person
                 .Where(e => e.Id == id)
+                .Include(e => e.InviterRelations)
+                .Include(e => e.InvitedRelations)
+                .Include(e => e.MainPhoto)
+                    .ThenInclude(e => e.FileContent)
                 .Include(e => e.Files)
+                    .ThenInclude(e => e.FileContent)
+                .Include(e => e.Photos)
                     .ThenInclude(e => e.FileContent)
                 .FirstOrDefaultAsync();
         }
@@ -42,6 +48,8 @@ namespace WebAppFcc.Data.Manager
             return await dbset
                 .Include(e => e.InviterRelations)
                 .Include(e => e.InvitedRelations)
+                .Include(e => e.MainPhoto)
+                    .ThenInclude(e => e.FileContent)
                 .ToArrayAsync();
         }
 

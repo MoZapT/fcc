@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebAppFcc.Shared.Models
 {
-    public class PersonDocument
+    public class PersonPhoto
     {
         private string _base64url;
 
@@ -15,9 +15,7 @@ namespace WebAppFcc.Shared.Models
         public Guid FileContentId { get; set; }
         public FileContent FileContent { get; set; }
 
-        public string GetBase64String
-        {
-            get
+        public string GetBase64String { get 
             {
                 if (FileContent?.BinaryContent == null)
                     return null;
@@ -27,8 +25,8 @@ namespace WebAppFcc.Shared.Models
                         FileContent?.FileType,
                         Convert.ToBase64String(FileContent?.BinaryContent));
 
-                return _base64url;
-            }
+                return _base64url; 
+            } 
         }
     }
 }

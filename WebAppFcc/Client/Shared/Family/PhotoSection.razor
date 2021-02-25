@@ -1,0 +1,86 @@
+﻿@using WebAppFcc.Shared.Models
+@namespace WebAppFcc.Client.Shared.Family
+@inject IPersonDataService PersonDataService
+
+@model KeyValuePair<string, List<FileContent>>
+
+<div class="row form-group">
+    <div id="MainPictureId" value="@Model.Key"></div>
+
+    <div class="col-md-12">
+        @Html.Label("Foto", Resource.Foto)
+    </div>
+
+    @if (Model.Value?.Count > 1)
+    {
+        <div class="col-md-12">
+            <button id="SetMainPhoto" class="btn btn-light btn-edges sideslide" type="button">
+                <span class="fas fa-star"></span>
+                <span>@Resources.Resource.BtnSetPrimary</span>
+            </button>
+        </div>
+    }
+    <div class="col-md-12 photo">
+        <div id="PhotosCarousel" class="carousel shadow slide" data-ride="carousel" data-interval="false">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                @if (Model.Value?.Count <= 0)
+                {
+                    <div class="item active" value="">
+                        <img src="~/Content/no-image-available.jpg" alt="No image avaible" class="photo" />
+                    </div>
+                }
+
+                @for (int i = 0; i < Model.Value.Count; i++)
+                {
+                    var file = Model.Value[i];
+                    string img64 = Convert.ToBase64String(file.BinaryContent);
+                    string img64Url = string.Format("data:image/" + file.FileType + ";base64,{0}", img64);
+
+                    if (Model.Key == file.Id)
+                    {
+                        <div class="carousel-item active" value="@file.Id">
+                            <img src="@img64Url" alt="@file.Name" class="photo">
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="carousel-item" value="@file.Id">
+                            <img src="@img64Url" alt="@file.Name" class="photo">
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 d-inline-flex">
+        @if (Model.Value.Count > 1)
+        {
+            <!-- Left and right controls -->
+            <a class="custom-carousel-control btn btn-dark btn-edges" href="#PhotosCarousel" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span>@Resources.Resource.Previous</span>
+            </a>
+            <a class="custom-carousel-control btn btn-dark btn-edges" href="#PhotosCarousel" data-slide="next">
+                <span>@Resources.Resource.Next</span>
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        }
+    </div>
+    <div class="col-md-12">
+        <label for="UploadPicture" class="btn btn-primary btn-edges sideslide">
+            <span class="fas fa-file-upload"></span>
+            <span class="toggle-text">@Resources.Resource.BtnLoadPhoto</span>
+        </label>
+        <input id="UploadPicture" class="hide" type="file" name="files[]" data-multiple-caption="{count} notimplted" multiple="" aria-invalid="false">
+    </div>
+    @if (Model.Value?.Count > 0)
+    {
+        <div class="col-md-12">
+            <button id="DeletePhoto" class="btn btn-danger btn-edges sideslide" type="button">
+                <span class="fas fa-trash"></span>
+                <span class="toggle-text">@Resources.Resource.Delete</span>
+            </button>
+        </div>
+    }
+</div>
