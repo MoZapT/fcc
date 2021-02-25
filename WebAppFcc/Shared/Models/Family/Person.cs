@@ -26,11 +26,11 @@ namespace WebAppFcc.Shared.Models
         public bool HasBirthDate { get { return BirthDate != null; } }
         public bool HasDeathDate { get { return DeathDate != null; } }
         public bool Sex { get; set; }
-        public Guid? FileContentId { get; set; }
-        public IEnumerable<Relation> Relations { get; set; }
 
-        [NotMapped]
-        public string Base64Icon { get; set; }
+        public ICollection<PersonFileContent> Files { get; set; }
+        public ICollection<Relation> InviterRelations { get; set; }
+        public ICollection<Relation> InvitedRelations { get; set; }
+
         [NotMapped]
         public bool IsMarried { get; set; }
         [NotMapped]

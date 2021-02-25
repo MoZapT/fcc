@@ -7,7 +7,7 @@
         @if (CurrentPage > 1)
         {
             <li class="previous page-item">
-                <a class="page-link" @onclick="() => PageSelected(CurrentPage-1)">
+                <a class="page-link" href="#" @onclick="() => PageSelected(CurrentPage-1)" @onclick:preventDefault="true" @onclick:stopPropagation="true">
                     <em class="fas fa-angle-double-left"></em>
                     @Resources.Resource.Previous
                 </a>
@@ -20,14 +20,14 @@
             {
                 int pageNr = i;
                 <li class="active page-item">
-                    <a class="page-link" @onclick="() => PageSelected(pageNr)">@i</a>
+                    <a class="page-link" href="#" @onclick="() => PageSelected(pageNr)" @onclick:preventDefault="true" @onclick:stopPropagation="true">@i</a>
                 </li>
             }
             else
             {
                 int pageNr = i;
                 <li class="page-item">
-                    <a class="page-link" @onclick="() => PageSelected(pageNr)">@i</a>
+                    <a class="page-link" href="#" @onclick="() => PageSelected(pageNr)" @onclick:preventDefault="true" @onclick:stopPropagation="true">@i</a>
                 </li>
             }
 
@@ -40,14 +40,14 @@
         @if (Pages > MaximumPageBtns)
         {
             <li class="next page-item">
-                <a class="page-link" @onclick="() => PageSelected(Pages)">@Resources.Resource.Last</a>
+                <a class="page-link" href="#" @onclick="() => PageSelected(Pages)" @onclick:preventDefault="true" @onclick:stopPropagation="true">>@Resources.Resource.Last</a>
             </li>
         }
 
         @if (CurrentPage < Pages)
         {
             <li class="next page-item">
-                <a class="page-link" @onclick="() => PageSelected(CurrentPage+1)">
+                <a class="page-link" href="#" @onclick="() => PageSelected(CurrentPage+1)" @onclick:preventDefault="true" @onclick:stopPropagation="true">
                     @Resources.Resource.Next
                     <em class="fas fa-angle-double-right"></em>
                 </a>
@@ -90,7 +90,7 @@
         }
     }
     [Parameter]
-    public EventCallbackt OnChange { get; set; }
+    public EventCallback OnChange { get; set; }
 
     private async Task PageSelected(int page)
     {

@@ -1,10 +1,14 @@
-﻿namespace WebAppFcc.Shared.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace WebAppFcc.Shared.Models
 {
     public class PersonRelation
     {
-        public Relation Relation { get; set; }
-        public string RelationId { get; set; }
-        public Person Person { get; set; }
-        public string PersonId { get; set; }
+        public Guid InviterId { get; set; }
+        public Person Inviter { get; set; }
+
+        public Guid InvitedId { get; set; }
+        public Person Invited { get; set; }
     }
 }

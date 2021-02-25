@@ -1,12 +1,10 @@
 @page "/person"
 @using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using WebAppFcc.Shared.Enums
 @using WebAppFcc.Shared.Models
 @using WebAppFcc.Client.Shared.Family
 @attribute [Authorize(Roles = "User")]
 @implements IDisposable
-@inject HttpClient Http
 @inject IPersonDataService PersonDataService
 
 @if (ViewState == VmState.List)

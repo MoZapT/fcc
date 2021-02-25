@@ -11,7 +11,7 @@ namespace WebAppFcc.Shared.Common
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
         public bool IsActive { get; set; }
-        public bool IsNewOrEmpty { get { return string.IsNullOrWhiteSpace(Id.ToString()); } }
+        public bool IsNewOrEmpty { get { return Id == Guid.Empty; } }
 
         public BaseModel()
         {

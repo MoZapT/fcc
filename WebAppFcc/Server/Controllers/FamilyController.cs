@@ -30,37 +30,80 @@ namespace WebAppFcc.Server.Controllers
         [HttpPost("person/add/{person}")]
         public async Task<IActionResult> AddPerson(Person person)
         {
-            return Ok(await _mgrFcc.CreatePerson(person));
+            try
+            {
+                return Ok(await _mgrFcc.CreatePerson(person));
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }        
         }
 
         [HttpPut("person/update/{person}")]
         public async Task<IActionResult> UpdatePerson(Person person)
         {
-            return Ok(await _mgrFcc.UpdatePerson(person));
+            try
+            {
+                return Ok(await _mgrFcc.UpdatePerson(person));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [HttpGet("person/get/{id}")]
         public async Task<IActionResult> GetPerson(Guid id)
         {
-            return Ok(await _mgrFcc.GetPerson(id));
+            try
+            {
+                return Ok(await _mgrFcc.GetPerson(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [HttpGet("person/get-list/{skip?}/{take?}")]
         public async Task<IActionResult> GetPersonList(int skip = 0, int take = 10)
         {
-            return Ok(await _mgrFcc.GetPersonList(skip, take));
+            try
+            {
+                return Ok(await _mgrFcc.GetPersonList(skip, take));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [HttpGet("person/get-count")]
         public async Task<IActionResult> GetPersonCount()
         {
-            return Ok(await _mgrFcc.PersonCount());
+            try
+            {
+                return Ok(await _mgrFcc.PersonCount());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [HttpDelete("person/delete/{id}")]
         public async Task<IActionResult> DeletePerson(Guid id)
         {
-            return Ok(await _mgrFcc.DeletePerson(id));
+            try
+            {
+                return Ok(await _mgrFcc.DeletePerson(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }

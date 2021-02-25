@@ -22,8 +22,8 @@ namespace WebAppFcc.Data.Manager
         {
             return await _repo.Person
                 .Where(e => e.Id == id)
-                .Include(e => e.Relations) 
-                .ThenInclude(e => e.Invited)
+                .Include(e => e.Files)
+                    .ThenInclude(e => e.FileContent)
                 .FirstOrDefaultAsync();
         }
 
@@ -40,8 +40,8 @@ namespace WebAppFcc.Data.Manager
                 dbset = dbset.Take(take);
 
             return await dbset
-                .Include(e => e.Relations)
-                .ThenInclude(e => e.Invited)
+                .Include(e => e.InviterRelations)
+                .Include(e => e.InvitedRelations)
                 .ToArrayAsync();
         }
 
