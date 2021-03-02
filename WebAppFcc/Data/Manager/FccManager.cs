@@ -95,5 +95,29 @@ namespace WebAppFcc.Data.Manager
 
             return result.Entity;
         }
+
+        public async Task<PersonPhoto> CreatePersonPhoto(PersonPhoto photo)
+        {
+            var result = _repo.PersonPhoto.AddAsync(photo);
+
+            await _repo.SaveChangesAsync();
+
+            if (result.IsCompletedSuccessfully)
+                return result.Result.Entity;
+            else
+                return null;
+        }
+
+        public async Task<PersonDocument> CreatePersonDocument(PersonDocument document)
+        {
+            var result = _repo.PersonDocument.AddAsync(document);
+
+            await _repo.SaveChangesAsync();
+
+            if (result.IsCompletedSuccessfully)
+                return result.Result.Entity;
+            else
+                return null;
+        }
     }
 }

@@ -27,6 +27,34 @@ namespace WebAppFcc.Server.Controllers
             _mgrFcc = mgrFcc;
         }
 
+        [HttpPost("person/add/photo/{person}")]
+        public async Task<IActionResult> AddPhoto(PersonPhoto photo)
+        {
+            try
+            {
+                return Ok(await _mgrFcc.CreatePersonPhoto(photo));
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpPost("person/add/document/{person}")]
+        public async Task<IActionResult> AddDocument(PersonDocument document)
+        {
+            try
+            {
+                return Ok(await _mgrFcc.CreatePersonDocument(document));
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
         [HttpPost("person/add/{person}")]
         public async Task<IActionResult> AddPerson(Person person)
         {

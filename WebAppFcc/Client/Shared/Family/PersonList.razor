@@ -6,7 +6,7 @@
     <li class="breadcrumb-item">
         <a href="#" @onclick="@(() => PersonDataService.LoadPersonList(true))" @onclick:preventDefault="true" @onclick:stopPropagation="true">
             <span class="fas fa-angle-double-left"></span>
-            @Resources.Resource.GoToHome
+            @Resource.GoToHome
         </a>
     </li>
 </ul>
@@ -14,7 +14,7 @@
     <div class="card-header">
         <h2>
             <span class="fas fa-id-card"></span>
-            @Resources.Resource.PassportView
+            @Resource.PassportView
         </h2>
 
         <PersonListPaging OnChange="() => StateHasChanged()" />
@@ -61,10 +61,10 @@ else
         @person.Name
     </div>
     <div class="col-md-2">
-        @(birthDateString ?? Resources.Resource.BornTimeNotKnown)
+        @(birthDateString ?? Resource.BornTimeNotKnown)
     </div>
     <div class="col-md-2">
-        @(deathDateString ?? Resources.Resource.DeadTimeNotKnown)
+        @(deathDateString ?? Resource.DeadTimeNotKnown)
     </div>
     <div class="col-md-2">
         <button class="btn btn-xs crud btn-light" type="button" @onclick="@(async () => await PersonDataService.LoadPersonDetails(person.Id))">
@@ -80,7 +80,7 @@ else
         <div class="btn-group pull-right">
             <button class="btn btn-primary crud" @onclick="@(async () => PersonDataService.CreatePerson())">
                 <span class="glyphicon glyphicon-plus-sign"></span>
-                @Resources.Resource.Add
+                @Resource.Add
             </button>
         </div>
     </div>
@@ -89,7 +89,7 @@ else
     <li class="breadcrumb-item">
         <a href="#" @onclick="@(() => PersonDataService.LoadPersonList(true))" @onclick:preventDefault="true" @onclick:stopPropagation="true">
             <span class="fas fa-angle-double-left"></span>
-            @Resources.Resource.GoToHome
+            @Resource.GoToHome
         </a>
     </li>
 </ul>

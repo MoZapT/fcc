@@ -9,7 +9,7 @@
             <li class="previous page-item">
                 <a class="page-link" href="#" @onclick="() => PageSelected(CurrentPage-1)" @onclick:preventDefault="true" @onclick:stopPropagation="true">
                     <em class="fas fa-angle-double-left"></em>
-                    @Resources.Resource.Previous
+                    @Resource.Previous
                 </a>
             </li>
         }
@@ -40,7 +40,7 @@
         @if (Pages > MaximumPageBtns)
         {
             <li class="next page-item">
-                <a class="page-link" href="#" @onclick="() => PageSelected(Pages)" @onclick:preventDefault="true" @onclick:stopPropagation="true">>@Resources.Resource.Last</a>
+                <a class="page-link" href="#" @onclick="() => PageSelected(Pages)" @onclick:preventDefault="true" @onclick:stopPropagation="true">>@Resource.Last</a>
             </li>
         }
 
@@ -48,7 +48,7 @@
         {
             <li class="next page-item">
                 <a class="page-link" href="#" @onclick="() => PageSelected(CurrentPage+1)" @onclick:preventDefault="true" @onclick:stopPropagation="true">
-                    @Resources.Resource.Next
+                    @Resource.Next
                     <em class="fas fa-angle-double-right"></em>
                 </a>
             </li>

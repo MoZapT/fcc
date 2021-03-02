@@ -2,11 +2,15 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using WebAppFcc.Data.Manager;
 using WebAppFcc.Repository;
@@ -51,6 +55,28 @@ namespace WebAppFcc.Server
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
+            services.AddLocalization(options => { options.ResourcesPath = "Resources"; });
+
+            services.Configure<RequestLocalizationOptions>(
+                options =>
+                {
+                    List<CultureInfo> supportedCultures =
+                        new List<CultureInfo>
+                        {
+                            new CultureInfo("de-DE"),
+                            new CultureInfo("ru-RU"),
+                            new CultureInfo("en-US")
+                        };
+
+                    options.DefaultRequestCulture = new RequestCulture("de-DE");
+
+                    // Formatting numbers, dates, etc.
+                    options.SupportedCultures = supportedCultures;
+
+                    // UI string 
+                    options.SupportedUICultures = supportedCultures;
+                });
+
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -70,6 +96,8 @@ namespace WebAppFcc.Server
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseRequestLocalization(app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value);
 
             app.UseHttpsRedirection();
             app.UseBlazorFrameworkFiles();

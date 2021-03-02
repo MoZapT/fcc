@@ -15,5 +15,8 @@ namespace WebAppFcc.Shared.Interfaces.Managers
         Task<Person> DeletePerson(Guid id);
         Task<IEnumerable<Person>> GetPersonList(int skip, int take);
         Task<int> PersonCount();
+
+        Task<PersonPhoto> CreatePersonPhoto(PersonPhoto photo);
+        Task<PersonDocument> CreatePersonDocument(PersonDocument document);
     }
 }

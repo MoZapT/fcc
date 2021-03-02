@@ -6,7 +6,7 @@
     <div class="card-header">
         <h2>
             <span class="fas fa-id-card"></span>
-            @Resources.Resource.PassportView
+            @Resource.PassportView
         </h2>
     </div>
     <div class="card-body">
@@ -25,33 +25,33 @@
                 <EditForm Model="Person">
                     <div class="row form-group">
                         <div class="col-md-12">
-                            <label for="@Person.Firstname">@Resources.Resource.Name</label>
+                            <label for="@Person.Firstname">@Resource.Name</label>
                             <InputText @bind-Value="@Person.Firstname" class="form-control"></InputText>
                         </div>
                     </div>
                     <div class="row form-group">
                         <div class="col-md-12">
-                            <label for="@Person.Lastname">@Resources.Resource.Lastname</label>
+                            <label for="@Person.Lastname">@Resource.Lastname</label>
                             <InputText @bind-Value="@Person.Lastname" class="form-control"></InputText>
                         </div>
                     </div>
                     <div class="row form-group">
                         <div class="col-md-12">
-                            <label for="@Person.Patronym">@Resources.Resource.Patronym</label>
+                            <label for="@Person.Patronym">@Resource.Patronym</label>
                             <InputText @bind-Value="@Person.Patronym" class="form-control"></InputText>
                         </div>
                     </div>
                     <div class="row form-group">
                         <div class="col-md-12">
                             <div class="form-inline">
-                                <label for="Sex_Checkbox_Male_Text">@Resources.Resource.Male</label>
+                                <label for="Sex_Checkbox_Male_Text">@Resource.Male</label>
                                 <span class="text-male fas fa-mars padding-both-sides-15"></span>
                                 <div class="custom-control custom-switch" @onclick="() => { PersonDataService.Person.Sex = !Person.Sex; }">
                                     <input type="checkbox" class="custom-control-input sexswitcher" @bind="@Person.Sex" />
                                     <label class="custom-control-label" for="Person_Sex"></label>
                                 </div>
                                 <span class="text-female fas fa-venus padding-both-sides-15"></span>
-                                <label for="Sex_Checkbox_Female_Text">@Resources.Resource.Female</label>
+                                <label for="Sex_Checkbox_Female_Text">@Resource.Female</label>
                             </div>
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                                 <div class="col-md-12 form-inline">
                                     <div class="custom-control custom-checkbox" @onclick="() => ToggleBirthDateField()">
                                         <input type="checkbox" class="custom-control-input" @bind="@ShowBirthDateField">
-                                        <label class="custom-control-label" for="@Person.HasBirthDate">@Resources.Resource.BornTimeKnown</label>
+                                        <label class="custom-control-label" for="@Person.HasBirthDate">@Resource.BornTimeKnown</label>
                                     </div>
                                 </div>
 
@@ -82,7 +82,7 @@
                                 <div class="col-md-12 form-inline">
                                     <div class="custom-control custom-checkbox" @onclick="() => ToggleDeathDateField()">
                                         <input type="checkbox" class="custom-control-input" @bind="@ShowDeathDateField">
-                                        <label class="custom-control-label" for="@Person.HasDeathDate">@Resources.Resource.DeadTimeKnown</label>
+                                        <label class="custom-control-label" for="@Person.HasDeathDate">@Resource.DeadTimeKnown</label>
                                     </div>
                                 </div>
 
@@ -113,7 +113,7 @@
     <div class="card-footer clearfix">
         <button class="btn crud btn-primary" type="button" @onclick="async () => await SavePerson()">
             <span class="glyphicon glyphicon-floppy-disk"></span>
-            @Resources.Resource.Save
+            @Resource.Save
         </button>
     </div>
 </div>

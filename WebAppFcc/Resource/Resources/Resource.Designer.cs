@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Resources {
+namespace WebAppFcc.Resource.Resources {
     using System;
     
     
