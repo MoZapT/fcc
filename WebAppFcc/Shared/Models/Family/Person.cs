@@ -34,7 +34,10 @@ namespace WebAppFcc.Shared.Models
 
         public ICollection<Relation> InviterRelations { get; set; }
         public ICollection<Relation> InvitedRelations { get; set; }
+        public ICollection<PersonName> PreviousNames { get; set; }
 
+        [NotMapped]
+        public bool NameHasChanged { get; set; }
         [NotMapped]
         public bool IsMarried { get; set; }
         [NotMapped]

@@ -30,6 +30,7 @@ namespace WebAppFcc.Data.Manager
                     .ThenInclude(e => e.FileContent)
                 .Include(e => e.Photos)
                     .ThenInclude(e => e.FileContent)
+                .Include(e => e.PreviousNames)
                 .FirstOrDefaultAsync();
         }
 
@@ -68,9 +69,19 @@ namespace WebAppFcc.Data.Manager
         public async Task<Person> UpdatePerson(Person entity)
         {
             var result = _repo.Person.Update(entity);
-            
-            await _repo.SaveChangesAsync();
+            if (entity.NameHasChanged)
+            {
+                _repo.PersonName.Add(new PersonName()
+                {
+                    Firstname = entity.Firstname,
+                    Lastname = entity.Lastname,
+                    Patronym = entity.Patronym,
+                    PersonId = entity.Id,
+                    DateNameChanged = DateTime.Now,
+                });
+            }
 
+            await _repo.SaveChangesAsync();
             return result.Entity;
         }
 

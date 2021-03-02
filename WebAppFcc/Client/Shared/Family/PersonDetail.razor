@@ -16,10 +16,7 @@
                 <div class="col-md-3">
                     <div class="row form-group">
                         <div class="col-md-12" id="PhotoSection">
-                            @*@{
-                                var photoVm = new KeyValuePair<string, IEnumerable<FileContent>>(PersonDataService.Person.FileContentId, Model.Photos);
-                            }*@
-                            @*@Html.Partial("Person/_PhotoSection", photoVm)*@
+                            <PhotoSection />
                         </div>
                     </div>
                 </div>

@@ -2,8 +2,6 @@
 @namespace WebAppFcc.Client.Shared.Family
 @inject IPersonDataService PersonDataService
 
-@model KeyValuePair<string, List<FileContent>>
-
 <div class="row form-group">
     <div id="MainPictureId" value="@Model.Key"></div>
 
@@ -84,3 +82,8 @@
         </div>
     }
 </div>
+
+@code {
+    public Person Person { get { return PersonDataService.Person; } }
+
+}

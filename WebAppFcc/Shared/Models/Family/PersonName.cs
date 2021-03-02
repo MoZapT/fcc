@@ -9,7 +9,7 @@ namespace WebAppFcc.Shared.Models
         public string Lastname { get; set; }
         public string Patronym { get; set; }
         public string Name { get { return GetFullName(); } }
-        public string PersonId { get; set; }
+        public Guid PersonId { get; set; }
         public DateTime DateNameChanged { get; set; }
 
         private string GetFullName()

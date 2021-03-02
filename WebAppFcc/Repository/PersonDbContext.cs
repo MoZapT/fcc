@@ -14,7 +14,7 @@ namespace WebAppFcc.Repository
         public DbSet<FileContent> FileContent { get; set; }
         public DbSet<PersonPhoto> PersonPhoto { get; set; }
         public DbSet<PersonDocument> PersonDocument { get; set; }
-        //public DbSet<PersonName> PersonName { get; set; }
+        public DbSet<PersonName> PersonName { get; set; }
         //public DbSet<PersonActivity> PersonActivity { get; set; }
         //public DbSet<PersonBiography> PersonBiography { get; set; }
 
@@ -51,16 +51,6 @@ namespace WebAppFcc.Repository
                 .HasOne(e => e.MainPhoto)
                 .WithOne()
                 .HasForeignKey<Person>(e => e.MainPhotoId);
-
-            //modelBuilder.Entity<PersonDocument>()
-            //    .HasOne(e => e.FileContent)
-            //    .WithOne()
-            //    .HasForeignKey<PersonDocument>(e => e.PersonId);
-
-            //modelBuilder.Entity<PersonPhoto>()
-            //    .HasOne(e => e.FileContent)
-            //    .WithOne()
-            //    .HasForeignKey<PersonPhoto>(e => e.FileContentId);
         }
     }
 }
