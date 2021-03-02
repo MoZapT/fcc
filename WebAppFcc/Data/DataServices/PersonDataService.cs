@@ -37,8 +37,11 @@ namespace WebAppFcc.Data.DataServices
             base.Init(action);
         }
 
-        public async Task LoadPersonList()
+        public async Task LoadPersonList(bool resetSkip = false)
         {
+            if (resetSkip)
+                Skip = 0;
+
             Func<Task> executeGetList = new Func<Task>(async () => {
                 var response = await Http.GetAsync($"family/person/get-list/{Skip}/{Take}");
                 Persons = await response.Content.ReadFromJsonAsync<IEnumerable<Person>>();

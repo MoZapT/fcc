@@ -9,35 +9,19 @@
 
 @if (ViewState == VmState.List)
 {
-    <ul class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="/">
-                <span class="fas fa-angle-double-left"></span>
-                @Resources.Resource.GoToHome
-            </a>
-        </li>
-    </ul>
     <PersonList />
-    <ul class="breadcrumb justify-content-end">
-        <li class="breadcrumb-item">
-            <a href="/">
-                <span class="fas fa-angle-double-left"></span>
-                @Resources.Resource.GoToHome
-            </a>
-        </li>
-    </ul>
 }
 else
 {
     <ul class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="/">
+            <a href="#" @onclick="@(() => PersonDataService.LoadPersonList(true))" @onclick:preventDefault="true" @onclick:stopPropagation="true">
                 <span class="fas fa-angle-double-left"></span>
                 @Resources.Resource.GoToHome
             </a>
         </li>
         <li class="breadcrumb-item">
-            <a href="#" @onclick="@(() => PersonDataService.LoadPersonList())">
+            <a href="#" @onclick="@(() => PersonDataService.LoadPersonList())" @onclick:preventDefault="true" @onclick:stopPropagation="true">
                 <span class="fas fa-angle-double-left"></span>
                 @Resources.Resource.Back
             </a>
@@ -94,7 +78,7 @@ else
 
     <ul class="breadcrumb justify-content-end">
         <li class="breadcrumb-item">
-            <a href="#" @onclick="@(() => PersonDataService.LoadPersonList())">
+            <a href="#" @onclick="@(() => PersonDataService.LoadPersonList())" @onclick:preventDefault="true" @onclick:stopPropagation="true">
                 <span class="fas fa-angle-double-left"></span>
                 @Resources.Resource.Back
             </a>
