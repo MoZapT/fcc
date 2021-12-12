@@ -68,7 +68,7 @@ namespace WebAppFcc.Server
                             new CultureInfo("en-US")
                         };
 
-                    options.DefaultRequestCulture = new RequestCulture("de-DE");
+                    options.DefaultRequestCulture = new RequestCulture("ru-RU");
 
                     // Formatting numbers, dates, etc.
                     options.SupportedCultures = supportedCultures;

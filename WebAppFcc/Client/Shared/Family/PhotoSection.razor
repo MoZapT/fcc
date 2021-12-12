@@ -4,7 +4,7 @@
 
 <div class="row form-group">
     <div class="col-md-12">
-        <label for="Photo">@Resource.Foto</label>
+        <label for="Photo">@*@Resource.Foto*@</label>
     </div>
 
     @if (Person.Photos.Count() > 1)
@@ -12,7 +12,7 @@
         <div class="col-md-12">
             <button id="SetMainPhoto" class="btn btn-light btn-edges sideslide" type="button">
                 <span class="fas fa-star"></span>
-                <span>@Resource.BtnSetPrimary</span>
+                <span>@*@Resource.BtnSetPrimary*@</span>
             </button>
         </div>
     }
@@ -53,10 +53,10 @@
             <!-- Left and right controls -->
             <a class="custom-carousel-control btn btn-dark btn-edges" href="#PhotosCarousel" data-slide="prev">
                 <span class="carousel-control-prev-icon"></span>
-                <span>@Resource.Previous</span>
+                <span>@*@Resource.Previous*@</span>
             </a>
             <a class="custom-carousel-control btn btn-dark btn-edges" href="#PhotosCarousel" data-slide="next">
-                <span>@Resource.Next</span>
+                <span>@*@Resource.Next*@</span>
                 <span class="carousel-control-next-icon"></span>
             </a>
         }
@@ -65,7 +65,7 @@
         <InputFile></InputFile>
         <label for="UploadPicture" class="btn btn-primary btn-edges sideslide">
             <span class="fas fa-file-upload"></span>
-            <span class="toggle-text">@Resource.BtnLoadPhoto</span>
+            <span class="toggle-text">@*@Resource.BtnLoadPhoto*@</span>
         </label>
         <input id="UploadPicture" class="hide" type="file" name="files[]" data-multiple-caption="{count} notimplted" multiple="" aria-invalid="false">
     </div>
@@ -74,7 +74,7 @@
         <div class="col-md-12">
             <button id="DeletePhoto" class="btn btn-danger btn-edges sideslide" type="button">
                 <span class="fas fa-trash"></span>
-                <span class="toggle-text">@Resource.Delete</span>
+                <span class="toggle-text">@*@Resource.Delete*@</span>
             </button>
         </div>
     }

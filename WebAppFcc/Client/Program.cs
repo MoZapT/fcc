@@ -27,7 +27,6 @@ namespace WebAppFcc.Client
             builder.Services.AddHttpClient("WebAppFcc.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
                 .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
-            AddLocalizations(builder);
             AddDependencies(builder);
 
             builder.Services.AddApiAuthorization()
@@ -43,30 +42,6 @@ namespace WebAppFcc.Client
 
             builder.Services.AddScoped<IPersonDataService, PersonDataService>((sp) => 
                 new PersonDataService(sp.GetRequiredService<IHttpClientFactory>().CreateClient("WebAppFcc.ServerAPI")));
-        }
-    
-        private static void AddLocalizations(WebAssemblyHostBuilder builder)
-        {
-            builder.Services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
-            builder.Services.Configure<RequestLocalizationOptions>(
-                options =>
-                {
-                    List<CultureInfo> supportedCultures =
-                        new List<CultureInfo>
-                        {
-                                        new CultureInfo("de-DE"),
-                                        new CultureInfo("ru-RU"),
-                                        new CultureInfo("en-US")
-                        };
-
-                    options.DefaultRequestCulture = new RequestCulture("de-DE");
-
-                    // Formatting numbers, dates, etc.
-                    options.SupportedCultures = supportedCultures;
-
-                    // UI string 
-                    options.SupportedUICultures = supportedCultures;
-                });
         }
     }
 }
