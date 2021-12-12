@@ -1,0 +1,105 @@
+﻿@using WAFcc.Models
+@namespace WebAppFcc.Client.Shared.Family
+@inject IPersonDataService PersonDataService
+
+<ul class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="#" @onclick="@(() => PersonDataService.LoadPersonList(true))" @onclick:preventDefault="true" @onclick:stopPropagation="true">
+            <span class="fas fa-angle-double-left"></span>
+            @*@Resource.GoToHome*@
+        </a>
+    </li>
+</ul>
+<div class="card">
+    <div class="card-header">
+        <h2>
+            <span class="fas fa-id-card"></span>
+            @*@Resource.PassportView*@
+        </h2>
+
+        <PersonListPaging OnChange="() => StateHasChanged()" />
+    </div>
+    <div class="card-body">
+        @foreach (Person person in Persons)
+        {
+            string birthDateString = person.BirthDate == null ? null : person.BirthDate.Value.ToString("dd.MM.yyyy");
+            string deathDateString = person.DeathDate == null ? null : person.DeathDate.Value.ToString("dd.MM.yyyy");
+
+<div class="row item" @ondblclick="(async () => await PersonDataService.LoadPersonDetails(person.Id))">
+    <div class="col-md-1">
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="@person.Id" name="@person.Id">
+            <label class="custom-control-label" for="@person.Id"></label>
+        </div>
+    </div>
+    <div class="col-md-1">
+        @if (person.MainPhoto != null)
+        {
+<img class="icon" src="@person.MainPhoto.GetBase64String" alt="Icon" /> }
+else
+{
+<img class="icon" src="no-image-available.jpg" alt="No image avaible" />}
+    </div>
+    <div class="col-md-1">
+        @if (person.Sex)
+        {
+<i class="text-female fas fa-venus"></i> }
+else
+{
+<i class="text-male fas fa-mars"></i>}
+        @if (person.IsMarried)
+        {
+<i class="fas fa-ring text-success"></i> }
+else if (person.IsInPartnership)
+{
+<i class="fas fa-venus-mars text-success"></i> }
+else
+{
+<i class="fas fa-ring"></i>}
+    </div>
+    <div class="col-md-3">
+        @person.Name
+    </div>
+    <div class="col-md-2">
+        @*@(birthDateString ?? Resource.BornTimeNotKnown)*@
+    </div>
+    <div class="col-md-2">
+        @*@(deathDateString ?? Resource.DeadTimeNotKnown)*@
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-xs crud btn-light" type="button" @onclick="@(async () => await PersonDataService.LoadPersonDetails(person.Id))">
+            <span class="fas fa-pen"></span>
+        </button>
+        <button class="btn btn-xs crud btn-danger" type="button" @onclick="@(async () => await PersonDataService.DeletePerson(person.Id))">
+            <span class="fas fa-trash-alt"></span>
+        </button>
+    </div>
+</div>}
+    </div>
+    <div class="card-footer clearfix">
+        <div class="btn-group pull-right">
+            <button class="btn btn-primary crud" @onclick="@(async () => PersonDataService.CreatePerson())">
+                <span class="glyphicon glyphicon-plus-sign"></span>
+                @*@Resource.Add*@
+            </button>
+        </div>
+    </div>
+</div>
+<ul class="breadcrumb justify-content-end">
+    <li class="breadcrumb-item">
+        <a href="#" @onclick="@(() => PersonDataService.LoadPersonList(true))" @onclick:preventDefault="true" @onclick:stopPropagation="true">
+            <span class="fas fa-angle-double-left"></span>
+            @*@Resource.GoToHome*@
+        </a>
+    </li>
+</ul>
+
+@code { public int Skip { get { return PersonDataService.Skip; } }
+    public int Take { get { return PersonDataService.Take; } }
+    public int PersonCount { get { return PersonDataService.PersonCount; } }
+    public IEnumerable<Person> Persons { get { return PersonDataService.Persons; } }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await PersonDataService.LoadPersonList();
+    } }

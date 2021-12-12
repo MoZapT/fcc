@@ -1,11 +1,7 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WebAppFcc.Data.DataServices;
@@ -22,6 +18,8 @@ namespace WebAppFcc.Client
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
+            builder.Services.AddLocalization(options => { options.ResourcesPath = "Resources"; });
+
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddHttpClient("WebAppFcc.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))

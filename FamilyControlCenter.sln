@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31005.135
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppFcc.Server", "WebAppFcc\Server\WebAppFcc.Server.csproj", "{6436BA4E-87B8-4DF9-8748-0E9A27DF082C}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppFcc.Repository", "WebAppFcc\Repository\WebAppFcc.Repository.csproj", "{AAC2CD08-00FD-4EE4-B3A3-00BEC44B2D46}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppFcc.Resource", "WebAppFcc\Resource\WebAppFcc.Resource.csproj", "{5B26DE50-475A-4FD0-9DF8-28EBAB606FBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WAFcc", "WAFcc\WAFcc.csproj", "{7E189679-E837-456D-8C37-2405CF9288AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{5B26DE50-475A-4FD0-9DF8-28EBAB606FBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B26DE50-475A-4FD0-9DF8-28EBAB606FBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B26DE50-475A-4FD0-9DF8-28EBAB606FBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E189679-E837-456D-8C37-2405CF9288AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E189679-E837-456D-8C37-2405CF9288AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E189679-E837-456D-8C37-2405CF9288AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E189679-E837-456D-8C37-2405CF9288AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
