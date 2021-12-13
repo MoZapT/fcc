@@ -37,7 +37,7 @@
 <div id="SpouseContainer" class="row hide">
     <div class="col-md-12">
         @Html.Hidden("NewSpouseId", "")
-        @Html.TextBox("NewSpouseName", "", new { @class = "form-control typeahead", placeholder = "", taname = "PersonTypeahead", taurl = "typeahead/person/" + person.Id + "/" + "/" + ((int)RelationType.HusbandWife).ToString() })
+        @Html.TextBox("NewSpouseName", "", new { @class = "form-control typeahead", placeholder = "", taname = "PersonTypeahead", taurl = "typeahead/person/" + person.Id + "/" })
     </div>
 </div>
 

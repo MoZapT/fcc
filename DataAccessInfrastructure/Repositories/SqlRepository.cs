@@ -77,7 +77,7 @@ namespace DataAccessInfrastructure.Repositories
                         ,[FileContentId] = @FileContentId
                     WHERE Id = @Id";
 
-            return await Update<Person>(new DynamicParameters(entity), new { @Id = entity.Id } );
+            return await Execute(query, new DynamicParameters(entity)) > 0;
         }
         public async Task<bool> DeletePerson(string id)
         {

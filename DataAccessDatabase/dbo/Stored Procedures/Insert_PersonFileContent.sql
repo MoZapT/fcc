@@ -31,7 +31,7 @@ VALUES
 
 SET @RetVal = NEWID()
 
-INSERT INTO [dbo].[PersonFileContent]
+INSERT INTO [PersonPhoto]
     ([Id]
     ,[PersonId]
     ,[FileContentId])
@@ -41,7 +41,7 @@ VALUES
     ,@PersonId
     ,@Id)
 
-UPDATE [dbo].[Person]
+UPDATE [Person]
 SET FileContentId = @Id
 WHERE Id = @PersonId
     AND FileContentId IS NULL

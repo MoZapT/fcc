@@ -195,6 +195,7 @@ namespace FamilyControlCenter.ViewBuilder
                 if (!await _mgrFcc.ExistPerson(vm.Model.Id))
                 {
                     await _mgrFcc.SetPerson(vm.Model);
+                    return;
                 }
 
                 //update already existing person
