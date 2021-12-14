@@ -1,0 +1,121 @@
+﻿@inject IPersonDataService PersonDataService
+
+<ul class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="#" @onclick="@(() => PersonDataService.LoadPersonList(true))" @onclick:preventDefault="true" @onclick:stopPropagation="true">
+            <span class="fas fa-angle-double-left"></span>
+            @Localization.GoToHome
+        </a>
+    </li>
+</ul>
+<div class="card">
+    <div class="card-header">
+        <h2>
+            <span class="fas fa-id-card"></span>
+            @Localization.PassportView
+        </h2>
+
+    <PersonListPaging OnChange="() => StateHasChanged()" />
+    </div>
+    <div class="card-body">
+        @foreach (Person person in Persons)
+        {
+            <div class="row item" @ondblclick="(async () => await PersonDataService.LoadPersonDetails(person.Id))">
+                <div class="col-md-1">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="@person.Id" name="@person.Id">
+                        <label class="custom-control-label" for="@person.Id"></label>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    @GetMainPhotoString(person)
+                </div>
+                <div class="col-md-1">
+                    @GetSexIconString(person)
+                    @GetMarriedOrInPartnershipString(person)
+                </div>
+                <div class="col-md-3">
+                    @person.Name
+                </div>
+                <div class="col-md-2">
+                    @GetBirthDateString(person)
+                </div>
+                <div class="col-md-2">
+                    @GetDeathDateString(person)
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-xs crud btn-light" type="button" @onclick="@(async () => await PersonDataService.LoadPersonDetails(person.Id))">
+                        <span class="fas fa-pen"></span>
+                    </button>
+                    <button class="btn btn-xs crud btn-danger" type="button" @onclick="@(async () => await PersonDataService.DeletePerson(person.Id))">
+                        <span class="fas fa-trash-alt"></span>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="card-footer clearfix">
+        <div class="btn-group pull-right">
+            <button class="btn btn-primary crud" @onclick="@(async () => PersonDataService.CreatePerson())">
+                <span class="glyphicon glyphicon-plus-sign"></span>
+                @Localization.Add
+            </button>
+        </div>
+    </div>
+</div>
+<ul class="breadcrumb justify-content-end">
+    <li class="breadcrumb-item">
+        <a href="#" @onclick="@(() => PersonDataService.LoadPersonList(true))" @onclick:preventDefault="true" @onclick:stopPropagation="true">
+            <span class="fas fa-angle-double-left"></span>
+            @Localization.GoToHome
+        </a>
+    </li>
+</ul>
+
+@code {
+    public int Skip { get { return PersonDataService.Skip; } }
+    public int Take { get { return PersonDataService.Take; } }
+    public int PersonCount { get { return PersonDataService.PersonCount; } }
+    public IEnumerable<Person> Persons { get { return PersonDataService.Persons; } }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await PersonDataService.LoadPersonList();
+    } 
+
+    private MarkupString GetMarriedOrInPartnershipString(Person person)
+    {
+        if (person.IsMarried)
+            return (MarkupString)"<i class=\"fas fa-ring text-success\"></i>";
+        else if (person.IsInPartnership)
+            return (MarkupString)"<i class=\"fas fa-venus-mars text-success\"></i>";
+        else
+            return (MarkupString)"<i class=\"fas fa-ring\"></i>";
+    }
+
+    private MarkupString GetSexIconString(Person person)
+    {
+        if (person.Sex)
+            return (MarkupString)"<i class=\"text-female fas fa-venus\"></i>"; 
+        else
+            return (MarkupString)"<i class=\"text-male fas fa-mars\"></i>";
+    }
+
+    private MarkupString GetMainPhotoString(Person person){
+        if (person.MainPhoto != null)
+            return (MarkupString)"<img class=\"icon\" src=\"@person.MainPhoto.GetBase64String\" alt=\"Icon\" />";
+        else
+            return (MarkupString)"<img class=\"icon\" src=\"images/no-image-available.jpg\" alt=\"Img\" />";
+    }
+
+    private MarkupString GetBirthDateString(Person person) {
+        string value = person.BirthDate == null ? Localization.BornTimeNotKnown : person.BirthDate.Value.ToString("dd.MM.yyyy");
+        return (MarkupString)(value);
+    }
+
+    private MarkupString GetDeathDateString(Person person)
+    {
+        string value = person.DeathDate == null ? Localization.DeadTimeNotKnown : person.DeathDate.Value.ToString("dd.MM.yyyy");
+        return (MarkupString)(value);
+    }
+}

@@ -5,11 +5,9 @@ namespace WAFcc.DataServices
     public class BaseDataService : IBaseDataService
     {
         public event Action OnChange;
-        public HttpClient Http { get; }
 
-        public BaseDataService(HttpClient http)
+        public BaseDataService()
         {
-            Http = http;
         }
 
         protected void NotifyStateChanged() => OnChange?.Invoke();

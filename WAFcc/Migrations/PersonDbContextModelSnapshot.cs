@@ -184,6 +184,33 @@ namespace WAFcc.Migrations
                     b.ToTable("PersonPhoto");
                 });
 
+            modelBuilder.Entity("WAFcc.Models.PersonRelation", b =>
+                {
+                    b.Property<Guid>("RelationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PersonId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("RelationId", "PersonId");
+
+                    b.HasIndex("PersonId");
+
+                    b.ToTable("PersonRelation");
+                });
+
             modelBuilder.Entity("WAFcc.Models.Relation", b =>
                 {
                     b.Property<Guid>("Id")
@@ -196,12 +223,6 @@ namespace WAFcc.Migrations
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("InvitedId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("InviterId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -209,10 +230,6 @@ namespace WAFcc.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InvitedId");
-
-                    b.HasIndex("InviterId");
 
                     b.ToTable("Relation");
                 });
@@ -269,36 +286,39 @@ namespace WAFcc.Migrations
                     b.Navigation("FileContent");
                 });
 
-            modelBuilder.Entity("WAFcc.Models.Relation", b =>
+            modelBuilder.Entity("WAFcc.Models.PersonRelation", b =>
                 {
-                    b.HasOne("WAFcc.Models.Person", "Invited")
-                        .WithMany("InvitedRelations")
-                        .HasForeignKey("InvitedId")
+                    b.HasOne("WAFcc.Models.Person", "Person")
+                        .WithMany("PersonRelations")
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WAFcc.Models.Person", "Inviter")
-                        .WithMany("InviterRelations")
-                        .HasForeignKey("InviterId")
+                    b.HasOne("WAFcc.Models.Relation", "Relation")
+                        .WithMany("PersonRelations")
+                        .HasForeignKey("RelationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Invited");
+                    b.Navigation("Person");
 
-                    b.Navigation("Inviter");
+                    b.Navigation("Relation");
                 });
 
             modelBuilder.Entity("WAFcc.Models.Person", b =>
                 {
                     b.Navigation("Files");
 
-                    b.Navigation("InvitedRelations");
-
-                    b.Navigation("InviterRelations");
+                    b.Navigation("PersonRelations");
 
                     b.Navigation("Photos");
 
                     b.Navigation("PreviousNames");
+                });
+
+            modelBuilder.Entity("WAFcc.Models.Relation", b =>
+                {
+                    b.Navigation("PersonRelations");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,12 +4,13 @@ namespace WAFcc.Models
 {
     public class Relation : BaseModel
     {
-        public Guid InviterId { get; set; }
-        public Person Inviter { get; set; }
-
-        public Guid InvitedId { get; set; }
-        public Person Invited { get; set; }
-
+        public ICollection<Person> Members { get; set; }
+        public ICollection<PersonRelation> PersonRelations { get; set; }
         public RelationType RelationType { get; set; }
+
+        public Person GetMember(Guid excludeId)
+        {
+            return Members?.FirstOrDefault(e => e.Id != excludeId);
+        }
     }
 }

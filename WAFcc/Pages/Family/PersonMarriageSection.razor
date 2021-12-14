@@ -1,0 +1,94 @@
+﻿@inject IPersonDataService PersonDataService
+
+<div class="row">
+    <div class="col-md-12">
+        <label>
+            @if (Person.IsMarried)
+            {
+                <span class="fas fa-ring text-success"></span>
+                @(Helpers.FccEnumHelper.GetGenderizedText("MarriedMale|MarriedFemale", Person.Sex))
+                <a href="PersonDetail?personId=@Spouse.Id">@Spouse.Name</a>
+
+                <a href="#" id="RemoveSpouse" inviter="@Person.Id" invited="@Spouse.Id" reltype="@((int)RelationType.HusbandWife)">
+                    <span id="RemoveSpouse" class=" fas fa-user-minus text-danger"></span>
+                </a>
+            }
+            else
+            {
+                <span class="fas fa-ring"></span>
+                @Helpers.FccEnumHelper.GetGenderizedText("NotMarriedMale|NotMarriedFemale", Person.Sex)
+
+                <a href="#" id="AddSpouse" reltype="@((int)RelationType.HusbandWife)">
+                    <span class="fas fa-user-plus text-success"></span>
+                </a>
+                <a href="#" id="HideSpouseContainer" class="hide">
+                    <span class="fas fa-user-minus text-danger"></span>
+                </a>
+            }
+        </label>
+    </div>
+</div>
+<div id="SpouseContainer" class="row hide">
+    <div class="col-md-12">
+        @*<InputTypeahead />*@
+    </div>
+</div>
+
+@if (!Person.IsMarried)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <label>
+                @if (Person.IsInPartnership)
+                {
+                    <span class="fas fa-venus-mars text-success"></span>
+                    @Localization.InLivePartnershipWith
+                    <a href="PersonDetail?personId=@Partner.Id">@Partner.Name</a>
+
+                    <a href="#" id="RemoveSpouse" inviter="@Person.Id" invited="@Partner.Id" reltype="@((int)RelationType.LivePartner)">
+                        <span id="RemoveSpouse" class=" fas fa-user-minus text-danger"></span>
+                    </a>
+                }
+                else
+                {
+                    <span class="fas fa-venus-mars"></span>
+                    @Localization.NotInLivePartnership
+
+                    <a href="#" id="AddPartner" reltype="@((int)RelationType.LivePartner)">
+                        <span class="fas fa-user-plus text-success"></span>
+                    </a>
+                    <a href="#" id="HidePartnerContainer" class="hide">
+                        <span class="fas fa-user-minus text-danger"></span>
+                    </a>
+                }
+            </label>
+        </div>
+    </div>
+    <div id="PartnerContainer" class="row hide">
+        <div class="col-md-12">
+            @*<InputTypeahead />*@
+        </div>
+    </div>
+}
+
+@code {
+    public Person Person { get { return PersonDataService.Person; } }
+    public Person Spouse { get; set; }
+    public Person Partner { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Spouse = Person.GetRelationsByType(RelationType.HusbandWife).FirstOrDefault()?.GetMember(Person.Id);
+        Partner = Person.GetRelationsByType(RelationType.LivePartner).FirstOrDefault()?.GetMember(Person.Id);
+
+        //PersonDataService.Init(StateHasChanged);
+    }
+
+    private void AddPartner(){
+        PersonDataService.UpdatePerson(Person);
+    }
+
+    private void AddSpouse(){
+        PersonDataService.UpdatePerson(Person);
+    }
+}

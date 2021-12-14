@@ -28,14 +28,22 @@ namespace WAFcc.Data
         private void AddPersonDependencies(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Person>()
-                .HasMany(e => e.InviterRelations)
-                .WithOne(e => e.Inviter)
-                .HasForeignKey(e => e.InviterId);
-
-            modelBuilder.Entity<Person>()
-                .HasMany(e => e.InvitedRelations)
-                .WithOne(e => e.Invited)
-                .HasForeignKey(e => e.InvitedId);
+                .HasMany(e => e.Relations)
+                .WithMany(e => e.Members)
+                .UsingEntity<PersonRelation>(
+                    q => q
+                        .HasOne(r => r.Relation)
+                        .WithMany(r => r.PersonRelations)
+                        .HasForeignKey(r => new { r.RelationId }),
+                    q => q
+                        .HasOne(r => r.Person)
+                        .WithMany(r => r.PersonRelations)
+                        .HasForeignKey(r => new { r.PersonId }),
+                    q =>
+                    {
+                        q.HasKey(t => new { t.RelationId, t.PersonId });
+                    }
+                );
 
             modelBuilder.Entity<Person>()
                 .HasMany(e => e.Photos)

@@ -1,5 +1,6 @@
 ﻿using WAFcc.Enums;
 using WAFcc.Interfaces.DataServices;
+using WAFcc.Interfaces.Managers;
 using WAFcc.Models;
 
 namespace WAFcc.DataServices
@@ -14,8 +15,11 @@ namespace WAFcc.DataServices
         public Person Person { get; set; }
         public IEnumerable<Person> Persons { get; set; }
 
-        public PersonDataService(HttpClient http) : base(http)
+        IFccManager _fccMgr;
+
+        public PersonDataService(IFccManager mgr) : base()
         {
+            _fccMgr = mgr;
         }
 
         public override void Init(Action action)
@@ -35,70 +39,47 @@ namespace WAFcc.DataServices
             if (resetSkip)
                 Skip = 0;
 
-            Func<Task> executeGetList = new Func<Task>(async () => {
-                var response = await Http.GetAsync($"family/person/get-list/{Skip}/{Take}");
-                Persons = await response.Content.ReadFromJsonAsync<IEnumerable<Person>>();
+            try
+            {
+                Persons = await _fccMgr.GetPersonList(Skip, Take);
                 ViewState = VmState.List;
-            });
-            Action<Exception> onError = new Action<Exception>((Exception ex) => {
+                PersonCount = await _fccMgr.PersonCount();
+            }
+            catch (Exception e)
+            {
                 Persons = new List<Person>();
-            });
-
-            await DefaultApiRequest(executeGetList, onError);
-
-            Func<Task> executeCount = new Func<Task>(async () => {
-                var response = await Http.GetAsync($"family/person/get-count");
-                PersonCount = await response.Content.ReadFromJsonAsync<int>();
-            });
-
-            await DefaultApiRequest(executeCount);
+                PersonCount = 0;
+            }
         }
 
         public async Task LoadPersonDetails(Guid id)
         {
-            Func<Task> tryExecute = new Func<Task>(async () => {
-                var response = await Http.GetAsync($"family/person/get/{id}");
-                Person = await response.Content.ReadFromJsonAsync<Person>();
+            try
+            {
+                Person = await _fccMgr.GetPerson(id);
                 ViewState = VmState.Detail;
-            });
-            Action<Exception> onError = new Action<Exception>((Exception ex) => {
+                NotifyStateChanged();
+            }
+            catch (Exception e)
+            {
                 Person = null;
-            });
-
-            await DefaultApiRequest(tryExecute, onError);
+            }
         }
 
         public async Task DeletePerson(Guid id)
         {
-            Func<Task> tryExecute = new Func<Task>(async () => {
-                var response = await Http.DeleteAsync($"family/person/delete/{id}");
-                await response.Content.ReadFromJsonAsync<Person>();
-                await LoadPersonList();
-            });
-
-            await DefaultApiRequest(tryExecute);
+            await _fccMgr.DeletePerson(id);
+            await LoadPersonList();
         }
 
         public async Task AddPerson(Person person)
         {
-            Func<Task> tryExecute = new Func<Task>(async () => {
-                var response = await Http.PostAsJsonAsync($"family/person/add/{person}", person);
-                await response.Content.ReadFromJsonAsync<Person>();
-                await LoadPersonList();
-            });
-
-            await DefaultApiRequest(tryExecute);
+            await _fccMgr.CreatePerson(person);
         }
 
         public async Task UpdatePerson(Person person)
         {
-            Func<Task> tryExecute = new Func<Task>(async () => {
-                var response = await Http.PutAsJsonAsync($"family/person/update/{person}", person);
-                await response.Content.ReadFromJsonAsync<Person>();
-                await LoadPersonList();
-            });
-
-            await DefaultApiRequest(tryExecute);
+            await _fccMgr.UpdatePerson(person);
         }
 
         public void CreatePerson()

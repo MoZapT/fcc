@@ -8,6 +8,10 @@
     }
   },
   "profiles": {
+    "dotnet": {
+      "commandName": "Project",
+      "hotReloadProfile": "aspnetcore"
+    },
     "WAFcc": {
       "commandName": "Project",
       "dotnetRunMessages": true,

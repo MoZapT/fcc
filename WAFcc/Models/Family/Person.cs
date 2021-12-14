@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using WAFcc.Enums;
 
 namespace WAFcc.Models
 {
@@ -29,15 +30,28 @@ namespace WAFcc.Models
         public ICollection<PersonPhoto> Photos { get; set; }
         public ICollection<PersonDocument> Files { get; set; }
 
-        public ICollection<Relation> InviterRelations { get; set; }
-        public ICollection<Relation> InvitedRelations { get; set; }
+        public ICollection<Relation> Relations { get; set; }
+        public ICollection<PersonRelation> PersonRelations { get; set; }
         public ICollection<PersonName> PreviousNames { get; set; }
 
         [NotMapped]
         public bool NameHasChanged { get; set; }
         [NotMapped]
-        public bool IsMarried { get; set; }
+        public bool IsMarried { get { return GetRelationsByType(RelationType.HusbandWife).Any(); } }
         [NotMapped]
-        public bool IsInPartnership { get; set; }
+        public bool IsInPartnership { get { return GetRelationsByType(RelationType.LivePartner).Any(); } }
+
+        public Person()
+        {
+            Photos = new List<PersonPhoto>();
+            Files = new List<PersonDocument>();
+            Relations = new List<Relation>();
+            PreviousNames = new List<PersonName>();
+        }
+
+        public IEnumerable<Relation> GetRelationsByType(RelationType type)
+        {
+            return Relations.Where(e => e.RelationType == type);
+        }
     }
 }

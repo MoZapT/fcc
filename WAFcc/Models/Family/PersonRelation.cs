@@ -1,11 +1,10 @@
 ﻿namespace WAFcc.Models
 {
-    public class PersonRelation
+    public class PersonRelation : BaseModel
     {
-        public Guid InviterId { get; set; }
-        public Person Inviter { get; set; }
-
-        public Guid InvitedId { get; set; }
-        public Person Invited { get; set; }
+        public Relation Relation { get; set; }
+        public Guid RelationId { get; set; }
+        public Person Person { get; set; }
+        public Guid PersonId { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using WAFcc.Resources;
 
 namespace WAFcc.Helpers
 {
@@ -25,26 +26,26 @@ namespace WAFcc.Helpers
         //    return GetGenderizedText(GetEnumDescription(value.GetType(), value.ToString()), isFemaleGender);
         //}
 
-        //public static string GetGenderizedText(string mainText, bool isFemaleGender)
-        //{
-        //    int gender = isFemaleGender ? 1 : 0;
+        public static string GetGenderizedText(string mainText, bool isFemaleGender)
+        {
+            int gender = isFemaleGender ? 1 : 0;
 
-        //    string[] array = mainText.Split('|');
+            string[] array = mainText.Split('|');
 
-        //    if (array == null || array.Length <= 0)
-        //    {
-        //        return string.Empty;
-        //    }
+            if (array == null || array.Length <= 0)
+            {
+                return string.Empty;
+            }
 
-        //    try
-        //    {
-        //        return GetLocalization(array[gender]);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return string.Empty;
-        //    }
-        //}
+            try
+            {
+                return GetLocalization(array[gender]);
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
 
         //private static string GetEnumDescription(Type type, string value)
         //{
@@ -61,10 +62,10 @@ namespace WAFcc.Helpers
         //    return value.ToString();
         //}
 
-        //private static string GetLocalization(string localString)
-        //{
-        //    var rMgr = Resources.Resource.ResourceManager;
-        //    return rMgr.GetString(localString);
-        //}
+        private static string GetLocalization(string localString)
+        {
+            var rMgr = Localization.ResourceManager;
+            return rMgr.GetString(localString);
+        }
     }
 }

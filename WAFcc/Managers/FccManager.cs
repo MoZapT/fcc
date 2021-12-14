@@ -18,8 +18,7 @@ namespace WAFcc.Managers
         {
             return await _repo.Person
                 .Where(e => e.Id == id)
-                .Include(e => e.InviterRelations)
-                .Include(e => e.InvitedRelations)
+                .Include(e => e.Relations)
                 .Include(e => e.MainPhoto)
                     .ThenInclude(e => e.FileContent)
                 .Include(e => e.Files)
@@ -27,7 +26,7 @@ namespace WAFcc.Managers
                 .Include(e => e.Photos)
                     .ThenInclude(e => e.FileContent)
                 .Include(e => e.PreviousNames)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync() ?? new Person();
         }
 
         public async Task<int> PersonCount()
@@ -37,17 +36,24 @@ namespace WAFcc.Managers
 
         public async Task<IEnumerable<Person>> GetPersonList(int skip, int take)
         {
-            var dbset = _repo.Person
-                .Skip(skip);
-            if (take > 0)
-                dbset = dbset.Take(take);
+            try
+            {
+                var dbset = _repo.Person
+                    .Skip(skip);
+                if (take > 0)
+                    dbset = dbset.Take(take);
 
-            return await dbset
-                .Include(e => e.InviterRelations)
-                .Include(e => e.InvitedRelations)
-                .Include(e => e.MainPhoto)
-                    .ThenInclude(e => e.FileContent)
-                .ToArrayAsync();
+                return await dbset
+                    .Include(e => e.Relations)
+                    .Include(e => e.MainPhoto)
+                        .ThenInclude(e => e.FileContent)
+                    .ToListAsync();
+            }
+            catch (Exception e)
+            {
+                return new List<Person>();
+            }
+
         }
 
         public async Task<Person> CreatePerson(Person entity)
@@ -59,7 +65,7 @@ namespace WAFcc.Managers
             if (result.IsCompletedSuccessfully)
                 return result.Result.Entity;
             else
-                return null;
+                return new Person();
         }
 
         public async Task<Person> UpdatePerson(Person entity)

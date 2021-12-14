@@ -1,19 +1,18 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 using WAFcc.Areas.Identity;
 using WAFcc.Data;
 using WAFcc.DataServices;
 using WAFcc.Interfaces.DataServices;
+using WAFcc.Interfaces.Managers;
+using WAFcc.Managers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 
 // Add services to the container.
-//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var fccConnectionString = builder.Configuration.GetConnectionString("FccConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(fccConnectionString));
@@ -23,35 +22,13 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-//builder.Services.AddLocalization(opts => opts.ResourcesPath = "Resources");
-//builder.Services.Configure<RequestLocalizationOptions>(
-//    opts =>
-//    {
-//        var supportedCultures = new List<CultureInfo>
-//        {
-//                new CultureInfo("en-US"),
-//                new CultureInfo("en"),
-//                new CultureInfo("de-DE"),
-//                new CultureInfo("de"),
-//                new CultureInfo("ru-RU"),
-//                new CultureInfo("ru"),
-//        };
 
-//        opts.DefaultRequestCulture = new RequestCulture("ru-RU");
-//            // Formatting numbers, dates, etc.
-//            opts.SupportedCultures = supportedCultures;
-//            // UI strings that we have localized.
-//            opts.SupportedUICultures = supportedCultures;
-//    });
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 
-// Supply HttpClient instances that include access tokens when making requests to the server project
-builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("WebAppFcc.ServerAPI"));
-
-builder.Services.AddScoped<IPersonDataService, PersonDataService>((sp) =>
-    new PersonDataService(sp.GetRequiredService<IHttpClientFactory>().CreateClient("WebAppFcc.ServerAPI")));
+builder.Services.AddScoped<IFccManager, FccManager>();
+builder.Services.AddScoped<IPersonDataService, PersonDataService>();
 
 var app = builder.Build();
 
