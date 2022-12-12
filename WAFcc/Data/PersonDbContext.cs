@@ -11,6 +11,7 @@ namespace WAFcc.Data
 
         public DbSet<Person> Person { get; set; }
         public DbSet<Relation> Relation { get; set; }
+        public DbSet<PersonRelation> PersonRelation { get; set; }
         public DbSet<FileContent> FileContent { get; set; }
         public DbSet<PersonPhoto> PersonPhoto { get; set; }
         public DbSet<PersonDocument> PersonDocument { get; set; }

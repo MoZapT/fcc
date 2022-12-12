@@ -1,0 +1,4 @@
+﻿dotnet tool install --global dotnet-ef
+dotnet ef database drop
+dotnet ef migrations add InitialCreate -c context
+dotnet ef database update -c context

@@ -121,5 +121,55 @@ namespace WAFcc.Managers
             else
                 return null;
         }
+
+        public async Task<Relation> GetRelation(Guid id)
+        {
+            return await _repo.Relation
+                .Where(e => e.Id == id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<PersonRelation> GetPersonRelation(Guid id)
+        {
+            return await _repo.PersonRelation
+                .Where(e => e.Id == id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Relation> SetRelation(Relation entity)
+        {
+            var result = _repo.Relation.Add(entity);
+            await _repo.SaveChangesAsync();
+            return result.Entity;
+        }
+
+        public async Task<PersonRelation> SetPersonRelation(PersonRelation entity)
+        {
+            var result = _repo.PersonRelation.Add(entity);
+            await _repo.SaveChangesAsync();
+            return result.Entity;
+        }
+
+        public async Task<Relation> DeleteRelation(Guid id)
+        {
+            Relation deleted = await GetRelation(id);
+            var result = _repo.Relation
+                .Remove(deleted);
+
+            await _repo.SaveChangesAsync();
+
+            return result.Entity;
+        }
+
+        public async Task<PersonRelation> DeletePersonRelation(Guid id)
+        {
+            PersonRelation deleted = await GetPersonRelation(id);
+            var result = _repo.PersonRelation
+                .Remove(deleted);
+
+            await _repo.SaveChangesAsync();
+
+            return result.Entity;
+        }
     }
 }

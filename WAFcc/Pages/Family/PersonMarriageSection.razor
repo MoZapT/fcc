@@ -1,94 +1,164 @@
 ﻿@inject IPersonDataService PersonDataService
 
-<div class="row">
-    <div class="col-md-12">
-        <label>
-            @if (Person.IsMarried)
-            {
-                <span class="fas fa-ring text-success"></span>
-                @(Helpers.FccEnumHelper.GetGenderizedText("MarriedMale|MarriedFemale", Person.Sex))
-                <a href="PersonDetail?personId=@Spouse.Id">@Spouse.Name</a>
-
-                <a href="#" id="RemoveSpouse" inviter="@Person.Id" invited="@Spouse.Id" reltype="@((int)RelationType.HusbandWife)">
-                    <span id="RemoveSpouse" class=" fas fa-user-minus text-danger"></span>
-                </a>
-            }
-            else
-            {
-                <span class="fas fa-ring"></span>
-                @Helpers.FccEnumHelper.GetGenderizedText("NotMarriedMale|NotMarriedFemale", Person.Sex)
-
-                <a href="#" id="AddSpouse" reltype="@((int)RelationType.HusbandWife)">
-                    <span class="fas fa-user-plus text-success"></span>
-                </a>
-                <a href="#" id="HideSpouseContainer" class="hide">
-                    <span class="fas fa-user-minus text-danger"></span>
-                </a>
-            }
-        </label>
-    </div>
-</div>
-<div id="SpouseContainer" class="row hide">
-    <div class="col-md-12">
-        @*<InputTypeahead />*@
-    </div>
-</div>
-
-@if (!Person.IsMarried)
-{
+<!-- Spouse AREA BEGIN -->
+@if(!SelectSpouseMode){
     <div class="row">
         <div class="col-md-12">
             <label>
-                @if (Person.IsInPartnership)
+                @if (Person.IsMarried)
                 {
-                    <span class="fas fa-venus-mars text-success"></span>
-                    @Localization.InLivePartnershipWith
-                    <a href="PersonDetail?personId=@Partner.Id">@Partner.Name</a>
-
-                    <a href="#" id="RemoveSpouse" inviter="@Person.Id" invited="@Partner.Id" reltype="@((int)RelationType.LivePartner)">
-                        <span id="RemoveSpouse" class=" fas fa-user-minus text-danger"></span>
-                    </a>
+                    <span class="fas fa-ring text-success"></span>
+                    @(Helpers.FccEnumHelper.GetGenderizedText("MarriedMale|MarriedFemale", Person.Sex))
+                    <a @onclick="async () => await PersonDataService.LoadPersonDetails(Spouse.Id)"><span>@Spouse.Name</span></a>
+                    <a><span class=" fas fa-user-minus text-danger" @onclick="() => RemoveRelation(SpouseRelation)"></span></a>
                 }
                 else
                 {
-                    <span class="fas fa-venus-mars"></span>
-                    @Localization.NotInLivePartnership
-
-                    <a href="#" id="AddPartner" reltype="@((int)RelationType.LivePartner)">
-                        <span class="fas fa-user-plus text-success"></span>
-                    </a>
-                    <a href="#" id="HidePartnerContainer" class="hide">
-                        <span class="fas fa-user-minus text-danger"></span>
-                    </a>
+                    <span class="fas fa-ring"></span>
+                    @Helpers.FccEnumHelper.GetGenderizedText("NotMarriedMale|NotMarriedFemale", Person.Sex)
+                    <a><span class="fas fa-user-plus text-success" @onclick="() => SelectModeSpouse(true)"></span></a>
                 }
             </label>
         </div>
     </div>
-    <div id="PartnerContainer" class="row hide">
+}
+else {
+    <div id="SpouseContainer" class="row">
         <div class="col-md-12">
-            @*<InputTypeahead />*@
+            <select @onchange="SelectSpouse">
+                @foreach (var item in PersonDataService.Persons.Where(e => e.Id != Person.Id))
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+            <a><span class="fas fa-user-plus text-success" @onclick="() => AddRelation(RelationType.HusbandWife, SearchSpouseId)"></span></a>
+            <a><span id="RemoveSpouse" class=" fas fa-user-minus text-danger" @onclick="() => SelectModeSpouse(false)"></span></a>
         </div>
     </div>
+}
+<!-- Spouse AREA END -->
+
+<!-- Partner AREA BEGIN -->
+@if (!Person.IsMarried)
+{
+    if(!SelectPartnerMode){
+        <div class="row">
+            <div class="col-md-12">
+                <label>
+                    @if (Person.IsInPartnership)
+                    {
+                        <span class="fas fa-venus-mars text-success"></span>
+                        @Localization.InLivePartnershipWith
+                        <a @onclick="async () => await PersonDataService.LoadPersonDetails(Partner.Id)"><span>@Partner.Name</span></a>
+                        <a><span class=" fas fa-user-minus text-danger" @onclick="() => RemoveRelation(PartnerRelation)"></span></a>
+                    }
+                    else
+                    {
+                        <span class="fas fa-venus-mars"></span>
+                        @Localization.NotInLivePartnership
+                        <a><span class="fas fa-user-plus text-success" @onclick="() => SelectModePartner(true)"></span></a>
+                    }
+                </label>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div id="PartnerContainer" class="row">
+            <div class="col-md-12">
+                <select @onchange="SelectPartner">
+                    @foreach (var item in PersonDataService.Persons.Where(e => e.Id != Person.Id))
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+                <a><span class="fas fa-user-plus text-success" @onclick="() => AddRelation(RelationType.LivePartner, SearchPartnerId)"></span></a>
+                <a><span class=" fas fa-user-minus text-danger" @onclick="() => SelectModePartner(false)"></span></a>
+            </div>
+        </div>
+    }
+<!-- Partner AREA END -->
 }
 
 @code {
     public Person Person { get { return PersonDataService.Person; } }
+
     public Person Spouse { get; set; }
     public Person Partner { get; set; }
+    public Relation SpouseRelation { get; set; }
+    public Relation PartnerRelation { get; set; }
+
+    public Guid SearchSpouseId { get; set; }
+    public Guid SearchPartnerId { get; set; }
+
+    public bool SelectSpouseMode { get; set; }
+    public bool SelectPartnerMode { get; set; }
 
     protected override void OnInitialized()
     {
-        Spouse = Person.GetRelationsByType(RelationType.HusbandWife).FirstOrDefault()?.GetMember(Person.Id);
-        Partner = Person.GetRelationsByType(RelationType.LivePartner).FirstOrDefault()?.GetMember(Person.Id);
-
-        //PersonDataService.Init(StateHasChanged);
+        SpouseRelation = Person.GetRelationsByType(RelationType.HusbandWife).FirstOrDefault();
+        PartnerRelation = Person.GetRelationsByType(RelationType.LivePartner).FirstOrDefault();
+        Spouse = SpouseRelation?.GetMember(Person.Id);
+        Partner = PartnerRelation?.GetMember(Person.Id);
     }
 
-    private void AddPartner(){
-        PersonDataService.UpdatePerson(Person);
+    private void SelectSpouse(ChangeEventArgs ev)
+    {
+        Guid value;
+        Guid.TryParse((string)ev.Value, out value);
+        SearchSpouseId = value;
     }
 
-    private void AddSpouse(){
-        PersonDataService.UpdatePerson(Person);
+    private void SelectPartner(ChangeEventArgs ev)
+    {
+        Guid value;
+        Guid.TryParse((string)ev.Value, out value);
+        SearchPartnerId = value;
+    }
+
+    private void AddRelation(RelationType type, Guid searchId)
+    {
+        Person member = Spouse ?? PersonDataService.Persons.FirstOrDefault(e => e.Id == searchId);
+
+        Relation relation = new Relation();
+        relation.RelationType = type;
+        relation.Members = new List<Person>() { Person, member };
+        relation = PersonDataService.SetRelation(relation).Result;
+
+        ICollection<PersonRelation> insertedPersonRelations = new List<PersonRelation>();
+        ICollection<PersonRelation> insertPersonRelations = new List<PersonRelation>() { 
+            new PersonRelation() { Relation = relation, RelationId = relation.Id, Person = member, PersonId = member.Id },
+            new PersonRelation() { Relation = relation, RelationId = relation.Id, Person = Person, PersonId = Person.Id }    
+        };
+        foreach(PersonRelation item in insertPersonRelations)
+        {
+            insertedPersonRelations.Add(PersonDataService.SetPersonRelation(item).Result);
+        }
+
+        relation.PersonRelations = insertedPersonRelations;
+        Person.PersonRelations = insertedPersonRelations;
+
+        StateHasChanged();
+    }
+
+    private void RemoveRelation(Relation relation)
+    {
+        foreach(PersonRelation item in relation.PersonRelations){
+            PersonDataService.DeletePersonRelation(item.Id);
+        }
+ 
+        PersonDataService.DeleteRelation(relation.Id);
+
+        StateHasChanged();
+    }
+
+    private void SelectModePartner(bool toggle){
+        SelectPartnerMode = toggle;
+        StateHasChanged();
+    }
+
+    private void SelectModeSpouse(bool toggle){
+        SelectSpouseMode = toggle;
+        StateHasChanged();
     }
 }

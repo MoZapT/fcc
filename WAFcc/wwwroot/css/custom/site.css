@@ -253,6 +253,10 @@ label.sideslide {
     animation: fadein 0.5s;
 }
 
+a span, a img {
+    cursor: pointer;
+}
+
 @-moz-keyframes fadein {
     0% {
         opacity: 0;

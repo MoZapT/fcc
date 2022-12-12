@@ -66,6 +66,14 @@ namespace WAFcc.DataServices
             }
         }
 
+        public void CreatePerson()
+        {
+            Person = new Person();
+            ViewState = VmState.Detail;
+
+            NotifyStateChanged();
+        }
+
         public async Task DeletePerson(Guid id)
         {
             await _fccMgr.DeletePerson(id);
@@ -82,12 +90,24 @@ namespace WAFcc.DataServices
             await _fccMgr.UpdatePerson(person);
         }
 
-        public void CreatePerson()
+        public async Task<Relation> SetRelation(Relation relation)
         {
-            Person = new Person();
-            ViewState = VmState.Detail;
+            return await _fccMgr.SetRelation(relation);
+        }
 
-            NotifyStateChanged();
+        public async Task<Relation> DeleteRelation(Guid id)
+        {
+            return await _fccMgr.DeleteRelation(id);
+        }
+
+        public async Task<PersonRelation> SetPersonRelation(PersonRelation relation)
+        {
+            return await _fccMgr.SetPersonRelation(relation);
+        }
+
+        public async Task<PersonRelation> DeletePersonRelation(Guid id)
+        {
+            return await _fccMgr.DeletePersonRelation(id);
         }
     }
 }

@@ -13,5 +13,12 @@ namespace WAFcc.Interfaces.Managers
 
         Task<PersonPhoto> CreatePersonPhoto(PersonPhoto photo);
         Task<PersonDocument> CreatePersonDocument(PersonDocument document);
+
+        Task<Relation> GetRelation(Guid id);
+        Task<PersonRelation> GetPersonRelation(Guid id);
+        Task<Relation> SetRelation(Relation entity);
+        Task<PersonRelation> SetPersonRelation(PersonRelation entity);
+        Task<Relation> DeleteRelation(Guid id);
+        Task<PersonRelation> DeletePersonRelation(Guid id);
     }
 }

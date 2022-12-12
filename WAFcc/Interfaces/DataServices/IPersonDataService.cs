@@ -22,5 +22,10 @@ namespace WAFcc.Interfaces.DataServices
         Task UpdatePerson(Person person);
 
         void CreatePerson();
+
+        Task<Relation> DeleteRelation(Guid id);
+        Task<Relation> SetRelation(Relation relation);
+        Task<PersonRelation> DeletePersonRelation(Guid id);
+        Task<PersonRelation> SetPersonRelation(PersonRelation relation);
     }
 }
